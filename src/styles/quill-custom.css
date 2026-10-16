@@ -1,0 +1,25 @@
+.ql-container {
+  font-family: inherit;
+  font-size: 0.95rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-color: #e2e8f0 !important;
+  min-height: 160px;
+}
+
+.ql-toolbar {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  background-color: #f8fafc;
+  border-color: #e2e8f0 !important;
+}
+
+.ql-editor {
+  min-height: 160px;
+  line-height: 1.6;
+}
+
+.ql-editor.ql-blank::before {
+  color: #94a3b8;
+  font-style: normal;
+}

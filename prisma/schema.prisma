@@ -1,0 +1,219 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("admin")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model GlobalConfig {
+  id                  String   @id @default("global")
+  siteTitle           String   @default("Kokalachi - Journeys Become Friendships")
+  siteDescription     String   @default("Curated group travel experiences designed to turn journeys into lasting friendships.")
+  favicon             String?
+  logo                String?
+  phone               String?  @default("+91 98765 43210")
+  email               String?  @default("hello@kokalachi.com")
+  address             String?  @default("India")
+  instagramUrl        String?  @default("https://instagram.com/kokalachi")
+  facebookUrl         String?
+  youtubeUrl          String?
+  linkedinUrl         String?
+  googleAnalyticsId   String?
+  gtmId               String?
+  searchConsoleId     String?
+  customHeaderScripts String?
+  customFooterScripts String?
+  socialLinks         Json?
+  canonicalOrdering   String   @default("default")
+  sitemapEnabled      Boolean  @default(true)
+  sitemapCustomContent String?
+  robotsTxt           String?  @default("User-agent: *\nAllow: /\n\nSitemap: https://kokalachi.com/sitemap.xml")
+  schema              String?
+  headingOptions      Json?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Destination {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String?
+  coverImage      String?
+  isFeatured      Boolean  @default(true)
+  order           Int      @default(0)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  trips           Trip[]
+}
+
+model Trip {
+  id              String       @id @default(cuid())
+  title           String
+  slug            String       @unique
+  subtitle        String?
+  destinationSlug String?
+  location        String
+  duration        String
+  rating          Float        @default(5.0)
+  price           Float
+  originalPrice   Float?
+  gstAmount       Float        @default(0)
+  image           String
+  category        String       @default("Trending")
+  tag             String?
+  tagColor        String?
+  hook            String?
+  groupSize       String       @default("Intimate Group")
+  overview        Json?        @default("[]")
+  itinerary       Json?        @default("[]")
+  inclusions      Json?        @default("[]")
+  exclusions      Json?        @default("[]")
+  meals           Json?        @default("[]")
+  whatToPack      Json?        @default("[]")
+  weather         Json?        @default("[]")
+  faqs            Json?        @default("[]")
+  highlights      Json?        @default("[]")
+  gallery         Json?        @default("[]")
+  vibeTags        Json?        @default("[]")
+  isFeatured      Boolean      @default(false)
+  order           Int          @default(0)
+  metaTitle       String?
+  metaDescription String?
+  targetKeywords  String?
+  noIndex         Boolean      @default(false)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  destination     Destination? @relation(fields: [destinationSlug], references: [slug], onDelete: SetNull)
+  departures      Departure[]
+}
+
+model Departure {
+  id            String   @id
+  tripId        String
+  startDate     String
+  endDate       String
+  price         Float?
+  originalPrice Float?
+  spotsLeft     Int      @default(10)
+  status        String   @default("open")
+  label         String?
+  note          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  trip          Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  location    String?
+  tripName    String
+  rating      Int      @default(5)
+  quote       String
+  avatarImage String?
+  landmark    String?
+  isFeatured  Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Booking {
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  phone           String
+  guests          Int      @default(1)
+  tripId          String
+  tripName        String
+  departureId     String?
+  departureDate   String?
+  totalAmount     Float
+  specialRequests String?
+  status          String   @default("Pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Enquiry {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  journey     String?
+  travelDate  String?
+  groupSize   String?
+  message     String
+  hearAboutUs String?
+  status      String   @default("Pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Page {
+  id              String    @id @default(cuid())
+  title           String?
+  slug            String    @unique
+  parent          String    @default("-")
+  order           Int       @default(0)
+  type            String    @default("standard")
+  visibility      String    @default("published")
+  isStatic        Boolean   @default(false)
+  description     String?
+  metaTitle       String?
+  metaDescription String?
+  targetKeywords  String?
+  canonicalUrl    String?
+  noIndex         Boolean   @default(false)
+  featuredImage   String?
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  schema          String?
+  headingOptions  Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  sections        Section[]
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  pageId    String
+  type      String
+  content   Json     @default("{}")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+}
+
+model NavLink {
+  id          String   @id @default(cuid())
+  label       String
+  url         String
+  type        String   @default("Main Link")
+  parent      String   @default("-")
+  order       Int      @default(0)
+  description String?
+  title       String?
+  isStatic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
