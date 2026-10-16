@@ -52,7 +52,7 @@ export async function PUT(request: Request) {
       where: { id: "global" },
       create: {
         id: "global",
-        siteTitle: body.siteTitle || "Mahalaxmi Enterprises",
+        siteTitle: body.siteTitle || "Kokalachi",
         siteDescription: body.siteDescription || "HP Lubricants Distributor",
         ...body,
       },

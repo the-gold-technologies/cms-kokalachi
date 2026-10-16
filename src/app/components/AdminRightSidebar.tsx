@@ -50,7 +50,7 @@ export function AdminRightSidebar({ stats, loading }: AdminRightSidebarProps) {
           <div className="w-6 h-6 rounded-full bg-white text-[#0B0F29] flex items-center justify-center font-serif italic text-sm">
             M
           </div>
-          Mahalaxmi Setup
+          Kokalachi Setup
         </div>
         <h2 className="text-[26px] font-black leading-[1.1] mb-3">
           Optimize <br />

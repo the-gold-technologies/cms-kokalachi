@@ -26,8 +26,8 @@ export async function GET() {
       return NextResponse.json({
         success: true,
         data: {
-          name: "Mahalaxmi Admin",
-          email: "admin@mahalaxmi.com",
+          name: "Kokalachi Admin",
+          email: "admin@kokalachi.com",
           role: "admin",
         },
       });

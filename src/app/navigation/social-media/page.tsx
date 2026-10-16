@@ -210,7 +210,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="HPCL Official Partner Logo Badge"
                 value={hpclBadge}
                 onChange={(url) => setHpclBadge(url)}
-                folder="mahalaxmi/footer"
+                folder="kokalachi/footer"
                 helperText="Main corporate HPCL partner logo graphic appearing on the left of the footer credentials."
               />
             </div>
@@ -220,7 +220,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="India.gov.in Official Badge"
                 value={indiaGovBadge}
                 onChange={(url) => setIndiaGovBadge(url)}
-                folder="mahalaxmi/footer"
+                folder="kokalachi/footer"
                 helperText="National portal of India badge displayed in the partner column."
               />
             </div>
@@ -230,7 +230,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="UN Global Compact Certification Badge"
                 value={globalCompactBadge}
                 onChange={(url) => setGlobalCompactBadge(url)}
-                folder="mahalaxmi/footer"
+                folder="kokalachi/footer"
                 helperText="United Nations Global Compact compliance badge displayed in the partner column."
               />
             </div>
@@ -241,7 +241,7 @@ export default function FooterSocialMediaCMSPage() {
                 label="Footer Copyright Text Notice"
                 value={copyrightText}
                 onChange={(e) => setCopyrightText(e.target.value)}
-                placeholder="© 2026 Mahalaxmi Enterprises. All rights reserved."
+                placeholder="© 2026 Kokalachi. All rights reserved."
                 helperText="Displays in the bottom-left corner of the website footer."
               />
             </div>

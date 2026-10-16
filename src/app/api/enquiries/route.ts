@@ -22,7 +22,17 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, company, interestedIn, product, budget, message } = body;
+    const {
+      name,
+      email,
+      phone,
+      journey,
+      travelDate,
+      groupSize,
+      message,
+      hearAboutUs,
+      status = "Pending",
+    } = body;
 
     if (!name || (!email && !phone)) {
       return NextResponse.json(
@@ -38,13 +48,13 @@ export async function POST(request: Request) {
       data: {
         name,
         email: email || "noemail@provided.com",
-        phone: phone || null,
-        company: company || null,
-        interestedIn: interestedIn || null,
-        product: product || interestedIn || null,
-        budget: budget || null,
-        message: message || null,
-        status: "Pending",
+        phone: phone || "",
+        journey: journey || null,
+        travelDate: travelDate || null,
+        groupSize: groupSize || null,
+        message: message || "",
+        hearAboutUs: hearAboutUs || null,
+        status: status || "Pending",
       },
     });
 

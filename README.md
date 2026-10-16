@@ -1,6 +1,6 @@
-# Mahalaxmi Enterprises — Headless Content Management System (CMS)
+# Kokalachi — Headless Content Management System (CMS)
 
-A dedicated, enterprise-grade Headless Content Management System and Administration Portal engineered for **Mahalaxmi Enterprises** (Authorized Distributor for HP Lubricants). This system empowers content administrators to manage live website pages, SEO directives, the HP Lubricants product catalog, blog publications, corporate events, commercial inquiries, and email notification workflows.
+A dedicated, enterprise-grade Headless Content Management System and Administration Portal engineered for **Kokalachi** (Authorized Distributor for HP Lubricants). This system empowers content administrators to manage live website pages, SEO directives, the HP Lubricants product catalog, blog publications, corporate events, commercial inquiries, and email notification workflows.
 
 ---
 
@@ -51,7 +51,7 @@ A dedicated, enterprise-grade Headless Content Management System and Administrat
 ## 📂 Project Structure
 
 ```text
-mahalaxmi-enterprises-cms/
+kokalachi-enterprises-cms/
 ├── prisma/
 │   ├── schema.prisma       # Prisma relational data model definition
 │   └── seed.js             # Initial database seeder script
@@ -102,7 +102,7 @@ mahalaxmi-enterprises-cms/
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd mahalaxmi-enterprises-cms
+cd kokalachi-enterprises-cms
 
 # Install dependencies
 npm install
@@ -120,12 +120,12 @@ Configure your environment variables using placeholders:
 
 ```env
 # =========================================================================
-# Mahalaxmi Enterprises CMS - Environment Configuration
+# Kokalachi CMS - Environment Configuration
 # =========================================================================
 
 # Database Connections (PostgreSQL)
-DATABASE_URL="postgresql://user:password@localhost:5432/mahalaxmi_cms?schema=public"
-DIRECT_URL="postgresql://user:password@localhost:5432/mahalaxmi_cms?schema=public"
+DATABASE_URL="postgresql://user:password@localhost:5432/kokalachi_cms?schema=public"
+DIRECT_URL="postgresql://user:password@localhost:5432/kokalachi_cms?schema=public"
 
 # NextAuth Authentication
 AUTH_SECRET="generate-a-secure-random-secret"
@@ -148,8 +148,8 @@ SMTP_PORT="587"
 SMTP_SECURE="false"
 SMTP_USER="your_smtp_username"
 SMTP_PASS="your_smtp_password"
-SMTP_FROM="Mahalaxmi Enterprises <no-reply@mahalaxmilubricants.com>"
-ADMIN_NOTIFICATION_EMAIL="admin@mahalaxmilubricants.com"
+SMTP_FROM="Kokalachi <no-reply@kokalachi.com>"
+ADMIN_NOTIFICATION_EMAIL="admin@kokalachi.com"
 ```
 
 > **Security Warning:** Never commit real database connection strings, authentication secrets, Cloudinary API keys, or SMTP passwords to version control. Always store production secrets in your deployment platform's encrypted environment variables dashboard.
@@ -216,5 +216,5 @@ The CMS is designed for deployment on modern platforms such as **Vercel**, **Rai
 
 ## 📄 License & Confidentiality
 
-© **Mahalaxmi Enterprises**. All rights reserved.  
+© **Kokalachi**. All rights reserved.  
 This software, documentation, and data schemas are proprietary and confidential. Unauthorized duplication, dissemination, or distribution is strictly prohibited.

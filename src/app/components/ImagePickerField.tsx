@@ -20,7 +20,7 @@ export function ImagePickerField({
   onChange,
   helperText,
   placeholder = "https://... or upload from computer",
-  folder = "mahalaxmi/uploads",
+  folder = "kokalachi/uploads",
 }: ImagePickerFieldProps) {
   const [uploading, setUploading] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(false);

@@ -17,17 +17,17 @@ export async function GET() {
       });
     }
 
-    const domain = process.env.NEXT_PUBLIC_WEBSITE_URL || "https://mahalaxmilubricants.com";
+    const domain = process.env.NEXT_PUBLIC_WEBSITE_URL || "https://kokalachi.com";
     const baseUrl = domain.replace(/\/$/, "");
 
     // Static core pages
     const staticSlugs: string[] = [
       "",
-      "/about-us",
+      "/about",
       "/products",
       "/blogs",
       "/events",
-      "/contact-us",
+      "/contact",
       "/privacy-policy",
     ];
 

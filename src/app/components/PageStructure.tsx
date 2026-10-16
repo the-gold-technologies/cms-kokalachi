@@ -27,7 +27,7 @@ export function PageStructure({ stats, loading }: PageStructureProps) {
     <div className="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-gray-50">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="font-bold text-lg text-[#0B0F29]">Mahalaxmi Website Pages</h3>
+          <h3 className="font-bold text-lg text-[#0B0F29]">Kokalachi Website Pages</h3>
           <p className="text-xs font-medium text-gray-400 mt-0.5">
             Overview of static pages, layout layouts, and section configurations.
           </p>

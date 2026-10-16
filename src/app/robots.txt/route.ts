@@ -9,7 +9,7 @@ export async function GET() {
 
     const robotsContent =
       config?.robotsTxt ||
-      "User-agent: *\nAllow: /\n\nSitemap: https://mahalaxmilubricants.com/sitemap.xml";
+      "User-agent: *\nAllow: /\n\nSitemap: https://kokalachi.com/sitemap.xml";
 
     return new NextResponse(robotsContent, {
       headers: {

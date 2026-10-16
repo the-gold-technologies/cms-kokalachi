@@ -8,7 +8,7 @@ cloudinary.config({
 });
 
 /**
- * Extracts all Cloudinary URLs belonging to mahalaxmi uploads from any string, array, or object
+ * Extracts all Cloudinary URLs belonging to kokalachi uploads from any string, array, or object
  */
 export function extractCloudinaryUrls(data: any, collected: Set<string> = new Set()): Set<string> {
   if (!data) return collected;
@@ -17,8 +17,8 @@ export function extractCloudinaryUrls(data: any, collected: Set<string> = new Se
     const matches = data.match(/https?:\/\/[^\s"'<>]*(?:res\.cloudinary\.com)[^\s"'<>]*/gi);
     if (matches) {
       for (const m of matches) {
-        // Only target uploaded assets in the mahalaxmi upload folder
-        if (m.includes("/mahalaxmi/uploads/")) {
+        // Only target uploaded assets in the kokalachi upload folder
+        if (m.includes("/kokalachi/uploads/")) {
           collected.add(m);
         }
       }
@@ -44,7 +44,7 @@ export async function deleteCloudinaryAsset(url: string | null | undefined): Pro
     !url ||
     typeof url !== "string" ||
     !url.includes("cloudinary.com") ||
-    !url.includes("/mahalaxmi/uploads/")
+    !url.includes("/kokalachi/uploads/")
   ) {
     return false;
   }

@@ -18,8 +18,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Mahalaxmi Enterprises CMS",
-  description: "Manage your HP Lubricants website content and distributor portal",
+  title: "Kokalachi CMS",
+  description: "Manage your Kokalachi travel website content, trips, and bookings",
 };
 
 export default async function RootLayout({

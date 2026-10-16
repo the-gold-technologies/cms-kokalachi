@@ -44,8 +44,8 @@ const sidebarLinks: SidebarLink[] = [
     icon: BookOpen,
     sublinks: [
       { title: "Home", href: "/static-pages/home" },
-      { title: "About Us", href: "/static-pages/about-us" },
-      { title: "Contact Us", href: "/static-pages/contact-us" },
+      { title: "About Us", href: "/static-pages/about" },
+      { title: "Contact Us", href: "/static-pages/contact" },
     ],
   },
   {

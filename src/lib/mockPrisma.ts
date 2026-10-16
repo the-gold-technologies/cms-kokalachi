@@ -4,8 +4,8 @@ import { PrismaClient } from "@prisma/client";
 let mockUsers: any[] = [
   {
     id: "user-1",
-    name: "Mahalaxmi Admin",
-    email: "admin@mahalaxmi.com",
+    name: "Kokalachi Admin",
+    email: "admin@kokalachi.com",
     role: "admin",
     password: "$2a$10$YourHashedPasswordHere",
     avatar:
@@ -16,9 +16,9 @@ let mockUsers: any[] = [
 ];
 
 let mockSettings: Record<string, string> = {
-  site_name: "Mahalaxmi Enterprises",
+  site_name: "Kokalachi",
   company_tagline: "Authorized Industrial Lube Distributor (ILD) - HPCL",
-  proprietor_name: "Mahalaxmi Enterprises",
+  proprietor_name: "Kokalachi",
   contact_email: "info@hplubricantscfa.com",
   contact_phone: "+91 88007 78032",
   contact_address: "Baghpat Region & Surrounding Industrial Belts, Uttar Pradesh, India",
@@ -89,14 +89,14 @@ let mockPages: any[] = [
     isStatic: true,
     description:
       "Authorized Industrial Lube Distributor for Hindustan Petroleum Corporation Limited (HPCL).",
-    metaTitle: "Mahalaxmi Enterprises | Authorized HP Lubricants Distributor",
+    metaTitle: "Kokalachi | Authorized HP Lubricants Distributor",
     metaDescription:
       "Official Industrial Lube Distributor supplying high performance hydraulic oils, turbine oils, gear lubricants, and greases.",
     targetKeywords: "hpcl distributor, industrial lubricants baghpat, engine oils supplier",
-    canonicalUrl: "https://mahalaxmilubricants.com",
+    canonicalUrl: "https://kokalachi.com",
     noIndex: false,
     featuredImage: "",
-    ogTitle: "Mahalaxmi Enterprises",
+    ogTitle: "Kokalachi",
     ogDescription: "Authorized HP Lubricants Distributor",
     ogImage: "",
     headingOptions: {},
@@ -179,11 +179,11 @@ let mockPages: any[] = [
         type: "AboutSection",
         order: 1,
         content: {
-          title: "ABOUT HP LUBRICANTS & MAHALAXMI ENTERPRISES",
+          title: "ABOUT HP LUBRICANTS & Kokalachi",
           subtitle:
             "Hindustan Petroleum Corporation Limited (HPCL) is a Fortune 500 company and one of India’s largest lubricant marketers.",
           bodyText:
-            "Mahalaxmi Enterprises serves as an Authorized Industrial Lube Distributor (ILD), supplying genuine HPCL products directly to industrial plants, OEM contractors, transport fleets, and government departments.",
+            "Kokalachi serves as an Authorized Industrial Lube Distributor (ILD), supplying genuine HPCL products directly to industrial plants, OEM contractors, transport fleets, and government departments.",
           buttonText: "READ MORE ABOUT US",
           buttonLink: "/about-us",
         },
@@ -217,15 +217,15 @@ let mockPages: any[] = [
     visibility: "published",
     isStatic: true,
     description:
-      "Learn more about Mahalaxmi Enterprises and our authorized HPCL Lubricants partnership.",
-    metaTitle: "About Us | Mahalaxmi Enterprises Authorized HP Lubricants",
+      "Learn more about Kokalachi and our authorized HPCL Lubricants partnership.",
+    metaTitle: "About Us | Kokalachi Authorized HP Lubricants",
     metaDescription:
       "Discover our journey as an Authorized Industrial Lube Distributor (ILD) delivering cutting-edge HPCL lubricants across India.",
-    targetKeywords: "about mahalaxmi enterprises, hp lubricants distributor profile",
-    canonicalUrl: "https://mahalaxmilubricants.com/about-us",
+    targetKeywords: "about kokalachi enterprises, hp lubricants distributor profile",
+    canonicalUrl: "https://kokalachi.com/about-us",
     noIndex: false,
     featuredImage: "",
-    ogTitle: "About Us - Mahalaxmi Enterprises",
+    ogTitle: "About Us - Kokalachi",
     ogDescription: "About HP Lubricants Division",
     ogImage: "",
     headingOptions: {},
@@ -239,29 +239,29 @@ let mockPages: any[] = [
         order: 0,
         content: {
           bannerImage:
-            "https://res.cloudinary.com/dpa93copz/image/upload/v1787736239/mahalaxmi/about/About-HPCL.jpg",
-          altText: "About MAHALAXMI ENTERPRISES Banner",
-          title: "About MAHALAXMI ENTERPRISES",
+            "https://res.cloudinary.com/dpa93copz/image/upload/v1787736239/kokalachi/about/About-HPCL.jpg",
+          altText: "About Kokalachi Banner",
+          title: "About Kokalachi",
         },
       },
       {
         id: "sec-a2",
         pageId: "page-about",
-        type: "AboutMahalaxmiContent",
+        type: "AboutKokalachiContent",
         order: 1,
         content: {
-          title: "ABOUT MAHALAXMI ENTERPRISES",
+          title: "ABOUT Kokalachi",
           subtitle: "Neha Goyal",
-          proprietorRole: "Proprietor, Mahalaxmi Enterprises",
+          proprietorRole: "Proprietor, Kokalachi",
           distributorBadge: "Authorized Industrial Lube Distributor (ILD)",
           distributorCompany: "Hindustan Petroleum Corporation Limited (HPCL)",
           proprietorPhoto:
-            "https://res.cloudinary.com/dpa93copz/image/upload/v1788858309/mahalaxmi/team/neha-goyal-proprietor.jpg",
-          proprietorPhotoAlt: "Neha Goyal — Proprietor, Mahalaxmi Enterprises",
+            "https://res.cloudinary.com/dpa93copz/image/upload/v1788858309/kokalachi/team/neha-goyal-proprietor.jpg",
+          proprietorPhotoAlt: "Neha Goyal — Proprietor, Kokalachi",
           paragraphs: [
-            "Neha Goyal is the Proprietor of Mahalaxmi Enterprises, an authorized Industrial Lube Distributor (ILD) for HP Lubricants, serving the Baghpat region. With over a decade of experience in the lubricants industry, she has developed extensive expertise in providing reliable lubrication solutions across a wide range of industrial applications.",
-            "Since establishing Mahalaxmi Enterprises in 2023, she has been committed to delivering high-quality HP Lubricants, backed by technical knowledge, prompt service, and a customer-centric approach. Under her leadership, the company has earned the trust of more than 100 industrial customers and has successfully supplied lubricants to various government departments.",
-            "Her focus on long-term relationships, product reliability, and consistent service has positioned Mahalaxmi Enterprises as a dependable partner for industries seeking efficient and cost-effective lubrication solutions. With a vision to continuously expand the company's reach and service capabilities, Neha Goyal remains dedicated to helping customers enhance equipment performance, improve operational efficiency, and reduce maintenance costs through the right lubrication practices.",
+            "Neha Goyal is the Proprietor of Kokalachi, an authorized Industrial Lube Distributor (ILD) for HP Lubricants, serving the Baghpat region. With over a decade of experience in the lubricants industry, she has developed extensive expertise in providing reliable lubrication solutions across a wide range of industrial applications.",
+            "Since establishing Kokalachi in 2023, she has been committed to delivering high-quality HP Lubricants, backed by technical knowledge, prompt service, and a customer-centric approach. Under her leadership, the company has earned the trust of more than 100 industrial customers and has successfully supplied lubricants to various government departments.",
+            "Her focus on long-term relationships, product reliability, and consistent service has positioned Kokalachi as a dependable partner for industries seeking efficient and cost-effective lubrication solutions. With a vision to continuously expand the company's reach and service capabilities, Neha Goyal remains dedicated to helping customers enhance equipment performance, improve operational efficiency, and reduce maintenance costs through the right lubrication practices.",
           ],
           hpclOverview: {
             title: "About Hindustan Petroleum Corporation Limited (HPCL)",
@@ -273,7 +273,7 @@ let mockPages: any[] = [
               "Extensive countrywide supply chain network & rapid delivery",
             ],
           },
-          whyChooseTitle: "WHY CHOOSE MAHALAXMI ENTERPRISES",
+          whyChooseTitle: "WHY CHOOSE Kokalachi",
           whyChooseSubtitle: "Delivering Quality. Building Trust.",
           whyChooseItems: [
             {
@@ -311,7 +311,7 @@ let mockPages: any[] = [
         type: "LubesHeadquarterSection",
         order: 2,
         content: {
-          title: "MAHALAXMI ENTERPRISES",
+          title: "Kokalachi",
           badge: "AUTHORIZED INDUSTRIAL LUBE DISTRIBUTOR (ILD)",
           proprietor: "Neha Goyal",
           servingRegion: "Baghpat Region & Surrounding Industrial Belts, Uttar Pradesh",
@@ -332,15 +332,15 @@ let mockPages: any[] = [
     visibility: "published",
     isStatic: true,
     description:
-      "Get in touch with Mahalaxmi Enterprises for bulk lubricants supply, enquiries, and dealership.",
-    metaTitle: "Contact Us | Mahalaxmi Enterprises HPCL Distributor",
+      "Get in touch with Kokalachi for bulk lubricants supply, enquiries, and dealership.",
+    metaTitle: "Contact Us | Kokalachi HPCL Distributor",
     metaDescription:
       "Reach out to our sales engineering team, head office, and regional branches across India.",
-    targetKeywords: "contact mahalaxmi, hp lubricants dealer, lubricant quote",
-    canonicalUrl: "https://mahalaxmilubricants.com/contact-us",
+    targetKeywords: "contact kokalachi, hp lubricants dealer, lubricant quote",
+    canonicalUrl: "https://kokalachi.com/contact-us",
     noIndex: false,
     featuredImage: "/contact-us-banner.jpg",
-    ogTitle: "Contact Us - Mahalaxmi Enterprises",
+    ogTitle: "Contact Us - Kokalachi",
     ogDescription: "Contact HP Lubricants Distributor",
     ogImage: "/contact-us-banner.jpg",
     headingOptions: {},
@@ -356,7 +356,7 @@ let mockPages: any[] = [
           title: "Contact Us",
           subtitle: "",
           image: "/contact-us-banner.jpg",
-          altText: "Contact Us - Mahalaxmi Enterprises",
+          altText: "Contact Us - Kokalachi",
         },
       },
       {
@@ -365,7 +365,7 @@ let mockPages: any[] = [
         type: "ContactHeadquarter",
         order: 1,
         content: {
-          companyName: "Mahalaxmi Enterprises",
+          companyName: "Kokalachi",
           badge: "Authorized Industrial Lube Distributor",
           description:
             "Connect with our team for HP Lubricants requirements, technical seminars, and bulk inquiries.",
@@ -401,15 +401,15 @@ let mockPages: any[] = [
     type: "static",
     visibility: "published",
     isStatic: true,
-    description: "Events & Activities Gallery for Mahalaxmi Enterprises",
-    metaTitle: "Events & Gallery | Mahalaxmi Enterprises",
+    description: "Events & Activities Gallery for Kokalachi",
+    metaTitle: "Events & Gallery | Kokalachi",
     metaDescription:
       "Explore photo gallery and coverage of dealer meets, exhibitions, and industrial seminars.",
     targetKeywords: "events, gallery, hp lubricants exhibition, dealer meet",
-    canonicalUrl: "https://mahalaxmilubricants.com/events",
+    canonicalUrl: "https://kokalachi.com/events",
     noIndex: false,
     featuredImage: "/events-banner.jpg",
-    ogTitle: "Events & Activities - Mahalaxmi Enterprises",
+    ogTitle: "Events & Activities - Kokalachi",
     ogDescription: "Events and activities gallery",
     ogImage: "/events-banner.jpg",
     headingOptions: {},
@@ -423,7 +423,7 @@ let mockPages: any[] = [
         order: 0,
         content: {
           image: "/events-banner.jpg",
-          altText: "MAHALAXMI ENTERPRISES Events & Activities Gallery Banner",
+          altText: "Kokalachi Events & Activities Gallery Banner",
         },
       },
       {
@@ -434,7 +434,7 @@ let mockPages: any[] = [
         content: {
           title: "EVENTS",
           introText:
-            "Mahalaxmi Enterprises actively engages with their stakeholders by frequently hosting meetings and events with them. This includes meeting business partners, strategic partners, distributors, OEMs, agencies, mechanics, and industrial clients.",
+            "Kokalachi actively engages with their stakeholders by frequently hosting meetings and events with them. This includes meeting business partners, strategic partners, distributors, OEMs, agencies, mechanics, and industrial clients.",
         },
       },
       {
@@ -467,15 +467,15 @@ let mockPages: any[] = [
             },
             {
               id: 4,
-              title: "Excon 2017 Mahalaxmi Enterprises Stall Sideview",
+              title: "Excon 2017 Kokalachi Stall Sideview",
               image: "https://www.hplubricants.in/sites/default/files/b4.jpg",
-              altText: "Excon 2017 Mahalaxmi Enterprises Stall Sideview",
+              altText: "Excon 2017 Kokalachi Stall Sideview",
             },
             {
               id: 5,
-              title: "Excon 2017 Mahalaxmi Enterprises Stall",
+              title: "Excon 2017 Kokalachi Stall",
               image: "https://www.hplubricants.in/sites/default/files/b3.jpg",
-              altText: "Excon 2017 Mahalaxmi Enterprises Stall",
+              altText: "Excon 2017 Kokalachi Stall",
             },
             {
               id: 6,
@@ -551,15 +551,15 @@ let mockPages: any[] = [
             },
             {
               id: 18,
-              title: "Mahalaxmi Enterprises ConMac 2017 Showcase",
+              title: "Kokalachi ConMac 2017 Showcase",
               image: "https://www.hplubricants.in/sites/default/files/8.jpg",
-              altText: "Mahalaxmi Enterprises ConMac 2017 Showcase",
+              altText: "Kokalachi ConMac 2017 Showcase",
             },
             {
               id: 19,
-              title: "Mahalaxmi Enterprises ConMac 2017",
+              title: "Kokalachi ConMac 2017",
               image: "https://www.hplubricants.in/sites/default/files/7.jpg",
-              altText: "Mahalaxmi Enterprises ConMac 2017",
+              altText: "Kokalachi ConMac 2017",
             },
             {
               id: 20,
@@ -613,11 +613,11 @@ let mockPages: any[] = [
     isStatic: true,
     description:
       "Technical articles, educational guides, and lubrication maintenance recommendations.",
-    metaTitle: "Blogs & Insights | Mahalaxmi Enterprises",
+    metaTitle: "Blogs & Insights | Kokalachi",
     metaDescription:
       "Learn how often to change engine oils, hydraulic fluid maintenance, and lubrication best practices.",
     targetKeywords: "blogs, engine oil change guide, lubrication maintenance",
-    canonicalUrl: "https://mahalaxmilubricants.com/blogs",
+    canonicalUrl: "https://kokalachi.com/blogs",
     noIndex: false,
     featuredImage: "/blogs-banner.jpg",
     ogTitle: "Technical Articles & Lubrication Insights",
@@ -634,7 +634,7 @@ let mockPages: any[] = [
         order: 0,
         content: {
           image: "/blogs-banner.jpg",
-          altText: "Blogs - Mahalaxmi Enterprises HP Lubricants",
+          altText: "Blogs - Kokalachi HP Lubricants",
         },
       },
       {
@@ -682,7 +682,7 @@ let mockCategories: any[] = [
     shortDesc:
       "High performance hydraulic, compressor, turbine, transformer, gear, film, and machinery lubricants.",
     fullDesc:
-      "Discover MAHALAXMI ENTERPRISES' industrial oils tailored for hydraulic systems, gearboxes, compressors, sugar mills, and more. Trusted for quality, innovation, and reliability.",
+      "Discover Kokalachi' industrial oils tailored for hydraulic systems, gearboxes, compressors, sugar mills, and more. Trusted for quality, innovation, and reliability.",
     coverImage:
       "https://www.hplubricants.in/sites/default/files/styles/product_category_thumb/public/Compressor-Oils.png",
     order: 0,
@@ -697,7 +697,7 @@ let mockCategories: any[] = [
     shortDesc:
       "Extreme pressure lithium, complex, wheel bearing, and specialty temperature resistant greases.",
     fullDesc:
-      "MAHALAXMI ENTERPRISES supplies premium industrial greases formulated for heavy machinery bearings, steel mills, and high temperature applications.",
+      "Kokalachi supplies premium industrial greases formulated for heavy machinery bearings, steel mills, and high temperature applications.",
     coverImage:
       "https://www.hplubricants.in/sites/default/files/styles/product_category_thumb/public/Industrial-Greases.png",
     order: 1,
@@ -711,7 +711,7 @@ let mockCategories: any[] = [
     slug: "automotive-oils",
     shortDesc: "High-quality automotive, agricultural, passenger car, and engine oils.",
     fullDesc:
-      "Explore MAHALAXMI ENTERPRISES' range of automotive, agricultural, and commercial engine oils offering superior quality and performance for all your vehicles.",
+      "Explore Kokalachi' range of automotive, agricultural, and commercial engine oils offering superior quality and performance for all your vehicles.",
     coverImage:
       "https://www.hplubricants.in/sites/default/files/styles/product_category_thumb/public/Automotive-Oils.png",
     order: 2,
@@ -2364,7 +2364,7 @@ let mockBlogs: any[] = [
           ],
           bulletPoints: [
             "API Standards (CK-4 / CI-4 Plus): Look for API donut marks. API CK-4 and CJ-4 low-SAPS oils are mandatory for modern BS-VI engines equipped with DPF and SCR systems, while API CI-4 Plus is ideal for BS-IV fleets.",
-            "OEM Approvals: Top lubricants distributed by MAHALAXMI ENTERPRISES carry OEM approvals from major vehicle manufacturers (Tata Motors, Ashok Leyland, Mahindra, Cummins), giving extra assurance of performance.",
+            "OEM Approvals: Top lubricants distributed by Kokalachi carry OEM approvals from major vehicle manufacturers (Tata Motors, Ashok Leyland, Mahindra, Cummins), giving extra assurance of performance.",
           ],
         },
         {
@@ -2397,12 +2397,12 @@ let mockBlogs: any[] = [
         {
           heading: "8. Cost vs. Performance",
           paragraphs: [
-            "Weigh short-term lubricant costs against long-term fuel efficiency, reduced maintenance, and engine overhaul prevention. Investing in high-grade lubricants from MAHALAXMI ENTERPRISES saves significant operating costs over time.",
+            "Weigh short-term lubricant costs against long-term fuel efficiency, reduced maintenance, and engine overhaul prevention. Investing in high-grade lubricants from Kokalachi saves significant operating costs over time.",
           ],
         },
       ],
       conclusion:
-        "Selecting the right Diesel Engine Oil requires balancing vehicle manufacturer specifications, climate conditions, duty cycles, and budget. Choosing HP MILCY series diesel lubricants from Mahalaxmi Enterprises ensures maximum engine protection, extended drain intervals, and optimal fuel economy for your commercial fleet or personal vehicle.",
+        "Selecting the right Diesel Engine Oil requires balancing vehicle manufacturer specifications, climate conditions, duty cycles, and budget. Choosing HP MILCY series diesel lubricants from Kokalachi ensures maximum engine protection, extended drain intervals, and optimal fuel economy for your commercial fleet or personal vehicle.",
       recommendedProducts: [
         "HP MILCY TURBO ULTIMA 10W-40",
         "HP MILCY POWER 15W-40",
@@ -2467,7 +2467,7 @@ let mockBlogs: any[] = [
         },
       ],
       conclusion:
-        "Trust the HP MILCY 15W-40 series from Mahalaxmi Enterprises for exceptional engine cleanliness, reduced oil consumption, and long-term machinery protection.",
+        "Trust the HP MILCY 15W-40 series from Kokalachi for exceptional engine cleanliness, reduced oil consumption, and long-term machinery protection.",
       recommendedProducts: [
         "HP MILCY TURBO STAR 15W-40",
         "HP MILCY SUPER 15W-40",
@@ -2568,14 +2568,14 @@ let mockBlogs: any[] = [
           ],
         },
         {
-          heading: "3. Advanced Lubrication Technology by MAHALAXMI ENTERPRISES",
+          heading: "3. Advanced Lubrication Technology by Kokalachi",
           paragraphs: [
             "HP RACER 4T oils are blended with premium Group II base stocks and synthetic additives. They deliver exceptional thermal stability, preventing oil breakdown when idling in dense Indian city traffic.",
           ],
         },
       ],
       conclusion:
-        "Keep your motorcycle engine smooth, responsive, and long-lasting with HP RACER 4T series motorcycle oils supplied by Mahalaxmi Enterprises.",
+        "Keep your motorcycle engine smooth, responsive, and long-lasting with HP RACER 4T series motorcycle oils supplied by Kokalachi.",
       recommendedProducts: [
         "HP RACER 4T 20W-40",
         "HP RACER 4T SYNTH 10W-30",
@@ -2642,14 +2642,14 @@ let mockBlogs: any[] = [
     category: "Bike Oils",
     publishDate: "February 08, 2026",
     readTime: "6 min read",
-    author: "Mahalaxmi Two-Wheeler Lube Advisory",
+    author: "Kokalachi Two-Wheeler Lube Advisory",
     excerpt:
       "Discover why HP RACER 4T series is the top choice for two-wheelers, delivering wet clutch friction control, reduced oil consumption, and lower maintenance costs.",
     coverImage:
       "https://www.hplubricants.in/sites/default/files/The-best-engine-oil-for-your-bike-thumb.jpg",
     content: {
       intro:
-        "Choosing the right engine oil for your bike is crucial for maintaining performance, efficiency, and engine longevity. MAHALAXMI ENTERPRISES' Two Wheeler Engine Oil range is engineered to meet the stringent demands of modern motorcycles, commuters, and scooters across Indian road conditions.",
+        "Choosing the right engine oil for your bike is crucial for maintaining performance, efficiency, and engine longevity. Kokalachi' Two Wheeler Engine Oil range is engineered to meet the stringent demands of modern motorcycles, commuters, and scooters across Indian road conditions.",
       sections: [
         {
           heading: "1. Enhanced Engine Durability",
@@ -2677,7 +2677,7 @@ let mockBlogs: any[] = [
         },
       ],
       conclusion:
-        "Experience an unparalleled biking experience with HP RACER 4T motorcycle lubricants from Mahalaxmi Enterprises.",
+        "Experience an unparalleled biking experience with HP RACER 4T motorcycle lubricants from Kokalachi.",
       recommendedProducts: ["HP RACER 4T 20W-40", "HP RACER 4T SYNTH 10W-30", "HP RACER 4T 10W-30"],
     },
     recommendedProducts: [],
@@ -2724,10 +2724,10 @@ export const mockPrisma: any = {
   globalConfig: {
     findFirst: async () => ({
       id: "global",
-      siteTitle: "Mahalaxmi Enterprises | HP Lubricants Distributor",
+      siteTitle: "Kokalachi | HP Lubricants Distributor",
       siteDescription:
         "Authorized Industrial Lube Distributor (ILD) for Hindustan Petroleum Corporation Limited (HPCL).",
-      logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1787728459/mahalaxmi/branding/aet8vc9jfakxqvmybcib.png",
+      logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1787728459/kokalachi/branding/aet8vc9jfakxqvmybcib.png",
       phone: "+91 88007 78032",
       email: "info@hplubricantscfa.com",
       address: "Baghpat Region & Surrounding Industrial Belts, Uttar Pradesh, India",
@@ -2737,20 +2737,20 @@ export const mockPrisma: any = {
         instagram: "https://www.instagram.com/hplubricants_hpcl/",
         linkedin: "https://www.linkedin.com/company/hpcl",
         hpclBadge:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731176/mahalaxmi/footer/aygvpp2xhjpyk555i2x4.jpg",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731176/kokalachi/footer/aygvpp2xhjpyk555i2x4.jpg",
         indiaGovBadge:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/mahalaxmi/footer/rnrmsenowtlzykcxuprr.jpg",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/kokalachi/footer/rnrmsenowtlzykcxuprr.jpg",
         globalCompactBadge:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/mahalaxmi/footer/rnrmsenowtlzykcxuprr.jpg",
-        copyrightText: "© 2026 Mahalaxmi Enterprises. All rights reserved.",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/kokalachi/footer/rnrmsenowtlzykcxuprr.jpg",
+        copyrightText: "© 2026 Kokalachi. All rights reserved.",
       },
     }),
     findUnique: async () => ({
       id: "global",
-      siteTitle: "Mahalaxmi Enterprises | HP Lubricants Distributor",
+      siteTitle: "Kokalachi | HP Lubricants Distributor",
       siteDescription:
         "Authorized Industrial Lube Distributor (ILD) for Hindustan Petroleum Corporation Limited (HPCL).",
-      logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1787728459/mahalaxmi/branding/aet8vc9jfakxqvmybcib.png",
+      logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1787728459/kokalachi/branding/aet8vc9jfakxqvmybcib.png",
       phone: "+91 88007 78032",
       email: "info@hplubricantscfa.com",
       address: "Baghpat Region & Surrounding Industrial Belts, Uttar Pradesh, India",
@@ -2760,12 +2760,12 @@ export const mockPrisma: any = {
         instagram: "https://www.instagram.com/hplubricants_hpcl/",
         linkedin: "https://www.linkedin.com/company/hpcl",
         hpclBadge:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731176/mahalaxmi/footer/aygvpp2xhjpyk555i2x4.jpg",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731176/kokalachi/footer/aygvpp2xhjpyk555i2x4.jpg",
         indiaGovBadge:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/mahalaxmi/footer/rnrmsenowtlzykcxuprr.jpg",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/kokalachi/footer/rnrmsenowtlzykcxuprr.jpg",
         globalCompactBadge:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/mahalaxmi/footer/rnrmsenowtlzykcxuprr.jpg",
-        copyrightText: "© 2026 Mahalaxmi Enterprises. All rights reserved.",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1787731177/kokalachi/footer/rnrmsenowtlzykcxuprr.jpg",
+        copyrightText: "© 2026 Kokalachi. All rights reserved.",
       },
     }),
     upsert: async ({ create, update }: any) => ({

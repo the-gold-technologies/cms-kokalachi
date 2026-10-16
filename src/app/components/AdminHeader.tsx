@@ -14,8 +14,8 @@ interface SearchItem {
 
 const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { title: "Home Page Sections", category: "Pages", url: "/static-pages/home", icon: FileText },
-  { title: "About Us Page", category: "Pages", url: "/static-pages/about-us", icon: FileText },
-  { title: "Contact Us Page", category: "Pages", url: "/static-pages/contact-us", icon: FileText },
+  { title: "About Us Page", category: "Pages", url: "/static-pages/about", icon: FileText },
+  { title: "Contact Us Page", category: "Pages", url: "/static-pages/contact", icon: FileText },
   { title: "All Trips & Journeys", category: "Trips", url: "/trips", icon: Package },
   { title: "Destinations", category: "Trips", url: "/destinations", icon: Compass },
   { title: "Bookings", category: "Submissions", url: "/submissions/bookings", icon: Inbox },

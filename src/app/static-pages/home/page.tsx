@@ -2,12 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
-import { HeroSliderSection } from "./components/HeroSliderSection";
-import { AboutSection } from "./components/AboutSection";
-import { ProductsServicesSection } from "./components/ProductsServicesSection";
-import { TrustedClientsSection } from "./components/TrustedClientsSection";
-import { TestimonialsSection } from "./components/TestimonialsSection";
-import { LocateDistributorSection } from "./components/LocateDistributorSection";
+import {
+  HeroSection,
+  WhyWeExistSection,
+  HowItWorksSection,
+  DifferenceSection,
+  GoodCompanySection,
+  MomentsThatStayedSection,
+  WhoTravelsSection,
+  UpcomingJourneysSection,
+} from "./components";
 
 export default function HomePageEditor() {
   const [homeData, setHomeData] = useState<any>(null);
@@ -28,18 +32,20 @@ export default function HomePageEditor() {
   }, []);
 
   return (
-    <section className="flex flex-col gap-8 pb-12">
+    <section className="flex flex-col gap-8 pb-12 max-w-7xl mx-auto">
       <PageHeader
-        title="Home Page Content"
-        description="Manage the layout sections of your homepage. Expand any section to edit its details."
+        title="Home Page Sections"
+        description="Manage the layout sections of your homepage. Expand any section to edit its copy, images, and settings."
       />
 
-      <HeroSliderSection initialData={homeData?.HeroSlider} />
-      <AboutSection initialData={homeData?.AboutSection} />
-      <ProductsServicesSection initialData={homeData?.ProductsServicesSection} />
-      <TrustedClientsSection initialData={homeData?.TrustedClientsSection} />
-      <TestimonialsSection initialData={homeData?.TestimonialsSection} />
-      <LocateDistributorSection initialData={homeData?.LocateDistributorSection} />
+      <HeroSection initialData={homeData?.HeroSection} />
+      <WhyWeExistSection initialData={homeData?.WhyWeExistSection} />
+      <HowItWorksSection initialData={homeData?.HowItWorksSection} />
+      <DifferenceSection initialData={homeData?.DifferenceSection} />
+      <GoodCompanySection initialData={homeData?.GoodCompanySection} />
+      <MomentsThatStayedSection initialData={homeData?.MomentsThatStayedSection} />
+      <WhoTravelsSection initialData={homeData?.WhoTravelsSection} />
+      <UpcomingJourneysSection initialData={homeData?.UpcomingJourneysSection} />
     </section>
   );
 }

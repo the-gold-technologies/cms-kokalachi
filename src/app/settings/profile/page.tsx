@@ -146,7 +146,7 @@ export default function ProfileSettingsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                placeholder="e.g. Mahalaxmi Admin"
+                placeholder="e.g. Kokalachi Admin"
                 className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#002B5C] transition shadow-2xs"
               />
             </div>
@@ -160,7 +160,7 @@ export default function ProfileSettingsPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder="admin@mahalaxmi.com"
+                placeholder="admin@kokalachi.com"
                 className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#002B5C] transition shadow-2xs"
               />
             </div>
