@@ -8,6 +8,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { VibeFiltersSection } from "./components/VibeFiltersSection";
 import {
   Search,
@@ -61,6 +62,8 @@ function formatDepartureChip(departures: any[]): string {
 
 export default function AllJourneysCMSPage() {
   const [trips, setTrips] = useState<any[]>([]);
+  const [tripToDelete, setTripToDelete] = useState<{ id: string; title: string } | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [vibeCategories, setVibeCategories] = useState<{ id: string; label: string }[]>([]);
   const [vibeData, setVibeData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -157,21 +160,23 @@ export default function AllJourneysCMSPage() {
     }
   };
 
-  const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"? This cannot be undone.`)) {
-      return;
-    }
+  const handleConfirmDelete = async () => {
+    if (!tripToDelete) return;
+    setDeleteLoading(true);
     try {
-      const res = await fetch(`/api/trips/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/trips/${tripToDelete.id}`, { method: "DELETE" });
       const json = await res.json();
       if (json.success) {
-        toast.success("Journey deleted successfully");
-        setTrips((prev) => prev.filter((t) => t.id !== id));
+        toast.success(`"${tripToDelete.title}" deleted successfully`);
+        setTrips((prev) => prev.filter((t) => t.id !== tripToDelete.id));
+        setTripToDelete(null);
       } else {
-        toast.error(json.error ?? "Failed to delete");
+        toast.error(json.error ?? "Failed to delete journey");
       }
     } catch {
       toast.error("Failed to delete journey");
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -490,7 +495,7 @@ export default function AllJourneysCMSPage() {
                       </Link>
                       <button
                         type="button"
-                        onClick={() => handleDelete(trip.id, trip.title)}
+                        onClick={() => setTripToDelete({ id: trip.id, title: trip.title })}
                         className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                         title="Delete Journey"
                       >
@@ -504,6 +509,19 @@ export default function AllJourneysCMSPage() {
           })}
         </div>
       )}
+      {/* Delete Confirmation Popup Modal */}
+      <DeleteConfirmModal
+        isOpen={!!tripToDelete}
+        title="Delete Journey"
+        itemName={tripToDelete?.title}
+        message="Are you sure you want to permanently delete this journey? All its departures, itinerary days, inclusions, and bookings will be removed. This action cannot be undone."
+        confirmLabel="Yes, Delete Journey"
+        loading={deleteLoading}
+        onConfirm={handleConfirmDelete}
+        onClose={() => {
+          if (!deleteLoading) setTripToDelete(null);
+        }}
+      />
     </div>
   );
 }

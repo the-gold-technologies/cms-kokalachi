@@ -86,20 +86,24 @@ export default function BookingsCMSPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this booking?")) return;
+  const handleConfirmDelete = async () => {
+    if (!bookingToDelete) return;
+    setDeleteLoading(true);
     try {
-      const res = await fetch(`/api/bookings?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/bookings?id=${bookingToDelete.id}`, { method: "DELETE" });
       const json = await res.json();
       if (json.success) {
         toast.success("Booking deleted successfully");
-        setBookings(bookings.filter((b) => b.id !== id));
-        if (activeBooking && activeBooking.id === id) setActiveBooking(null);
+        setBookings((prev) => prev.filter((b) => b.id !== bookingToDelete.id));
+        if (activeBooking && activeBooking.id === bookingToDelete.id) setActiveBooking(null);
+        setBookingToDelete(null);
       } else {
         toast.error(json.error ?? "Failed to delete");
       }
     } catch {
       toast.error("Network error deleting booking");
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -204,7 +208,7 @@ export default function BookingsCMSPage() {
                         <Eye className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => handleDelete(b.id)}
+                        onClick={() => setBookingToDelete({ id: b.id, name: `Booking for ${b.name || "Guest"} (${b.tripName || "Journey"})` })}
                         className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                         title="Delete Booking"
                       >

@@ -17,6 +17,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { InputField } from "@/components/InputField";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import toast from "react-hot-toast";
 
 interface Enquiry {
@@ -89,20 +90,24 @@ export default function EnquiriesCMSPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to permanently delete this enquiry?")) return;
+  const handleConfirmDelete = async () => {
+    if (!enquiryToDelete) return;
+    setDeleteLoading(true);
     try {
-      const res = await fetch(`/api/enquiries?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/enquiries?id=${enquiryToDelete.id}`, { method: "DELETE" });
       const json = await res.json();
       if (json.success) {
         toast.success("Enquiry deleted successfully");
-        setEnquiries((prev) => prev.filter((e) => e.id !== id));
-        if (activeEnquiry?.id === id) setActiveEnquiry(null);
+        setEnquiries((prev) => prev.filter((e) => e.id !== enquiryToDelete.id));
+        if (activeEnquiry?.id === enquiryToDelete.id) setActiveEnquiry(null);
+        setEnquiryToDelete(null);
       } else {
-        toast.error(json.error || "Failed to delete");
+        toast.error(json.error || "Failed to delete enquiry");
       }
     } catch {
-      toast.error("Failed to delete enquiry");
+      toast.error("Network error deleting enquiry");
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -292,7 +297,7 @@ export default function EnquiriesCMSPage() {
                         <span>View</span>
                       </button>
                       <button
-                        onClick={() => handleDelete(e.id)}
+                        onClick={() => setEnquiryToDelete({ id: e.id, name: `Enquiry from ${e.name || "User"} (${e.journey || "General"})` })}
                         className="p-2 rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors shrink-0"
                         title="Delete Enquiry"
                       >
@@ -454,6 +459,18 @@ export default function EnquiriesCMSPage() {
           </div>
         </div>
       )}
+      <DeleteConfirmModal
+        isOpen={!!enquiryToDelete}
+        title="Delete Enquiry"
+        itemName={enquiryToDelete?.name}
+        message="Are you sure you want to permanently delete this enquiry record? This action cannot be undone."
+        confirmLabel="Yes, Delete Enquiry"
+        loading={deleteLoading}
+        onConfirm={handleConfirmDelete}
+        onClose={() => {
+          if (!deleteLoading) setEnquiryToDelete(null);
+        }}
+      />
     </div>
   );
 }
