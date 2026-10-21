@@ -33,8 +33,15 @@ export async function uploadFiles(files: File[] | FileList | (File | string)[]):
 
 export async function deleteFileFromCloudinary(url: string): Promise<boolean> {
   try {
-    return true;
-  } catch {
+    if (!url) return false;
+    const res = await fetch("/api/upload", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    return res.ok;
+  } catch (err) {
+    console.warn("Failed to delete file from Cloudinary:", err);
     return false;
   }
 }

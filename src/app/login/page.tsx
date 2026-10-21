@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { InputField } from "@/app/components/InputField";
+import { InputField } from "@/components/InputField";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

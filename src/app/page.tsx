@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { AdminHeader } from "@/app/components/AdminHeader";
-import { OverviewStats } from "@/app/components/OverviewStats";
-import { PageStructure } from "@/app/components/PageStructure";
-import { RecentEnquiries } from "@/app/components/RecentEnquiries";
-import { AdminRightSidebar } from "@/app/components/AdminRightSidebar";
+import { AdminHeader } from "@/components/AdminHeader";
+import { OverviewStats } from "@/components/OverviewStats";
+import { PageStructure } from "@/components/PageStructure";
+import { RecentEnquiries } from "@/components/RecentEnquiries";
+import { AdminRightSidebar } from "@/components/AdminRightSidebar";
 
 export default function Home() {
   const [stats, setStats] = useState<any>(null);

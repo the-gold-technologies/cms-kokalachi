@@ -4,7 +4,7 @@ import "./globals.css";
 import "@/styles/quill-custom.css";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-import { AdminSidebar } from "@/app/components/Sidebar";
+import { AdminSidebar } from "@/components/Sidebar";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
