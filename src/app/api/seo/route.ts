@@ -1,3 +1,4 @@
+import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -48,6 +49,8 @@ export async function PUT(request: Request) {
       return NextResponse.json({ success: true, data: updated });
     }
 
+    const existingConfig = await prisma.globalConfig.findFirst({ where: { id: "global" } });
+
     const updatedConfig = await prisma.globalConfig.upsert({
       where: { id: "global" },
       create: {
@@ -77,6 +80,12 @@ export async function PUT(request: Request) {
           visibility: "published",
         },
       });
+    }
+
+    if (existingConfig) {
+      cleanupObsoleteCloudinaryAssets(existingConfig, body).catch((err) =>
+        console.error("Cleanup error on saving global config:", err),
+      );
     }
 
     return NextResponse.json({ success: true, data: updatedConfig });

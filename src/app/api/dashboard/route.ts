@@ -1,24 +1,25 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
-    const [productsCount, blogsCount, eventsCount, enquiriesCount] = await Promise.all([
-      prisma.product.count ? prisma.product.count() : 12,
-      prisma.blogPost.count ? prisma.blogPost.count() : 4,
-      prisma.event.count ? prisma.event.count() : 2,
-      prisma.enquiry.count ? prisma.enquiry.count() : 2,
+    const [tripsCount, bookingsCount, enquiriesCount, pagesCount] = await Promise.all([
+      prisma.trip.count(),
+      prisma.booking.count(),
+      prisma.enquiry.count(),
+      prisma.page.count(),
     ]);
 
     return NextResponse.json({
       success: true,
       data: {
         stats: {
-          products: productsCount,
-          categories: 4,
-          blogs: blogsCount,
-          events: eventsCount,
+          trips: tripsCount,
+          bookings: bookingsCount,
           enquiries: enquiriesCount,
+          pages: pagesCount,
         },
       },
     });

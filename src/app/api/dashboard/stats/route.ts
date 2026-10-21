@@ -13,7 +13,7 @@ export async function GET() {
     ]);
 
     // Fetch all pages with section counts
-    let pages = [];
+    let pages: any[] = [];
     try {
       pages = await prisma.page.findMany({
         select: {
@@ -33,7 +33,7 @@ export async function GET() {
     }
 
     // Fetch 2 most recent enquiries
-    let recentEnquiries = [];
+    let recentEnquiries: any[] = [];
     try {
       recentEnquiries = await prisma.enquiry.findMany({
         take: 2,
@@ -48,7 +48,7 @@ export async function GET() {
     }
 
     // Fetch 2 most recently updated pages
-    let recentPages = [];
+    let recentPages: any[] = [];
     try {
       recentPages = await prisma.page.findMany({
         take: 2,

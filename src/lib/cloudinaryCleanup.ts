@@ -1,51 +1,88 @@
 import { v2 as cloudinary } from "cloudinary";
+import fs from "fs/promises";
+import path from "path";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
 
 /**
- * Extracts all Cloudinary URLs belonging to kokalachi uploads from any string, array, or object
+ * Extracts all Cloudinary and local upload URLs from any string, array, or deeply nested object
  */
-export function extractCloudinaryUrls(data: any, collected: Set<string> = new Set()): Set<string> {
+export function extractMediaUrls(data: any, collected: Set<string> = new Set()): Set<string> {
   if (!data) return collected;
 
   if (typeof data === "string") {
-    const matches = data.match(/https?:\/\/[^\s"'<>]*(?:res\.cloudinary\.com)[^\s"'<>]*/gi);
-    if (matches) {
-      for (const m of matches) {
-        // Only target uploaded assets in the kokalachi upload folder
-        if (m.includes("/kokalachi/uploads/")) {
-          collected.add(m);
+    // Cloudinary URLs
+    if (data.includes("res.cloudinary.com")) {
+      const cloudMatches = data.match(/https?:\/\/[^\s"'<>]*(?:res\.cloudinary\.com)[^\s"'<>]*/gi);
+      if (cloudMatches) {
+        for (const m of cloudMatches) {
+          const cloudName =
+            process.env.CLOUDINARY_CLOUD_NAME ||
+            process.env.NEXT_CLOUDINARY_CLOUD_NAME ||
+            "kokalachi";
+          if (m.includes("/kokalachi/") || m.includes(`/${cloudName}/`)) {
+            collected.add(m);
+          }
+        }
+      }
+    } else {
+      // Local /uploads/ files (only if not an external URL)
+      const localMatches = data.match(/(?:^|["'\s])(\/uploads\/[^\s"'<>]+\.[a-zA-Z0-9]+)/g);
+      if (localMatches) {
+        for (const m of localMatches) {
+          collected.add(m.trim().replace(/^["']/, ""));
         }
       }
     }
   } else if (Array.isArray(data)) {
     for (const item of data) {
-      extractCloudinaryUrls(item, collected);
+      extractMediaUrls(item, collected);
     }
   } else if (typeof data === "object") {
     for (const val of Object.values(data)) {
-      extractCloudinaryUrls(val, collected);
+      extractMediaUrls(val, collected);
     }
   }
 
   return collected;
 }
 
+export const extractCloudinaryUrls = extractMediaUrls;
+
 /**
- * Permanently deletes a single Cloudinary asset by URL
+ * Permanently deletes a single asset by URL (Cloudinary or local /uploads/)
  */
 export async function deleteCloudinaryAsset(url: string | null | undefined): Promise<boolean> {
-  if (
-    !url ||
-    typeof url !== "string" ||
-    !url.includes("cloudinary.com") ||
-    !url.includes("/kokalachi/uploads/")
-  ) {
+  if (!url || typeof url !== "string") return false;
+
+  // 1. Handle local /uploads/ file
+  if (url.startsWith("/uploads/")) {
+    try {
+      const localPath = path.join(process.cwd(), "public", url);
+      await fs.unlink(localPath);
+      console.log(`[Media Cleanup on Save] Deleted obsolete local file: ${localPath}`);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // 2. Handle Cloudinary
+  if (!url.includes("cloudinary.com")) return false;
+
+  const hasCredentials = Boolean(
+    (process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME) &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET,
+  );
+
+  if (!hasCredentials) {
+    console.warn("[Cloudinary Cleanup on Save] Credentials missing; skipping deletion.");
     return false;
   }
 
@@ -56,11 +93,9 @@ export async function deleteCloudinaryAsset(url: string | null | undefined): Pro
 
     let publicId = "";
     if (isRaw) {
-      // Raw assets preserve their full filename and extension in public_id
       const match = url.match(/\/raw\/upload\/(?:v\d+\/)?(.+)$/i);
       if (match) publicId = match[1];
     } else {
-      // Images & videos typically strip file extension in public_id
       const match = url.match(/\/(?:image|video)\/upload\/(?:v\d+\/)?(.+?)(?:\.[a-zA-Z0-9]+)?$/i);
       if (match) publicId = match[1];
     }
@@ -72,7 +107,6 @@ export async function deleteCloudinaryAsset(url: string | null | undefined): Pro
       invalidate: true,
     });
 
-    // If image deletion returned not_found, try with full extension included
     if (res?.result === "not found" && !isRaw) {
       const matchWithExt = url.match(/\/image\/upload\/(?:v\d+\/)?(.+)$/i);
       if (matchWithExt && matchWithExt[1] !== publicId) {
@@ -85,46 +119,59 @@ export async function deleteCloudinaryAsset(url: string | null | undefined): Pro
 
     const success = res?.result === "ok";
     if (success) {
-      console.log(`[Cloudinary Cleanup] Deleted obsolete asset: ${publicId} (${resourceType})`);
+      console.log(
+        `[Cloudinary Cleanup on Save] Deleted obsolete asset: ${publicId} (${resourceType})`,
+      );
     }
     return success;
   } catch (error) {
-    console.error(`[Cloudinary Cleanup] Failed to delete asset from URL ${url}:`, error);
+    console.error(`[Cloudinary Cleanup on Save] Failed to delete asset ${url}:`, error);
     return false;
   }
 }
 
 /**
- * Compares old data against new data, finding Cloudinary URLs that were replaced or removed,
- * and deletes them from Cloudinary.
+ * Compares old data against new data upon clicking Save.
+ * Finds Cloudinary URLs that were replaced or removed and deletes them,
+ * while RETAINING all images that are still in the new data.
  */
 export async function cleanupObsoleteCloudinaryAssets(oldData: any, newData: any): Promise<void> {
   try {
-    const oldUrls = Array.from(extractCloudinaryUrls(oldData));
-    const newUrls = Array.from(extractCloudinaryUrls(newData));
+    if (!oldData) return;
 
+    const oldUrls = Array.from(extractMediaUrls(oldData));
+    const newUrls = Array.from(extractMediaUrls(newData));
+
+    // Images in old data that are no longer retained in new data
     const obsoleteUrls = oldUrls.filter((url) => !newUrls.includes(url));
 
     if (obsoleteUrls.length > 0) {
-      console.log(`[Cloudinary Cleanup] Cleaning up ${obsoleteUrls.length} obsolete asset(s)...`);
+      console.log(
+        `[Cloudinary Cleanup on Save] Found ${obsoleteUrls.length} obsolete asset(s) to remove (Retained: ${newUrls.length}):`,
+        obsoleteUrls,
+      );
       await Promise.allSettled(obsoleteUrls.map((url) => deleteCloudinaryAsset(url)));
     }
   } catch (err) {
-    console.error("[Cloudinary Cleanup] Error during obsolete assets cleanup:", err);
+    console.error("[Cloudinary Cleanup on Save] Error during obsolete assets cleanup:", err);
   }
 }
 
 /**
- * Deletes all Cloudinary URLs found in data (used when an entire entity is deleted)
+ * Deletes all Cloudinary URLs found in data (used when an entire entity like a Trip is deleted)
  */
 export async function deleteCloudinaryAssetsFromData(data: any): Promise<void> {
   try {
-    const urls = Array.from(extractCloudinaryUrls(data));
+    if (!data) return;
+    const urls = Array.from(extractMediaUrls(data));
     if (urls.length > 0) {
-      console.log(`[Cloudinary Cleanup] Deleting ${urls.length} asset(s) on entity removal...`);
+      console.log(
+        `[Cloudinary Cleanup on Save] Deleting ${urls.length} asset(s) on entity removal:`,
+        urls,
+      );
       await Promise.allSettled(urls.map((url) => deleteCloudinaryAsset(url)));
     }
   } catch (err) {
-    console.error("[Cloudinary Cleanup] Error deleting entity assets:", err);
+    console.error("[Cloudinary Cleanup on Save] Error deleting entity assets:", err);
   }
 }

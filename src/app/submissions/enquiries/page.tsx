@@ -41,6 +41,8 @@ export default function EnquiriesCMSPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [activeEnquiry, setActiveEnquiry] = useState<Enquiry | null>(null);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [enquiryToDelete, setEnquiryToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchEnquiries = async () => {
     setIsLoading(true);

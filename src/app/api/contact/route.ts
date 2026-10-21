@@ -1,3 +1,4 @@
+import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -71,6 +72,9 @@ export async function PUT(request: Request) {
           where: { id: existing.id },
           data: { content: body.content },
         });
+        cleanupObsoleteCloudinaryAssets(existing.content, body.content).catch((err) =>
+          console.error("Cleanup error on save:", err),
+        );
       } else {
         const count = await prisma.section.count({ where: { pageId: page.id } });
         await prisma.section.create({
@@ -105,6 +109,9 @@ export async function PUT(request: Request) {
           where: { id: existing.id },
           data: { content: content as any },
         });
+        cleanupObsoleteCloudinaryAssets(existing.content, content).catch((err) =>
+          console.error("Cleanup error on save:", err),
+        );
       } else {
         const count = await prisma.section.count({ where: { pageId: page.id } });
         await prisma.section.create({

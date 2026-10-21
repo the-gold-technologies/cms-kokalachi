@@ -87,9 +87,6 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
         const formData = new FormData();
         formData.append("file", file);
         formData.append("folder", folder);
-        if (maxImages === 1 && images.length > 0 && typeof images[0] === "string") {
-          formData.append("previousUrl", images[0]);
-        }
 
         const res = await fetch("/api/upload", {
           method: "POST",
@@ -160,14 +157,6 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   };
 
   const removeImage = (index: number) => {
-    const target = images[index];
-    if (target && typeof target === "string" && (target.includes("cloudinary.com") || target.startsWith("/uploads/"))) {
-      fetch("/api/upload", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: target }),
-      }).catch((err) => console.warn("Failed to delete from Cloudinary:", err));
-    }
     const nextImages = images.filter((_, i) => i !== index);
     handleUpdate(nextImages);
   };

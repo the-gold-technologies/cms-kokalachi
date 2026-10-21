@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export const CORE_PAGES = [
+const CORE_PAGES = [
   {
     slug: "journeys",
     title: "All Journeys",

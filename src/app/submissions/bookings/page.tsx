@@ -17,6 +17,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 
 interface Booking {
   id: string;
@@ -40,6 +41,8 @@ export default function BookingsCMSPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
+  const [bookingToDelete, setBookingToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchBookings = async () => {
     try {
@@ -303,6 +306,19 @@ export default function BookingsCMSPage() {
           </div>
         </div>
       )}
+
+      <DeleteConfirmModal
+        isOpen={!!bookingToDelete}
+        title="Delete Booking"
+        itemName={bookingToDelete?.name}
+        message="Are you sure you want to permanently delete this booking record? This action cannot be undone."
+        confirmLabel="Yes, Delete Booking"
+        loading={deleteLoading}
+        onConfirm={handleConfirmDelete}
+        onClose={() => {
+          if (!deleteLoading) setBookingToDelete(null);
+        }}
+      />
     </section>
   );
 }

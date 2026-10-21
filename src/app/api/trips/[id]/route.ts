@@ -1,3 +1,7 @@
+import {
+  cleanupObsoleteCloudinaryAssets,
+  deleteCloudinaryAssetsFromData,
+} from "@/lib/cloudinaryCleanup";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -228,6 +232,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       },
     });
 
+    cleanupObsoleteCloudinaryAssets(existingTrip, completeTrip).catch((err) =>
+      console.error("Cleanup error on saving trip:", err),
+    );
     return NextResponse.json({ success: true, data: completeTrip });
   } catch (error: any) {
     console.error("Error updating trip:", error);
@@ -252,6 +259,9 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     await prisma.trip.delete({ where: { id: existingTrip.id } });
+    deleteCloudinaryAssetsFromData(existingTrip).catch((err) =>
+      console.error("Cleanup error on deleting trip:", err),
+    );
     return NextResponse.json({ success: true, message: "Journey deleted successfully" });
   } catch (error: any) {
     console.error("Error deleting trip:", error);

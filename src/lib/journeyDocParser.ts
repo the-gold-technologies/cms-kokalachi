@@ -76,7 +76,7 @@ function sanitizeParsedDoc(raw: any): ParsedJourneyDoc {
   // Support nested tourPackage objects from seed / exported data
   const data =
     raw && typeof raw === "object" && raw.tourPackage ? { ...raw, ...raw.tourPackage } : { ...raw };
-  const res: ParsedJourneyDoc = { ...data };
+  const res: any = { ...data };
 
   // Overview normalization
   if (Array.isArray(res.overview)) {
@@ -192,7 +192,7 @@ function sanitizeParsedDoc(raw: any): ParsedJourneyDoc {
     }));
   }
 
-  return res;
+  return res as ParsedJourneyDoc;
 }
 
 function parseMarkdownJourney(text: string): ParsedJourneyDoc {
@@ -381,8 +381,8 @@ function parseHeaderMetadata(text: string, result: ParsedJourneyDoc) {
   }
 }
 
-function parseDepartures(text: string): ParsedJourneyDoc["departures"] {
-  const departures: ParsedJourneyDoc["departures"] = [];
+function parseDepartures(text: string): NonNullable<ParsedJourneyDoc["departures"]> {
+  const departures: NonNullable<ParsedJourneyDoc["departures"]> = [];
 
   // 1. Check if text has batch blocks (e.g. #### Departure Batch or - Batch Name:)
   if (text.includes("####") || text.toLowerCase().includes("batch name:")) {
@@ -548,8 +548,8 @@ function parseDepartures(text: string): ParsedJourneyDoc["departures"] {
   return departures;
 }
 
-function parseHighlights(text: string): ParsedJourneyDoc["highlights"] {
-  const highlights: ParsedJourneyDoc["highlights"] = [];
+function parseHighlights(text: string): NonNullable<ParsedJourneyDoc["highlights"]> {
+  const highlights: NonNullable<ParsedJourneyDoc["highlights"]> = [];
   const lines = text.split("\n");
 
   for (const rawLine of lines) {
@@ -579,8 +579,8 @@ function parseHighlights(text: string): ParsedJourneyDoc["highlights"] {
   return highlights;
 }
 
-function parseItinerary(text: string): ParsedJourneyDoc["itinerary"] {
-  const itinerary: ParsedJourneyDoc["itinerary"] = [];
+function parseItinerary(text: string): NonNullable<ParsedJourneyDoc["itinerary"]> {
+  const itinerary: NonNullable<ParsedJourneyDoc["itinerary"]> = [];
   // Split by ### or #### Day headings
   const dayBlocks = text.split(/(?=^#{3,4}\s+Day\b|^###\s+)/im);
 
@@ -715,8 +715,8 @@ function parseBulletList(text: string): string[] {
     .filter(Boolean);
 }
 
-function parseFaqs(text: string): ParsedJourneyDoc["faqs"] {
-  const faqs: ParsedJourneyDoc["faqs"] = [];
+function parseFaqs(text: string): NonNullable<ParsedJourneyDoc["faqs"]> {
+  const faqs: NonNullable<ParsedJourneyDoc["faqs"]> = [];
   const lines = text.split("\n");
 
   let currentQ = "";

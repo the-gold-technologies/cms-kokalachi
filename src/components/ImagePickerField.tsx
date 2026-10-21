@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { CloudUpload, Link as LinkIcon, X, Loader2, Image as ImageIcon, Check } from "lucide-react";
+import {
+  CloudUpload,
+  Link as LinkIcon,
+  X,
+  Loader2,
+  Image as ImageIcon,
+  Check,
+  HelpCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 
@@ -10,6 +18,7 @@ interface ImagePickerFieldProps {
   value?: string | null;
   onChange?: (value: string) => void;
   helperText?: string;
+  tooltip?: string;
   placeholder?: string;
   folder?: string;
 }
@@ -19,6 +28,7 @@ export function ImagePickerField({
   value = "",
   onChange,
   helperText,
+  tooltip,
   placeholder = "https://... or upload from computer",
   folder = "kokalachi/uploads",
 }: ImagePickerFieldProps) {
@@ -42,9 +52,6 @@ export function ImagePickerField({
       const formData = new FormData();
       formData.append("file", file);
       formData.append("folder", folder);
-      if (value) {
-        formData.append("previousUrl", value);
-      }
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -72,7 +79,18 @@ export function ImagePickerField({
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-bold text-slate-800 tracking-wide">{label}</label>
+        <label className="text-xs font-bold text-slate-800 tracking-wide flex items-center gap-1.5 relative">
+          {label}
+          {tooltip && (
+            <div className="group relative flex items-center">
+              <HelpCircle className="w-3.5 h-3.5 cursor-help text-gray-400 hover:text-[#002B5C] transition-colors" />
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-max max-w-[280px] px-3.5 py-2.5 bg-slate-900 text-white text-[11px] font-medium rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 normal-case tracking-normal text-center leading-relaxed">
+                {tooltip}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900"></div>
+              </div>
+            </div>
+          )}
+        </label>
         <button
           type="button"
           onClick={() => setShowUrlInput(!showUrlInput)}
@@ -155,15 +173,8 @@ export function ImagePickerField({
             <button
               type="button"
               onClick={() => {
-                if (value && (value.includes("cloudinary.com") || value.startsWith("/uploads/"))) {
-                  fetch("/api/upload", {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ url: value }),
-                  }).catch((err) => console.warn("Failed to delete from Cloudinary:", err));
-                }
                 onChange?.("");
-                toast.success("Image removed");
+                toast.success("Image removed from form (click Save to apply)");
               }}
               className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
               title="Remove image"

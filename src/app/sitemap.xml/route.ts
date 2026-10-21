@@ -21,24 +21,13 @@ export async function GET() {
     const baseUrl = domain.replace(/\/$/, "");
 
     // Static core pages
-    const staticSlugs: string[] = [
-      "",
-      "/about",
-      "/products",
-      "/blogs",
-      "/events",
-      "/contact",
-      "/privacy-policy",
-    ];
+    const staticSlugs: string[] = ["", "/about", "/journeys", "/faqs", "/contact"];
 
-    // Fetch dynamic products & blogs
-    const [products, blogs] = await Promise.all([
-      prisma.product.findMany({ select: { slug: true, categorySlug: true, updatedAt: true } }),
-      prisma.blogPost.findMany({
-        where: { isPublished: true },
-        select: { slug: true, updatedAt: true },
-      }),
-    ]);
+    // Fetch dynamic trips
+    const trips = await prisma.trip.findMany({
+      where: { noIndex: false },
+      select: { slug: true, updatedAt: true },
+    });
 
     const now = new Date().toISOString();
 
@@ -53,24 +42,11 @@ export async function GET() {
       )
       .join("\n");
 
-    const productsXml = (
-      products as Array<{ slug: string; categorySlug: string; updatedAt: Date | null }>
-    )
+    const tripsXml = trips
       .map(
-        (p) => `  <url>
-    <loc>${baseUrl}/products/${p.categorySlug}/${p.slug}</loc>
-    <lastmod>${p.updatedAt ? new Date(p.updatedAt).toISOString().split("T")[0] : now.split("T")[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>`,
-      )
-      .join("\n");
-
-    const blogsXml = (blogs as Array<{ slug: string; updatedAt: Date | null }>)
-      .map(
-        (b) => `  <url>
-    <loc>${baseUrl}/blogs/${b.slug}</loc>
-    <lastmod>${b.updatedAt ? new Date(b.updatedAt).toISOString().split("T")[0] : now.split("T")[0]}</lastmod>
+        (t) => `  <url>
+    <loc>${baseUrl}/journeys/${t.slug}</loc>
+    <lastmod>${t.updatedAt ? new Date(t.updatedAt).toISOString().split("T")[0] : now.split("T")[0]}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>`,
@@ -80,8 +56,7 @@ export async function GET() {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${staticXml}
-${productsXml}
-${blogsXml}
+${tripsXml}
 </urlset>`;
 
     return new NextResponse(xml, {
