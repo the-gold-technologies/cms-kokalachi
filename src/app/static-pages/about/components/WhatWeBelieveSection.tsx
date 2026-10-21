@@ -7,6 +7,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { Plus, Trash2 } from "lucide-react";
 
 interface BeliefPillar {
   title: string;
@@ -28,11 +29,7 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
   const [polaroidCaption, setPolaroidCaption] = useState("");
   const [footerNote, setFooterNote] = useState("");
 
-  const [p1, setP1] = useState<BeliefPillar>({ title: "", desc: "" });
-  const [p2, setP2] = useState<BeliefPillar>({ title: "", desc: "" });
-  const [p3, setP3] = useState<BeliefPillar>({ title: "", desc: "" });
-  const [p4, setP4] = useState<BeliefPillar>({ title: "", desc: "" });
-  const [p5, setP5] = useState<BeliefPillar>({ title: "", desc: "" });
+  const [pillars, setPillars] = useState<BeliefPillar[]>([]);
 
   useEffect(() => {
     if (initialData) {
@@ -45,14 +42,34 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
       setPolaroidCaption(initialData.polaroidCaption ?? "");
       setFooterNote(initialData.footerNote ?? "");
 
-      const list = Array.isArray(initialData.pillars) ? initialData.pillars : [];
-      if (list[0]) setP1({ title: list[0].title ?? "", desc: list[0].desc ?? list[0].description ?? "" });
-      if (list[1]) setP2({ title: list[1].title ?? "", desc: list[1].desc ?? list[1].description ?? "" });
-      if (list[2]) setP3({ title: list[2].title ?? "", desc: list[2].desc ?? list[2].description ?? "" });
-      if (list[3]) setP4({ title: list[3].title ?? "", desc: list[3].desc ?? list[3].description ?? "" });
-      if (list[4]) setP5({ title: list[4].title ?? "", desc: list[4].desc ?? list[4].description ?? "" });
+      if (Array.isArray(initialData.pillars)) {
+        setPillars(
+          initialData.pillars.map((p: any) => ({
+            title: p.title ?? "",
+            desc: p.desc ?? p.description ?? "",
+          }))
+        );
+      } else {
+        setPillars([]);
+      }
     }
   }, [initialData]);
+
+  const handleAddPillar = () => {
+    setPillars((prev) => [...prev, { title: "", desc: "" }]);
+  };
+
+  const handleRemovePillar = (index: number) => {
+    setPillars((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUpdatePillar = (index: number, field: "title" | "desc", value: string) => {
+    setPillars((prev) => {
+      const copy = [...prev];
+      copy[index] = { ...copy[index], [field]: value };
+      return copy;
+    });
+  };
 
   const handleSave = async () => {
     setLoading(true);
@@ -67,7 +84,7 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
         polaroidImage,
         polaroidCaption,
         footerNote,
-        pillars: [p1, p2, p3, p4, p5],
+        pillars,
       };
 
       const res = await fetch("/api/about", {
@@ -142,44 +159,77 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
                 rows={2}
               />
 
-              {/* 5 Core Pillars */}
+              {/* Dynamic Pillars List */}
               <div className="space-y-4 pt-2">
-                <div>
-                  <h4 className="text-sm font-bold text-gray-800">5 Non-Negotiable Pillars</h4>
-                  <p className="text-xs text-gray-500">Core values guiding group size, traveller vetting, and respect</p>
+                <div className="flex items-center justify-between pb-2 border-b border-gray-100 flex-wrap gap-2">
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-800">
+                      Non-Negotiable Pillars ({pillars.length})
+                    </h4>
+                    <p className="text-xs text-gray-500">
+                      Core values guiding group size, traveller vetting, and respect
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddPillar}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0E5A60] hover:text-[#061C29] bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer shadow-2xs"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Pillar</span>
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
-                    <span className="text-xs font-bold text-teal-800 block">Pillar 1 (Curated Groups)</span>
-                    <InputField label="Headline" value={p1.title} onChange={(e) => setP1({ ...p1, title: e.target.value })} placeholder="e.g. Curated travel groups, real connection." />
-                    <TextAreaField label="Description" value={p1.desc} onChange={(e) => setP1({ ...p1, desc: e.target.value })} rows={2} />
+                {pillars.length === 0 ? (
+                  <div
+                    onClick={handleAddPillar}
+                    className="p-8 rounded-2xl bg-gray-50/70 border border-dashed border-gray-200 text-center text-xs text-gray-400 cursor-pointer hover:bg-gray-100/70 hover:border-gray-300 transition-all flex flex-col items-center justify-center gap-2"
+                  >
+                    <Plus className="w-5 h-5 text-gray-400" />
+                    <span>No pillars added yet. Click to add your first pillar.</span>
                   </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {pillars.map((pillar, idx) => (
+                      <div
+                        key={idx}
+                        className="p-5 bg-gray-50/70 hover:bg-gray-50 rounded-2xl border border-gray-200/80 space-y-3 relative transition-all group"
+                      >
+                        <div className="flex items-center justify-between border-b border-gray-200/60 pb-2">
+                          <span className="text-xs font-bold text-[#0E5A60] flex items-center gap-2">
+                            <span className="w-5 h-5 rounded-full bg-[#0E5A60]/10 flex items-center justify-center text-[10px] font-black">
+                              {idx + 1}
+                            </span>
+                            Pillar #{idx + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemovePillar(idx)}
+                            className="p-1 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
+                            title="Delete Pillar"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
 
-                  <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
-                    <span className="text-xs font-bold text-teal-800 block">Pillar 2 (People & Place)</span>
-                    <InputField label="Headline" value={p2.title} onChange={(e) => setP2({ ...p2, title: e.target.value })} placeholder="e.g. The people matter as much as the place." />
-                    <TextAreaField label="Description" value={p2.desc} onChange={(e) => setP2({ ...p2, desc: e.target.value })} rows={2} />
-                  </div>
+                        <InputField
+                          label="Headline"
+                          value={pillar.title}
+                          onChange={(e) => handleUpdatePillar(idx, "title", e.target.value)}
+                          placeholder="e.g. Curated travel groups, real connection."
+                        />
 
-                  <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
-                    <span className="text-xs font-bold text-teal-800 block">Pillar 3 (Pre-Trip Trust)</span>
-                    <InputField label="Headline" value={p3.title} onChange={(e) => setP3({ ...p3, title: e.target.value })} placeholder="e.g. Trust is earned before the trip starts." />
-                    <TextAreaField label="Description" value={p3.desc} onChange={(e) => setP3({ ...p3, desc: e.target.value })} rows={2} />
+                        <TextAreaField
+                          label="Description"
+                          value={pillar.desc}
+                          onChange={(e) => handleUpdatePillar(idx, "desc", e.target.value)}
+                          placeholder="Write pillar description..."
+                          rows={3}
+                        />
+                      </div>
+                    ))}
                   </div>
-
-                  <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
-                    <span className="text-xs font-bold text-teal-800 block">Pillar 4 (Respect)</span>
-                    <InputField label="Headline" value={p4.title} onChange={(e) => setP4({ ...p4, title: e.target.value })} placeholder="e.g. Respect is non-negotiable." />
-                    <TextAreaField label="Description" value={p4.desc} onChange={(e) => setP4({ ...p4, desc: e.target.value })} rows={2} />
-                  </div>
-
-                  <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2 md:col-span-2">
-                    <span className="text-xs font-bold text-teal-800 block">Pillar 5 (No Compromises)</span>
-                    <InputField label="Headline" value={p5.title} onChange={(e) => setP5({ ...p5, title: e.target.value })} placeholder="e.g. We won't compromise your experience to fill a seat." />
-                    <TextAreaField label="Description" value={p5.desc} onChange={(e) => setP5({ ...p5, desc: e.target.value })} rows={2} />
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Right Visual Stack & Footer Tag */}

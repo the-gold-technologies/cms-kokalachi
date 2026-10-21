@@ -790,10 +790,7 @@ async function main() {
             founderTitle: "Co-Founders, Kokalachi ♡",
             founderPhoto: "/founders.png",
             leadQuote: "Kokalachi is one of them.",
-            storyParagraph1: "We've been friends for over 35 years through countless conversations, road trips, family holidays, and adventures along the way. And somewhere in all of it, we noticed the same thing, again and again: the destination was rarely what stayed with us. It was always the people we shared it with.",
-            storyParagraph2: "Hitesh has spent 28 years in the travel industry, designing holidays and helping thousands of travellers explore the world. Rachit has spent his own years chasing curiosity hiking mountains, riding scenic highways, chasing adventure sports, and finding the hidden stays most travellers never discover.",
-            storyParagraph3: "Between the two of us, one thing became clear travel isn't just about seeing new places. It's about finding the people who make those places unforgettable.",
-            storyParagraph4: "That's why we built Kokalachi. Not as another travel company but as a community where meaningful journeys begin with meaningful people.",
+            story: "We've been friends for over 35 years through countless conversations, road trips, family holidays, and adventures along the way. And somewhere in all of it, we noticed the same thing, again and again: the destination was rarely what stayed with us. It was always the people we shared it with.\n\nHitesh has spent 28 years in the travel industry, designing holidays and helping thousands of travellers explore the world. Rachit has spent his own years chasing curiosity hiking mountains, riding scenic highways, chasing adventure sports, and finding the hidden stays most travellers never discover.\n\nBetween the two of us, one thing became clear travel isn't just about seeing new places. It's about finding the people who make those places unforgettable.\n\nThat's why we built Kokalachi. Not as another travel company but as a community where meaningful journeys begin with meaningful people.",
             closingNote: "We hope you'll join us on one."
           }
         },

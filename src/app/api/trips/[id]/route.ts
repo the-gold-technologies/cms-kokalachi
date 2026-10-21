@@ -104,13 +104,55 @@ export async function PUT(
       }
     }
 
+    // Safely resolve / auto-create destination so foreign key constraint never fails
+    let validDestSlug: string | null = existingTrip.destinationSlug;
+    if (destinationSlug !== undefined) {
+      if (!destinationSlug || typeof destinationSlug !== "string" || destinationSlug.trim() === "") {
+        validDestSlug = null;
+      } else {
+        const cleanDestSlug = destinationSlug
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)+/g, "");
+
+        if (cleanDestSlug) {
+          const existingDest = await prisma.destination.findUnique({
+            where: { slug: cleanDestSlug },
+          });
+
+          if (existingDest) {
+            validDestSlug = existingDest.slug;
+          } else {
+            const destName = destinationSlug
+              .split(/[-_\s]+/)
+              .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+              .join(" ");
+
+            try {
+              const newDest = await prisma.destination.create({
+                data: {
+                  name: destName || "Destination",
+                  slug: cleanDestSlug,
+                  isFeatured: true,
+                },
+              });
+              validDestSlug = newDest.slug;
+            } catch {
+              validDestSlug = null;
+            }
+          }
+        }
+      }
+    }
+
     const updated = await prisma.trip.update({
       where: { id: existingTrip.id },
       data: {
         title: title !== undefined ? title : existingTrip.title,
         slug: slug !== undefined ? slug : existingTrip.slug,
         subtitle: subtitle !== undefined ? subtitle : existingTrip.subtitle,
-        destinationSlug: destinationSlug !== undefined ? destinationSlug : existingTrip.destinationSlug,
+        destinationSlug: validDestSlug,
         location: location !== undefined ? location : existingTrip.location,
         duration: duration !== undefined ? duration : existingTrip.duration,
         rating: typeof rating === "number" ? rating : existingTrip.rating,

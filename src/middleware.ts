@@ -40,9 +40,9 @@ export default auth((req) => {
 
   // 2. Auth Routes & Public Pages
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
-  const isPublicRoute = ["/login", "/register", "/robots.txt", "/sitemap.xml"].includes(
-    nextUrl.pathname,
-  );
+  const isPublicRoute =
+    ["/login", "/register", "/robots.txt", "/sitemap.xml"].includes(nextUrl.pathname) ||
+    nextUrl.pathname.startsWith("/templates/");
 
   if (isApiAuthRoute) return NextResponse.next();
 
@@ -68,6 +68,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    "/((?!_next/static|_next/image|favicon.ico|templates/).*)",
   ],
 };

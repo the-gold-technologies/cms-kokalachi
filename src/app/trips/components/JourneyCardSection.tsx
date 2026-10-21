@@ -186,7 +186,7 @@ export function JourneyCardSection({
                 <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                   <span>URL Slug</span>
                   <span className="text-[10px] font-semibold text-[#0E5A60] bg-[#0E5A60]/10 px-2 py-0.5 rounded-full normal-case">
-                    Auto-generated
+                    Auto / Editable
                   </span>
                 </label>
                 <button
@@ -209,19 +209,20 @@ export function JourneyCardSection({
                 </button>
               </div>
               <div className="relative w-full">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-mono select-none">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-mono select-none pointer-events-none">
                   /journeys/
                 </div>
                 <input
                   type="text"
                   value={slug}
-                  readOnly
-                  placeholder="auto-generated-from-title"
-                  className="w-full pl-24 pr-5 py-3.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-xs sm:text-sm font-mono text-gray-600 focus:outline-none cursor-not-allowed select-all"
+                  onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
+                  placeholder="custom-or-auto-slug"
+                  className="w-full pl-24 pr-5 py-3.5 bg-white border border-gray-200 rounded-2xl text-xs sm:text-sm font-mono text-gray-800 focus:outline-none focus:border-[#0E5A60] focus:ring-2 focus:ring-[#0E5A60]/15 transition-all"
+                  required
                 />
               </div>
               <span className="text-[11px] text-gray-400 ml-4">
-                Live URL path for this journey on the website.
+                Auto-generated from title, or type freely to customize.
               </span>
             </div>
           </div>

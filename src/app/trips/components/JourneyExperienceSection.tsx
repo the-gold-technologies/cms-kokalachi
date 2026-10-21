@@ -23,6 +23,32 @@ interface ItineraryDay {
   image?: string;
 }
 
+function formatOverviewForEditor(overview: any): string {
+  if (!overview) return "";
+  if (typeof overview === "string") return overview;
+  if (!Array.isArray(overview)) return "";
+
+  let result = "";
+  for (let i = 0; i < overview.length; i++) {
+    const line = String(overview[i] || "").trim();
+    if (!line) continue;
+    if (i === 0) {
+      result += line;
+    } else {
+      const prevLine = String(overview[i - 1] || "").trim();
+      const isCurrentBullet = line.startsWith("•") || line.startsWith("-");
+      const isPrevBullet = prevLine.startsWith("•") || prevLine.startsWith("-");
+
+      if (isCurrentBullet && isPrevBullet) {
+        result += "\n" + line;
+      } else {
+        result += "\n\n" + line;
+      }
+    }
+  }
+  return result;
+}
+
 export function JourneyExperienceSection({
   tripId,
   initialData,
@@ -37,13 +63,13 @@ export function JourneyExperienceSection({
   const [saved, setSaved] = useState(false);
 
   // Clean empty state (ZERO default mock data)
-  const [overview, setOverview] = useState<string[]>([]);
+  const [overviewText, setOverviewText] = useState("");
   const [highlights, setHighlights] = useState<HighlightItem[]>([]);
   const [itinerary, setItinerary] = useState<ItineraryDay[]>([]);
 
   useEffect(() => {
     if (initialData) {
-      setOverview(Array.isArray(initialData.overview) ? initialData.overview : []);
+      setOverviewText(formatOverviewForEditor(initialData.overview));
       setHighlights(
         Array.isArray(initialData.highlights)
           ? initialData.highlights.map((h: any) => ({
@@ -67,26 +93,9 @@ export function JourneyExperienceSection({
     }
   }, [initialData]);
 
-  // Overview handlers
-  const handleAddOverviewParagraph = () => {
-    setOverview((prev) => [...prev, ""]);
-  };
-
-  const handleUpdateOverview = (idx: number, val: string) => {
-    setOverview((prev) => {
-      const copy = [...prev];
-      copy[idx] = val;
-      return copy;
-    });
-  };
-
-  const handleRemoveOverview = (idx: number) => {
-    setOverview((prev) => prev.filter((_, i) => i !== idx));
-  };
-
-  // Highlights handlers
+  // Highlight Handlers
   const handleAddHighlight = () => {
-    setHighlights((prev) => [...prev, { icon: "Sparkles", title: "", description: "" }]);
+    setHighlights((prev) => [...prev, { icon: "✨", title: "", description: "" }]);
   };
 
   const handleUpdateHighlight = (idx: number, field: keyof HighlightItem, val: string) => {
@@ -101,12 +110,13 @@ export function JourneyExperienceSection({
     setHighlights((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  // Itinerary handlers
+  // Itinerary Handlers
   const handleAddDay = () => {
+    const nextDayNum = itinerary.length + 1;
     setItinerary((prev) => [
       ...prev,
       {
-        day: `Day ${prev.length + 1}`,
+        day: `Day ${nextDayNum}`,
         title: "",
         journey: "",
         community: "",
@@ -131,8 +141,13 @@ export function JourneyExperienceSection({
     setLoading(true);
     setSaved(false);
     try {
+      const overviewArray = overviewText
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+
       const payload = {
-        overview: overview.filter((p) => p.trim() !== ""),
+        overview: overviewArray,
         highlights: highlights.filter((h) => h.title.trim() !== ""),
         itinerary: itinerary.filter((d) => d.day.trim() !== "" || d.title.trim() !== ""),
       };
@@ -176,40 +191,26 @@ export function JourneyExperienceSection({
           }}
           className="mt-6 flex flex-col gap-8"
         >
-          {/* Part A: Overview Paragraphs */}
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between pb-2 border-b border-gray-100">
-              <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-[#0E5A60]" /> Experience Overview Paragraphs ({overview.length})
+          {/* Part A: Overview Narrative (Single Textarea) */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between pb-2 border-b border-gray-100 flex-wrap gap-2">
+              <span className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-[#0E5A60]" /> Experience Overview Narrative
               </span>
-              <button
-                type="button"
-                onClick={handleAddOverviewParagraph}
-                className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add Paragraph
-              </button>
+              <span className="text-[11px] text-gray-400 font-medium">
+                Press Enter to add line breaks and paragraph spacing
+              </span>
             </div>
 
-            {overview.map((para, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <TextAreaField
-                  label={`Paragraph #${idx + 1}`}
-                  value={para}
-                  onChange={(e) => handleUpdateOverview(idx, e.target.value)}
-                  rows={3}
-                  placeholder="Enter storytelling paragraph describing this curated journey..."
-                  containerClassName="flex-1"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveOverview(idx)}
-                  className="mt-8 p-2 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
+            <TextAreaField
+              label="Overview Narrative & Bullet Points"
+              value={overviewText}
+              onChange={(e) => setOverviewText(e.target.value)}
+              rows={9}
+              placeholder="Write the storytelling narrative for this journey...&#10;&#10;Here's what the journey holds:&#10;• Begin in Srinagar with a scenic drive...&#10;• Settle into a riverside stay in Pahalgam...&#10;• Trek toward Aru Valley and Betaab Valley..."
+              tooltip="Write your narrative here. Lines starting with • or - will automatically render as bullet points on the website. Empty lines create paragraph breaks."
+              helperText="Lines starting with • or - format as bullets; blank lines separate paragraphs."
+            />
           </div>
 
           {/* Part B: Highlights */}
@@ -221,46 +222,63 @@ export function JourneyExperienceSection({
               <button
                 type="button"
                 onClick={handleAddHighlight}
-                className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
+                className="text-xs font-bold text-[#D96C2C] hover:text-[#b85419] flex items-center gap-1 bg-[#D96C2C]/10 hover:bg-[#D96C2C]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" /> Add Highlight
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {highlights.map((hl, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-3 relative"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
-                      Highlight #{idx + 1}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveHighlight(idx)}
-                      className="p-1 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+            {highlights.length === 0 ? (
+              <div className="py-6 text-center text-gray-400 text-xs bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                No key highlights added yet. Click &ldquo;Add Highlight&rdquo; to showcase iconic experiences.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {highlights.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-3 relative"
+                  >
+                    <div className="flex items-center justify-between border-b border-gray-200/60 pb-2">
+                      <span className="text-xs font-bold text-gray-600">Highlight #{idx + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveHighlight(idx)}
+                        className="p-1 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-4 gap-3">
+                      <InputField
+                        label="Emoji / Icon"
+                        value={item.icon ?? ""}
+                        onChange={(e) => handleUpdateHighlight(idx, "icon", e.target.value)}
+                        placeholder="✨"
+                        containerClassName="col-span-1"
+                      />
+                      <InputField
+                        label="Title *"
+                        value={item.title}
+                        onChange={(e) => handleUpdateHighlight(idx, "title", e.target.value)}
+                        placeholder="e.g. Living-Root Bridges"
+                        containerClassName="col-span-3"
+                        required
+                      />
+                    </div>
+
+                    <TextAreaField
+                      label="Description"
+                      value={item.description}
+                      onChange={(e) => handleUpdateHighlight(idx, "description", e.target.value)}
+                      placeholder="e.g. Hike through deep sub-tropical canyons..."
+                      rows={2}
+                    />
                   </div>
-                  <InputField
-                    label="Highlight Title"
-                    value={hl.title}
-                    onChange={(e) => handleUpdateHighlight(idx, "title", e.target.value)}
-                    placeholder="e.g. Floating Market Shikara"
-                  />
-                  <TextAreaField
-                    label="Short Description"
-                    value={hl.description}
-                    onChange={(e) => handleUpdateHighlight(idx, "description", e.target.value)}
-                    rows={2}
-                    placeholder="Wake before dawn to witness Dal Lake's historic wholesale floating bazaar..."
-                  />
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Part C: Day-by-Day Itinerary */}
@@ -278,70 +296,77 @@ export function JourneyExperienceSection({
               </button>
             </div>
 
-            <div className="flex flex-col gap-6">
-              {itinerary.map((dayItem, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 bg-gray-50/70 rounded-3xl border border-gray-100 flex flex-col gap-4 relative"
-                >
-                  <div className="flex items-center justify-between border-b border-gray-200/60 pb-3">
-                    <span className="text-sm font-bold text-[#0E5A60] flex items-center gap-2">
-                      <span className="w-7 h-7 rounded-full bg-[#0E5A60] text-white flex items-center justify-center text-xs font-black">
-                        {idx + 1}
-                      </span>
-                      {dayItem.day ? dayItem.day : `Day ${idx + 1}`}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveDay(idx)}
-                      className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                      title="Remove Day"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+            {itinerary.length === 0 ? (
+              <div className="py-8 text-center text-gray-400 text-xs bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                No itinerary days added yet. Click &ldquo;Add Day&rdquo; to build your daily schedule.
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {itinerary.map((day, idx) => (
+                  <div
+                    key={idx}
+                    className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-4"
+                  >
+                    <div className="flex items-center justify-between border-b border-gray-200/60 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="w-6 h-6 rounded-full bg-[#0E5A60]/10 text-[#0E5A60] text-xs font-bold flex items-center justify-center">
+                          {idx + 1}
+                        </span>
+                        <span className="text-xs font-bold text-gray-800">
+                          {day.day || `Day ${idx + 1}`}: {day.title || "Untitled Day"}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveDay(idx)}
+                        className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <InputField
-                      label="Day Label"
-                      value={dayItem.day}
-                      onChange={(e) => handleUpdateDay(idx, "day", e.target.value)}
-                      placeholder="e.g. Day 1"
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <InputField
+                        label="Day Label *"
+                        value={day.day}
+                        onChange={(e) => handleUpdateDay(idx, "day", e.target.value)}
+                        placeholder="e.g. Day 1"
+                        required
+                      />
+                      <InputField
+                        label="Day Title *"
+                        value={day.title}
+                        onChange={(e) => handleUpdateDay(idx, "title", e.target.value)}
+                        placeholder="e.g. Arrival in the Meadow of Gold"
+                        containerClassName="sm:col-span-2"
+                        required
+                      />
+                    </div>
+
+                    <TextAreaField
+                      label="Day Experience & Activities Narrative"
+                      value={day.journey}
+                      onChange={(e) => handleUpdateDay(idx, "journey", e.target.value)}
+                      placeholder="Describe the day's journey, sights, meals, and adventures..."
+                      rows={3}
                     />
-                    <InputField
-                      label="Day Title"
-                      value={dayItem.title}
-                      onChange={(e) => handleUpdateDay(idx, "title", e.target.value)}
-                      placeholder="e.g. Arrival in Srinagar & Sunset Shikara Ride"
-                      containerClassName="sm:col-span-2"
-                    />
-                  </div>
 
-                  <TextAreaField
-                    label="What Happens on this Day (Journey Narrative)"
-                    value={dayItem.journey}
-                    onChange={(e) => handleUpdateDay(idx, "journey", e.target.value)}
-                    rows={3}
-                    placeholder="Arrive at Srinagar airport where your tribe curator meets you..."
-                  />
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
-                      label="Community & Local Connection"
-                      value={dayItem.community}
+                      label="Community & Friendship Connection"
+                      value={day.community}
                       onChange={(e) => handleUpdateDay(idx, "community", e.target.value)}
-                      placeholder="e.g. Hosted by Bashir Ahmed, 3rd-generation houseboat keeper"
+                      placeholder="e.g. Evening icebreaker tea circle by the stream"
                     />
+
                     <ImagePickerField
-                      label="Optional Day Photo URL"
-                      value={dayItem.image ?? ""}
-                      onChange={(val) => handleUpdateDay(idx, "image", val)}
-                      placeholder="https://..."
+                      label="Day Photo (Optional)"
+                      value={day.image ?? ""}
+                      onChange={(url) => handleUpdateDay(idx, "image", url)}
                     />
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Full-width Standard Save Button */}

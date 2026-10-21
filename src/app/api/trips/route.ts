@@ -95,12 +95,51 @@ export async function POST(request: Request) {
       );
     }
 
+    // Safely resolve / auto-create destination so foreign key constraint never fails
+    let validDestSlug: string | null = null;
+    if (destinationSlug && typeof destinationSlug === "string" && destinationSlug.trim() !== "") {
+      const cleanDestSlug = destinationSlug
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)+/g, "");
+
+      if (cleanDestSlug) {
+        const existingDest = await prisma.destination.findUnique({
+          where: { slug: cleanDestSlug },
+        });
+
+        if (existingDest) {
+          validDestSlug = existingDest.slug;
+        } else {
+          // Auto-create destination for new locations
+          const destName = destinationSlug
+            .split(/[-_\s]+/)
+            .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+            .join(" ");
+
+          try {
+            const newDest = await prisma.destination.create({
+              data: {
+                name: destName || "Destination",
+                slug: cleanDestSlug,
+                isFeatured: true,
+              },
+            });
+            validDestSlug = newDest.slug;
+          } catch {
+            validDestSlug = null;
+          }
+        }
+      }
+    }
+
     const trip = await prisma.trip.create({
       data: {
         title,
         slug,
         subtitle: subtitle ?? null,
-        destinationSlug: destinationSlug ?? null,
+        destinationSlug: validDestSlug,
         location: location ?? "",
         duration: duration ?? "",
         rating: typeof rating === "number" ? rating : 5.0,

@@ -26,7 +26,10 @@ import {
   Luggage,
   CloudSun,
   ShieldCheck,
+  UploadCloud,
 } from "lucide-react";
+import { ImportJourneyDocModal } from "../components/ImportJourneyDocModal";
+import { ParsedJourneyDoc } from "@/lib/journeyDocParser";
 import toast from "react-hot-toast";
 
 interface DepartureItem {
@@ -92,7 +95,7 @@ export default function CreateFullJourneyPage() {
   const [departures, setDepartures] = useState<DepartureItem[]>([]);
 
   // 3. Experience State
-  const [overview, setOverview] = useState<string[]>([]);
+  const [overviewText, setOverviewText] = useState("");
   const [highlights, setHighlights] = useState<HighlightItem[]>([]);
   const [itinerary, setItinerary] = useState<ItineraryDay[]>([]);
 
@@ -111,6 +114,93 @@ export default function CreateFullJourneyPage() {
   const [metaDescription, setMetaDescription] = useState("");
   const [targetKeywords, setTargetKeywords] = useState("");
   const [noIndex, setNoIndex] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+
+  const handleApplyDoc = (data: ParsedJourneyDoc) => {
+    if (data.title) setTitle(data.title);
+    if (data.slug) setSlug(data.slug);
+    else if (data.title) setSlug(generateSlug(data.title));
+
+    if (data.subtitle !== undefined) setSubtitle(data.subtitle);
+    if (data.destinationSlug !== undefined) setDestinationSlug(data.destinationSlug);
+    if (data.location !== undefined) setLocation(data.location);
+    if (data.duration !== undefined) setDuration(data.duration);
+    if (data.groupSize !== undefined) setGroupSize(data.groupSize);
+    if (data.rating !== undefined) setRating(String(data.rating));
+    if (data.price !== undefined) setPrice(String(data.price));
+    if (data.originalPrice !== undefined) setOriginalPrice(String(data.originalPrice));
+    if (data.gstAmount !== undefined) setGstAmount(String(data.gstAmount));
+    if (data.category) setCategory(data.category);
+    if (data.tag !== undefined) setTag(data.tag);
+    if (data.hook !== undefined) setHook(data.hook);
+    if (data.image) setImage(data.image);
+    if (Array.isArray(data.gallery) && data.gallery.length > 0) setGallery(data.gallery);
+    if (Array.isArray(data.vibeTags) && data.vibeTags.length > 0) setVibeTags(data.vibeTags);
+
+    if (Array.isArray(data.departures) && data.departures.length > 0) {
+      setDepartures(
+        data.departures.map((d) => ({
+          startDate: d.startDate || "",
+          endDate: d.endDate || "",
+          price: d.price != null ? String(d.price) : "",
+          originalPrice: d.originalPrice != null ? String(d.originalPrice) : "",
+          spotsLeft: String(d.spotsLeft ?? 10),
+          status: (d.status as any) || "open",
+          label: d.label || "",
+          note: d.note || "",
+        }))
+      );
+    }
+
+    if (data.overviewText) {
+      setOverviewText(data.overviewText);
+    } else if (Array.isArray(data.overview) && data.overview.length > 0) {
+      setOverviewText(data.overview.join("\n\n"));
+    }
+
+    if (Array.isArray(data.highlights) && data.highlights.length > 0) {
+      setHighlights(
+        data.highlights.map((h) => ({
+          icon: h.icon || "Sparkles",
+          title: h.title || "",
+          description: h.description || "",
+        }))
+      );
+    }
+
+    if (Array.isArray(data.itinerary) && data.itinerary.length > 0) {
+      setItinerary(
+        data.itinerary.map((it) => ({
+          day: it.day || "",
+          title: it.title || "",
+          journey: it.journey || "",
+          community: it.community || "",
+          image: it.image || "",
+        }))
+      );
+    }
+
+    if (Array.isArray(data.inclusions) && data.inclusions.length > 0) setInclusions(data.inclusions);
+    if (Array.isArray(data.exclusions) && data.exclusions.length > 0) setExclusions(data.exclusions);
+    if (Array.isArray(data.meals) && data.meals.length > 0) setMeals(data.meals);
+    if (Array.isArray(data.whatToPack) && data.whatToPack.length > 0) setWhatToPack(data.whatToPack);
+    if (Array.isArray(data.weather) && data.weather.length > 0) setWeather(data.weather);
+
+    if (Array.isArray(data.faqs) && data.faqs.length > 0) {
+      setFaqs(
+        data.faqs.map((f) => ({
+          question: f.question || "",
+          answer: f.answer || "",
+        }))
+      );
+    }
+
+    if (data.metaTitle !== undefined) setMetaTitle(data.metaTitle);
+    if (data.metaDescription !== undefined) setMetaDescription(data.metaDescription);
+    if (data.targetKeywords !== undefined) setTargetKeywords(data.targetKeywords);
+
+    toast.success("All 6 sections pre-filled from document!");
+  };
 
   // Load vibe categories from API
   useEffect(() => {
@@ -174,16 +264,7 @@ export default function CreateFullJourneyPage() {
     setDepartures((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  // Overview Handlers
-  const handleAddOverviewParagraph = () => setOverview((prev) => [...prev, ""]);
-  const handleUpdateOverview = (idx: number, val: string) => {
-    setOverview((prev) => {
-      const copy = [...prev];
-      copy[idx] = val;
-      return copy;
-    });
-  };
-  const handleRemoveOverview = (idx: number) => setOverview((prev) => prev.filter((_, i) => i !== idx));
+  // Overview handled via single overviewText textarea
 
   // Highlights Handlers
   const handleAddHighlight = () => setHighlights((prev) => [...prev, { icon: "Sparkles", title: "", description: "" }]);
@@ -280,7 +361,7 @@ export default function CreateFullJourneyPage() {
             label: d.label && d.label.trim() !== "" ? d.label : null,
             note: d.note && d.note.trim() !== "" ? d.note : null,
           })),
-        overview: overview.filter((p) => p.trim() !== ""),
+        overview: overviewText.split("\n").map((l) => l.trim()).filter(Boolean),
         highlights: highlights.filter((h) => h.title.trim() !== ""),
         itinerary: itinerary.filter((d) => d.day.trim() !== "" || d.title.trim() !== ""),
         inclusions,
@@ -334,6 +415,35 @@ export default function CreateFullJourneyPage() {
         />
       </div>
 
+      {/* Quick Import Action Card */}
+      <div className="bg-gradient-to-r from-[#0E5A60]/10 via-[#FAF4EC] to-white rounded-3xl p-6 sm:p-7 border border-[#0E5A60]/20 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+        <div className="flex items-start sm:items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#0E5A60] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#0E5A60]/20">
+            <UploadCloud className="w-6 h-6" />
+          </div>
+          <div className="flex flex-col gap-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="text-base font-bold text-gray-900">Import Journey from Document</h3>
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-[#0E5A60] text-white px-2.5 py-0.5 rounded-full">
+                JSON &amp; Markdown
+              </span>
+            </div>
+            <p className="text-xs text-gray-600 max-w-2xl leading-relaxed">
+              Upload a .json or .md file (or paste its content) to automatically pre-fill all 6 sections: itinerary, highlights, meals, inclusions, packing checklist, weather, FAQs, departures &amp; images.
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setIsImportModalOpen(true)}
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#0E5A60] hover:bg-[#0E5A60]/90 text-white text-xs font-bold transition-all shadow-md shadow-[#0E5A60]/20 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap shrink-0"
+        >
+          <Sparkles className="w-4 h-4 text-[#D96C2C]" />
+          Import from Document
+        </button>
+      </div>
+
       {/* Section 1: Card & Core Details */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm flex flex-col gap-6">
         <SectionHeader
@@ -350,26 +460,45 @@ export default function CreateFullJourneyPage() {
             required
           />
           <div className="flex flex-col gap-1.5 px-0.5">
-            <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4 flex items-center justify-between">
-              <span>URL Slug</span>
-              <span className="text-[10px] font-semibold text-[#0E5A60] bg-[#0E5A60]/10 px-2 py-0.5 rounded-full normal-case">
-                Auto-generated
-              </span>
-            </label>
+            <div className="flex items-center justify-between ml-4">
+              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                <span>URL Slug *</span>
+                <span className="text-[10px] font-semibold text-[#0E5A60] bg-[#0E5A60]/10 px-2 py-0.5 rounded-full normal-case">
+                  Auto / Editable
+                </span>
+              </label>
+              <button
+                type="button"
+                onClick={() => {
+                  if (title) {
+                    const generated = generateSlug(title);
+                    setSlug(generated);
+                    toast.success("Slug generated from title!");
+                  } else {
+                    toast.error("Please enter a title first");
+                  }
+                }}
+                className="text-[11px] font-semibold text-[#0E5A60] hover:underline cursor-pointer"
+                title="Regenerate slug from current title"
+              >
+                Sync with Title
+              </button>
+            </div>
             <div className="relative w-full">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-mono select-none">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-mono select-none pointer-events-none">
                 /journeys/
               </div>
               <input
                 type="text"
                 value={slug}
-                readOnly
-                placeholder="auto-generated-from-title"
-                className="w-full pl-24 pr-5 py-3.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-xs sm:text-sm font-mono text-gray-600 focus:outline-none cursor-not-allowed select-all"
+                onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
+                placeholder="custom-or-auto-slug"
+                className="w-full pl-24 pr-5 py-3.5 bg-white border border-gray-200 rounded-2xl text-xs sm:text-sm font-mono text-gray-800 focus:outline-none focus:border-[#0E5A60] focus:ring-2 focus:ring-[#0E5A60]/15 transition-all"
+                required
               />
             </div>
             <span className="text-[11px] text-gray-400 ml-4">
-              Generated automatically from the title above.
+              Auto-generated from title, or type freely to customize.
             </span>
           </div>
         </div>
@@ -662,40 +791,26 @@ export default function CreateFullJourneyPage() {
           description="Narrative overview, key trip highlights, and day-by-day itinerary with community host connections."
         />
 
-        {/* Overview Paragraphs */}
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between pb-2 border-b border-gray-100">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-[#0E5A60]" /> Overview Paragraphs ({overview.length})
+        {/* Overview Narrative (Single Textarea) */}
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between pb-2 border-b border-gray-100 flex-wrap gap-2">
+            <span className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+              <BookOpen className="w-3.5 h-3.5 text-[#0E5A60]" /> Experience Overview Narrative
             </span>
-            <button
-              type="button"
-              onClick={handleAddOverviewParagraph}
-              className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add Paragraph
-            </button>
+            <span className="text-[11px] text-gray-400 font-medium">
+              Press Enter to add line breaks and paragraph spacing
+            </span>
           </div>
 
-          {overview.map((para, idx) => (
-            <div key={idx} className="flex items-start gap-3">
-              <TextAreaField
-                label={`Paragraph #${idx + 1}`}
-                value={para}
-                onChange={(e) => handleUpdateOverview(idx, e.target.value)}
-                rows={3}
-                placeholder="Storytelling paragraph describing this curated journey..."
-                containerClassName="flex-1"
-              />
-              <button
-                type="button"
-                onClick={() => handleRemoveOverview(idx)}
-                className="mt-8 p-2 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
+          <TextAreaField
+            label="Overview Narrative & Bullet Points"
+            value={overviewText}
+            onChange={(e) => setOverviewText(e.target.value)}
+            rows={9}
+            placeholder="Write the storytelling narrative for this journey...&#10;&#10;Here's what the journey holds:&#10;• Begin in Srinagar with a scenic drive...&#10;• Settle into a riverside stay in Pahalgam...&#10;• Trek toward Aru Valley and Betaab Valley..."
+            tooltip="Write your narrative here. Lines starting with • or - will automatically render as bullet points on the website. Empty lines create paragraph breaks."
+            helperText="Lines starting with • or - format as bullets; blank lines separate paragraphs."
+          />
         </div>
 
         {/* Highlights */}
@@ -1013,6 +1128,12 @@ export default function CreateFullJourneyPage() {
           onClick={handleSaveJourney}
         />
       </div>
+
+      <ImportJourneyDocModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onApply={handleApplyDoc}
+      />
     </div>
   );
 }

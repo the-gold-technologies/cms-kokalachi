@@ -18,10 +18,12 @@ interface MeetFounderContent {
   founderTitle: string;
   founderPhoto: string;
   leadQuote: string;
-  storyParagraph1: string;
-  storyParagraph2: string;
-  storyParagraph3: string;
-  storyParagraph4: string;
+  story?: string;
+  storyParagraphs?: string;
+  storyParagraph1?: string;
+  storyParagraph2?: string;
+  storyParagraph3?: string;
+  storyParagraph4?: string;
   closingNote: string;
 }
 
@@ -40,15 +42,12 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
   const [founderTitle, setFounderTitle] = useState("");
   const [founderPhoto, setFounderPhoto] = useState("");
   const [leadQuote, setLeadQuote] = useState("");
-  const [storyParagraph1, setStoryParagraph1] = useState("");
-  const [storyParagraph2, setStoryParagraph2] = useState("");
-  const [storyParagraph3, setStoryParagraph3] = useState("");
-  const [storyParagraph4, setStoryParagraph4] = useState("");
+  const [story, setStory] = useState("");
   const [closingNote, setClosingNote] = useState("");
 
   useEffect(() => {
     if (initialData) {
-      setTagline(initialData.tagline ?? initialData.tag ?? "");
+      setTagline(initialData.tagline ?? "");
       setHeadline(initialData.headline ?? "");
       setScriptAccent(initialData.scriptAccent ?? "");
       setBadge(initialData.badge ?? "");
@@ -58,10 +57,20 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
       setFounderPhoto(initialData.founderPhoto ?? initialData.photo ?? "");
       setLeadQuote(initialData.leadQuote ?? "");
 
-      setStoryParagraph1(initialData.storyParagraph1 ?? "");
-      setStoryParagraph2(initialData.storyParagraph2 ?? "");
-      setStoryParagraph3(initialData.storyParagraph3 ?? "");
-      setStoryParagraph4(initialData.storyParagraph4 ?? "");
+      // Use unified story field if present, otherwise join legacy paragraphs
+      const unifiedStory =
+        initialData.story ??
+        initialData.storyParagraphs ??
+        [
+          initialData.storyParagraph1,
+          initialData.storyParagraph2,
+          initialData.storyParagraph3,
+          initialData.storyParagraph4,
+        ]
+          .filter(Boolean)
+          .join("\n\n");
+
+      setStory(unifiedStory ?? "");
       setClosingNote(initialData.closingNote ?? "");
     }
   }, [initialData]);
@@ -80,10 +89,7 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
         founderTitle,
         founderPhoto,
         leadQuote,
-        storyParagraph1,
-        storyParagraph2,
-        storyParagraph3,
-        storyParagraph4,
+        story,
         closingNote,
       };
 
@@ -192,7 +198,9 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
               <div className="space-y-4 pt-2">
                 <div>
                   <h4 className="text-sm font-bold text-gray-800">Founders Story Narrative</h4>
-                  <p className="text-xs text-gray-500">The 4 conversational story paragraphs describing their 35-year journey</p>
+                  <p className="text-xs text-gray-500">
+                    Write your complete story narrative in the single box below. Press <kbd className="px-1.5 py-0.5 rounded bg-gray-100 font-mono text-[10px] text-gray-700">Enter</kbd> to add line breaks and paragraph spacing.
+                  </p>
                 </div>
 
                 <InputField
@@ -203,35 +211,12 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
                 />
 
                 <TextAreaField
-                  label="Paragraph 1 (35 Years of Friendship)"
-                  value={storyParagraph1}
-                  onChange={(e) => setStoryParagraph1(e.target.value)}
-                  placeholder="We've been friends for over 35 years through countless conversations, road trips..."
-                  rows={3}
-                />
-
-                <TextAreaField
-                  label="Paragraph 2 (Hitesh & Rachit Backgrounds)"
-                  value={storyParagraph2}
-                  onChange={(e) => setStoryParagraph2(e.target.value)}
-                  placeholder="Hitesh has spent 28 years in the travel industry... Rachit has spent his own years chasing curiosity..."
-                  rows={3}
-                />
-
-                <TextAreaField
-                  label="Paragraph 3 (Core Realization)"
-                  value={storyParagraph3}
-                  onChange={(e) => setStoryParagraph3(e.target.value)}
-                  placeholder="Between the two of us, one thing became clear travel isn't just about seeing new places..."
-                  rows={2}
-                />
-
-                <TextAreaField
-                  label="Paragraph 4 (Why Kokalachi Was Built)"
-                  value={storyParagraph4}
-                  onChange={(e) => setStoryParagraph4(e.target.value)}
-                  placeholder="That's why we built Kokalachi. Not as another travel company but as a community..."
-                  rows={2}
+                  label="Story Narrative (Multiple lines with Enter for spacing)"
+                  value={story}
+                  onChange={(e) => setStory(e.target.value)}
+                  placeholder="We've been friends for over 35 years through countless conversations, road trips, family holidays, and adventures along the way. And somewhere in all of it, we noticed the same thing, again and again: the destination was rarely what stayed with us. It was always the people we shared it with.&#10;&#10;Hitesh has spent 28 years in the travel industry, designing holidays and helping thousands of travellers explore the world. Rachit has spent his own years chasing curiosity hiking mountains, riding scenic highways, chasing adventure sports, and finding the hidden stays most travellers never discover.&#10;&#10;Between the two of us, one thing became clear travel isn't just about seeing new places. It's about finding the people who make those places unforgettable.&#10;&#10;That's why we built Kokalachi. Not as another travel company but as a community where meaningful journeys begin with meaningful people."
+                  rows={9}
+                  tooltip="Press Enter to create newlines. Blank lines between text will render as separate spaced paragraphs."
                 />
 
                 <InputField
