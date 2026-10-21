@@ -3,206 +3,233 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+export const CORE_PAGES = [
+  {
+    slug: "journeys",
+    title: "All Journeys",
+    order: 1,
+    type: "Main Page",
+    metaTitle: "All Journeys | Kokalachi - Handcrafted Slow Travel & Group Trips",
+    metaDescription:
+      "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
+    targetKeywords:
+      "all journeys, group trips, slow travel destinations, mountain treks, beach trips, kokalachi itineraries",
+    canonicalUrl: "https://kokalachi.com/journeys",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "All Journeys | Kokalachi",
+        url: "https://kokalachi.com/journeys",
+        description:
+          "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
+        publisher: {
+          "@type": "Organization",
+          name: "Kokalachi",
+          url: "https://kokalachi.com",
+        },
+      },
+      null,
+      2
+    ),
+  },
+  {
+    slug: "about",
+    title: "About Us",
+    order: 2,
+    type: "Main Page",
+    metaTitle: "About Us | Kokalachi - Our Philosophy, Story & Tribe",
+    metaDescription:
+      "Discover why Kokalachi was born: replacing crowded tourist traps with intimate human connection, slow travel, and zero-awkwardness tribe vibes.",
+    targetKeywords:
+      "about kokalachi, slow travel philosophy, zero awkwardness tribe, founder story, mindful travel",
+    canonicalUrl: "https://kokalachi.com/about",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        name: "About Kokalachi",
+        url: "https://kokalachi.com/about",
+        description:
+          "Discover why Kokalachi was born: replacing crowded tourist traps with intimate human connection.",
+        publisher: {
+          "@type": "Organization",
+          name: "Kokalachi",
+          url: "https://kokalachi.com",
+        },
+      },
+      null,
+      2
+    ),
+  },
+  {
+    slug: "contact",
+    title: "Contact Us",
+    order: 3,
+    type: "Main Page",
+    metaTitle: "Contact Us | Kokalachi - Connect With Our Travel Tribe",
+    metaDescription:
+      "Have questions or dreaming of a custom group trip? Get in touch with our team via email, WhatsApp, or instant enquiry form.",
+    targetKeywords:
+      "contact kokalachi, travel enquiry, custom group trip, trip support, plan a journey",
+    canonicalUrl: "https://kokalachi.com/contact",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        name: "Contact Kokalachi",
+        url: "https://kokalachi.com/contact",
+        description:
+          "Get in touch with our team via email, WhatsApp, or instant enquiry form.",
+        mainEntity: {
+          "@type": "ContactPoint",
+          telephone: "+919711845700",
+          email: "hello@kokalachi.com",
+          contactType: "Customer Service",
+          availableLanguage: ["English", "Hindi"],
+        },
+      },
+      null,
+      2
+    ),
+  },
+  {
+    slug: "faqs",
+    title: "FAQ Page",
+    order: 4,
+    type: "Main Page",
+    metaTitle: "FAQs | Kokalachi - Answers on Bookings, Packing & Travel Tribes",
+    metaDescription:
+      "Everything you might want to know before you join a Kokalachi journey, from how it works to what is included.",
+    targetKeywords:
+      "kokalachi faqs, group travel questions, solo travel safety, packing advice, booking policies",
+    canonicalUrl: "https://kokalachi.com/faqs",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "How do Kokalachi group journeys work?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "We curate small group journeys (typically 8–14 travellers) with pre-vetted boutique stays, local hosts, and unhurried slow-travel itineraries.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Are Kokalachi journeys solo-traveler friendly?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Absolutely! Over 70% of our travelers join solo. Our zero-awkwardness tribe design ensures you feel welcome from day one.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is included in a trip?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "All stays, internal road travel, curated local experiences, permits, dedicated trip leads, and breakfast/dinners as detailed in each itinerary.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can I request a custom group trip?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes! We design bespoke private group journeys for circles of friends, families, or corporate teams. Reach out via our contact page.",
+            },
+          },
+        ],
+      },
+      null,
+      2
+    ),
+  },
+];
+
 export async function GET() {
   try {
+    // Upsert the 4 core pages with complete metadata if missing
+    for (const core of CORE_PAGES) {
+      const existing = await prisma.page.findUnique({
+        where: { slug: core.slug },
+      });
+
+      if (!existing) {
+        await prisma.page.create({
+          data: {
+            slug: core.slug,
+            title: core.title,
+            order: core.order,
+            type: core.type,
+            metaTitle: core.metaTitle,
+            metaDescription: core.metaDescription,
+            targetKeywords: core.targetKeywords,
+            canonicalUrl: core.canonicalUrl,
+            headingOptions: core.headingOptions,
+            schema: core.schema,
+            visibility: "published",
+            isStatic: true,
+          },
+        });
+      } else {
+        await prisma.page.update({
+          where: { slug: core.slug },
+          data: {
+            title: core.title,
+            order: core.order,
+            type: core.type,
+            metaTitle: existing.metaTitle || core.metaTitle,
+            metaDescription: existing.metaDescription || core.metaDescription,
+            targetKeywords: existing.targetKeywords || core.targetKeywords,
+            canonicalUrl: existing.canonicalUrl || core.canonicalUrl,
+            headingOptions:
+              typeof existing.headingOptions === "string"
+                ? existing.headingOptions
+                : "h1",
+            schema: existing.schema || core.schema,
+          },
+        });
+      }
+    }
+
+    // Return the 4 distinct pages in order (Home is managed in Global SEO, Journeys detail in Journey editor)
     const pages = await prisma.page.findMany({
+      where: {
+        slug: { in: ["journeys", "about", "contact", "faqs"] },
+      },
       select: {
         id: true,
-        title: true,
         slug: true,
+        title: true,
         metaTitle: true,
         metaDescription: true,
-        type: true,
-        visibility: true,
-        headingOptions: true,
         order: true,
-        parent: true,
-        description: true,
-        isStatic: true,
+        type: true,
       },
       orderBy: { order: "asc" },
     });
 
-    const links = await prisma.navLink.findMany({
-      orderBy: { order: "asc" },
+    const slugOrder = ["journeys", "about", "contact", "faqs"];
+    const sorted = [...pages].sort(
+      (a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug)
+    );
+
+    return NextResponse.json({
+      success: true,
+      data: sorted,
     });
-
-    const mergedData: any[] = [];
-    const seenSlugs = new Set<string>();
-
-    // 1. Process Navigation Links first (Main Website Order: Home, About Us, Products, Events, Blogs, Contact)
-    let navIndex = 1;
-    for (const link of links) {
-      const urlMatchesSlug = (url: string, slug: string) => {
-        if (url === "/" && slug === "home") return true;
-        if ((url === "/products/industrial-oils" || url === "/products") && slug === "products")
-          return true;
-        return url === `/${slug}`;
-      };
-
-      const matchedPage = pages.find((p: any) => urlMatchesSlug(link.url, p.slug));
-      const targetSlug = matchedPage
-        ? matchedPage.slug
-        : link.url === "/"
-          ? "home"
-          : link.url.replace(/^\//, "");
-
-      const normalizedSlug = targetSlug.toLowerCase().trim();
-      if (seenSlugs.has(normalizedSlug)) {
-        continue;
-      }
-      seenSlugs.add(normalizedSlug);
-
-      const isProd = link.url === "/products" || link.label.toLowerCase().includes("product");
-      const assignedOrder = link.order !== undefined && link.order >= 0 ? link.order : navIndex++;
-
-      if (matchedPage) {
-        mergedData.push({
-          id: link.id,
-          pageId: matchedPage.id,
-          title: link.label || matchedPage.title,
-          slug: matchedPage.slug,
-          metaTitle: matchedPage.metaTitle,
-          metaDescription: matchedPage.metaDescription,
-          type: isProd ? "Dropdown" : link.type || matchedPage.type,
-          visibility: matchedPage.visibility,
-          parent: link.parent,
-          order: assignedOrder,
-          description: link.description,
-          navTitle: link.title,
-          isStatic: link.isStatic,
-          headingOptions: matchedPage.headingOptions,
-        });
-      } else {
-        mergedData.push({
-          id: link.id,
-          pageId: null as string | null,
-          title: link.label,
-          slug: targetSlug,
-          metaTitle: null as string | null,
-          metaDescription: null as string | null,
-          type: isProd ? "Dropdown" : link.type || "Main Link",
-          visibility: "published",
-          parent: link.parent,
-          order: assignedOrder,
-          description: link.description,
-          navTitle: link.title,
-          isStatic: link.isStatic,
-        });
-      }
-    }
-
-    // 2. Include Non-Navigation / Legal Pages (e.g. Privacy Policy, Terms of Service) after main nav links
-    let secondaryIndex = 50;
-    for (const page of pages) {
-      const normalizedSlug = page.slug.toLowerCase().trim();
-      if (!seenSlugs.has(normalizedSlug)) {
-        seenSlugs.add(normalizedSlug);
-        mergedData.push({
-          id: `page-${page.id}`,
-          pageId: page.id,
-          title:
-            page.title ||
-            page.slug.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase()),
-          slug: page.slug,
-          metaTitle: page.metaTitle,
-          metaDescription: page.metaDescription,
-          type: page.type === "standard" ? "Main Link" : page.type,
-          visibility: page.visibility,
-          parent: page.parent || "-",
-          order: secondaryIndex++,
-          description: page.description || `Configure SEO for ${page.title || page.slug}`,
-          navTitle: page.title,
-          isStatic: page.isStatic,
-          headingOptions: page.headingOptions,
-        });
-      }
-    }
-
-    // 3. Find Products parent ID and nest categories under Products
-    let prodParentIdx = mergedData.findIndex((m: any) => m.slug === "products");
-    let prodParentId = prodParentIdx !== -1 ? mergedData[prodParentIdx].id : "products";
-
-    const categoriesList = await prisma.productCategory.findMany({
-      orderBy: { order: "asc" },
-    });
-
-    for (const cat of categoriesList) {
-      const catSlug = `products/${cat.slug}`;
-      const existing = mergedData.find((m: any) => m.slug === catSlug);
-      if (existing) {
-        existing.parent = prodParentId;
-        existing.type = "Category";
-        existing.title = cat.name;
-        existing.order = cat.order;
-      } else {
-        const matchedPage = pages.find((p: any) => p.slug === catSlug);
-        mergedData.push({
-          id: matchedPage ? `page-${matchedPage.id}` : `cat-${cat.id}`,
-          pageId: matchedPage?.id || cat.id,
-          title: cat.name,
-          slug: catSlug,
-          metaTitle: matchedPage?.metaTitle || null,
-          metaDescription: matchedPage?.metaDescription || null,
-          type: "Category",
-          visibility: matchedPage?.visibility || "published",
-          parent: prodParentId,
-          order: cat.order,
-          description: matchedPage?.description || null,
-          navTitle: cat.name,
-          isStatic: false,
-          headingOptions: matchedPage?.headingOptions || null,
-        });
-      }
-    }
-
-    // 4. Categories are nested directly under Products without injecting individual products
-    // (Individual product SEO is managed directly in each product's add/edit form)
-
-    // 5. Automatically inject Dynamic Blog Posts from DB under Blogs parent
-    let blogParentIdx = mergedData.findIndex((m: any) => m.slug === "blogs" || m.slug === "blog");
-    let blogParentId = "blogs-seo-parent-id";
-
-    if (blogParentIdx !== -1) {
-      blogParentId = mergedData[blogParentIdx].id;
-    }
-
-    const blogPosts = await prisma.blogPost.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-
-    for (const blog of blogPosts) {
-      const blogPageSlug = `blogs/${blog.slug}`;
-      const normalizedBlogSlug = blogPageSlug.toLowerCase().trim();
-
-      if (!seenSlugs.has(normalizedBlogSlug)) {
-        seenSlugs.add(normalizedBlogSlug);
-        const matchedBlogPage = pages.find(
-          (p: any) => p.slug === blogPageSlug || p.slug === blog.slug,
-        );
-
-        mergedData.push({
-          id: `blog-post-${blog.id}`,
-          pageId: blog.id,
-          title: blog.title || "Untitled Blog",
-          slug: blogPageSlug,
-          metaTitle: matchedBlogPage?.metaTitle || blog.title,
-          metaDescription: matchedBlogPage?.metaDescription || blog.excerpt,
-          type: "Blog Article",
-          visibility: blog.isPublished ? "published" : "draft",
-          parent: blogParentId,
-          order: 0,
-          description: `SEO Configuration for blog article: "${blog.title}".`,
-          navTitle: blog.title,
-          isStatic: false,
-          headingOptions: matchedBlogPage?.headingOptions,
-        });
-      }
-    }
-
-    return NextResponse.json({ success: true, data: mergedData });
   } catch (error) {
-    console.error("Error fetching pages for SEO:", error);
-    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+    console.error("Error fetching SEO pages:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch SEO pages" },
+      { status: 500 }
+    );
   }
 }

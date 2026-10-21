@@ -60,7 +60,7 @@ const sidebarLinks: SidebarLink[] = [
     icon: Compass,
     sublinks: [
       { title: "Menu Links", href: "/navigation/menu-links" },
-      { title: "Social Media", href: "/navigation/social-media" },
+      { title: "Social Media & Footer", href: "/navigation/social-media" },
     ],
   },
   {

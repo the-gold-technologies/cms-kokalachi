@@ -21,7 +21,7 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { title: "Bookings", category: "Submissions", url: "/submissions/bookings", icon: Inbox },
   { title: "Contact Enquiries", category: "Submissions", url: "/submissions/enquiries", icon: Inbox },
   { title: "Menu Links", category: "Navigation", url: "/navigation/menu-links", icon: Compass },
-  { title: "Social Media Links", category: "Navigation", url: "/navigation/social-media", icon: Compass },
+  { title: "Social Media & Footer", category: "Navigation", url: "/navigation/social-media", icon: Compass },
   { title: "Global SEO", category: "SEO", url: "/seo/global", icon: Shield },
   { title: "Page SEO", category: "SEO", url: "/seo/pages", icon: Shield },
   { title: "Sitemap & Robots", category: "SEO", url: "/seo/sitemap-robots", icon: Shield },

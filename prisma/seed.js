@@ -33,25 +33,50 @@ async function main() {
   });
   console.log("✓ Admin user created (admin@kokalachi.com / Admin@123).");
 
-  // 2. Global Brand Configuration
+    // 2. Global Brand Configuration (Navbar, Footer, Social Media)
   await prisma.globalConfig.upsert({
     where: { id: "global" },
-    update: {},
+    update: {
+      siteTitle: "Kokalachi - Journeys Become Friendships",
+      siteDescription:
+        "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
+      logo: "/logo-clean.png",
+      phone: "+91 97118 45700",
+      email: "hello@kokalachi.com",
+      address: "91 Springboard, C-2, Sector 1, Noida - 201301",
+      instagramUrl: "https://www.instagram.com/kokalachi/",
+      facebookUrl: "https://www.facebook.com/share/1MA2Wf52Cr/?mibextid=wwXIfr",
+      youtubeUrl: "https://youtube.com/@kokalachi",
+      linkedinUrl: "",
+      socialLinks: {
+        navbarLightLogo: "/clean_logo_lighter.png",
+        footerLogo: "/logo-footer.png",
+        twitter: "",
+        whatsapp: "+91 97118 45700",
+        copyrightText: "© 2026 kokalachitravel.com",
+      },
+      robotsTxt: "User-agent: *\nAllow: /\n\nSitemap: https://kokalachi.com/sitemap.xml",
+      sitemapEnabled: true,
+    },
     create: {
       id: "global",
       siteTitle: "Kokalachi - Journeys Become Friendships",
       siteDescription:
-        "Curated group travel experiences designed to turn journeys into lasting friendships.",
-      phone: "+91 98765 43210",
+        "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
+      logo: "/logo-clean.png",
+      phone: "+91 97118 45700",
       email: "hello@kokalachi.com",
-      address: "New Delhi & Mumbai, India",
-      instagramUrl: "https://instagram.com/kokalachi",
-      facebookUrl: "https://facebook.com/kokalachi",
+      address: "91 Springboard, C-2, Sector 1, Noida - 201301",
+      instagramUrl: "https://www.instagram.com/kokalachi/",
+      facebookUrl: "https://www.facebook.com/share/1MA2Wf52Cr/?mibextid=wwXIfr",
       youtubeUrl: "https://youtube.com/@kokalachi",
+      linkedinUrl: "",
       socialLinks: {
-        instagram: "https://instagram.com/kokalachi",
-        facebook: "https://facebook.com/kokalachi",
-        youtube: "https://youtube.com/@kokalachi",
+        navbarLightLogo: "/clean_logo_lighter.png",
+        footerLogo: "/logo-footer.png",
+        twitter: "",
+        whatsapp: "+91 97118 45700",
+        copyrightText: "© 2026 kokalachitravel.com",
       },
       robotsTxt: "User-agent: *\nAllow: /\n\nSitemap: https://kokalachi.com/sitemap.xml",
       sitemapEnabled: true,
@@ -698,6 +723,32 @@ async function main() {
       title: "About Us",
       slug: "about",
       description: "Learn more about Kokalachi, our mission, vision, and team.",
+      order: 2,
+      type: "Main Page",
+      metaTitle: "About Us | Kokalachi - Our Philosophy, Story & Tribe",
+      metaDescription:
+        "Discover why Kokalachi was born: replacing crowded tourist traps with intimate human connection, slow travel, and zero-awkwardness tribe vibes.",
+      targetKeywords:
+        "about kokalachi, slow travel philosophy, zero awkwardness tribe, founder story, mindful travel",
+      canonicalUrl: "https://kokalachi.com/about",
+      headingOptions: "h1",
+      schema: JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: "About Kokalachi",
+          url: "https://kokalachi.com/about",
+          description:
+            "Discover why Kokalachi was born: replacing crowded tourist traps with intimate human connection.",
+          publisher: {
+            "@type": "Organization",
+            name: "Kokalachi",
+            url: "https://kokalachi.com",
+          },
+        },
+        null,
+        2
+      ),
       sections: [
         {
           type: "AboutHeroSection",
@@ -826,6 +877,34 @@ async function main() {
       title: "Contact Us",
       slug: "contact",
       description: "Get in touch with the Kokalachi team. Ask questions, plan a group trip, or just say hello.",
+      order: 3,
+      type: "Main Page",
+      metaTitle: "Contact Us | Kokalachi - Connect With Our Travel Tribe",
+      metaDescription:
+        "Have questions or dreaming of a custom group trip? Get in touch with our team via email, WhatsApp, or instant enquiry form.",
+      targetKeywords:
+        "contact kokalachi, travel enquiry, custom group trip, trip support, plan a journey",
+      canonicalUrl: "https://kokalachi.com/contact",
+      headingOptions: "h1",
+      schema: JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact Kokalachi",
+          url: "https://kokalachi.com/contact",
+          description:
+            "Get in touch with our team via email, WhatsApp, or instant enquiry form.",
+          mainEntity: {
+            "@type": "ContactPoint",
+            telephone: "+919711845700",
+            email: "hello@kokalachi.com",
+            contactType: "Customer Service",
+            availableLanguage: ["English", "Hindi"],
+          },
+        },
+        null,
+        2
+      ),
       sections: [
         {
           type: "ContactHeroSection",
@@ -890,6 +969,32 @@ async function main() {
       title: "All Journeys",
       slug: "journeys",
       description: "Explore our complete collection of handcrafted, slow-travel experiences.",
+      order: 1,
+      type: "Main Page",
+      metaTitle: "All Journeys | Kokalachi - Handcrafted Slow Travel & Group Trips",
+      metaDescription:
+        "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
+      targetKeywords:
+        "all journeys, group trips, slow travel destinations, mountain treks, beach trips, kokalachi itineraries",
+      canonicalUrl: "https://kokalachi.com/journeys",
+      headingOptions: "h1",
+      schema: JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "All Journeys | Kokalachi",
+          url: "https://kokalachi.com/journeys",
+          description:
+            "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
+          publisher: {
+            "@type": "Organization",
+            name: "Kokalachi",
+            url: "https://kokalachi.com",
+          },
+        },
+        null,
+        2
+      ),
       sections: [
         {
           type: "JourneysHeroSection",
@@ -921,6 +1026,74 @@ async function main() {
         }
       ]
     },
+    {
+      title: "FAQ Page",
+      slug: "faqs",
+      description: "Everything you might want to know before you join a Kokalachi journey.",
+      order: 4,
+      type: "Main Page",
+      metaTitle: "FAQs | Kokalachi - Answers on Bookings, Packing & Travel Tribes",
+      metaDescription:
+        "Everything you might want to know before you join a Kokalachi journey, from how it works to what is included.",
+      targetKeywords:
+        "kokalachi faqs, group travel questions, solo travel safety, packing advice, booking policies",
+      canonicalUrl: "https://kokalachi.com/faqs",
+      headingOptions: "h1",
+      schema: JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "How do Kokalachi group journeys work?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "We curate small group journeys (typically 8–14 travellers) with pre-vetted boutique stays, local hosts, and unhurried slow-travel itineraries.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "Are Kokalachi journeys solo-traveler friendly?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Absolutely! Over 70% of our travelers join solo. Our zero-awkwardness tribe design ensures you feel welcome from day one.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "What is included in a trip?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "All stays, internal road travel, curated local experiences, permits, dedicated trip leads, and breakfast/dinners as detailed in each itinerary.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "Can I request a custom group trip?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes! We design bespoke private group journeys for circles of friends, families, or corporate teams. Reach out via our contact page.",
+              },
+            },
+          ],
+        },
+        null,
+        2
+      ),
+      sections: [
+        {
+          type: "FaqsHeroSection",
+          order: 1,
+          content: {
+            tagline: "Got questions?",
+            title: "Questions? We've got you.",
+            description: "Everything you might want to know before you pack your bags and head out with us.",
+            bannerImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          }
+        }
+      ]
+    },
   ];
 
   for (const pageData of pagesData) {
@@ -929,6 +1102,14 @@ async function main() {
       update: {
         title: pageData.title,
         description: pageData.description,
+        order: pageData.order || 0,
+        type: pageData.type || "Main Page",
+        metaTitle: pageData.metaTitle || null,
+        metaDescription: pageData.metaDescription || null,
+        targetKeywords: pageData.targetKeywords || null,
+        canonicalUrl: pageData.canonicalUrl || null,
+        headingOptions: pageData.headingOptions || "h1",
+        schema: pageData.schema || null,
       },
       create: {
         title: pageData.title,
@@ -936,6 +1117,14 @@ async function main() {
         description: pageData.description,
         isStatic: true,
         visibility: "published",
+        order: pageData.order || 0,
+        type: pageData.type || "Main Page",
+        metaTitle: pageData.metaTitle || null,
+        metaDescription: pageData.metaDescription || null,
+        targetKeywords: pageData.targetKeywords || null,
+        canonicalUrl: pageData.canonicalUrl || null,
+        headingOptions: pageData.headingOptions || "h1",
+        schema: pageData.schema || null,
       },
     });
 
@@ -955,14 +1144,228 @@ async function main() {
   }
   console.log("✓ Static pages and 1-to-1 Component Sections seeded.");
 
-  // 7. Navigation Links
+  // 7. Navigation Links (100% matched to Kokalachi website navbar)
   const navLinksData = [
-    { label: "About Us", url: "/about", type: "Main Link", order: 1, isStatic: true },
-    { label: "Destinations", url: "/journeys", type: "Main Link", order: 2, isStatic: true },
-    { label: "Tours", url: "/#upcoming-journeys", type: "Main Link", order: 3, isStatic: true },
-    { label: "Blogs & Stories", url: "/#moments", type: "Main Link", order: 4, isStatic: true },
-    { label: "Community", url: "/#good-company", type: "Main Link", order: 5, isStatic: true },
-    { label: "Contact Us", url: "/contact", type: "Main Link", order: 6, isStatic: true },
+    {
+      id: "nav-about",
+      label: "About Us",
+      title: "ABOUT US",
+      url: "/about",
+      type: "Main Link",
+      parent: "-",
+      order: 1,
+      isStatic: true,
+      description: "Our philosophy, story, and values behind Kokalachi.",
+    },
+    {
+      id: "nav-destinations",
+      label: "Destinations",
+      title: "DESTINATIONS",
+      url: "/journeys",
+      type: "Dropdown",
+      parent: "-",
+      order: 2,
+      isStatic: true,
+      description: "Curated destinations categorized by travel vibe.",
+    },
+    {
+      id: "nav-dest-all",
+      label: "All Journeys",
+      title: "ALL JOURNEYS",
+      url: "/journeys",
+      type: "Dropdown Item",
+      parent: "nav-destinations",
+      order: 1,
+      isStatic: true,
+      description: "Browse our complete slow-travel collection.",
+    },
+    {
+      id: "nav-dest-adventure",
+      label: "Mountains & Treks",
+      title: "MOUNTAINS & TREKS",
+      url: "/journeys?category=Adventure",
+      type: "Dropdown Item",
+      parent: "nav-destinations",
+      order: 2,
+      isStatic: true,
+      description: "High altitude treks, alpine trails & pine canyons.",
+    },
+    {
+      id: "nav-dest-slow",
+      label: "Slow Travel",
+      title: "SLOW TRAVEL",
+      url: "/journeys?category=SlowTravel",
+      type: "Dropdown Item",
+      parent: "nav-destinations",
+      order: 3,
+      isStatic: true,
+      description: "Riverside cabins, tea estates & mindful living.",
+    },
+    {
+      id: "nav-dest-beach",
+      label: "Beaches & Islands",
+      title: "BEACHES & ISLANDS",
+      url: "/journeys?category=BeachEscape",
+      type: "Dropdown Item",
+      parent: "nav-destinations",
+      order: 4,
+      isStatic: true,
+      description: "Coastal sunsets, tropical waters & ocean breezes.",
+    },
+    {
+      id: "nav-dest-first",
+      label: "First-Timer Friendly",
+      title: "FIRST-TIMER FRIENDLY",
+      url: "/journeys?category=FirstTimers",
+      type: "Dropdown Item",
+      parent: "nav-destinations",
+      order: 5,
+      isStatic: true,
+      description: "Gentle introductory trips for new group travellers.",
+    },
+    {
+      id: "nav-dest-women",
+      label: "Women Only",
+      title: "WOMEN ONLY",
+      url: "/journeys?category=WomenOnly",
+      type: "Dropdown Item",
+      parent: "nav-destinations",
+      order: 6,
+      isStatic: true,
+      description: "Curated safe, empowering travel circles for women.",
+    },
+    {
+      id: "nav-tours",
+      label: "Tours",
+      title: "TOURS",
+      url: "/#upcoming-journeys",
+      type: "Dropdown",
+      parent: "-",
+      order: 3,
+      isStatic: true,
+      description: "Upcoming fixed-date departures and travel flows.",
+    },
+    {
+      id: "nav-tours-departures",
+      label: "Upcoming Departures",
+      title: "UPCOMING DEPARTURES",
+      url: "/#upcoming-journeys",
+      type: "Dropdown Item",
+      parent: "nav-tours",
+      order: 1,
+      isStatic: true,
+      description: "Handcrafted dates & itineraries for travellers.",
+    },
+    {
+      id: "nav-tours-works",
+      label: "How Kokalachi Works",
+      title: "HOW KOKALACHI WORKS",
+      url: "/#how-it-works",
+      type: "Dropdown Item",
+      parent: "nav-tours",
+      order: 2,
+      isStatic: true,
+      description: "Simple 3-step frictionless booking & travel flow.",
+    },
+    {
+      id: "nav-tours-awkward",
+      label: "Zero-Awkwardness Tribe",
+      title: "ZERO-AWKWARDNESS TRIBE",
+      url: "/about#what-we-believe",
+      type: "Dropdown Item",
+      parent: "nav-tours",
+      order: 3,
+      isStatic: true,
+      description: "Vetted, curated small groups of like-minded travellers.",
+    },
+    {
+      id: "nav-tours-custom",
+      label: "Custom Group Trips",
+      title: "CUSTOM GROUP TRIPS",
+      url: "/contact",
+      type: "Dropdown Item",
+      parent: "nav-tours",
+      order: 4,
+      isStatic: true,
+      description: "Private handcrafted journeys tailored for your circle.",
+    },
+    {
+      id: "nav-blogs",
+      label: "Blogs & Stories",
+      title: "BLOGS & STORIES",
+      url: "/#moments",
+      type: "Dropdown",
+      parent: "-",
+      order: 4,
+      isStatic: true,
+      description: "Reflections, photo diaries & travel advice.",
+    },
+    {
+      id: "nav-blogs-memoirs",
+      label: "Traveler Memoirs",
+      title: "TRAVELER MEMOIRS",
+      url: "/#moments",
+      type: "Dropdown Item",
+      parent: "nav-blogs",
+      order: 1,
+      isStatic: true,
+      description: "Unfiltered stories and reflections from past travellers.",
+    },
+    {
+      id: "nav-blogs-moments",
+      label: "Moments Captured",
+      title: "MOMENTS CAPTURED",
+      url: "/#moments",
+      type: "Dropdown Item",
+      parent: "nav-blogs",
+      order: 2,
+      isStatic: true,
+      description: "Visual memories, polaroids & community moments.",
+    },
+    {
+      id: "nav-blogs-why",
+      label: "Why We Started",
+      title: "WHY WE STARTED",
+      url: "/about#why-we-started",
+      type: "Dropdown Item",
+      parent: "nav-blogs",
+      order: 3,
+      isStatic: true,
+      description: "The founding vision & story behind our tribe.",
+    },
+    {
+      id: "nav-blogs-guides",
+      label: "Packing & Route Guides",
+      title: "PACKING & ROUTE GUIDES",
+      url: "/about#what-we-believe",
+      type: "Dropdown Item",
+      parent: "nav-blogs",
+      order: 4,
+      isStatic: true,
+      description: "Essential advice for high mountain & slow trails.",
+    },
+    {
+      id: "nav-community",
+      label: "Community",
+      title: "COMMUNITY",
+      url: "/#good-company",
+      type: "Main Link",
+      parent: "-",
+      order: 5,
+      isStatic: true,
+      description: "Real friendships and good company that last beyond the trip.",
+    },
+    {
+      id: "nav-contact",
+      label: "Contact Us",
+      title: "CONTACT US",
+      url: "/contact",
+      type: "Action Button",
+      parent: "-",
+      order: 6,
+      isStatic: true,
+      description: "Direct enquiry & instant team support.",
+    },
   ];
 
   await prisma.navLink.deleteMany();

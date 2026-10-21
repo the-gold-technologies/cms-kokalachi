@@ -281,12 +281,12 @@ export default function PageSpecificSEODetail() {
               }
               className="w-full px-6 py-4 bg-white border border-gray-200 rounded-2xl text-sm focus:ring-2 focus:outline-none focus:border-[#002B5C] focus:ring-1 focus:ring-[#002B5C] text-gray-800 cursor-pointer h-[54px]"
             >
-              <option value="h1">H1 (Recommended standard title tag)</option>
-              <option value="h2">H2 (Alternative heading tag)</option>
-              <option value="h3">H3 (Sub-heading tag)</option>
-              <option value="h4">H4 (Sub-heading tag)</option>
-              <option value="h5">H5 (Sub-heading tag)</option>
-              <option value="h6">H6 (Sub-heading tag)</option>
+              <option value="h1">H1</option>
+              <option value="h2">H2</option>
+              <option value="h3">H3</option>
+              <option value="h4">H4</option>
+              <option value="h5">H5</option>
+              <option value="h6">H6</option>
             </select>
           </div>
 

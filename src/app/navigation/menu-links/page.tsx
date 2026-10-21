@@ -27,6 +27,8 @@ export default function MenuLinksPage() {
         const json = await res.json();
         if (json.success && Array.isArray(json.data) && json.data.length > 0) {
           setLinks(json.data);
+          // Dropdowns collapsed by default
+          setExpandedParents({});
         }
       } catch (err) {
         console.error("Failed to load navigation links:", err);
@@ -50,7 +52,14 @@ export default function MenuLinksPage() {
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   const getTypeBadge = (type: string) => {
-    const t = type.toLowerCase();
+    const t = (type || "").toLowerCase();
+    if (t.includes("dropdown item") || t === "item") {
+      return (
+        <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider whitespace-nowrap bg-indigo-50 text-indigo-700">
+          DROPDOWN ITEM
+        </span>
+      );
+    }
     if (t.includes("dropdown")) {
       return (
         <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider whitespace-nowrap bg-purple-50 text-purple-600">
@@ -58,24 +67,10 @@ export default function MenuLinksPage() {
         </span>
       );
     }
-    if (t.includes("category")) {
+    if (t.includes("action")) {
       return (
-        <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-amber-50 text-amber-700 border border-amber-100 whitespace-nowrap">
-          CATEGORY
-        </span>
-      );
-    }
-    if (t.includes("product")) {
-      return (
-        <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-700 border border-emerald-100 whitespace-nowrap">
-          PRODUCT
-        </span>
-      );
-    }
-    if (t.includes("blog")) {
-      return (
-        <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-indigo-50 text-indigo-700 border border-indigo-100 whitespace-nowrap">
-          BLOG ARTICLE
+        <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider whitespace-nowrap bg-amber-50 text-amber-700 border border-amber-100">
+          ACTION BUTTON
         </span>
       );
     }
@@ -126,15 +121,16 @@ export default function MenuLinksPage() {
               </thead>
               <tbody className="divide-y divide-slate-50/80">
                 {rootLinks.map((root, rootIndex) => {
-                  const children = links.filter((c) => c.parent === root.id);
+                  const children = links
+                    .filter((c) => c.parent === root.id)
+                    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
                   const hasChildren = children.length > 0;
                   const isExpanded = !!expandedParents[root.id];
 
                   return (
                     <React.Fragment key={root.id}>
-                      {/* Root Row */}
+                      {/* Root Item Row */}
                       <tr className="hover:bg-slate-50/60 transition-colors">
-                        {/* Order Column */}
                         <td className="py-5 px-6 text-sm font-semibold text-slate-600 whitespace-nowrap">
                           {rootIndex + 1}
                         </td>
@@ -160,7 +156,8 @@ export default function MenuLinksPage() {
                             )}
                             <div className="min-w-0 flex-1">
                               <span
-                                className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight line-clamp-1 block"
+                                className="text-sm sm:text-[15px] font-bold text-slate-900 tracking-tight line-clamp-1 block cursor-pointer select-none"
+                                onClick={() => hasChildren && toggleParent(root.id)}
                                 title={root.label}
                               >
                                 {root.label}
@@ -183,10 +180,12 @@ export default function MenuLinksPage() {
                         </td>
                       </tr>
 
-                      {/* Render Children (Level 1: Categories or Blog Articles) */}
+                      {/* Render Children (Level 1: Dropdown Items) */}
                       {isExpanded &&
                         children.map((child, childIndex) => {
-                          const subChildren = links.filter((sc) => sc.parent === child.id);
+                          const subChildren = links
+                            .filter((sc) => sc.parent === child.id)
+                            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
                           const hasSubChildren = subChildren.length > 0;
                           const isSubExpanded = !!expandedParents[child.id];
 
@@ -235,7 +234,7 @@ export default function MenuLinksPage() {
                                 </td>
                               </tr>
 
-                              {/* Render Sub-Children (Level 2: Products under Category) */}
+                              {/* Render Sub-Children (Level 2 if any) */}
                               {isSubExpanded &&
                                 subChildren.map((sub, subIndex) => (
                                   <tr

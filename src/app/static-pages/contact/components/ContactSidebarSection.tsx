@@ -185,7 +185,13 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
                     <span className="text-xs font-bold text-amber-800 block">Instagram Channel</span>
                     <InputField label="Title" value={instaTitle} onChange={(e) => setInstaTitle(e.target.value)} placeholder="e.g. Instagram" />
                     <InputField label="Instagram Handle" value={instaHandle} onChange={(e) => setInstaHandle(e.target.value)} placeholder="e.g. @kokalachi" />
-                    <InputField label="Profile Link" value={instaLink} onChange={(e) => setInstaLink(e.target.value)} placeholder="e.g. https://www.instagram.com/kokalachi/" />
+                    <div className="p-2.5 rounded-lg bg-amber-50/90 border border-amber-200 text-[11px] text-amber-800 leading-snug">
+                      <span className="font-bold">Centralized: </span>
+                      Social media links are managed centrally under{" "}
+                      <a href="/navigation/social-media" className="font-bold underline hover:text-amber-950 inline-flex items-center gap-0.5">
+                        Navigation &gt; Social Media &amp; Footer
+                      </a>
+                    </div>
                     <TextAreaField label="Description" value={instaDesc} onChange={(e) => setInstaDesc(e.target.value)} rows={2} />
                   </div>
                 </div>
