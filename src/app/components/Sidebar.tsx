@@ -32,11 +32,10 @@ const sidebarLinks: SidebarLink[] = [
     icon: LayoutDashboard,
   },
   {
-    title: "Trips & Journeys",
+    title: "Journeys",
     icon: Compass,
     sublinks: [
-      { title: "All Trips", href: "/trips" },
-      { title: "Destinations", href: "/destinations" },
+      { title: "All Journeys", href: "/trips" },
     ],
   },
   {

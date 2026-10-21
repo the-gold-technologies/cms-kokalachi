@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import { SectionHeader } from "@/components/SectionHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { StringListEditor } from "@/components/StringListEditor";
 import { SaveButton } from "@/components/SaveButton";
 
 export function UpcomingJourneysSection({ initialData }: { initialData?: any }) {
@@ -18,7 +17,6 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
   const [headline, setHeadline] = useState("");
   const [scriptAccent, setScriptAccent] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  const [filterTags, setFilterTags] = useState<string[]>([]);
   const [ctaText, setCtaText] = useState("");
   const [ctaLink, setCtaLink] = useState("");
 
@@ -28,7 +26,6 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
       setHeadline(initialData.headline ?? "");
       setScriptAccent(initialData.scriptAccent ?? "");
       setSubtitle(initialData.subtitle ?? "");
-      setFilterTags(Array.isArray(initialData.filterTags) ? initialData.filterTags : []);
       setCtaText(initialData.ctaText ?? "");
       setCtaLink(initialData.ctaLink ?? "");
     }
@@ -43,7 +40,6 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
         headline,
         scriptAccent,
         subtitle,
-        filterTags,
         ctaText,
         ctaLink,
       };
@@ -77,7 +73,7 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col gap-4 transition-all">
         <SectionHeader
           title="UpcomingJourneysSection"
-          description="Controls headline, copy, and category filters for the trip grid carousel on the homepage."
+          description="Controls headline, copy, and explore button for the upcoming journeys carousel on the homepage. Journeys and vibe filters are centrally managed under Journeys."
           badge="Section 8"
           isOpen={isOpen}
           onToggle={() => setIsOpen(!isOpen)}
@@ -120,14 +116,6 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
                 rows={2}
               />
 
-              <StringListEditor
-                label="Category Filter Tags"
-                items={filterTags}
-                onChange={setFilterTags}
-                placeholder="e.g. All, Mountains, Slow Travel, First Timers, Weekend, International"
-                tooltip="Filter pills shown above the trip cards"
-              />
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField
                   label="Bottom CTA Button Label"
@@ -148,8 +136,6 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
                   loading={loading}
                   saved={saved}
                   onClick={handleSave}
-                  label="Save Changes"
-                  className="w-full py-3.5 text-sm font-bold shadow-sm hover:shadow-md"
                 />
               </div>
             </div>

@@ -238,34 +238,56 @@ async function main() {
       });
 
       // Departures
-      if (tp.departures && Array.isArray(tp.departures)) {
-        for (const dep of tp.departures) {
-          await prisma.departure.upsert({
-            where: { id: dep.id },
-            update: {
-              startDate: dep.startDate,
-              endDate: dep.endDate,
-              price: dep.price || null,
-              originalPrice: dep.originalPrice || null,
-              spotsLeft: dep.spotsLeft ?? 10,
-              status: dep.status || "open",
-              label: dep.label || null,
-              note: dep.note || null,
-            },
-            create: {
-              id: dep.id,
-              tripId: tripRecord.id,
-              startDate: dep.startDate,
-              endDate: dep.endDate,
-              price: dep.price || null,
-              originalPrice: dep.originalPrice || null,
-              spotsLeft: dep.spotsLeft ?? 10,
-              status: dep.status || "open",
-              label: dep.label || null,
-              note: dep.note || null,
-            },
-          });
-        }
+      const departuresToSeed = Array.isArray(tp.departures) && tp.departures.length > 0
+        ? tp.departures
+        : item.slug === "meghalaya"
+        ? [{
+            id: "meghalaya-2026-11-15",
+            startDate: "2026-11-15",
+            endDate: "2026-11-20",
+            spotsLeft: 12,
+            status: "open",
+            label: "Autumn Circle",
+            note: "Fly into Guwahati (GAU) by 11:00 AM",
+          }]
+        : item.slug === "bhutan"
+        ? [{
+            id: "bhutan-2026-12-05",
+            startDate: "2026-12-05",
+            endDate: "2026-12-11",
+            spotsLeft: 10,
+            status: "open",
+            label: "Winter Heritage",
+            note: "Paro arrival & departure",
+          }]
+        : [];
+
+      for (const dep of departuresToSeed) {
+        await prisma.departure.upsert({
+          where: { id: dep.id },
+          update: {
+            startDate: dep.startDate,
+            endDate: dep.endDate,
+            price: dep.price || null,
+            originalPrice: dep.originalPrice || null,
+            spotsLeft: dep.spotsLeft ?? 10,
+            status: dep.status || "open",
+            label: dep.label || null,
+            note: dep.note || null,
+          },
+          create: {
+            id: dep.id,
+            tripId: tripRecord.id,
+            startDate: dep.startDate,
+            endDate: dep.endDate,
+            price: dep.price || null,
+            originalPrice: dep.originalPrice || null,
+            spotsLeft: dep.spotsLeft ?? 10,
+            status: dep.status || "open",
+            label: dep.label || null,
+            note: dep.note || null,
+          },
+        });
       }
     }
     console.log("✓ All 10 Trips and their dated Departures seeded.");
@@ -866,6 +888,41 @@ async function main() {
           }
         }
       ],
+    },
+    {
+      title: "All Journeys",
+      slug: "journeys",
+      description: "Explore our complete collection of handcrafted, slow-travel experiences.",
+      sections: [
+        {
+          type: "JourneysHeroSection",
+          order: 1,
+          content: {
+            tagline: "Find Your Next Adventure",
+            title: "All",
+            scriptAccent: "Journeys",
+            description: "From the misty mountains of Meghalaya to the backwaters of Kerala. Explore our complete collection of handcrafted, slow-travel experiences.",
+            bannerImage: "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          }
+        },
+        {
+          type: "JourneysFilterSection",
+          order: 2,
+          content: {
+            sidebarTitle: "Filter by Vibe",
+            emptyStateText: "No journeys found for this category yet.",
+            categories: [
+              { id: "All", label: "All Journeys" },
+              { id: "Trending", label: "Trending" },
+              { id: "FirstTimers", label: "First Timers" },
+              { id: "WomenOnly", label: "Women Only" },
+              { id: "Adventure", label: "Adventure" },
+              { id: "SlowTravel", label: "Slow Travel" },
+              { id: "BeachEscape", label: "Beach Escape" }
+            ]
+          }
+        }
+      ]
     },
   ];
 
