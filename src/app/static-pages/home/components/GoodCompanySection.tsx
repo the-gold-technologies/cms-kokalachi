@@ -16,7 +16,7 @@ interface CompanyCard {
 }
 
 export function GoodCompanySection({ initialData }: { initialData?: any }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -157,10 +157,10 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
 
         <div
           className={`grid transition-all duration-300 ease-in-out ${
-            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 invisible"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className="overflow-hidden min-h-0">
             <div className="flex flex-col gap-6 pt-4">
               <InputField
                 label="Section Header Badge"

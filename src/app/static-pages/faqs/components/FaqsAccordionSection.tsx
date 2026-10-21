@@ -6,16 +6,8 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { SaveButton } from "@/components/SaveButton";
-import {
-  Plus,
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  ArrowUp,
-  ArrowDown,
-  HelpCircle,
-  FolderPlus,
-} from "lucide-react";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { Plus, Trash2, ChevronDown, ChevronUp, ArrowUp, ArrowDown, FolderPlus } from "lucide-react";
 
 export interface FaqItem {
   question: string;
@@ -28,8 +20,18 @@ export interface FaqCategory {
   items: FaqItem[];
 }
 
+interface DeleteTarget {
+  type: "category" | "question";
+  catIndex: number;
+  qIndex?: number;
+  title: string;
+  name: string;
+  message: string;
+}
+
 export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
-  const [isOpen, setIsOpen] = useState(true);
+  // Collapsed by default across CMS
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -37,12 +39,15 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
   const [categories, setCategories] = useState<FaqCategory[]>([]);
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
 
+  // Global Delete Confirm Modal State
+  const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
+
   useEffect(() => {
     if (initialData) {
       setSidebarTitle(initialData.sidebarTitle || "Browse by topic");
       if (Array.isArray(initialData.categories)) {
         setCategories(initialData.categories);
-        // By default expand the first category
+        // By default collapse categories or open first
         if (initialData.categories.length > 0) {
           setExpandedCategories({
             [initialData.categories[0].id || "0"]: true,
@@ -76,17 +81,48 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
     toast.success("New category added");
   };
 
-  const handleDeleteCategory = (catIndex: number) => {
+  const requestDeleteCategory = (catIndex: number) => {
     const cat = categories[catIndex];
-    if (
-      !confirm(
-        `Are you sure you want to delete the category "${cat.title}" and its ${cat.items.length} questions?`,
-      )
-    ) {
-      return;
+    setDeleteTarget({
+      type: "category",
+      catIndex,
+      title: "Delete Category",
+      name: cat?.title || "Untitled Category",
+      message: `Are you sure you want to permanently delete "${cat?.title || "this category"}" and all its ${cat?.items?.length || 0} questions? This action cannot be undone.`,
+    });
+  };
+
+  const requestDeleteQuestion = (catIndex: number, qIndex: number) => {
+    const q = categories[catIndex]?.items?.[qIndex];
+    setDeleteTarget({
+      type: "question",
+      catIndex,
+      qIndex,
+      title: "Delete FAQ Question",
+      name: q?.question || "Question & Answer Pair",
+      message:
+        "Are you sure you want to delete this question and answer? This action cannot be undone.",
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (!deleteTarget) return;
+
+    if (deleteTarget.type === "category") {
+      setCategories((prev) => prev.filter((_, idx) => idx !== deleteTarget.catIndex));
+      toast.success("Category deleted successfully");
+    } else if (deleteTarget.type === "question" && deleteTarget.qIndex !== undefined) {
+      setCategories((prev) => {
+        const copy = [...prev];
+        const targetCat = { ...copy[deleteTarget.catIndex] };
+        targetCat.items = targetCat.items.filter((_, idx) => idx !== deleteTarget.qIndex);
+        copy[deleteTarget.catIndex] = targetCat;
+        return copy;
+      });
+      toast.success("Question deleted successfully");
     }
-    setCategories((prev) => prev.filter((_, idx) => idx !== catIndex));
-    toast.success("Category deleted");
+
+    setDeleteTarget(null);
   };
 
   const handleMoveCategory = (index: number, direction: "up" | "down") => {
@@ -120,16 +156,6 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
           answer: "",
         },
       ];
-      copy[catIndex] = targetCat;
-      return copy;
-    });
-  };
-
-  const handleDeleteQuestion = (catIndex: number, qIndex: number) => {
-    setCategories((prev) => {
-      const copy = [...prev];
-      const targetCat = { ...copy[catIndex] };
-      targetCat.items = targetCat.items.filter((_, idx) => idx !== qIndex);
       copy[catIndex] = targetCat;
       return copy;
     });
@@ -216,10 +242,10 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
 
         <div
           className={`grid transition-all duration-300 ease-in-out ${
-            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 invisible"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className="overflow-hidden min-h-0">
             <div className="flex flex-col gap-6 pt-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-slate-50/80 rounded-2xl border border-slate-100">
                 <div className="flex-1 w-full sm:w-auto">
@@ -299,7 +325,7 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
                             </button>
                             <button
                               type="button"
-                              onClick={() => handleDeleteCategory(catIndex)}
+                              onClick={() => requestDeleteCategory(catIndex)}
                               className="p-1.5 text-red-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                               title="Delete category"
                             >
@@ -407,7 +433,7 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
                                           </button>
                                           <button
                                             type="button"
-                                            onClick={() => handleDeleteQuestion(catIndex, qIndex)}
+                                            onClick={() => requestDeleteQuestion(catIndex, qIndex)}
                                             className="p-1 text-red-400 hover:text-red-600 rounded ml-1"
                                             title="Delete question"
                                           >
@@ -470,6 +496,20 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
           </div>
         </div>
       </div>
+
+      {/* Global Delete Confirm Modal */}
+      <DeleteConfirmModal
+        isOpen={!!deleteTarget}
+        title={deleteTarget?.title || "Delete Item"}
+        itemName={deleteTarget?.name}
+        message={
+          deleteTarget?.message ||
+          "Are you sure you want to delete this item? This action cannot be undone."
+        }
+        confirmLabel="Delete"
+        onConfirm={handleConfirmDelete}
+        onClose={() => setDeleteTarget(null)}
+      />
     </section>
   );
 }

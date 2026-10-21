@@ -32,6 +32,14 @@ const sidebarLinks: SidebarLink[] = [
     icon: LayoutDashboard,
   },
   {
+    title: "Navigation & Links",
+    icon: Compass,
+    sublinks: [
+      { title: "Menu Links", href: "/navigation/menu-links" },
+      { title: "Social Media & Footer", href: "/navigation/social-media" },
+    ],
+  },
+  {
     title: "Journeys",
     icon: Compass,
     sublinks: [{ title: "All Journeys", href: "/trips" }],
@@ -52,14 +60,6 @@ const sidebarLinks: SidebarLink[] = [
     sublinks: [
       { title: "Bookings", href: "/submissions/bookings" },
       { title: "Enquiries", href: "/submissions/enquiries" },
-    ],
-  },
-  {
-    title: "Navigation & Links",
-    icon: Compass,
-    sublinks: [
-      { title: "Menu Links", href: "/navigation/menu-links" },
-      { title: "Social Media & Footer", href: "/navigation/social-media" },
     ],
   },
   {

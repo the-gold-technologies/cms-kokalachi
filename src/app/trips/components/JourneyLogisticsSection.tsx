@@ -16,7 +16,7 @@ export function JourneyLogisticsSection({
   initialData?: any;
   onSaved?: (data: any) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 

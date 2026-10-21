@@ -17,7 +17,7 @@ export function SectionHeader({
   title,
   description,
   badge,
-  isOpen = true,
+  isOpen = false,
   onToggle,
   action,
 }: SectionHeaderProps) {
