@@ -38,10 +38,10 @@ export default function SocialMediaFooterPage() {
 
   // Section 2: Footer Information
   const [footerDescription, setFooterDescription] = useState(
-    "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection."
+    "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
   );
   const [footerAddress, setFooterAddress] = useState(
-    "91 Springboard, C-2, Sector 1, Noida - 201301"
+    "91 Springboard, C-2, Sector 1, Noida - 201301",
   );
   const [footerPhone, setFooterPhone] = useState("+91 97118 45700");
   const [footerEmail, setFooterEmail] = useState("hello@kokalachi.com");
@@ -49,7 +49,9 @@ export default function SocialMediaFooterPage() {
 
   // Section 3: Centralized Social Media Links
   const [instagram, setInstagram] = useState("https://www.instagram.com/kokalachi/");
-  const [facebook, setFacebook] = useState("https://www.facebook.com/share/1MA2Wf52Cr/?mibextid=wwXIfr");
+  const [facebook, setFacebook] = useState(
+    "https://www.facebook.com/share/1MA2Wf52Cr/?mibextid=wwXIfr",
+  );
   const [youtube, setYoutube] = useState("https://youtube.com/@kokalachi");
   const [linkedin, setLinkedin] = useState("");
   const [twitter, setTwitter] = useState("");
@@ -156,7 +158,8 @@ export default function SocialMediaFooterPage() {
           </h1>
         </div>
         <p className="text-xs sm:text-sm text-slate-500 font-normal pl-12.5">
-          Manage navbar logos (dark &amp; light variants), footer branding and contact details, and centralized social media links.
+          Manage navbar logos (dark &amp; light variants), footer branding and contact details, and
+          centralized social media links.
         </p>
       </div>
 
@@ -251,7 +254,8 @@ export default function SocialMediaFooterPage() {
                   2. Footer Details &amp; Contact Information
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Address, phone numbers, email, and brand description appearing in the website footer.
+                  Address, phone numbers, email, and brand description appearing in the website
+                  footer.
                 </p>
               </div>
             </div>
@@ -321,7 +325,8 @@ export default function SocialMediaFooterPage() {
                   3. Centralized Social Media Profiles
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Single source of truth for all social channels displayed across the entire website.
+                  Single source of truth for all social channels displayed across the entire
+                  website.
                 </p>
               </div>
             </div>
@@ -331,8 +336,8 @@ export default function SocialMediaFooterPage() {
               <Info className="w-4 h-4 text-[#0E5A60] shrink-0 mt-0.5" />
               <p className="text-xs text-teal-900 leading-relaxed">
                 <span className="font-bold">Centralized Hub: </span>
-                All social media icons across the website (Navbar, Footer, Contact Page)
-                read from these fields. They are managed exclusively in this section.
+                All social media icons across the website (Navbar, Footer, Contact Page) read from
+                these fields. They are managed exclusively in this section.
               </p>
             </div>
 

@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
-import {
-  ContactHeroSection,
-  ContactFormSection,
-  ContactSidebarSection,
-} from "./components";
+import { ContactHeroSection, ContactFormSection, ContactSidebarSection } from "./components";
 
 export default function ContactUsCMSPage() {
   const [contactData, setContactData] = useState<any>(null);

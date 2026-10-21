@@ -56,9 +56,9 @@ export function WhyWeStartedSection({ initialData }: { initialData?: any }) {
       setPolaroidImage(initialData.polaroidImage ?? "");
       setPolaroidNote(initialData.polaroidNote ?? "");
 
-      setItem1Title(initialData.item1Title ?? (initialData.items?.[0] ?? ""));
-      setItem2Title(initialData.item2Title ?? (initialData.items?.[1] ?? ""));
-      setItem3Title(initialData.item3Title ?? (initialData.items?.[2] ?? ""));
+      setItem1Title(initialData.item1Title ?? initialData.items?.[0] ?? "");
+      setItem2Title(initialData.item2Title ?? initialData.items?.[1] ?? "");
+      setItem3Title(initialData.item3Title ?? initialData.items?.[2] ?? "");
 
       setConclusionPrefix(initialData.conclusionPrefix ?? "");
       setConclusionBrand(initialData.conclusionBrand ?? "");
@@ -184,7 +184,9 @@ export function WhyWeStartedSection({ initialData }: { initialData?: any }) {
               <div className="space-y-3 pt-2">
                 <div>
                   <h4 className="text-sm font-bold text-gray-800">3 Pain Point Circles</h4>
-                  <p className="text-xs text-gray-500">Icons and captions connected by the wavy flight line</p>
+                  <p className="text-xs text-gray-500">
+                    Icons and captions connected by the wavy flight line
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -199,7 +201,9 @@ export function WhyWeStartedSection({ initialData }: { initialData?: any }) {
                   </div>
 
                   <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
-                    <span className="text-xs font-bold text-amber-800 block">Circle 2 (Calendar)</span>
+                    <span className="text-xs font-bold text-amber-800 block">
+                      Circle 2 (Calendar)
+                    </span>
                     <InputField
                       label="Caption Text"
                       value={item2Title}
@@ -222,7 +226,9 @@ export function WhyWeStartedSection({ initialData }: { initialData?: any }) {
 
               {/* Bottom Conclusion */}
               <div className="p-5 bg-teal-50/50 rounded-2xl border border-teal-100/60 space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#0E5A60]">Bottom Brand Mission Conclusion</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#0E5A60]">
+                  Bottom Brand Mission Conclusion
+                </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <InputField
                     label="Prefix Text"

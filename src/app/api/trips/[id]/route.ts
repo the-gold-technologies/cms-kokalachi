@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const trip = await prisma.trip.findFirst({
@@ -19,10 +16,7 @@ export async function GET(
     });
 
     if (!trip) {
-      return NextResponse.json(
-        { success: false, error: "Journey not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: "Journey not found" }, { status: 404 });
     }
 
     return NextResponse.json({ success: true, data: trip });
@@ -30,15 +24,12 @@ export async function GET(
     console.error("Error fetching single trip:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to fetch journey" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const body = await request.json();
@@ -50,10 +41,7 @@ export async function PUT(
     });
 
     if (!existingTrip) {
-      return NextResponse.json(
-        { success: false, error: "Journey not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: "Journey not found" }, { status: 404 });
     }
 
     const {
@@ -99,7 +87,7 @@ export async function PUT(
       if (slugCheck && slugCheck.id !== existingTrip.id) {
         return NextResponse.json(
           { success: false, error: "Slug is already used by another journey" },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -107,7 +95,11 @@ export async function PUT(
     // Safely resolve / auto-create destination so foreign key constraint never fails
     let validDestSlug: string | null = existingTrip.destinationSlug;
     if (destinationSlug !== undefined) {
-      if (!destinationSlug || typeof destinationSlug !== "string" || destinationSlug.trim() === "") {
+      if (
+        !destinationSlug ||
+        typeof destinationSlug !== "string" ||
+        destinationSlug.trim() === ""
+      ) {
         validDestSlug = null;
       } else {
         const cleanDestSlug = destinationSlug
@@ -156,9 +148,24 @@ export async function PUT(
         location: location !== undefined ? location : existingTrip.location,
         duration: duration !== undefined ? duration : existingTrip.duration,
         rating: typeof rating === "number" ? rating : existingTrip.rating,
-        price: price !== undefined ? (typeof price === "number" ? price : parseFloat(price) || 0) : existingTrip.price,
-        originalPrice: originalPrice !== undefined ? (originalPrice ? parseFloat(originalPrice) : null) : existingTrip.originalPrice,
-        gstAmount: gstAmount !== undefined ? (gstAmount ? parseFloat(gstAmount) : 0) : existingTrip.gstAmount,
+        price:
+          price !== undefined
+            ? typeof price === "number"
+              ? price
+              : parseFloat(price) || 0
+            : existingTrip.price,
+        originalPrice:
+          originalPrice !== undefined
+            ? originalPrice
+              ? parseFloat(originalPrice)
+              : null
+            : existingTrip.originalPrice,
+        gstAmount:
+          gstAmount !== undefined
+            ? gstAmount
+              ? parseFloat(gstAmount)
+              : 0
+            : existingTrip.gstAmount,
         image: image !== undefined ? image : existingTrip.image,
         category: category !== undefined ? category : existingTrip.category,
         tag: tag !== undefined ? tag : existingTrip.tag,
@@ -179,7 +186,8 @@ export async function PUT(
         isFeatured: typeof isFeatured === "boolean" ? isFeatured : existingTrip.isFeatured,
         order: typeof order === "number" ? order : existingTrip.order,
         metaTitle: metaTitle !== undefined ? metaTitle : existingTrip.metaTitle,
-        metaDescription: metaDescription !== undefined ? metaDescription : existingTrip.metaDescription,
+        metaDescription:
+          metaDescription !== undefined ? metaDescription : existingTrip.metaDescription,
         targetKeywords: targetKeywords !== undefined ? targetKeywords : existingTrip.targetKeywords,
         noIndex: typeof noIndex === "boolean" ? noIndex : existingTrip.noIndex,
       },
@@ -201,7 +209,8 @@ export async function PUT(
             endDate: dep.endDate,
             price: dep.price ? parseFloat(dep.price) : null,
             originalPrice: dep.originalPrice ? parseFloat(dep.originalPrice) : null,
-            spotsLeft: typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft, 10) || 10,
+            spotsLeft:
+              typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft, 10) || 10,
             status: dep.status ?? "open",
             label: dep.label ?? null,
             note: dep.note ?? null,
@@ -224,15 +233,12 @@ export async function PUT(
     console.error("Error updating trip:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to update journey" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const existingTrip = await prisma.trip.findFirst({
@@ -242,10 +248,7 @@ export async function DELETE(
     });
 
     if (!existingTrip) {
-      return NextResponse.json(
-        { success: false, error: "Journey not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: "Journey not found" }, { status: 404 });
     }
 
     await prisma.trip.delete({ where: { id: existingTrip.id } });
@@ -254,7 +257,7 @@ export async function DELETE(
     console.error("Error deleting trip:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to delete journey" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

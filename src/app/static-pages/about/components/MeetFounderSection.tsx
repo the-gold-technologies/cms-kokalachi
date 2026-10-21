@@ -199,7 +199,11 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
                 <div>
                   <h4 className="text-sm font-bold text-gray-800">Founders Story Narrative</h4>
                   <p className="text-xs text-gray-500">
-                    Write your complete story narrative in the single box below. Press <kbd className="px-1.5 py-0.5 rounded bg-gray-100 font-mono text-[10px] text-gray-700">Enter</kbd> to add line breaks and paragraph spacing.
+                    Write your complete story narrative in the single box below. Press{" "}
+                    <kbd className="px-1.5 py-0.5 rounded bg-gray-100 font-mono text-[10px] text-gray-700">
+                      Enter
+                    </kbd>{" "}
+                    to add line breaks and paragraph spacing.
                   </p>
                 </div>
 

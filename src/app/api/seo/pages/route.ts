@@ -31,7 +31,7 @@ export const CORE_PAGES = [
         },
       },
       null,
-      2
+      2,
     ),
   },
   {
@@ -61,7 +61,7 @@ export const CORE_PAGES = [
         },
       },
       null,
-      2
+      2,
     ),
   },
   {
@@ -82,8 +82,7 @@ export const CORE_PAGES = [
         "@type": "ContactPage",
         name: "Contact Kokalachi",
         url: "https://kokalachi.com/contact",
-        description:
-          "Get in touch with our team via email, WhatsApp, or instant enquiry form.",
+        description: "Get in touch with our team via email, WhatsApp, or instant enquiry form.",
         mainEntity: {
           "@type": "ContactPoint",
           telephone: "+919711845700",
@@ -93,7 +92,7 @@ export const CORE_PAGES = [
         },
       },
       null,
-      2
+      2,
     ),
   },
   {
@@ -148,7 +147,7 @@ export const CORE_PAGES = [
         ],
       },
       null,
-      2
+      2,
     ),
   },
 ];
@@ -190,9 +189,7 @@ export async function GET() {
             targetKeywords: existing.targetKeywords || core.targetKeywords,
             canonicalUrl: existing.canonicalUrl || core.canonicalUrl,
             headingOptions:
-              typeof existing.headingOptions === "string"
-                ? existing.headingOptions
-                : "h1",
+              typeof existing.headingOptions === "string" ? existing.headingOptions : "h1",
             schema: existing.schema || core.schema,
           },
         });
@@ -217,9 +214,7 @@ export async function GET() {
     });
 
     const slugOrder = ["journeys", "about", "contact", "faqs"];
-    const sorted = [...pages].sort(
-      (a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug)
-    );
+    const sorted = [...pages].sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug));
 
     return NextResponse.json({
       success: true,
@@ -229,7 +224,7 @@ export async function GET() {
     console.error("Error fetching SEO pages:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch SEO pages" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

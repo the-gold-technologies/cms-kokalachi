@@ -55,7 +55,9 @@ export function DeleteConfirmModal({
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-bold text-gray-900">{title}</h3>
-              <p className="text-[11px] font-medium text-red-600 uppercase tracking-wider">Permanent Action</p>
+              <p className="text-[11px] font-medium text-red-600 uppercase tracking-wider">
+                Permanent Action
+              </p>
             </div>
           </div>
           <button
@@ -71,15 +73,17 @@ export function DeleteConfirmModal({
         {/* Item Name Highlight */}
         {itemName && (
           <div className="px-4 py-3 rounded-2xl bg-gray-50 border border-gray-200/80">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-0.5">Selected Item</span>
-            <p className="text-xs sm:text-sm font-bold text-gray-800 break-words line-clamp-2">{itemName}</p>
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-0.5">
+              Selected Item
+            </span>
+            <p className="text-xs sm:text-sm font-bold text-gray-800 break-words line-clamp-2">
+              {itemName}
+            </p>
           </div>
         )}
 
         {/* Message */}
-        <p className="text-xs text-gray-500 leading-relaxed">
-          {message}
-        </p>
+        <p className="text-xs text-gray-500 leading-relaxed">{message}</p>
 
         {/* Actions */}
         <div className="flex items-center justify-end gap-3 pt-2">

@@ -75,9 +75,7 @@ export function parseJourneyDocument(rawText: string): ParsedJourneyDoc {
 function sanitizeParsedDoc(raw: any): ParsedJourneyDoc {
   // Support nested tourPackage objects from seed / exported data
   const data =
-    raw && typeof raw === "object" && raw.tourPackage
-      ? { ...raw, ...raw.tourPackage }
-      : { ...raw };
+    raw && typeof raw === "object" && raw.tourPackage ? { ...raw, ...raw.tourPackage } : { ...raw };
   const res: ParsedJourneyDoc = { ...data };
 
   // Overview normalization
@@ -85,7 +83,10 @@ function sanitizeParsedDoc(raw: any): ParsedJourneyDoc {
     res.overviewText = res.overview.join("\n\n");
   } else if (typeof res.overview === "string") {
     res.overviewText = res.overview;
-    res.overview = res.overview.split("\n").map((l: string) => l.trim()).filter(Boolean);
+    res.overview = res.overview
+      .split("\n")
+      .map((l: string) => l.trim())
+      .filter(Boolean);
   }
 
   // Cover image and gallery
@@ -130,27 +131,42 @@ function sanitizeParsedDoc(raw: any): ParsedJourneyDoc {
 
   // Inclusions & Exclusions normalization
   if (typeof res.inclusions === "string")
-    res.inclusions = res.inclusions.split("\n").map((s: string) => s.trim().replace(/^[-*•]\s*/, "")).filter(Boolean);
+    res.inclusions = res.inclusions
+      .split("\n")
+      .map((s: string) => s.trim().replace(/^[-*•]\s*/, ""))
+      .filter(Boolean);
   if (typeof res.exclusions === "string")
-    res.exclusions = res.exclusions.split("\n").map((s: string) => s.trim().replace(/^[-*•]\s*/, "")).filter(Boolean);
+    res.exclusions = res.exclusions
+      .split("\n")
+      .map((s: string) => s.trim().replace(/^[-*•]\s*/, ""))
+      .filter(Boolean);
 
   // Meals provided normalization
   if (typeof res.meals === "string")
-    res.meals = res.meals.split("\n").map((s: string) => s.trim().replace(/^[-*•]\s*/, "")).filter(Boolean);
+    res.meals = res.meals
+      .split("\n")
+      .map((s: string) => s.trim().replace(/^[-*•]\s*/, ""))
+      .filter(Boolean);
 
   // What to pack checklist normalization
   if (!res.whatToPack && (res.packingList || res.checklist)) {
     res.whatToPack = res.packingList || res.checklist;
   }
   if (typeof res.whatToPack === "string")
-    res.whatToPack = res.whatToPack.split("\n").map((s: string) => s.trim().replace(/^[-*•]\s*/, "")).filter(Boolean);
+    res.whatToPack = res.whatToPack
+      .split("\n")
+      .map((s: string) => s.trim().replace(/^[-*•]\s*/, ""))
+      .filter(Boolean);
 
   // Weather and climate normalization
   if (!res.weather && (res.weatherAndClimate || res.climate)) {
     res.weather = res.weatherAndClimate || res.climate;
   }
   if (typeof res.weather === "string")
-    res.weather = res.weather.split("\n").map((s: string) => s.trim().replace(/^[-*•]\s*/, "")).filter(Boolean);
+    res.weather = res.weather
+      .split("\n")
+      .map((s: string) => s.trim().replace(/^[-*•]\s*/, ""))
+      .filter(Boolean);
 
   // FAQs normalization
   if (Array.isArray(res.faqs)) {
@@ -210,7 +226,10 @@ function parseMarkdownJourney(text: string): ParsedJourneyDoc {
     const headingLine = firstLineEnd !== -1 ? sec.substring(0, firstLineEnd) : sec;
     const body = firstLineEnd !== -1 ? sec.substring(firstLineEnd + 1).trim() : "";
 
-    const heading = headingLine.replace(/^##\s+/, "").toLowerCase().trim();
+    const heading = headingLine
+      .replace(/^##\s+/, "")
+      .toLowerCase()
+      .trim();
 
     if (heading.includes("departure")) {
       const deps = parseDepartures(body);
@@ -220,7 +239,10 @@ function parseMarkdownJourney(text: string): ParsedJourneyDoc {
       heading.includes("experience narrative") ||
       heading.includes("storytelling")
     ) {
-      const lines = body.split("\n").map((l) => l.trim()).filter(Boolean);
+      const lines = body
+        .split("\n")
+        .map((l) => l.trim())
+        .filter(Boolean);
       result.overview = lines;
       result.overviewText = body;
     } else if (heading.includes("highlight")) {
@@ -228,9 +250,17 @@ function parseMarkdownJourney(text: string): ParsedJourneyDoc {
     } else if (heading.includes("itinerary") || heading.includes("day-by-day")) {
       const days = parseItinerary(body);
       if (days.length > 0) result.itinerary = days;
-    } else if (heading.includes("inclusion") || heading.includes("what's included") || heading.includes("what’s included")) {
+    } else if (
+      heading.includes("inclusion") ||
+      heading.includes("what's included") ||
+      heading.includes("what’s included")
+    ) {
       result.inclusions = parseBulletList(body);
-    } else if (heading.includes("exclusion") || heading.includes("what's not included") || heading.includes("what’s not included")) {
+    } else if (
+      heading.includes("exclusion") ||
+      heading.includes("what's not included") ||
+      heading.includes("what’s not included")
+    ) {
       result.exclusions = parseBulletList(body);
     } else if (heading.includes("meal")) {
       result.meals = parseBulletList(body);
@@ -242,7 +272,11 @@ function parseMarkdownJourney(text: string): ParsedJourneyDoc {
       result.faqs = parseFaqs(body);
     } else if (heading.includes("seo") || heading.includes("metadata")) {
       parseSeo(body, result);
-    } else if (heading.includes("cms") || heading.includes("admin") || heading.includes("form detail")) {
+    } else if (
+      heading.includes("cms") ||
+      heading.includes("admin") ||
+      heading.includes("form detail")
+    ) {
       // Check if CMS/Admin details section provides richer day cards or departures
       if (!result.itinerary || result.itinerary.length === 0) {
         result.itinerary = parseItinerary(body);
@@ -325,7 +359,10 @@ function parseHeaderMetadata(text: string, result: ParsedJourneyDoc) {
     } else if (key === "category" || key === "vibe category") {
       result.category = val;
     } else if (key === "tags" || key === "vibe tags") {
-      result.vibeTags = val.split(",").map((s) => s.trim().replace(/^#/, "")).filter(Boolean);
+      result.vibeTags = val
+        .split(",")
+        .map((s) => s.trim().replace(/^#/, ""))
+        .filter(Boolean);
     } else if (key === "cover image" || key === "image") {
       const urlMatch = val.match(/https?:\/\/[^\s)]+/);
       result.image = urlMatch ? urlMatch[0] : val;
@@ -349,10 +386,11 @@ function parseDepartures(text: string): ParsedJourneyDoc["departures"] {
 
   // 1. Check if text has batch blocks (e.g. #### Departure Batch or - Batch Name:)
   if (text.includes("####") || text.toLowerCase().includes("batch name:")) {
-    const blocks = text.split(/(?=^#{3,4}\s+Departure\b|^#{3,4}\s+Batch\b)/mi);
+    const blocks = text.split(/(?=^#{3,4}\s+Departure\b|^#{3,4}\s+Batch\b)/im);
     for (const block of blocks) {
       const trimmed = block.trim();
-      if (!trimmed.toLowerCase().includes("batch") && !trimmed.toLowerCase().includes("start date")) continue;
+      if (!trimmed.toLowerCase().includes("batch") && !trimmed.toLowerCase().includes("start date"))
+        continue;
 
       let label = "";
       let startDate = "";
@@ -381,10 +419,18 @@ function parseDepartures(text: string): ParsedJourneyDoc["departures"] {
           label = v;
         } else if (k.includes("start date")) {
           const match = v.match(/\d{4}-\d{2}-\d{2}/);
-          startDate = match ? match[0] : (v.toLowerCase().includes("confirmed") || v.toLowerCase().includes("announced") ? "" : v);
+          startDate = match
+            ? match[0]
+            : v.toLowerCase().includes("confirmed") || v.toLowerCase().includes("announced")
+              ? ""
+              : v;
         } else if (k.includes("end date")) {
           const match = v.match(/\d{4}-\d{2}-\d{2}/);
-          endDate = match ? match[0] : (v.toLowerCase().includes("confirmed") || v.toLowerCase().includes("announced") ? "" : v);
+          endDate = match
+            ? match[0]
+            : v.toLowerCase().includes("confirmed") || v.toLowerCase().includes("announced")
+              ? ""
+              : v;
         } else if (k.includes("spots")) {
           const num = parseInt(v.replace(/[^0-9]/g, ""), 10);
           if (!isNaN(num)) spotsLeft = num;
@@ -396,7 +442,12 @@ function parseDepartures(text: string): ParsedJourneyDoc["departures"] {
         } else if (k.includes("price") && !k.includes("note") && !k.includes("base price")) {
           const p = parseFloat(v.replace(/[^0-9.]/g, ""));
           if (!isNaN(p)) price = p;
-        } else if (k.includes("arrival") || k.includes("departure") || k.includes("time") || k.includes("note")) {
+        } else if (
+          k.includes("arrival") ||
+          k.includes("departure") ||
+          k.includes("time") ||
+          k.includes("note")
+        ) {
           note = v;
         }
       }
@@ -450,7 +501,12 @@ function parseDepartures(text: string): ParsedJourneyDoc["departures"] {
       if (lower.includes("spot") || lower.includes("traveller") || lower.includes("group size")) {
         const num = parseInt(part.replace(/[^0-9]/g, ""), 10);
         if (!isNaN(num)) spotsLeft = num;
-      } else if (lower === "open" || lower === "soldout" || lower === "closed" || lower === "planned") {
+      } else if (
+        lower === "open" ||
+        lower === "soldout" ||
+        lower === "closed" ||
+        lower === "planned"
+      ) {
         status = lower === "planned" ? "open" : (lower as any);
       } else if (
         (lower.startsWith("₹") || lower.startsWith("rs") || lower.startsWith("price")) &&
@@ -526,7 +582,7 @@ function parseHighlights(text: string): ParsedJourneyDoc["highlights"] {
 function parseItinerary(text: string): ParsedJourneyDoc["itinerary"] {
   const itinerary: ParsedJourneyDoc["itinerary"] = [];
   // Split by ### or #### Day headings
-  const dayBlocks = text.split(/(?=^#{3,4}\s+Day\b|^###\s+)/mi);
+  const dayBlocks = text.split(/(?=^#{3,4}\s+Day\b|^###\s+)/im);
 
   for (const block of dayBlocks) {
     const trimmed = block.trim();
@@ -619,7 +675,8 @@ function parseItinerary(text: string): ParsedJourneyDoc["itinerary"] {
         const anyUrlMatch = v.match(/https?:\/\/[^\s)]+/);
         if (
           anyUrlMatch &&
-          (anyUrlMatch[0].includes("unsplash") || anyUrlMatch[0].match(/\.(jpg|jpeg|png|webp|avif)/i))
+          (anyUrlMatch[0].includes("unsplash") ||
+            anyUrlMatch[0].match(/\.(jpg|jpeg|png|webp|avif)/i))
         ) {
           image = anyUrlMatch[0];
           continue;

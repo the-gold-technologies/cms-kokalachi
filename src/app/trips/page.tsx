@@ -83,10 +83,7 @@ export default function AllJourneysCMSPage() {
   const fetchTripsAndPageConfig = async () => {
     setLoading(true);
     try {
-      const [tripsRes, pageRes] = await Promise.all([
-        fetch("/api/trips"),
-        fetch("/api/journeys"),
-      ]);
+      const [tripsRes, pageRes] = await Promise.all([fetch("/api/trips"), fetch("/api/journeys")]);
       const tripsJson = await tripsRes.json();
       const pageJson = await pageRes.json();
 
@@ -190,8 +187,7 @@ export default function AllJourneysCMSPage() {
       t.slug?.toLowerCase().includes(q);
 
     const matchesCategory =
-      categoryFilter === "All" ||
-      t.category?.toLowerCase() === categoryFilter.toLowerCase();
+      categoryFilter === "All" || t.category?.toLowerCase() === categoryFilter.toLowerCase();
 
     return matchesSearch && matchesCategory;
   });
@@ -271,11 +267,7 @@ export default function AllJourneysCMSPage() {
             />
 
             <div className="pt-4 border-t border-gray-100">
-              <SaveButton
-                loading={heroLoading}
-                saved={heroSaved}
-                onClick={handleSaveBanner}
-              />
+              <SaveButton loading={heroLoading} saved={heroSaved} onClick={handleSaveBanner} />
             </div>
           </form>
         )}
@@ -345,7 +337,7 @@ export default function AllJourneysCMSPage() {
               : [];
             const spotsLeft = openDepartures.reduce(
               (acc: number, d: any) => acc + (d.spotsLeft || 0),
-              0
+              0,
             );
 
             return (
@@ -412,9 +404,7 @@ export default function AllJourneysCMSPage() {
                   </h3>
 
                   {trip.subtitle ? (
-                    <p className="text-xs text-gray-500 line-clamp-1 mb-3">
-                      {trip.subtitle}
-                    </p>
+                    <p className="text-xs text-gray-500 line-clamp-1 mb-3">{trip.subtitle}</p>
                   ) : null}
 
                   {/* Key Stats Chips */}
@@ -422,7 +412,9 @@ export default function AllJourneysCMSPage() {
                     <div className="grid grid-cols-2 gap-2">
                       <div className="flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 text-[#0E5A60] shrink-0" />
-                        <span className="truncate font-semibold">{trip.duration || "Flexible"}</span>
+                        <span className="truncate font-semibold">
+                          {trip.duration || "Flexible"}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Users className="w-3.5 h-3.5 text-[#0E5A60] shrink-0" />

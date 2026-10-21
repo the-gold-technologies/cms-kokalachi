@@ -34,7 +34,7 @@ export async function GET(request: Request) {
     console.error("Error fetching trips:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to fetch trips" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
     if (!title || !slug) {
       return NextResponse.json(
         { success: false, error: "Title and slug are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
     if (existing) {
       return NextResponse.json(
         { success: false, error: "A journey with this slug already exists" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -185,7 +185,8 @@ export async function POST(request: Request) {
             endDate: dep.endDate,
             price: dep.price ? parseFloat(dep.price) : null,
             originalPrice: dep.originalPrice ? parseFloat(dep.originalPrice) : null,
-            spotsLeft: typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft, 10) || 10,
+            spotsLeft:
+              typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft, 10) || 10,
             status: dep.status ?? "open",
             label: dep.label ?? null,
             note: dep.note ?? null,
@@ -204,7 +205,7 @@ export async function POST(request: Request) {
     console.error("Error creating trip:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to create journey" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

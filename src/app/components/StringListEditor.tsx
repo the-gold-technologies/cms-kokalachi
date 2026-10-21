@@ -115,7 +115,8 @@ export function StringListEditor({
       badge: "bg-emerald-50 text-emerald-700",
       pill: "bg-emerald-50 text-emerald-700",
       button: "text-emerald-700 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100",
-      focusRing: "focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/15",
+      focusRing:
+        "focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/15",
     },
     rose: {
       badge: "bg-rose-50 text-rose-700",
@@ -136,14 +137,18 @@ export function StringListEditor({
       <div className="flex items-center justify-between gap-3 pb-3 border-b border-gray-100">
         <div className="flex items-center gap-2.5 min-w-0">
           {icon && (
-            <div className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 ${colorStyles.badge}`}>
+            <div
+              className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 ${colorStyles.badge}`}
+            >
               {icon}
             </div>
           )}
           <label className="text-xs font-bold text-gray-800 uppercase tracking-wider truncate">
             {label}
           </label>
-          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${colorStyles.badge}`}>
+          <span
+            className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${colorStyles.badge}`}
+          >
             {items.length} {items.length === 1 ? "item" : "items"}
           </span>
         </div>
@@ -202,7 +207,13 @@ export function StringListEditor({
 
       {items.length > 0 && (
         <div className="flex items-center justify-between text-[11px] text-gray-400 pt-1 px-1">
-          <span>Press <kbd className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-mono text-[10px]">Enter</kbd> to add next bullet</span>
+          <span>
+            Press{" "}
+            <kbd className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-mono text-[10px]">
+              Enter
+            </kbd>{" "}
+            to add next bullet
+          </span>
           <button
             type="button"
             onClick={handleAdd}

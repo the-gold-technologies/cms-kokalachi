@@ -216,8 +216,7 @@ let mockPages: any[] = [
     type: "static",
     visibility: "published",
     isStatic: true,
-    description:
-      "Learn more about Kokalachi and our authorized HPCL Lubricants partnership.",
+    description: "Learn more about Kokalachi and our authorized HPCL Lubricants partnership.",
     metaTitle: "About Us | Kokalachi Authorized HP Lubricants",
     metaDescription:
       "Discover our journey as an Authorized Industrial Lube Distributor (ILD) delivering cutting-edge HPCL lubricants across India.",

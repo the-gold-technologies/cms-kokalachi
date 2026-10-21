@@ -30,10 +30,34 @@ export function DifferenceSection({ initialData }: { initialData?: any }) {
   const [leftDoodleText, setLeftDoodleText] = useState("");
   const [rightDoodleText, setRightDoodleText] = useState("");
 
-  const [card1, setCard1] = useState<PolaroidCard>({ title: "", tag: "", description: "", image: "", caption: "" });
-  const [card2, setCard2] = useState<PolaroidCard>({ title: "", tag: "", description: "", image: "", caption: "" });
-  const [card3, setCard3] = useState<PolaroidCard>({ title: "", tag: "", description: "", image: "", caption: "" });
-  const [card4, setCard4] = useState<PolaroidCard>({ title: "", tag: "", description: "", image: "", caption: "" });
+  const [card1, setCard1] = useState<PolaroidCard>({
+    title: "",
+    tag: "",
+    description: "",
+    image: "",
+    caption: "",
+  });
+  const [card2, setCard2] = useState<PolaroidCard>({
+    title: "",
+    tag: "",
+    description: "",
+    image: "",
+    caption: "",
+  });
+  const [card3, setCard3] = useState<PolaroidCard>({
+    title: "",
+    tag: "",
+    description: "",
+    image: "",
+    caption: "",
+  });
+  const [card4, setCard4] = useState<PolaroidCard>({
+    title: "",
+    tag: "",
+    description: "",
+    image: "",
+    caption: "",
+  });
 
   useEffect(() => {
     if (initialData) {
@@ -197,42 +221,146 @@ export function DifferenceSection({ initialData }: { initialData?: any }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                 {/* Card 1 */}
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">Polaroid 1</span>
-                  <InputField label="Title" value={card1.title} onChange={(e) => setCard1({ ...card1, title: e.target.value })} placeholder="e.g. Curated, Not Crowded" />
-                  <InputField label="Sub-badge" value={card1.tag} onChange={(e) => setCard1({ ...card1, tag: e.target.value })} placeholder="e.g. 01. Intimate Circles" />
-                  <TextAreaField label="Description" value={card1.description} onChange={(e) => setCard1({ ...card1, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Polaroid Photo" value={card1.image} onChange={(url) => setCard1({ ...card1, image: url })} />
-                  <InputField label="Handwritten Caption" value={card1.caption} onChange={(e) => setCard1({ ...card1, caption: e.target.value })} placeholder="e.g. Sri Lanka Table Conversations ✨" />
+                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
+                    Polaroid 1
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={card1.title}
+                    onChange={(e) => setCard1({ ...card1, title: e.target.value })}
+                    placeholder="e.g. Curated, Not Crowded"
+                  />
+                  <InputField
+                    label="Sub-badge"
+                    value={card1.tag}
+                    onChange={(e) => setCard1({ ...card1, tag: e.target.value })}
+                    placeholder="e.g. 01. Intimate Circles"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={card1.description}
+                    onChange={(e) => setCard1({ ...card1, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Polaroid Photo"
+                    value={card1.image}
+                    onChange={(url) => setCard1({ ...card1, image: url })}
+                  />
+                  <InputField
+                    label="Handwritten Caption"
+                    value={card1.caption}
+                    onChange={(e) => setCard1({ ...card1, caption: e.target.value })}
+                    placeholder="e.g. Sri Lanka Table Conversations ✨"
+                  />
                 </div>
 
                 {/* Card 2 */}
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">Polaroid 2</span>
-                  <InputField label="Title" value={card2.title} onChange={(e) => setCard2({ ...card2, title: e.target.value })} placeholder="e.g. Designed for Connection, Not Just Sightseeing" />
-                  <InputField label="Sub-badge" value={card2.tag} onChange={(e) => setCard2({ ...card2, tag: e.target.value })} placeholder="e.g. 02. Real Connection" />
-                  <TextAreaField label="Description" value={card2.description} onChange={(e) => setCard2({ ...card2, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Polaroid Photo" value={card2.image} onChange={(url) => setCard2({ ...card2, image: url })} />
-                  <InputField label="Handwritten Caption" value={card2.caption} onChange={(e) => setCard2({ ...card2, caption: e.target.value })} placeholder="e.g. Unfiltered Shared Moments ♡" />
+                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
+                    Polaroid 2
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={card2.title}
+                    onChange={(e) => setCard2({ ...card2, title: e.target.value })}
+                    placeholder="e.g. Designed for Connection, Not Just Sightseeing"
+                  />
+                  <InputField
+                    label="Sub-badge"
+                    value={card2.tag}
+                    onChange={(e) => setCard2({ ...card2, tag: e.target.value })}
+                    placeholder="e.g. 02. Real Connection"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={card2.description}
+                    onChange={(e) => setCard2({ ...card2, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Polaroid Photo"
+                    value={card2.image}
+                    onChange={(url) => setCard2({ ...card2, image: url })}
+                  />
+                  <InputField
+                    label="Handwritten Caption"
+                    value={card2.caption}
+                    onChange={(e) => setCard2({ ...card2, caption: e.target.value })}
+                    placeholder="e.g. Unfiltered Shared Moments ♡"
+                  />
                 </div>
 
                 {/* Card 3 */}
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">Polaroid 3</span>
-                  <InputField label="Title" value={card3.title} onChange={(e) => setCard3({ ...card3, title: e.target.value })} placeholder="e.g. Hosted, End to End" />
-                  <InputField label="Sub-badge" value={card3.tag} onChange={(e) => setCard3({ ...card3, tag: e.target.value })} placeholder="e.g. 03. Seamless Hosting" />
-                  <TextAreaField label="Description" value={card3.description} onChange={(e) => setCard3({ ...card3, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Polaroid Photo" value={card3.image} onChange={(url) => setCard3({ ...card3, image: url })} />
-                  <InputField label="Handwritten Caption" value={card3.caption} onChange={(e) => setCard3({ ...card3, caption: e.target.value })} placeholder="e.g. Host Accompanied ⛰️" />
+                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
+                    Polaroid 3
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={card3.title}
+                    onChange={(e) => setCard3({ ...card3, title: e.target.value })}
+                    placeholder="e.g. Hosted, End to End"
+                  />
+                  <InputField
+                    label="Sub-badge"
+                    value={card3.tag}
+                    onChange={(e) => setCard3({ ...card3, tag: e.target.value })}
+                    placeholder="e.g. 03. Seamless Hosting"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={card3.description}
+                    onChange={(e) => setCard3({ ...card3, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Polaroid Photo"
+                    value={card3.image}
+                    onChange={(url) => setCard3({ ...card3, image: url })}
+                  />
+                  <InputField
+                    label="Handwritten Caption"
+                    value={card3.caption}
+                    onChange={(e) => setCard3({ ...card3, caption: e.target.value })}
+                    placeholder="e.g. Host Accompanied ⛰️"
+                  />
                 </div>
 
                 {/* Card 4 */}
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">Polaroid 4</span>
-                  <InputField label="Title" value={card4.title} onChange={(e) => setCard4({ ...card4, title: e.target.value })} placeholder="e.g. Every Detail, Thoughtfully Planned" />
-                  <InputField label="Sub-badge" value={card4.tag} onChange={(e) => setCard4({ ...card4, tag: e.target.value })} placeholder="e.g. 04. Intention & Care" />
-                  <TextAreaField label="Description" value={card4.description} onChange={(e) => setCard4({ ...card4, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Polaroid Photo" value={card4.image} onChange={(url) => setCard4({ ...card4, image: url })} />
-                  <InputField label="Handwritten Caption" value={card4.caption} onChange={(e) => setCard4({ ...card4, caption: e.target.value })} placeholder="e.g. Built With Pure Intention 🌊" />
+                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
+                    Polaroid 4
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={card4.title}
+                    onChange={(e) => setCard4({ ...card4, title: e.target.value })}
+                    placeholder="e.g. Every Detail, Thoughtfully Planned"
+                  />
+                  <InputField
+                    label="Sub-badge"
+                    value={card4.tag}
+                    onChange={(e) => setCard4({ ...card4, tag: e.target.value })}
+                    placeholder="e.g. 04. Intention & Care"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={card4.description}
+                    onChange={(e) => setCard4({ ...card4, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Polaroid Photo"
+                    value={card4.image}
+                    onChange={(url) => setCard4({ ...card4, image: url })}
+                  />
+                  <InputField
+                    label="Handwritten Caption"
+                    value={card4.caption}
+                    onChange={(e) => setCard4({ ...card4, caption: e.target.value })}
+                    placeholder="e.g. Built With Pure Intention 🌊"
+                  />
                 </div>
               </div>
 

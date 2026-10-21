@@ -34,17 +34,17 @@ A dedicated, enterprise-grade Headless Content Management System and Administrat
 
 ## 🛠️ Technology Stack
 
-| Layer                   | Technologies                                                        |
-| :---------------------- | :------------------------------------------------------------------ |
-| **Framework**           | Next.js 16 (App Router)                                             |
-| **Language**            | TypeScript                                                          |
-| **ORM & Database**      | Prisma ORM, PostgreSQL (Compatible with Supabase / Neon / Local PG) |
-| **Authentication**      | NextAuth.js v5 (Auth.js Beta)                                       |
-| **Styling & UI**        | Tailwind CSS v4, Lucide React Icons, Radix UI Slot                  |
-| **Media & Storage**     | Cloudinary SDK                                                      |
-| **Email Service**       | Nodemailer (SMTP transport with automated alert dispatch)           |
-| **Rich Text Editor**    | React Quill New                                                     |
-| **Visual Charts**       | Recharts                                                            |
+| Layer                | Technologies                                                        |
+| :------------------- | :------------------------------------------------------------------ |
+| **Framework**        | Next.js 16 (App Router)                                             |
+| **Language**         | TypeScript                                                          |
+| **ORM & Database**   | Prisma ORM, PostgreSQL (Compatible with Supabase / Neon / Local PG) |
+| **Authentication**   | NextAuth.js v5 (Auth.js Beta)                                       |
+| **Styling & UI**     | Tailwind CSS v4, Lucide React Icons, Radix UI Slot                  |
+| **Media & Storage**  | Cloudinary SDK                                                      |
+| **Email Service**    | Nodemailer (SMTP transport with automated alert dispatch)           |
+| **Rich Text Editor** | React Quill New                                                     |
+| **Visual Charts**    | Recharts                                                            |
 
 ---
 

@@ -51,17 +51,14 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
             captionTitle: p.captionTitle ?? "",
             captionSub: p.captionSub ?? "",
             badge: p.badge ?? "",
-          }))
+          })),
         );
       }
     }
   }, [initialData]);
 
   const addPhoto = () => {
-    setPhotos([
-      ...photos,
-      { image: "", alt: "", captionTitle: "", captionSub: "", badge: "" },
-    ]);
+    setPhotos([...photos, { image: "", alt: "", captionTitle: "", captionSub: "", badge: "" }]);
   };
 
   const removePhoto = (idx: number) => {
@@ -164,7 +161,9 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-gray-50/60 rounded-2xl border border-gray-100">
                 <div className="space-y-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-red-600">Left Card (The Old Way)</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-red-600">
+                    Left Card (The Old Way)
+                  </h4>
                   <InputField
                     label="Old Way Badge"
                     value={oldWayBadge}
@@ -180,7 +179,9 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-700">Right Card (The Kokalachi Way)</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-700">
+                    Right Card (The Kokalachi Way)
+                  </h4>
                   <InputField
                     label="New Way Badge"
                     value={newWayBadge}
@@ -200,8 +201,12 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
               <div className="space-y-4 pt-2">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-sm font-bold text-gray-800">The Kokalachi Way Photo Carousel</h4>
-                    <p className="text-xs text-gray-500">Curated photos displayed in the right-side animated phone card</p>
+                    <h4 className="text-sm font-bold text-gray-800">
+                      The Kokalachi Way Photo Carousel
+                    </h4>
+                    <p className="text-xs text-gray-500">
+                      Curated photos displayed in the right-side animated phone card
+                    </p>
                   </div>
                   <button
                     type="button"
@@ -213,7 +218,10 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                 </div>
 
                 {photos.map((item, idx) => (
-                  <div key={idx} className="p-4 bg-gray-50/80 rounded-2xl border border-gray-100 space-y-3 relative">
+                  <div
+                    key={idx}
+                    className="p-4 bg-gray-50/80 rounded-2xl border border-gray-100 space-y-3 relative"
+                  >
                     <button
                       type="button"
                       onClick={() => removePhoto(idx)}

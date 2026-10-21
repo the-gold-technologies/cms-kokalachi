@@ -148,7 +148,7 @@ export default function CreateFullJourneyPage() {
           status: (d.status as any) || "open",
           label: d.label || "",
           note: d.note || "",
-        }))
+        })),
       );
     }
 
@@ -164,7 +164,7 @@ export default function CreateFullJourneyPage() {
           icon: h.icon || "Sparkles",
           title: h.title || "",
           description: h.description || "",
-        }))
+        })),
       );
     }
 
@@ -176,14 +176,17 @@ export default function CreateFullJourneyPage() {
           journey: it.journey || "",
           community: it.community || "",
           image: it.image || "",
-        }))
+        })),
       );
     }
 
-    if (Array.isArray(data.inclusions) && data.inclusions.length > 0) setInclusions(data.inclusions);
-    if (Array.isArray(data.exclusions) && data.exclusions.length > 0) setExclusions(data.exclusions);
+    if (Array.isArray(data.inclusions) && data.inclusions.length > 0)
+      setInclusions(data.inclusions);
+    if (Array.isArray(data.exclusions) && data.exclusions.length > 0)
+      setExclusions(data.exclusions);
     if (Array.isArray(data.meals) && data.meals.length > 0) setMeals(data.meals);
-    if (Array.isArray(data.whatToPack) && data.whatToPack.length > 0) setWhatToPack(data.whatToPack);
+    if (Array.isArray(data.whatToPack) && data.whatToPack.length > 0)
+      setWhatToPack(data.whatToPack);
     if (Array.isArray(data.weather) && data.weather.length > 0) setWeather(data.weather);
 
     if (Array.isArray(data.faqs) && data.faqs.length > 0) {
@@ -191,7 +194,7 @@ export default function CreateFullJourneyPage() {
         data.faqs.map((f) => ({
           question: f.question || "",
           answer: f.answer || "",
-        }))
+        })),
       );
     }
 
@@ -210,7 +213,7 @@ export default function CreateFullJourneyPage() {
         const json = await res.json();
         if (json.success && json.data?.sections?.JourneysFilterSection?.categories) {
           const cats = json.data.sections.JourneysFilterSection.categories.filter(
-            (c: any) => c.id !== "All"
+            (c: any) => c.id !== "All",
           );
           setVibeCategories(cats);
           if (cats.length > 0) setCategory(cats[0].id);
@@ -267,7 +270,8 @@ export default function CreateFullJourneyPage() {
   // Overview handled via single overviewText textarea
 
   // Highlights Handlers
-  const handleAddHighlight = () => setHighlights((prev) => [...prev, { icon: "Sparkles", title: "", description: "" }]);
+  const handleAddHighlight = () =>
+    setHighlights((prev) => [...prev, { icon: "Sparkles", title: "", description: "" }]);
   const handleUpdateHighlight = (idx: number, field: keyof HighlightItem, val: string) => {
     setHighlights((prev) => {
       const copy = [...prev];
@@ -275,7 +279,8 @@ export default function CreateFullJourneyPage() {
       return copy;
     });
   };
-  const handleRemoveHighlight = (idx: number) => setHighlights((prev) => prev.filter((_, i) => i !== idx));
+  const handleRemoveHighlight = (idx: number) =>
+    setHighlights((prev) => prev.filter((_, i) => i !== idx));
 
   // Itinerary Handlers
   const handleAddDay = () =>
@@ -318,7 +323,8 @@ export default function CreateFullJourneyPage() {
       return copy;
     });
   };
-  const handleRemoveGalleryImage = (idx: number) => setGallery((prev) => prev.filter((_, i) => i !== idx));
+  const handleRemoveGalleryImage = (idx: number) =>
+    setGallery((prev) => prev.filter((_, i) => i !== idx));
 
   const handleSaveJourney = async () => {
     const finalSlug = slug || generateSlug(title);
@@ -361,7 +367,10 @@ export default function CreateFullJourneyPage() {
             label: d.label && d.label.trim() !== "" ? d.label : null,
             note: d.note && d.note.trim() !== "" ? d.note : null,
           })),
-        overview: overviewText.split("\n").map((l) => l.trim()).filter(Boolean),
+        overview: overviewText
+          .split("\n")
+          .map((l) => l.trim())
+          .filter(Boolean),
         highlights: highlights.filter((h) => h.title.trim() !== ""),
         itinerary: itinerary.filter((d) => d.day.trim() !== "" || d.title.trim() !== ""),
         inclusions,
@@ -429,7 +438,9 @@ export default function CreateFullJourneyPage() {
               </span>
             </div>
             <p className="text-xs text-gray-600 max-w-2xl leading-relaxed">
-              Upload a .json or .md file (or paste its content) to automatically pre-fill all 6 sections: itinerary, highlights, meals, inclusions, packing checklist, weather, FAQs, departures &amp; images.
+              Upload a .json or .md file (or paste its content) to automatically pre-fill all 6
+              sections: itinerary, highlights, meals, inclusions, packing checklist, weather, FAQs,
+              departures &amp; images.
             </p>
           </div>
         </div>
@@ -625,7 +636,8 @@ export default function CreateFullJourneyPage() {
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between pb-2 border-b border-gray-100">
             <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-              <ImageIcon className="w-3.5 h-3.5 text-[#0E5A60]" /> Card Slideshow Images ({gallery.length})
+              <ImageIcon className="w-3.5 h-3.5 text-[#0E5A60]" /> Card Slideshow Images (
+              {gallery.length})
             </label>
             <button
               type="button"
@@ -693,7 +705,8 @@ export default function CreateFullJourneyPage() {
 
         {departures.length === 0 ? (
           <div className="py-8 text-center text-gray-400 text-xs bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-            No departure dates added yet. Click &ldquo;Add Departure Batch&rdquo; to open booking dates.
+            No departure dates added yet. Click &ldquo;Add Departure Batch&rdquo; to open booking
+            dates.
           </div>
         ) : (
           <div className="flex flex-col gap-4">
@@ -868,7 +881,8 @@ export default function CreateFullJourneyPage() {
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between pb-2 border-b border-gray-100">
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#0E5A60]" /> Day-by-Day Itinerary ({itinerary.length} Days)
+              <MapPin className="w-3.5 h-3.5 text-[#0E5A60]" /> Day-by-Day Itinerary (
+              {itinerary.length} Days)
             </span>
             <button
               type="button"
@@ -1011,8 +1025,10 @@ export default function CreateFullJourneyPage() {
               <span>Traveller Confidence Tips</span>
             </div>
             <p className="text-xs text-gray-500 leading-relaxed">
-              Clear packing lists and weather guidelines reduce traveller hesitation before booking. 
-              Each bullet point will automatically render with checkmark badges on the live trip detail page under the <strong>&ldquo;What to Pack&rdquo;</strong> and <strong>&ldquo;Weather&rdquo;</strong> tabs.
+              Clear packing lists and weather guidelines reduce traveller hesitation before booking.
+              Each bullet point will automatically render with checkmark badges on the live trip
+              detail page under the <strong>&ldquo;What to Pack&rdquo;</strong> and{" "}
+              <strong>&ldquo;Weather&rdquo;</strong> tabs.
             </p>
             <div className="pt-2 text-[11px] text-gray-400 border-t border-gray-200/60 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shrink-0" />
@@ -1045,9 +1061,7 @@ export default function CreateFullJourneyPage() {
               className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-3 relative"
             >
               <div className="flex items-center justify-between border-b border-gray-200/60 pb-2">
-                <span className="text-xs font-bold text-[#0E5A60]">
-                  Question #{idx + 1}
-                </span>
+                <span className="text-xs font-bold text-[#0E5A60]">Question #{idx + 1}</span>
                 <button
                   type="button"
                   onClick={() => handleRemoveFaq(idx)}

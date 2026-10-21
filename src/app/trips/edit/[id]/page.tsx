@@ -12,15 +12,7 @@ import {
   JourneyFaqSection,
   JourneySeoSection,
 } from "../../components";
-import {
-  ArrowLeft,
-  ExternalLink,
-  Loader2,
-  Compass,
-  Calendar,
-  Clock,
-  Sparkles,
-} from "lucide-react";
+import { ArrowLeft, ExternalLink, Loader2, Compass, Calendar, Clock, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function EditJourneyPage() {
@@ -111,11 +103,7 @@ export default function EditJourneyPage() {
         <div className="flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-gray-200">
             {trip.image ? (
-              <img
-                src={trip.image}
-                alt={trip.title}
-                className="w-full h-full object-cover"
-              />
+              <img src={trip.image} alt={trip.title} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-300">
                 <Compass className="w-6 h-6" />

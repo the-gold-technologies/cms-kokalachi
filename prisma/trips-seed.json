@@ -7,18 +7,8 @@
     "duration": "3 Days / 2 Nights",
     "groupSize": "Intimate Group",
     "price": "7,999",
-    "vibeTags": [
-      "Mountains",
-      "Cafés",
-      "Road Trip",
-      "Scenic",
-      "Community"
-    ],
-    "categories": [
-      "Trending",
-      "FirstTimers",
-      "Adventure"
-    ],
+    "vibeTags": ["Mountains", "Cafés", "Road Trip", "Scenic", "Community"],
+    "categories": ["Trending", "FirstTimers", "Adventure"],
     "featured": true,
     "images": [
       "https://images.unsplash.com/photo-1597167231350-d057a45dc868?auto=format&fit=crop&q=85&w=800",
@@ -183,18 +173,8 @@
     "duration": "4 Days / 3 Nights",
     "groupSize": "10–12 Travellers",
     "price": "TBA",
-    "vibeTags": [
-      "Adventure",
-      "Nature",
-      "Scenic",
-      "Heritage",
-      "Culture"
-    ],
-    "categories": [
-      "Trending",
-      "Adventure",
-      "ScenicJourney"
-    ],
+    "vibeTags": ["Adventure", "Nature", "Scenic", "Heritage", "Culture"],
+    "categories": ["Trending", "Adventure", "ScenicJourney"],
     "images": [
       "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1715457573748-8e8a70b2c1be?auto=format&fit=crop&q=85&w=800",
@@ -365,17 +345,8 @@
     "duration": "5 Days / 4 Nights",
     "groupSize": "Intimate Group",
     "price": "44,999",
-    "vibeTags": [
-      "Women Only",
-      "Island",
-      "Culture",
-      "Beach",
-      "Community"
-    ],
-    "categories": [
-      "WomenOnly",
-      "BeachEscape"
-    ],
+    "vibeTags": ["Women Only", "Island", "Culture", "Beach", "Community"],
+    "categories": ["WomenOnly", "BeachEscape"],
     "images": [
       "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&q=85&w=800",
@@ -521,17 +492,8 @@
     "duration": "3 Days / 2 Nights",
     "groupSize": "20 Travellers",
     "price": "9,999",
-    "vibeTags": [
-      "Heritage",
-      "Culture",
-      "Scenic",
-      "Road Trip",
-      "Community"
-    ],
-    "categories": [
-      "Trending",
-      "FirstTimers"
-    ],
+    "vibeTags": ["Heritage", "Culture", "Scenic", "Road Trip", "Community"],
+    "categories": ["Trending", "FirstTimers"],
     "images": [
       "https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1695956353120-54ce5e91632b?auto=format&fit=crop&q=85&w=800",
@@ -698,15 +660,8 @@
     "duration": "3 Days / 2 Nights",
     "groupSize": "Intimate Group",
     "price": "8,999",
-    "vibeTags": [
-      "Trek",
-      "Himalayas",
-      "Adventure",
-      "Community"
-    ],
-    "categories": [
-      "Adventure"
-    ],
+    "vibeTags": ["Trek", "Himalayas", "Adventure", "Community"],
+    "categories": ["Adventure"],
     "images": [
       "https://images.unsplash.com/photo-1620236232016-3eb7bc6ede3d?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1624881256794-a7ee33ecbb99?auto=format&fit=crop&q=85&w=800"
@@ -838,16 +793,8 @@
     "duration": "3 Days / 2 Nights",
     "groupSize": "Intimate Group",
     "price": "6,499",
-    "vibeTags": [
-      "Trek",
-      "Himalayas",
-      "Adventure",
-      "Community"
-    ],
-    "categories": [
-      "Adventure",
-      "FirstTimers"
-    ],
+    "vibeTags": ["Trek", "Himalayas", "Adventure", "Community"],
+    "categories": ["Adventure", "FirstTimers"],
     "images": [
       "https://images.unsplash.com/photo-1697807880008-234c28ae6632?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1643284674341-659e5c67dfbd?auto=format&fit=crop&q=85&w=800",
@@ -972,17 +919,8 @@
     "duration": "5 Nights / 6 Days",
     "groupSize": "Intimate Group",
     "price": "TBA",
-    "vibeTags": [
-      "Heritage",
-      "Coastal",
-      "Culture",
-      "Relaxed",
-      "Scenic"
-    ],
-    "categories": [
-      "Trending",
-      "SlowTravel"
-    ],
+    "vibeTags": ["Heritage", "Coastal", "Culture", "Relaxed", "Scenic"],
+    "categories": ["Trending", "SlowTravel"],
     "images": [
       "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1583513645242-25a32d451084?auto=format&fit=crop&q=85&w=800",
@@ -1164,15 +1102,8 @@
     "duration": "6 Days / 5 Nights",
     "groupSize": "Intimate Group",
     "price": "46,999",
-    "vibeTags": [
-      "Island",
-      "Culture",
-      "Beach",
-      "Community"
-    ],
-    "categories": [
-      "BeachEscape"
-    ],
+    "vibeTags": ["Island", "Culture", "Beach", "Community"],
+    "categories": ["BeachEscape"],
     "images": [
       "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1519566335946-e6f65f0f4fdf?auto=format&fit=crop&q=85&w=800",
@@ -1271,11 +1202,7 @@
         "Scenic Ella train reserved seats",
         "Experienced Kokalachi trip leader"
       ],
-      "exclusions": [
-        "International flights",
-        "Daily lunches",
-        "Personal expenses & visa"
-      ],
+      "exclusions": ["International flights", "Daily lunches", "Personal expenses & visa"],
       "meals": [
         "Daily breakfast buffets",
         "Authentic curry feasts & coastal seafood dinners",
@@ -1315,16 +1242,8 @@
     "groupSize": "Intimate Group",
     "dates": "Upcoming",
     "price": "TBA",
-    "vibeTags": [
-      "Adventure",
-      "Trekking",
-      "Scenic",
-      "Exploration"
-    ],
-    "categories": [
-      "Trending",
-      "Adventure"
-    ],
+    "vibeTags": ["Adventure", "Trekking", "Scenic", "Exploration"],
+    "categories": ["Trending", "Adventure"],
     "images": [
       "https://images.unsplash.com/photo-1593813738953-fb3c93e0769d?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800",
@@ -1516,17 +1435,8 @@
     "groupSize": "Intimate Group",
     "dates": "Upcoming",
     "price": "TBA",
-    "vibeTags": [
-      "Culture",
-      "Scenic",
-      "Mindful",
-      "Heritage",
-      "Discovery"
-    ],
-    "categories": [
-      "Trending",
-      "SlowTravel"
-    ],
+    "vibeTags": ["Culture", "Scenic", "Mindful", "Heritage", "Discovery"],
+    "categories": ["Trending", "SlowTravel"],
     "images": [
       "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1580649851649-992b28f56e98?auto=format&fit=crop&q=85&w=800",

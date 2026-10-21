@@ -132,11 +132,7 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
               </div>
 
               <div className="pt-4 border-t border-gray-100">
-                <SaveButton
-                  loading={loading}
-                  saved={saved}
-                  onClick={handleSave}
-                />
+                <SaveButton loading={loading} saved={saved} onClick={handleSave} />
               </div>
             </div>
           </div>

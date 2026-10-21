@@ -37,17 +37,14 @@ export function VibeFiltersSection({
           initialData.categories.map((c: any) => ({
             id: c.id ?? "",
             label: c.label ?? "",
-          }))
+          })),
         );
       }
     }
   }, [initialData]);
 
   const handleAddCategory = () => {
-    setCategories((prev) => [
-      ...prev,
-      { id: "", label: "" },
-    ]);
+    setCategories((prev) => [...prev, { id: "", label: "" }]);
   };
 
   const handleUpdateCategory = (index: number, field: keyof VibeCategory, val: string) => {
@@ -186,11 +183,7 @@ export function VibeFiltersSection({
           </div>
 
           <div className="pt-4 border-t border-gray-100">
-            <SaveButton
-              loading={loading}
-              saved={saved}
-              onClick={handleSave}
-            />
+            <SaveButton loading={loading} saved={saved} onClick={handleSave} />
           </div>
         </form>
       )}

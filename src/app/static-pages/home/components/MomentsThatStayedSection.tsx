@@ -52,7 +52,7 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
             author: c.author ?? "",
             trip: c.trip ?? "",
             image: c.image ?? "",
-          }))
+          })),
         );
       }
     }
@@ -177,7 +177,9 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
               </div>
 
               <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">Featured Cinematic Showcase Card</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                  Featured Cinematic Showcase Card
+                </h4>
                 <ImagePickerField
                   label="Featured Media Image"
                   value={featuredMediaUrl}
@@ -202,7 +204,9 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
               <div className="space-y-4 pt-2">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-sm font-bold text-gray-800">Scrapbook Testimonial / Memory Cards</h4>
+                    <h4 className="text-sm font-bold text-gray-800">
+                      Scrapbook Testimonial / Memory Cards
+                    </h4>
                     <p className="text-xs text-gray-500">Candid traveller reviews and memories</p>
                   </div>
                   <button
@@ -215,7 +219,10 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
                 </div>
 
                 {cards.map((c, idx) => (
-                  <div key={idx} className="p-4 bg-gray-50/80 rounded-2xl border border-gray-100 space-y-3 relative">
+                  <div
+                    key={idx}
+                    className="p-4 bg-gray-50/80 rounded-2xl border border-gray-100 space-y-3 relative"
+                  >
                     <button
                       type="button"
                       onClick={() => removeCard(idx)}
@@ -224,7 +231,9 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
                     >
                       <Trash2 size={16} />
                     </button>
-                    <span className="text-xs font-bold text-teal-800 block">Memory Card #{idx + 1}</span>
+                    <span className="text-xs font-bold text-teal-800 block">
+                      Memory Card #{idx + 1}
+                    </span>
                     <TextAreaField
                       label="Quote / Story"
                       value={c.quote}

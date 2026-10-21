@@ -187,7 +187,9 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-gray-50/70 rounded-2xl border border-gray-100">
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">Primary CTA Button</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                    Primary CTA Button
+                  </h4>
                   <InputField
                     label="Button Text"
                     value={primaryCtaText}
@@ -203,7 +205,9 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">Secondary Video CTA</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                    Secondary Video CTA
+                  </h4>
                   <InputField
                     label="Button Text"
                     value={secondaryCtaText}
@@ -222,13 +226,19 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
               {/* 3 Polaroids & Doodle on Right Column */}
               <div className="space-y-4 pt-2">
                 <div>
-                  <h4 className="text-sm font-bold text-gray-800">Photo Stack Polaroids (Right Column)</h4>
-                  <p className="text-xs text-gray-500">The 3 angled polaroid snapshots with handwritten titles and right margin doodle</p>
+                  <h4 className="text-sm font-bold text-gray-800">
+                    Photo Stack Polaroids (Right Column)
+                  </h4>
+                  <p className="text-xs text-gray-500">
+                    The 3 angled polaroid snapshots with handwritten titles and right margin doodle
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                    <span className="text-xs font-bold text-teal-800 uppercase block">Polaroid 1 (Left Tilt)</span>
+                    <span className="text-xs font-bold text-teal-800 uppercase block">
+                      Polaroid 1 (Left Tilt)
+                    </span>
                     <InputField
                       label="Handwritten Title"
                       value={polaroid1Title}
@@ -243,7 +253,9 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
                   </div>
 
                   <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                    <span className="text-xs font-bold text-teal-800 uppercase block">Polaroid 2 (Right Tilt)</span>
+                    <span className="text-xs font-bold text-teal-800 uppercase block">
+                      Polaroid 2 (Right Tilt)
+                    </span>
                     <InputField
                       label="Handwritten Title"
                       value={polaroid2Title}
@@ -258,7 +270,9 @@ export function AboutHeroSection({ initialData }: { initialData?: any }) {
                   </div>
 
                   <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                    <span className="text-xs font-bold text-teal-800 uppercase block">Polaroid 3 (Center Foreground)</span>
+                    <span className="text-xs font-bold text-teal-800 uppercase block">
+                      Polaroid 3 (Center Foreground)
+                    </span>
                     <InputField
                       label="Handwritten Title"
                       value={polaroid3Title}

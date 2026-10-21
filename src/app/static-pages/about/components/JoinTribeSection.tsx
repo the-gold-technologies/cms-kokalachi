@@ -136,7 +136,9 @@ export function JoinTribeSection({ initialData }: { initialData?: any }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-gray-50/70 rounded-2xl border border-gray-100">
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">Primary CTA Button</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                    Primary CTA Button
+                  </h4>
                   <InputField
                     label="Button Text"
                     value={primaryButtonText}
@@ -152,7 +154,9 @@ export function JoinTribeSection({ initialData }: { initialData?: any }) {
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">Secondary Action Button</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                    Secondary Action Button
+                  </h4>
                   <InputField
                     label="Button Text"
                     value={secondaryButtonText}

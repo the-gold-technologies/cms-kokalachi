@@ -77,7 +77,7 @@ export function JourneyExperienceSection({
               title: h.title ?? "",
               description: h.description ?? "",
             }))
-          : []
+          : [],
       );
       setItinerary(
         Array.isArray(initialData.itinerary)
@@ -88,7 +88,7 @@ export function JourneyExperienceSection({
               community: it.community ?? "",
               image: it.image ?? "",
             }))
-          : []
+          : [],
       );
     }
   }, [initialData]);
@@ -217,7 +217,8 @@ export function JourneyExperienceSection({
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between pb-2 border-b border-gray-100">
               <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#D96C2C]" /> Key Highlights ({highlights.length})
+                <Sparkles className="w-3.5 h-3.5 text-[#D96C2C]" /> Key Highlights (
+                {highlights.length})
               </span>
               <button
                 type="button"
@@ -230,7 +231,8 @@ export function JourneyExperienceSection({
 
             {highlights.length === 0 ? (
               <div className="py-6 text-center text-gray-400 text-xs bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                No key highlights added yet. Click &ldquo;Add Highlight&rdquo; to showcase iconic experiences.
+                No key highlights added yet. Click &ldquo;Add Highlight&rdquo; to showcase iconic
+                experiences.
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -285,7 +287,8 @@ export function JourneyExperienceSection({
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between pb-2 border-b border-gray-100">
               <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#0E5A60]" /> Day-by-Day Itinerary ({itinerary.length} Days)
+                <MapPin className="w-3.5 h-3.5 text-[#0E5A60]" /> Day-by-Day Itinerary (
+                {itinerary.length} Days)
               </span>
               <button
                 type="button"
@@ -298,7 +301,8 @@ export function JourneyExperienceSection({
 
             {itinerary.length === 0 ? (
               <div className="py-8 text-center text-gray-400 text-xs bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                No itinerary days added yet. Click &ldquo;Add Day&rdquo; to build your daily schedule.
+                No itinerary days added yet. Click &ldquo;Add Day&rdquo; to build your daily
+                schedule.
               </div>
             ) : (
               <div className="flex flex-col gap-4">

@@ -133,26 +133,58 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
               <div className="space-y-4">
                 <div>
                   <h4 className="text-sm font-bold text-gray-800">3 Trust Reinforcement Points</h4>
-                  <p className="text-xs text-gray-500">Security & privacy commitments displayed beside the contact form</p>
+                  <p className="text-xs text-gray-500">
+                    Security & privacy commitments displayed beside the contact form
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
                     <span className="text-xs font-bold text-teal-800 block">Trust Point 1</span>
-                    <InputField label="Title" value={trust1Title} onChange={(e) => setTrust1Title(e.target.value)} placeholder="e.g. Real humans reply, not bots" />
-                    <TextAreaField label="Description" value={trust1Desc} onChange={(e) => setTrust1Desc(e.target.value)} rows={2} />
+                    <InputField
+                      label="Title"
+                      value={trust1Title}
+                      onChange={(e) => setTrust1Title(e.target.value)}
+                      placeholder="e.g. Real humans reply, not bots"
+                    />
+                    <TextAreaField
+                      label="Description"
+                      value={trust1Desc}
+                      onChange={(e) => setTrust1Desc(e.target.value)}
+                      rows={2}
+                    />
                   </div>
 
                   <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
                     <span className="text-xs font-bold text-teal-800 block">Trust Point 2</span>
-                    <InputField label="Title" value={trust2Title} onChange={(e) => setTrust2Title(e.target.value)} placeholder="e.g. No spam, ever" />
-                    <TextAreaField label="Description" value={trust2Desc} onChange={(e) => setTrust2Desc(e.target.value)} rows={2} />
+                    <InputField
+                      label="Title"
+                      value={trust2Title}
+                      onChange={(e) => setTrust2Title(e.target.value)}
+                      placeholder="e.g. No spam, ever"
+                    />
+                    <TextAreaField
+                      label="Description"
+                      value={trust2Desc}
+                      onChange={(e) => setTrust2Desc(e.target.value)}
+                      rows={2}
+                    />
                   </div>
 
                   <div className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-2">
                     <span className="text-xs font-bold text-teal-800 block">Trust Point 3</span>
-                    <InputField label="Title" value={trust3Title} onChange={(e) => setTrust3Title(e.target.value)} placeholder="e.g. Your details are safe with us" />
-                    <TextAreaField label="Description" value={trust3Desc} onChange={(e) => setTrust3Desc(e.target.value)} rows={2} />
+                    <InputField
+                      label="Title"
+                      value={trust3Title}
+                      onChange={(e) => setTrust3Title(e.target.value)}
+                      placeholder="e.g. Your details are safe with us"
+                    />
+                    <TextAreaField
+                      label="Description"
+                      value={trust3Desc}
+                      onChange={(e) => setTrust3Desc(e.target.value)}
+                      rows={2}
+                    />
                   </div>
                 </div>
               </div>
@@ -160,8 +192,12 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
               {/* Direct Channels Card */}
               <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-4">
                 <div>
-                  <h4 className="text-sm font-bold text-gray-800">Direct Contact Channels ('Prefer to skip the form?')</h4>
-                  <p className="text-xs text-gray-500">Direct email and Instagram handles shown in the sidebar</p>
+                  <h4 className="text-sm font-bold text-gray-800">
+                    Direct Contact Channels ('Prefer to skip the form?')
+                  </h4>
+                  <p className="text-xs text-gray-500">
+                    Direct email and Instagram handles shown in the sidebar
+                  </p>
                 </div>
 
                 <InputField
@@ -175,24 +211,59 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
                   {/* Email Channel */}
                   <div className="p-4 bg-white rounded-xl border border-gray-200/60 space-y-2">
                     <span className="text-xs font-bold text-teal-800 block">Email Channel</span>
-                    <InputField label="Title" value={emailTitle} onChange={(e) => setEmailTitle(e.target.value)} placeholder="e.g. Email" />
-                    <InputField label="Email Address" value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} placeholder="e.g. hello@kokalachi.com" />
-                    <TextAreaField label="Description" value={emailDesc} onChange={(e) => setEmailDesc(e.target.value)} rows={2} />
+                    <InputField
+                      label="Title"
+                      value={emailTitle}
+                      onChange={(e) => setEmailTitle(e.target.value)}
+                      placeholder="e.g. Email"
+                    />
+                    <InputField
+                      label="Email Address"
+                      value={emailAddress}
+                      onChange={(e) => setEmailAddress(e.target.value)}
+                      placeholder="e.g. hello@kokalachi.com"
+                    />
+                    <TextAreaField
+                      label="Description"
+                      value={emailDesc}
+                      onChange={(e) => setEmailDesc(e.target.value)}
+                      rows={2}
+                    />
                   </div>
 
                   {/* Instagram Channel */}
                   <div className="p-4 bg-white rounded-xl border border-gray-200/60 space-y-2">
-                    <span className="text-xs font-bold text-amber-800 block">Instagram Channel</span>
-                    <InputField label="Title" value={instaTitle} onChange={(e) => setInstaTitle(e.target.value)} placeholder="e.g. Instagram" />
-                    <InputField label="Instagram Handle" value={instaHandle} onChange={(e) => setInstaHandle(e.target.value)} placeholder="e.g. @kokalachi" />
+                    <span className="text-xs font-bold text-amber-800 block">
+                      Instagram Channel
+                    </span>
+                    <InputField
+                      label="Title"
+                      value={instaTitle}
+                      onChange={(e) => setInstaTitle(e.target.value)}
+                      placeholder="e.g. Instagram"
+                    />
+                    <InputField
+                      label="Instagram Handle"
+                      value={instaHandle}
+                      onChange={(e) => setInstaHandle(e.target.value)}
+                      placeholder="e.g. @kokalachi"
+                    />
                     <div className="p-2.5 rounded-lg bg-amber-50/90 border border-amber-200 text-[11px] text-amber-800 leading-snug">
                       <span className="font-bold">Centralized: </span>
                       Social media links are managed centrally under{" "}
-                      <a href="/navigation/social-media" className="font-bold underline hover:text-amber-950 inline-flex items-center gap-0.5">
+                      <a
+                        href="/navigation/social-media"
+                        className="font-bold underline hover:text-amber-950 inline-flex items-center gap-0.5"
+                      >
                         Navigation &gt; Social Media &amp; Footer
                       </a>
                     </div>
-                    <TextAreaField label="Description" value={instaDesc} onChange={(e) => setInstaDesc(e.target.value)} rows={2} />
+                    <TextAreaField
+                      label="Description"
+                      value={instaDesc}
+                      onChange={(e) => setInstaDesc(e.target.value)}
+                      rows={2}
+                    />
                   </div>
                 </div>
               </div>

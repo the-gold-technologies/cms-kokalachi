@@ -35,7 +35,7 @@ export function JourneyFaqSection({
         initialFaqs.map((f) => ({
           question: f.question ?? "",
           answer: f.answer ?? "",
-        }))
+        })),
       );
     }
   }, [initialFaqs]);
@@ -105,7 +105,8 @@ export function JourneyFaqSection({
         >
           <div className="flex items-center justify-between pb-2 border-b border-gray-100">
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-              <HelpCircle className="w-3.5 h-3.5 text-[#0E5A60]" /> Questions & Answers ({faqs.length})
+              <HelpCircle className="w-3.5 h-3.5 text-[#0E5A60]" /> Questions & Answers (
+              {faqs.length})
             </span>
             <button
               type="button"
@@ -123,9 +124,7 @@ export function JourneyFaqSection({
                 className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-3 relative"
               >
                 <div className="flex items-center justify-between border-b border-gray-200/60 pb-2">
-                  <span className="text-xs font-bold text-[#0E5A60]">
-                    Question #{idx + 1}
-                  </span>
+                  <span className="text-xs font-bold text-[#0E5A60]">Question #{idx + 1}</span>
                   <button
                     type="button"
                     onClick={() => handleRemove(idx)}

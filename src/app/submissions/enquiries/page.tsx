@@ -74,9 +74,7 @@ export default function EnquiriesCMSPage() {
       const json = await res.json();
       if (json.success) {
         toast.success(`Status updated to ${newStatus}`);
-        setEnquiries((prev) =>
-          prev.map((e) => (e.id === id ? { ...e, status: newStatus } : e))
-        );
+        setEnquiries((prev) => prev.map((e) => (e.id === id ? { ...e, status: newStatus } : e)));
         if (activeEnquiry && activeEnquiry.id === id) {
           setActiveEnquiry({ ...activeEnquiry, status: newStatus });
         }
@@ -123,8 +121,7 @@ export default function EnquiriesCMSPage() {
       (e.hearAboutUs && e.hearAboutUs.toLowerCase().includes(q));
 
     const matchesStatus =
-      statusFilter === "all" ||
-      e.status.toLowerCase() === statusFilter.toLowerCase();
+      statusFilter === "all" || e.status.toLowerCase() === statusFilter.toLowerCase();
 
     return matchesSearch && matchesStatus;
   });
@@ -267,7 +264,7 @@ export default function EnquiriesCMSPage() {
                       value={e.status}
                       onChange={(evt) => handleUpdateStatus(e.id, evt.target.value)}
                       className={`text-xs font-bold px-3 py-1.5 rounded-full border cursor-pointer focus:outline-none transition-colors ${getStatusBadge(
-                        e.status
+                        e.status,
                       )}`}
                     >
                       <option value="Pending">Pending</option>
@@ -297,7 +294,12 @@ export default function EnquiriesCMSPage() {
                         <span>View</span>
                       </button>
                       <button
-                        onClick={() => setEnquiryToDelete({ id: e.id, name: `Enquiry from ${e.name || "User"} (${e.journey || "General"})` })}
+                        onClick={() =>
+                          setEnquiryToDelete({
+                            id: e.id,
+                            name: `Enquiry from ${e.name || "User"} (${e.journey || "General"})`,
+                          })
+                        }
                         className="p-2 rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors shrink-0"
                         title="Delete Enquiry"
                       >
@@ -423,7 +425,7 @@ export default function EnquiriesCMSPage() {
                   disabled={isUpdatingStatus}
                   onChange={(evt) => handleUpdateStatus(activeEnquiry.id, evt.target.value)}
                   className={`text-xs font-bold px-4 py-2 rounded-xl border cursor-pointer focus:outline-none transition-colors ${getStatusBadge(
-                    activeEnquiry.status
+                    activeEnquiry.status,
                   )}`}
                 >
                   <option value="Pending">Pending</option>

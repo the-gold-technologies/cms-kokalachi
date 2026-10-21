@@ -10,8 +10,6 @@ import { SaveButton } from "@/components/SaveButton";
 import { Plus, Trash2, Image as ImageIcon } from "lucide-react";
 import toast from "react-hot-toast";
 
-
-
 export function JourneyCardSection({
   tripId,
   initialData,
@@ -53,7 +51,9 @@ export function JourneyCardSection({
         const res = await fetch("/api/journeys");
         const json = await res.json();
         if (json.success && json.data?.sections?.JourneysFilterSection?.categories) {
-          const cats = json.data.sections.JourneysFilterSection.categories.filter((c: any) => c.id !== "All");
+          const cats = json.data.sections.JourneysFilterSection.categories.filter(
+            (c: any) => c.id !== "All",
+          );
           setVibeCategories(cats);
         }
       } catch {
@@ -358,7 +358,8 @@ export function JourneyCardSection({
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between pb-2 border-b border-gray-100">
               <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-                <ImageIcon className="w-3.5 h-3.5 text-[#0E5A60]" /> Card Slideshow Images ({gallery.length})
+                <ImageIcon className="w-3.5 h-3.5 text-[#0E5A60]" /> Card Slideshow Images (
+                {gallery.length})
               </label>
               <button
                 type="button"

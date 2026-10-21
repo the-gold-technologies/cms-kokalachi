@@ -4,14 +4,7 @@ import React, { useState, useEffect } from "react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { StringListEditor } from "@/components/StringListEditor";
 import { SaveButton } from "@/components/SaveButton";
-import {
-  ShieldCheck,
-  CheckCircle2,
-  XCircle,
-  Utensils,
-  Luggage,
-  CloudSun,
-} from "lucide-react";
+import { ShieldCheck, CheckCircle2, XCircle, Utensils, Luggage, CloudSun } from "lucide-react";
 import toast from "react-hot-toast";
 
 export function JourneyLogisticsSection({
@@ -154,8 +147,10 @@ export function JourneyLogisticsSection({
                 <span>Traveller Confidence Tips</span>
               </div>
               <p className="text-xs text-gray-500 leading-relaxed">
-                Clear packing lists and weather guidelines reduce traveller hesitation before booking. 
-                Each bullet point will automatically render with checkmark badges on the live trip detail page under the <strong>&ldquo;What to Pack&rdquo;</strong> and <strong>&ldquo;Weather&rdquo;</strong> tabs.
+                Clear packing lists and weather guidelines reduce traveller hesitation before
+                booking. Each bullet point will automatically render with checkmark badges on the
+                live trip detail page under the <strong>&ldquo;What to Pack&rdquo;</strong> and{" "}
+                <strong>&ldquo;Weather&rdquo;</strong> tabs.
               </p>
               <div className="pt-2 text-[11px] text-gray-400 border-t border-gray-200/60 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shrink-0" />

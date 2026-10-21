@@ -21,11 +21,7 @@ interface ImportJourneyDocModalProps {
   onApply: (data: ParsedJourneyDoc) => void;
 }
 
-export function ImportJourneyDocModal({
-  isOpen,
-  onClose,
-  onApply,
-}: ImportJourneyDocModalProps) {
+export function ImportJourneyDocModal({ isOpen, onClose, onApply }: ImportJourneyDocModalProps) {
   const [activeTab, setActiveTab] = useState<"upload" | "paste">("upload");
   const [rawText, setRawText] = useState("");
   const [fileName, setFileName] = useState("");

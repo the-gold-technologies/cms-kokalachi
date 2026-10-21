@@ -34,9 +34,7 @@ const sidebarLinks: SidebarLink[] = [
   {
     title: "Journeys",
     icon: Compass,
-    sublinks: [
-      { title: "All Journeys", href: "/trips" },
-    ],
+    sublinks: [{ title: "All Journeys", href: "/trips" }],
   },
   {
     title: "Pages",
@@ -45,6 +43,7 @@ const sidebarLinks: SidebarLink[] = [
       { title: "Home", href: "/static-pages/home" },
       { title: "About Us", href: "/static-pages/about" },
       { title: "Contact Us", href: "/static-pages/contact" },
+      { title: "FAQs", href: "/static-pages/faqs" },
     ],
   },
   {
@@ -115,7 +114,9 @@ export function AdminSidebar() {
       {/* Logo Area */}
       <div className="flex h-24 items-center px-8">
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#0E5A60] font-black italic shadow-sm text-lg">K</div>
+          <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#0E5A60] font-black italic shadow-sm text-lg">
+            K
+          </div>
           <span className="font-bold text-lg tracking-tight">
             Kokalachi <span className="text-[#D97745] font-semibold">CMS</span>
           </span>

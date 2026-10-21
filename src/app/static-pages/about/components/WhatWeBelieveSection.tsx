@@ -47,7 +47,7 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
           initialData.pillars.map((p: any) => ({
             title: p.title ?? "",
             desc: p.desc ?? p.description ?? "",
-          }))
+          })),
         );
       } else {
         setPillars([]);

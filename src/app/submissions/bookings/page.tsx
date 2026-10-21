@@ -192,8 +192,8 @@ export default function BookingsCMSPage() {
                           b.status === "Confirmed"
                             ? "bg-green-100 text-green-700"
                             : b.status === "Cancelled"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-amber-100 text-amber-700"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-amber-100 text-amber-700"
                         }`}
                       >
                         {b.status}
@@ -208,7 +208,12 @@ export default function BookingsCMSPage() {
                         <Eye className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => setBookingToDelete({ id: b.id, name: `Booking for ${b.name || "Guest"} (${b.tripName || "Journey"})` })}
+                        onClick={() =>
+                          setBookingToDelete({
+                            id: b.id,
+                            name: `Booking for ${b.name || "Guest"} (${b.tripName || "Journey"})`,
+                          })
+                        }
                         className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                         title="Delete Booking"
                       >
@@ -235,8 +240,12 @@ export default function BookingsCMSPage() {
             </button>
 
             <div>
-              <span className="text-xs font-bold text-teal-700 uppercase tracking-widest block">Booking Details</span>
-              <h3 className="text-2xl font-serif font-bold text-gray-900 mt-1">{activeBooking.tripName}</h3>
+              <span className="text-xs font-bold text-teal-700 uppercase tracking-widest block">
+                Booking Details
+              </span>
+              <h3 className="text-2xl font-serif font-bold text-gray-900 mt-1">
+                {activeBooking.tripName}
+              </h3>
             </div>
 
             <div className="space-y-3 p-4 bg-gray-50/80 rounded-2xl text-xs space-y-2">
@@ -258,7 +267,9 @@ export default function BookingsCMSPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-500">Departure:</span>
-                <span className="font-bold text-gray-800">{activeBooking.departureDate ?? "Not specified"}</span>
+                <span className="font-bold text-gray-800">
+                  {activeBooking.departureDate ?? "Not specified"}
+                </span>
               </div>
               {activeBooking.specialRequests && (
                 <div className="pt-2 border-t border-gray-200">
@@ -270,7 +281,9 @@ export default function BookingsCMSPage() {
 
             {/* Change Status Controls */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block">Update Status</label>
+              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block">
+                Update Status
+              </label>
               <div className="grid grid-cols-3 gap-2">
                 {["Pending", "Confirmed", "Cancelled"].map((st) => (
                   <button

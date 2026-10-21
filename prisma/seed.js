@@ -33,7 +33,7 @@ async function main() {
   });
   console.log("✓ Admin user created (admin@kokalachi.com / Admin@123).");
 
-    // 2. Global Brand Configuration (Navbar, Footer, Social Media)
+  // 2. Global Brand Configuration (Navbar, Footer, Social Media)
   await prisma.globalConfig.upsert({
     where: { id: "global" },
     update: {
@@ -263,29 +263,34 @@ async function main() {
       });
 
       // Departures
-      const departuresToSeed = Array.isArray(tp.departures) && tp.departures.length > 0
-        ? tp.departures
-        : item.slug === "meghalaya"
-        ? [{
-            id: "meghalaya-2026-11-15",
-            startDate: "2026-11-15",
-            endDate: "2026-11-20",
-            spotsLeft: 12,
-            status: "open",
-            label: "Autumn Circle",
-            note: "Fly into Guwahati (GAU) by 11:00 AM",
-          }]
-        : item.slug === "bhutan"
-        ? [{
-            id: "bhutan-2026-12-05",
-            startDate: "2026-12-05",
-            endDate: "2026-12-11",
-            spotsLeft: 10,
-            status: "open",
-            label: "Winter Heritage",
-            note: "Paro arrival & departure",
-          }]
-        : [];
+      const departuresToSeed =
+        Array.isArray(tp.departures) && tp.departures.length > 0
+          ? tp.departures
+          : item.slug === "meghalaya"
+            ? [
+                {
+                  id: "meghalaya-2026-11-15",
+                  startDate: "2026-11-15",
+                  endDate: "2026-11-20",
+                  spotsLeft: 12,
+                  status: "open",
+                  label: "Autumn Circle",
+                  note: "Fly into Guwahati (GAU) by 11:00 AM",
+                },
+              ]
+            : item.slug === "bhutan"
+              ? [
+                  {
+                    id: "bhutan-2026-12-05",
+                    startDate: "2026-12-05",
+                    endDate: "2026-12-11",
+                    spotsLeft: 10,
+                    status: "open",
+                    label: "Winter Heritage",
+                    note: "Paro arrival & departure",
+                  },
+                ]
+              : [];
 
       for (const dep of departuresToSeed) {
         await prisma.departure.upsert({
@@ -747,7 +752,7 @@ async function main() {
           },
         },
         null,
-        2
+        2,
       ),
       sections: [
         {
@@ -770,8 +775,8 @@ async function main() {
             polaroid2Image: "/about_hero_polaroid.jpg",
             polaroid3Title: "Real Connections",
             polaroid3Image: "/hero_group_sunset_bg.jpg",
-            doodleNote: "More Than Just Destinations"
-          }
+            doodleNote: "More Than Just Destinations",
+          },
         },
         {
           type: "WhyWeStartedSection",
@@ -780,7 +785,8 @@ async function main() {
             tagline: "WHY WE STARTED",
             headline: "The problem we couldn't",
             scriptAccent: "ignore.",
-            description: "Big travel plans often stay on hold, not because the desire fades but because life gets busy and the right people are hard to find.",
+            description:
+              "Big travel plans often stay on hold, not because the desire fades but because life gets busy and the right people are hard to find.",
             mainImage: "/about_why_started.jpg",
             polaroidImage: "/about_hero_polaroid.jpg",
             polaroidNote: "Plans are easy. People make it real.",
@@ -789,8 +795,9 @@ async function main() {
             item3Title: "The right people are hard to find.",
             conclusionPrefix: "So we built",
             conclusionBrand: "Kokalachi.",
-            conclusionText: "A way to bring together people who share the same pull toward the world so a trip doesn't need to wait for the stars to align."
-          }
+            conclusionText:
+              "A way to bring together people who share the same pull toward the world so a trip doesn't need to wait for the stars to align.",
+          },
         },
         {
           type: "WhatWeBelieveSection",
@@ -799,7 +806,8 @@ async function main() {
             tagline: "WHAT WE BELIEVE",
             headline: "The Kokalachi",
             scriptAccent: "Way",
-            description: "Everything we design every itinerary, every group, every detail comes back to a handful of things we simply won't compromise on.",
+            description:
+              "Everything we design every itinerary, every group, every detail comes back to a handful of things we simply won't compromise on.",
             mainImage: "/hero_group_sunset_bg.jpg",
             polaroidImage: "/about_belief_respect.jpg",
             polaroidCaption: "Always a better way to travel",
@@ -807,26 +815,26 @@ async function main() {
             pillars: [
               {
                 title: "Curated travel groups, real connection.",
-                desc: "We keep our journeys in alignment with the interests of travellers. Curated groups make it easy to actually know the people you're travelling with."
+                desc: "We keep our journeys in alignment with the interests of travellers. Curated groups make it easy to actually know the people you're travelling with.",
               },
               {
                 title: "The people matter as much as the place.",
-                desc: "A great destination and the wrong group can still make for a forgettable trip. We curate for compatibility first, because that's what makes a journey unforgettable."
+                desc: "A great destination and the wrong group can still make for a forgettable trip. We curate for compatibility first, because that's what makes a journey unforgettable.",
               },
               {
                 title: "Trust is earned before the trip starts.",
-                desc: "From verified travellers to pre-trip introductions, we believe the first hello shouldn't happen at the airport — comfort and trust are built long before departure."
+                desc: "From verified travellers to pre-trip introductions, we believe the first hello shouldn't happen at the airport — comfort and trust are built long before departure.",
               },
               {
                 title: "Respect is non-negotiable.",
-                desc: "For fellow travellers, for hosts, for local communities. Every Kokalachi journey is built on the expectation that everyone shows up with kindness."
+                desc: "For fellow travellers, for hosts, for local communities. Every Kokalachi journey is built on the expectation that everyone shows up with kindness.",
               },
               {
                 title: "We won't compromise your experience to fill a seat.",
-                desc: "We'll always choose the right group over a full one. That's a promise, not a slogan."
-              }
-            ]
-          }
+                desc: "We'll always choose the right group over a full one. That's a promise, not a slogan.",
+              },
+            ],
+          },
         },
         {
           type: "MeetFounderSection",
@@ -841,9 +849,10 @@ async function main() {
             founderTitle: "Co-Founders, Kokalachi ♡",
             founderPhoto: "/founders.png",
             leadQuote: "Kokalachi is one of them.",
-            story: "We've been friends for over 35 years through countless conversations, road trips, family holidays, and adventures along the way. And somewhere in all of it, we noticed the same thing, again and again: the destination was rarely what stayed with us. It was always the people we shared it with.\n\nHitesh has spent 28 years in the travel industry, designing holidays and helping thousands of travellers explore the world. Rachit has spent his own years chasing curiosity hiking mountains, riding scenic highways, chasing adventure sports, and finding the hidden stays most travellers never discover.\n\nBetween the two of us, one thing became clear travel isn't just about seeing new places. It's about finding the people who make those places unforgettable.\n\nThat's why we built Kokalachi. Not as another travel company but as a community where meaningful journeys begin with meaningful people.",
-            closingNote: "We hope you'll join us on one."
-          }
+            story:
+              "We've been friends for over 35 years through countless conversations, road trips, family holidays, and adventures along the way. And somewhere in all of it, we noticed the same thing, again and again: the destination was rarely what stayed with us. It was always the people we shared it with.\n\nHitesh has spent 28 years in the travel industry, designing holidays and helping thousands of travellers explore the world. Rachit has spent his own years chasing curiosity hiking mountains, riding scenic highways, chasing adventure sports, and finding the hidden stays most travellers never discover.\n\nBetween the two of us, one thing became clear travel isn't just about seeing new places. It's about finding the people who make those places unforgettable.\n\nThat's why we built Kokalachi. Not as another travel company but as a community where meaningful journeys begin with meaningful people.",
+            closingNote: "We hope you'll join us on one.",
+          },
         },
         {
           type: "ExploreJourneysSection",
@@ -852,8 +861,8 @@ async function main() {
             tagline: "UPCOMING TRIPS",
             headline: "Explore Our",
             scriptAccent: "Journeys.",
-            description: "Find your next adventure with these handcrafted experiences."
-          }
+            description: "Find your next adventure with these handcrafted experiences.",
+          },
         },
         {
           type: "JoinTribeSection",
@@ -861,22 +870,24 @@ async function main() {
           content: {
             tagline: "JOIN THE TRIBE",
             headline: "Your next journey is waiting. So are your people.",
-            description: "Somewhere out there is a group of travellers who are just as ready to explore, connect, and make memories as you are.",
+            description:
+              "Somewhere out there is a group of travellers who are just as ready to explore, connect, and make memories as you are.",
             primaryButtonText: "Explore Upcoming Trips",
             primaryButtonLink: "/#upcoming-journeys",
             secondaryButtonText: "Find your Next Journey",
             secondaryButtonLink: "/#upcoming-journeys",
             blobImage: "/about_why_started.jpg",
             polaroidNote: "Good People Brighter Journeys ♡",
-            footerTag: "TRAVEL • PEOPLE • PURPOSE"
-          }
-        }
-      ]
+            footerTag: "TRAVEL • PEOPLE • PURPOSE",
+          },
+        },
+      ],
     },
     {
       title: "Contact Us",
       slug: "contact",
-      description: "Get in touch with the Kokalachi team. Ask questions, plan a group trip, or just say hello.",
+      description:
+        "Get in touch with the Kokalachi team. Ask questions, plan a group trip, or just say hello.",
       order: 3,
       type: "Main Page",
       metaTitle: "Contact Us | Kokalachi - Connect With Our Travel Tribe",
@@ -892,8 +903,7 @@ async function main() {
           "@type": "ContactPage",
           name: "Contact Kokalachi",
           url: "https://kokalachi.com/contact",
-          description:
-            "Get in touch with our team via email, WhatsApp, or instant enquiry form.",
+          description: "Get in touch with our team via email, WhatsApp, or instant enquiry form.",
           mainEntity: {
             "@type": "ContactPoint",
             telephone: "+919711845700",
@@ -903,7 +913,7 @@ async function main() {
           },
         },
         null,
-        2
+        2,
       ),
       sections: [
         {
@@ -913,8 +923,9 @@ async function main() {
             tagline: "Get In Touch",
             headline: "Got a question before you",
             scriptAccent: "join the tribe?",
-            bannerImage: "https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-          }
+            bannerImage:
+              "https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+          },
         },
         {
           type: "ContactFormSection",
@@ -923,25 +934,27 @@ async function main() {
             heading: "Tell us a little about your next journey",
             subtitle: "The more we know, the better we can help — but even a quick hello works.",
             successTitle: "Enquiry Sent Successfully",
-            successSubtitle: "Thanks for reaching out! We\'ve received your message and our team will get back to you within 24 hours.",
+            successSubtitle:
+              "Thanks for reaching out! We\'ve received your message and our team will get back to you within 24 hours.",
             journeyOptions: [
               "The Houseboat Diaries (Kashmir)",
               "Roots & Rainbows (Meghalaya)",
               "Tides & Tea Gardens (Kerala)",
               "The Thunder Dragon Trail (Bhutan)",
               "Not sure yet — help me pick",
-              "Something else entirely"
+              "Something else entirely",
             ],
             hearAboutOptions: [
               "Instagram",
               "A friend",
               "Google Search",
               "Kokalachi Traveller",
-              "Other"
+              "Other",
             ],
             submitButtonText: "Send Enquiry",
-            urgencyNote: "We typically respond within 24 hours. For anything urgent, Instagram is your fastest bet."
-          }
+            urgencyNote:
+              "We typically respond within 24 hours. For anything urgent, Instagram is your fastest bet.",
+          },
         },
         {
           type: "ContactSidebarSection",
@@ -955,14 +968,15 @@ async function main() {
             trust3Desc: "We respect your privacy and protect your data rigorously.",
             altCardTitle: "Prefer to skip the form?",
             emailTitle: "Email",
-            emailDesc: "For detailed questions, group bookings, or anything you\'d rather put in writing.",
+            emailDesc:
+              "For detailed questions, group bookings, or anything you\'d rather put in writing.",
             emailAddress: "hello@kokalachi.com",
             instaTitle: "Instagram",
             instaDesc: "Follow the journeys as they happen, or DM us directly for quick questions.",
             instaHandle: "@kokalachi",
-            instaLink: "https://www.instagram.com/kokalachi/"
-          }
-        }
+            instaLink: "https://www.instagram.com/kokalachi/",
+          },
+        },
       ],
     },
     {
@@ -993,7 +1007,7 @@ async function main() {
           },
         },
         null,
-        2
+        2,
       ),
       sections: [
         {
@@ -1003,9 +1017,11 @@ async function main() {
             tagline: "Find Your Next Adventure",
             title: "All",
             scriptAccent: "Journeys",
-            description: "From the misty mountains of Meghalaya to the backwaters of Kerala. Explore our complete collection of handcrafted, slow-travel experiences.",
-            bannerImage: "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-          }
+            description:
+              "From the misty mountains of Meghalaya to the backwaters of Kerala. Explore our complete collection of handcrafted, slow-travel experiences.",
+            bannerImage:
+              "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+          },
         },
         {
           type: "JourneysFilterSection",
@@ -1020,11 +1036,11 @@ async function main() {
               { id: "WomenOnly", label: "Women Only" },
               { id: "Adventure", label: "Adventure" },
               { id: "SlowTravel", label: "Slow Travel" },
-              { id: "BeachEscape", label: "Beach Escape" }
-            ]
-          }
-        }
-      ]
+              { id: "BeachEscape", label: "Beach Escape" },
+            ],
+          },
+        },
+      ],
     },
     {
       title: "FAQ Page",
@@ -1079,20 +1095,223 @@ async function main() {
           ],
         },
         null,
-        2
+        2,
       ),
       sections: [
         {
           type: "FaqsHeroSection",
           order: 1,
           content: {
-            tagline: "Got questions?",
-            title: "Questions? We've got you.",
-            description: "Everything you might want to know before you pack your bags and head out with us.",
-            bannerImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-          }
-        }
-      ]
+            tagline: "FAQs",
+            headline: "Questions? ",
+            scriptAccent: "We've got you.",
+            description:
+              "Everything you might want to know before you join a journey, from how it works to what's included. Can't find your answer? Just ask us.",
+            bannerImage:
+              "https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+          },
+        },
+        {
+          type: "FaqsAccordionSection",
+          order: 2,
+          content: {
+            sidebarTitle: "Browse by topic",
+            categories: [
+              {
+                id: "about-kokalachi",
+                title: "About Kokalachi",
+                items: [
+                  {
+                    question: "What is Kokalachi?",
+                    answer:
+                      "Kokalachi brings together people who love travelling but don't always have the right people to travel with. We run curated group journeys so you can explore the world alongside like-minded travellers.",
+                  },
+                  {
+                    question: "Is Kokalachi a travel company?",
+                    answer:
+                      "Yes, and a little more. We plan and run the trips, but the heart of what we do is the group: small, curated, and designed so that you leave with friends, not just photos.",
+                  },
+                  {
+                    question: "Who travels with Kokalachi?",
+                    answer:
+                      "Working professionals, first-time solo travellers, long-time explorers, and everyone in between. What they share is curiosity, respect for others, and an easygoing, up-for-it attitude.",
+                  },
+                  {
+                    question: "Do I need to know anyone to join?",
+                    answer:
+                      "Not at all. Most of our travellers join on their own. You can also join with a friend.",
+                  },
+                ],
+              },
+              {
+                id: "joining-a-journey",
+                title: "Joining a Journey",
+                items: [
+                  {
+                    question: "How do I book a trip?",
+                    answer:
+                      "Browse Upcoming Trips, choose your journey, pick your room type, and hit Book Now. Questions before booking? Message us on WhatsApp.",
+                  },
+                  {
+                    question: 'What does "curated group" mean?',
+                    answer:
+                      "We keep groups intentionally small and think about the mix of people, so conversations come naturally and nobody is left on the sidelines.",
+                  },
+                  {
+                    question: "Can I join a trip with a friend or in a pair?",
+                    answer:
+                      "Yes. You can book multiple guests in one booking and choose a double-sharing or private room.",
+                  },
+                  {
+                    question: "Are there women-only trips?",
+                    answer:
+                      "Some journeys may be designated women-only. Look for the Women Only tag on the trip card.",
+                  },
+                  {
+                    question: "Will I meet the group before the trip?",
+                    answer:
+                      "Yes. After you book, you're introduced to your fellow travellers through a dedicated pre-trip community, so the first hello doesn't happen at the airport.",
+                  },
+                ],
+              },
+              {
+                id: "safety-and-comfort",
+                title: "Safety & Comfort",
+                items: [
+                  {
+                    question: "Is Kokalachi safe for solo travellers?",
+                    answer:
+                      "Safety comes first on every journey. That means small groups, verified travellers, trusted travel partners, clear community guidelines, and responsive support throughout your trip.",
+                  },
+                  {
+                    question: "What are the community guidelines?",
+                    answer:
+                      "Every traveller is expected to treat fellow travellers, local communities, and shared experiences with kindness and respect. We share the full guidelines when you book.",
+                  },
+                  {
+                    question: "What if I don't get along with someone in the group?",
+                    answer:
+                      "Our host is there to help. If something doesn't feel right, speak to your host at any point in the trip and we'll work it out with you.",
+                  },
+                  {
+                    question: "Who will I share a room with?",
+                    answer:
+                      "If you're travelling solo, you'll be matched with a fellow solo traveller of the same gender in a double- or triple-sharing room, depending on the trip. Prefer your own space? Choose the Private Room option where it's available.",
+                  },
+                  {
+                    question: "What if I have dietary requirements or a health concern?",
+                    answer: "Tell us when you book and we'll do our best to plan around it.",
+                  },
+                ],
+              },
+              {
+                id: "pricing-and-payments",
+                title: "Pricing & Payments",
+                items: [
+                  {
+                    question: "How much do trips cost?",
+                    answer:
+                      "Prices vary by destination and trip length, and each trip page shows the price per person with a clear breakdown. Domestic road trips like Udaipur and Manali start from a lower price point than longer or international journeys.",
+                  },
+                  {
+                    question: "What's included in the price?",
+                    answer:
+                      "Each trip page has an Included & Excluded section listing exactly what's covered (stays, transfers, specific meals, guided experiences, and your Trip Host) and what isn't.",
+                  },
+                  {
+                    question: "Are taxes included?",
+                    answer:
+                      "Taxes and fees are shown in the booking summary before you pay (for example GST, and TCS where applicable, plus payment gateway charges).",
+                  },
+                  {
+                    question: "What payment methods do you accept?",
+                    answer:
+                      "Paying by UPI or bank transfer saves you the 3% payment gateway charge.",
+                  },
+                  {
+                    question: "What is the cancellation and refund policy?",
+                    answer: "The policy for each trip is shown at checkout.",
+                  },
+                ],
+              },
+              {
+                id: "travel-logistics",
+                title: "Travel Logistics",
+                items: [
+                  {
+                    question: "Are flights included?",
+                    answer:
+                      "For most journeys, no. Flights are not included unless the trip page says so. Our team can help you plan flights, and you can always ask us on WhatsApp.",
+                  },
+                  {
+                    question: "Where do trips start and end?",
+                    answer:
+                      "It depends on the trip. Some begin at an airport (for example Srinagar, Guwahati, Kochi, Paro, or Colombo), and our Udaipur and Manali road trips depart from Delhi by Tempo Traveller. The start and end points are on each trip page.",
+                  },
+                  {
+                    question: "Do I need a visa or any permits?",
+                    answer:
+                      "For domestic trips, Indian travellers generally don't need special permits. For international journeys such as Bhutan and Sri Lanka, entry requirements apply, and we guide you through them when you book.",
+                  },
+                  {
+                    question: "Do I need travel insurance?",
+                    answer:
+                      "Travel insurance isn't included, and we strongly recommend it for every trip.",
+                  },
+                  {
+                    question: "What should I pack?",
+                    answer:
+                      "Every trip page has a What To Pack & Carry section with a list tailored to that destination, plus the Expected Weather & Temperature for your dates.",
+                  },
+                  {
+                    question: "What meals are included?",
+                    answer:
+                      "Each trip page lists the meals included under Meals Included. Meals not listed are left open so you can explore local food with your group.",
+                  },
+                  {
+                    question: "What if my flight is delayed or I miss the group?",
+                    answer:
+                      "Message your Trip Host or our WhatsApp support straight away and we'll help you rejoin the group where possible.",
+                  },
+                ],
+              },
+              {
+                id: "during-and-after",
+                title: "During & After Your Trip",
+                items: [
+                  {
+                    question: "Is there a plan for each day?",
+                    answer:
+                      "Yes. Each journey has a chapter-by-chapter itinerary with the places you'll visit and the community experiences built in, from icebreakers to bonfire evenings.",
+                  },
+                  {
+                    question: "Are the community activities compulsory?",
+                    answer:
+                      "No. They're designed to be fun, never forced. Join as much or as little as feels comfortable.",
+                  },
+                  {
+                    question: "What happens after the trip?",
+                    answer:
+                      "You join the Kokalachi alumni network, with a shared photo vault and a group chat that tends to stay active long after the trip ends. Many travellers meet again on later journeys.",
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: "FaqsCtaSection",
+          order: 3,
+          content: {
+            tagline: "Still Have Questions?",
+            headline: "We're a message away.",
+            whatsappText: "Chat with Us on WhatsApp",
+            whatsappUrl: "https://wa.me/919711845700",
+            enquiryText: "Send an Enquiry",
+            enquiryUrl: "/contact",
+          },
+        },
+      ],
     },
   ];
 
@@ -1383,7 +1602,8 @@ async function main() {
       journey: "The Houseboat Diaries (Kashmir)",
       travelDate: "2026-11-15",
       groupSize: "2 people",
-      message: "Hi Kokalachi team! Me and my partner want to join the Kashmir houseboat departure in November. Are flights included or should we book directly?",
+      message:
+        "Hi Kokalachi team! Me and my partner want to join the Kashmir houseboat departure in November. Are flights included or should we book directly?",
       hearAboutUs: "Instagram",
       status: "Pending",
     },
@@ -1394,7 +1614,8 @@ async function main() {
       journey: "Roots & Rainbows (Meghalaya)",
       travelDate: "2026-12-05",
       groupSize: "Just me",
-      message: "Hey! Travelling solo for the first time. Wanted to check what the accommodation arrangements are for solo travellers.",
+      message:
+        "Hey! Travelling solo for the first time. Wanted to check what the accommodation arrangements are for solo travellers.",
       hearAboutUs: "Kokalachi Traveller",
       status: "Contacted",
     },
@@ -1405,7 +1626,8 @@ async function main() {
       journey: "The Thunder Dragon Trail (Bhutan)",
       travelDate: "2026-10-28",
       groupSize: "4 people",
-      message: "Looking to book for a group of 4 close friends. Could you share the visa processing requirements for Bhutan?",
+      message:
+        "Looking to book for a group of 4 close friends. Could you share the visa processing requirements for Bhutan?",
       hearAboutUs: "Google Search",
       status: "Resolved",
     },

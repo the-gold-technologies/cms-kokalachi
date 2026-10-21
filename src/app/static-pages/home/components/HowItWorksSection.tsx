@@ -77,9 +77,27 @@ export function HowItWorksSection({ initialData }: { initialData?: any }) {
         headlineSuffix,
         description,
         steps: [
-          { stepNumber: 1, title: step1Title, description: step1Desc, tag: step1Tag, image: step1Image },
-          { stepNumber: 2, title: step2Title, description: step2Desc, tag: step2Tag, image: step2Image },
-          { stepNumber: 3, title: step3Title, description: step3Desc, tag: step3Tag, image: step3Image },
+          {
+            stepNumber: 1,
+            title: step1Title,
+            description: step1Desc,
+            tag: step1Tag,
+            image: step1Image,
+          },
+          {
+            stepNumber: 2,
+            title: step2Title,
+            description: step2Desc,
+            tag: step2Tag,
+            image: step2Image,
+          },
+          {
+            stepNumber: 3,
+            title: step3Title,
+            description: step3Desc,
+            tag: step3Tag,
+            image: step3Image,
+          },
         ],
       };
 
@@ -165,7 +183,9 @@ export function HowItWorksSection({ initialData }: { initialData?: any }) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                 {/* Step 1 */}
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">Step 01</span>
+                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+                    Step 01
+                  </span>
                   <InputField
                     label="Title"
                     value={step1Title}
@@ -194,7 +214,9 @@ export function HowItWorksSection({ initialData }: { initialData?: any }) {
 
                 {/* Step 2 */}
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">Step 02</span>
+                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+                    Step 02
+                  </span>
                   <InputField
                     label="Title"
                     value={step2Title}
@@ -223,7 +245,9 @@ export function HowItWorksSection({ initialData }: { initialData?: any }) {
 
                 {/* Step 3 */}
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">Step 03</span>
+                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+                    Step 03
+                  </span>
                   <InputField
                     label="Title"
                     value={step3Title}

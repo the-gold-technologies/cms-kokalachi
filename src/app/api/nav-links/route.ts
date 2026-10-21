@@ -273,7 +273,7 @@ export async function GET(request: Request) {
     console.error("Error fetching nav links:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to fetch nav links" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -286,7 +286,7 @@ export async function POST(request: Request) {
     if (!label || !url) {
       return NextResponse.json(
         { success: false, error: "Label and URL are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -308,7 +308,7 @@ export async function POST(request: Request) {
     console.error("Error creating nav link:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to create link" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -346,7 +346,7 @@ export async function PUT(request: Request) {
         where: { id },
         data: {
           label: label !== undefined ? label : undefined,
-          title: title !== undefined ? title : (label ? label.toUpperCase() : undefined),
+          title: title !== undefined ? title : label ? label.toUpperCase() : undefined,
           url: url !== undefined ? url : undefined,
           type: type !== undefined ? type : undefined,
           parent: parent !== undefined ? parent : undefined,
@@ -377,15 +377,12 @@ export async function PUT(request: Request) {
       return NextResponse.json({ success: true, data: all });
     }
 
-    return NextResponse.json(
-      { success: false, error: "Invalid update payload" },
-      { status: 400 }
-    );
+    return NextResponse.json({ success: false, error: "Invalid update payload" }, { status: 400 });
   } catch (error: any) {
     console.error("Error updating nav links:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to update link" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -398,7 +395,7 @@ export async function DELETE(request: Request) {
     if (!id) {
       return NextResponse.json(
         { success: false, error: "id parameter is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -411,7 +408,7 @@ export async function DELETE(request: Request) {
     console.error("Error deleting nav link:", error);
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed to delete link" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

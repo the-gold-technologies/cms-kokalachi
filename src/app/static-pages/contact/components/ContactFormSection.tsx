@@ -40,8 +40,12 @@ export function ContactFormSection({ initialData }: { initialData?: any }) {
       setSubtitle(initialData.subtitle ?? initialData.description ?? "");
       setSuccessTitle(initialData.successTitle ?? "");
       setSuccessSubtitle(initialData.successSubtitle ?? "");
-      setJourneyOptions(Array.isArray(initialData.journeyOptions) ? initialData.journeyOptions : []);
-      setHearAboutOptions(Array.isArray(initialData.hearAboutOptions) ? initialData.hearAboutOptions : []);
+      setJourneyOptions(
+        Array.isArray(initialData.journeyOptions) ? initialData.journeyOptions : [],
+      );
+      setHearAboutOptions(
+        Array.isArray(initialData.hearAboutOptions) ? initialData.hearAboutOptions : [],
+      );
       setSubmitButtonText(initialData.submitButtonText ?? initialData.buttonText ?? "");
       setUrgencyNote(initialData.urgencyNote ?? "");
     }
@@ -129,7 +133,9 @@ export function ContactFormSection({ initialData }: { initialData?: any }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5 bg-teal-50/50 rounded-2xl border border-teal-100/60">
                 <div className="space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase block">Submission Success Title</span>
+                  <span className="text-xs font-bold text-teal-800 uppercase block">
+                    Submission Success Title
+                  </span>
                   <InputField
                     label="Success Heading"
                     value={successTitle}
@@ -138,7 +144,9 @@ export function ContactFormSection({ initialData }: { initialData?: any }) {
                   />
                 </div>
                 <div className="space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase block">Submission Success Message</span>
+                  <span className="text-xs font-bold text-teal-800 uppercase block">
+                    Submission Success Message
+                  </span>
                   <TextAreaField
                     label="Success Description"
                     value={successSubtitle}

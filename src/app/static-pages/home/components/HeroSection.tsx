@@ -45,8 +45,12 @@ export function HeroSection({ initialData }: { initialData?: any }) {
       setSubtitle2(initialData.subtitle2 ?? "");
       setBackgroundImage(initialData.backgroundImage ?? "");
       setDestPlaceholder(initialData.destPlaceholder ?? "");
-      setPopularDestinations(Array.isArray(initialData.popularDestinations) ? initialData.popularDestinations : []);
-      setQuickDatePresets(Array.isArray(initialData.quickDatePresets) ? initialData.quickDatePresets : []);
+      setPopularDestinations(
+        Array.isArray(initialData.popularDestinations) ? initialData.popularDestinations : [],
+      );
+      setQuickDatePresets(
+        Array.isArray(initialData.quickDatePresets) ? initialData.quickDatePresets : [],
+      );
     }
   }, [initialData]);
 

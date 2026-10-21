@@ -39,7 +39,10 @@ export async function PATCH(request: Request) {
     const { id, status } = body;
 
     if (!id || !status) {
-      return NextResponse.json({ success: false, error: "ID and status are required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "ID and status are required" },
+        { status: 400 },
+      );
     }
 
     const updated = await prisma.booking.update({
@@ -60,7 +63,10 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json({ success: false, error: "Booking ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Booking ID is required" },
+        { status: 400 },
+      );
     }
 
     await prisma.booking.delete({

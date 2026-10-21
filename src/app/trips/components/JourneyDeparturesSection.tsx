@@ -43,12 +43,15 @@ export function JourneyDeparturesSection({
           startDate: d.startDate ?? "",
           endDate: d.endDate ?? "",
           price: d.price !== undefined && d.price !== null ? String(d.price) : "",
-          originalPrice: d.originalPrice !== undefined && d.originalPrice !== null ? String(d.originalPrice) : "",
+          originalPrice:
+            d.originalPrice !== undefined && d.originalPrice !== null
+              ? String(d.originalPrice)
+              : "",
           spotsLeft: d.spotsLeft !== undefined && d.spotsLeft !== null ? String(d.spotsLeft) : "10",
           status: d.status ?? "open",
           label: d.label ?? "",
           note: d.note ?? "",
-        }))
+        })),
       );
     }
   }, [initialDepartures]);
@@ -92,7 +95,8 @@ export function JourneyDeparturesSection({
           endDate: d.endDate,
           price: d.price ? parseFloat(String(d.price)) : null,
           originalPrice: d.originalPrice ? parseFloat(String(d.originalPrice)) : null,
-          spotsLeft: typeof d.spotsLeft === "number" ? d.spotsLeft : parseInt(String(d.spotsLeft), 10) || 10,
+          spotsLeft:
+            typeof d.spotsLeft === "number" ? d.spotsLeft : parseInt(String(d.spotsLeft), 10) || 10,
           status: d.status,
           label: d.label && d.label.trim() !== "" ? d.label : null,
           note: d.note && d.note.trim() !== "" ? d.note : null,
@@ -140,7 +144,8 @@ export function JourneyDeparturesSection({
         >
           <div className="flex items-center justify-between pb-2 border-b border-gray-100">
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-[#0E5A60]" /> Scheduled Departures ({departures.length})
+              <Calendar className="w-3.5 h-3.5 text-[#0E5A60]" /> Scheduled Departures (
+              {departures.length})
             </span>
             <button
               type="button"
@@ -153,7 +158,8 @@ export function JourneyDeparturesSection({
 
           {departures.length === 0 ? (
             <div className="py-8 text-center text-gray-400 text-xs bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-              No dates scheduled yet. Click &ldquo;Add Departure Batch&rdquo; to open live booking dates for this journey.
+              No dates scheduled yet. Click &ldquo;Add Departure Batch&rdquo; to open live booking
+              dates for this journey.
             </div>
           ) : (
             <div className="flex flex-col gap-4">

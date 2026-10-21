@@ -27,10 +27,34 @@ export function WhoTravelsSection({ initialData }: { initialData?: any }) {
   const [scriptAccent, setScriptAccent] = useState("");
   const [description, setDescription] = useState("");
 
-  const [persona1, setPersona1] = useState<PersonaCard>({ title: "", badge: "", age: "", description: "", image: "" });
-  const [persona2, setPersona2] = useState<PersonaCard>({ title: "", badge: "", age: "", description: "", image: "" });
-  const [persona3, setPersona3] = useState<PersonaCard>({ title: "", badge: "", age: "", description: "", image: "" });
-  const [persona4, setPersona4] = useState<PersonaCard>({ title: "", badge: "", age: "", description: "", image: "" });
+  const [persona1, setPersona1] = useState<PersonaCard>({
+    title: "",
+    badge: "",
+    age: "",
+    description: "",
+    image: "",
+  });
+  const [persona2, setPersona2] = useState<PersonaCard>({
+    title: "",
+    badge: "",
+    age: "",
+    description: "",
+    image: "",
+  });
+  const [persona3, setPersona3] = useState<PersonaCard>({
+    title: "",
+    badge: "",
+    age: "",
+    description: "",
+    image: "",
+  });
+  const [persona4, setPersona4] = useState<PersonaCard>({
+    title: "",
+    badge: "",
+    age: "",
+    description: "",
+    image: "",
+  });
 
   useEffect(() => {
     if (initialData) {
@@ -167,39 +191,143 @@ export function WhoTravelsSection({ initialData }: { initialData?: any }) {
               {/* 4 Personas */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">Persona 1</span>
-                  <InputField label="Title" value={persona1.title} onChange={(e) => setPersona1({ ...persona1, title: e.target.value })} placeholder="e.g. Women Explorers" />
-                  <InputField label="Badge" value={persona1.badge} onChange={(e) => setPersona1({ ...persona1, badge: e.target.value })} placeholder="e.g. Supportive & Safe" />
-                  <InputField label="Age Group" value={persona1.age} onChange={(e) => setPersona1({ ...persona1, age: e.target.value })} placeholder="e.g. 20s - 45s" />
-                  <TextAreaField label="Description" value={persona1.description} onChange={(e) => setPersona1({ ...persona1, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Persona Photo" value={persona1.image} onChange={(url) => setPersona1({ ...persona1, image: url })} />
+                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+                    Persona 1
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={persona1.title}
+                    onChange={(e) => setPersona1({ ...persona1, title: e.target.value })}
+                    placeholder="e.g. Women Explorers"
+                  />
+                  <InputField
+                    label="Badge"
+                    value={persona1.badge}
+                    onChange={(e) => setPersona1({ ...persona1, badge: e.target.value })}
+                    placeholder="e.g. Supportive & Safe"
+                  />
+                  <InputField
+                    label="Age Group"
+                    value={persona1.age}
+                    onChange={(e) => setPersona1({ ...persona1, age: e.target.value })}
+                    placeholder="e.g. 20s - 45s"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={persona1.description}
+                    onChange={(e) => setPersona1({ ...persona1, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Persona Photo"
+                    value={persona1.image}
+                    onChange={(url) => setPersona1({ ...persona1, image: url })}
+                  />
                 </div>
 
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">Persona 2</span>
-                  <InputField label="Title" value={persona2.title} onChange={(e) => setPersona2({ ...persona2, title: e.target.value })} placeholder="e.g. Working Professionals" />
-                  <InputField label="Badge" value={persona2.badge} onChange={(e) => setPersona2({ ...persona2, badge: e.target.value })} placeholder="e.g. Weekend Getaways" />
-                  <InputField label="Age Group" value={persona2.age} onChange={(e) => setPersona2({ ...persona2, age: e.target.value })} placeholder="e.g. 23s - 40s" />
-                  <TextAreaField label="Description" value={persona2.description} onChange={(e) => setPersona2({ ...persona2, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Persona Photo" value={persona2.image} onChange={(url) => setPersona2({ ...persona2, image: url })} />
+                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+                    Persona 2
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={persona2.title}
+                    onChange={(e) => setPersona2({ ...persona2, title: e.target.value })}
+                    placeholder="e.g. Working Professionals"
+                  />
+                  <InputField
+                    label="Badge"
+                    value={persona2.badge}
+                    onChange={(e) => setPersona2({ ...persona2, badge: e.target.value })}
+                    placeholder="e.g. Weekend Getaways"
+                  />
+                  <InputField
+                    label="Age Group"
+                    value={persona2.age}
+                    onChange={(e) => setPersona2({ ...persona2, age: e.target.value })}
+                    placeholder="e.g. 23s - 40s"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={persona2.description}
+                    onChange={(e) => setPersona2({ ...persona2, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Persona Photo"
+                    value={persona2.image}
+                    onChange={(url) => setPersona2({ ...persona2, image: url })}
+                  />
                 </div>
 
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">Persona 3</span>
-                  <InputField label="Title" value={persona3.title} onChange={(e) => setPersona3({ ...persona3, title: e.target.value })} placeholder="e.g. Adventure Seekers" />
-                  <InputField label="Badge" value={persona3.badge} onChange={(e) => setPersona3({ ...persona3, badge: e.target.value })} placeholder="e.g. Trails & High Passes" />
-                  <InputField label="Age Group" value={persona3.age} onChange={(e) => setPersona3({ ...persona3, age: e.target.value })} placeholder="e.g. 20s - 38s" />
-                  <TextAreaField label="Description" value={persona3.description} onChange={(e) => setPersona3({ ...persona3, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Persona Photo" value={persona3.image} onChange={(url) => setPersona3({ ...persona3, image: url })} />
+                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+                    Persona 3
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={persona3.title}
+                    onChange={(e) => setPersona3({ ...persona3, title: e.target.value })}
+                    placeholder="e.g. Adventure Seekers"
+                  />
+                  <InputField
+                    label="Badge"
+                    value={persona3.badge}
+                    onChange={(e) => setPersona3({ ...persona3, badge: e.target.value })}
+                    placeholder="e.g. Trails & High Passes"
+                  />
+                  <InputField
+                    label="Age Group"
+                    value={persona3.age}
+                    onChange={(e) => setPersona3({ ...persona3, age: e.target.value })}
+                    placeholder="e.g. 20s - 38s"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={persona3.description}
+                    onChange={(e) => setPersona3({ ...persona3, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Persona Photo"
+                    value={persona3.image}
+                    onChange={(url) => setPersona3({ ...persona3, image: url })}
+                  />
                 </div>
 
                 <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">Persona 4</span>
-                  <InputField label="Title" value={persona4.title} onChange={(e) => setPersona4({ ...persona4, title: e.target.value })} placeholder="e.g. Creative Souls" />
-                  <InputField label="Badge" value={persona4.badge} onChange={(e) => setPersona4({ ...persona4, badge: e.target.value })} placeholder="e.g. Stories & Vibe" />
-                  <InputField label="Age Group" value={persona4.age} onChange={(e) => setPersona4({ ...persona4, age: e.target.value })} placeholder="e.g. 22s - 42s" />
-                  <TextAreaField label="Description" value={persona4.description} onChange={(e) => setPersona4({ ...persona4, description: e.target.value })} rows={2} />
-                  <ImagePickerField label="Persona Photo" value={persona4.image} onChange={(url) => setPersona4({ ...persona4, image: url })} />
+                  <span className="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+                    Persona 4
+                  </span>
+                  <InputField
+                    label="Title"
+                    value={persona4.title}
+                    onChange={(e) => setPersona4({ ...persona4, title: e.target.value })}
+                    placeholder="e.g. Creative Souls"
+                  />
+                  <InputField
+                    label="Badge"
+                    value={persona4.badge}
+                    onChange={(e) => setPersona4({ ...persona4, badge: e.target.value })}
+                    placeholder="e.g. Stories & Vibe"
+                  />
+                  <InputField
+                    label="Age Group"
+                    value={persona4.age}
+                    onChange={(e) => setPersona4({ ...persona4, age: e.target.value })}
+                    placeholder="e.g. 22s - 42s"
+                  />
+                  <TextAreaField
+                    label="Description"
+                    value={persona4.description}
+                    onChange={(e) => setPersona4({ ...persona4, description: e.target.value })}
+                    rows={2}
+                  />
+                  <ImagePickerField
+                    label="Persona Photo"
+                    value={persona4.image}
+                    onChange={(url) => setPersona4({ ...persona4, image: url })}
+                  />
                 </div>
               </div>
 
