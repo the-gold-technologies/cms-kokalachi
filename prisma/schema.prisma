@@ -217,3 +217,43 @@ model NavLink {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model BlogPost {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  heroLead        String
+  heroAccent      String
+  excerpt         String
+  category        String   @default("First-Timer Guide")
+  publishedAt     String   // "YYYY-MM-DD"
+  author          String   @default("Team Kokalachi")
+  heroImage       String
+  heroAlt         String
+  ogImage         String?
+  marginNote      String?
+  intro           Json?    @default("[]")
+  sections        Json?    @default("[]")
+  ctaEyebrow          String?  @default("Your first chai stop is waiting")
+  ctaTitle            String?  @default("Ready to take the first step?")
+  ctaText             String?  @default("Browse our upcoming journeys and find the one that makes you a little excited and a little nervous. That's usually the right one.")
+  ctaPrimaryBtnText   String?  @default("Explore Upcoming Trips")
+  ctaPrimaryBtnUrl    String?  @default("/#upcoming-journeys")
+  ctaSecondaryBtnText String?  @default("Read our FAQs")
+  ctaSecondaryBtnUrl  String?  @default("/faqs")
+  shareBtnText        String?  @default("Share on WhatsApp")
+  relatedCategory String?  @default("FirstTimers")
+  sidebarBadge    String?  @default("First-timer pick")
+  shareTitle      String?  @default("psst…")
+  shareNote       String?  @default("Know a nervous first-timer? Send this their way.")
+  isPublished     Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  order           Int      @default(0)
+  metaTitle       String?
+  metaDescription String?
+  targetKeywords  String?
+  canonicalUrl    String?
+  noIndex         Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

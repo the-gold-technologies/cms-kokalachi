@@ -21,7 +21,7 @@ async function main() {
   const adminPassword = await bcrypt.hash("Admin@123", 10);
   await prisma.user.upsert({
     where: { email: "admin@kokalachi.com" },
-    update: {},
+    update: { password: adminPassword },
     create: {
       email: "admin@kokalachi.com",
       name: "Kokalachi Admin",
@@ -1638,6 +1638,68 @@ async function main() {
     await prisma.enquiry.create({ data: enq });
   }
   console.log("✓ Sample travel enquiries seeded.");
+
+  // 13. Blog Posts (Journal Stories)
+  try {
+    const blogsSeedPath = path.join(__dirname, "blogs-seed.json");
+    if (fs.existsSync(blogsSeedPath)) {
+      const blogPosts = JSON.parse(fs.readFileSync(blogsSeedPath, "utf8"));
+      for (let i = 0; i < blogPosts.length; i++) {
+        const bp = blogPosts[i];
+        await prisma.blogPost.upsert({
+          where: { slug: bp.slug },
+          update: {
+            title: bp.title,
+            heroLead: bp.heroLead,
+            heroAccent: bp.heroAccent,
+            excerpt: bp.excerpt,
+            category: bp.category,
+            publishedAt: bp.publishedAt,
+            author: bp.author,
+            heroImage: bp.heroImage,
+            heroAlt: bp.heroAlt,
+            ogImage: bp.ogImage || null,
+            marginNote: bp.marginNote || null,
+            intro: bp.intro || [],
+            sections: bp.sections || [],
+            ctaTitle: bp.cta?.title || "Ready to take the first step?",
+            ctaText: bp.cta?.text || "",
+            relatedCategory: bp.relatedCategory || "FirstTimers",
+            isPublished: true,
+            isFeatured: i === 0,
+            order: i,
+            canonicalUrl: `/blogs/${bp.slug}`,
+          },
+          create: {
+            slug: bp.slug,
+            title: bp.title,
+            heroLead: bp.heroLead,
+            heroAccent: bp.heroAccent,
+            excerpt: bp.excerpt,
+            category: bp.category,
+            publishedAt: bp.publishedAt,
+            author: bp.author,
+            heroImage: bp.heroImage,
+            heroAlt: bp.heroAlt,
+            ogImage: bp.ogImage || null,
+            marginNote: bp.marginNote || null,
+            intro: bp.intro || [],
+            sections: bp.sections || [],
+            ctaTitle: bp.cta?.title || "Ready to take the first step?",
+            ctaText: bp.cta?.text || "",
+            relatedCategory: bp.relatedCategory || "FirstTimers",
+            isPublished: true,
+            isFeatured: i === 0,
+            order: i,
+            canonicalUrl: `/blogs/${bp.slug}`,
+          },
+        });
+      }
+      console.log(`✓ ${blogPosts.length} Blog post(s) seeded into Journal.`);
+    }
+  } catch (err) {
+    console.error("Warning: Could not seed blog posts:", err.message);
+  }
 
   console.log("\n🎉 SUCCESS: Kokalachi CMS database fully populated and ready!");
 }

@@ -13,6 +13,7 @@ import {
   ChevronDown,
   LogOut,
   Globe,
+  PenTool,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
@@ -43,6 +44,14 @@ const sidebarLinks: SidebarLink[] = [
     title: "Journeys",
     icon: Compass,
     sublinks: [{ title: "All Journeys", href: "/trips" }],
+  },
+  {
+    title: "Blog Journal",
+    icon: PenTool,
+    sublinks: [
+      { title: "All Stories", href: "/blogs" },
+      { title: "Write New Story", href: "/blogs/create" },
+    ],
   },
   {
     title: "Pages",
