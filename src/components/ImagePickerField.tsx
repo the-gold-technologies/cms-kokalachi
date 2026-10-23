@@ -61,7 +61,8 @@ export function ImagePickerField({
       const json = await res.json();
       if (json.success && json.url) {
         onChange?.(json.url);
-        toast.success("Image uploaded to Cloudinary successfully!", { id: toastId });
+        const sizeMsg = json.sizeKb ? ` (${json.originalSizeKb} KB → ${json.sizeKb} KB WebP, saved ${json.compressionRatio})` : "";
+        toast.success(`Image compressed & uploaded as WebP!${sizeMsg}`, { id: toastId });
       } else {
         toast.error(json.error || "Failed to upload image", { id: toastId });
       }

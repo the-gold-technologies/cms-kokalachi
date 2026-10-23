@@ -119,8 +119,8 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
       }
       toast.success(
         uploadedUrls.length === 1
-          ? "Image uploaded successfully!"
-          : `${uploadedUrls.length} images uploaded successfully!`,
+          ? "Image compressed to WebP and uploaded successfully!"
+          : `${uploadedUrls.length} images compressed to WebP & uploaded!`,
       );
     }
   };

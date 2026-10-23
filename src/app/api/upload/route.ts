@@ -111,20 +111,21 @@ async function compressImageBuffer(
 
     let pipeline = sharpInstance;
     // Resize down if excessively large, keeping aspect ratio without upscaling
-    if ((metadata.width && metadata.width > 2400) || (metadata.height && metadata.height > 2400)) {
+    if ((metadata.width && metadata.width > 2000) || (metadata.height && metadata.height > 2000)) {
       pipeline = pipeline.resize({
-        width: 2400,
-        height: 2400,
+        width: 2000,
+        height: 2000,
         fit: "inside",
         withoutEnlargement: true,
       });
     }
 
-    // Convert to optimized WebP for massive KB savings with premium quality
+    // Convert to optimized WebP for massive KB savings with premium visual quality
     const compressedBuffer = await pipeline
       .webp({
-        quality: 82,
-        effort: 4,
+        quality: 80,
+        effort: 6,
+        smartSubsample: true,
       })
       .toBuffer();
 
@@ -190,28 +191,40 @@ export async function POST(request: Request) {
         : `${cleanBaseName}_${Date.now()}`;
 
       const result = await new Promise<any>((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          {
-            folder,
-            resource_type: isPdf ? "raw" : "image",
-            format: compressed.format === "pdf" ? undefined : compressed.format,
-            public_id: publicId,
-          },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          },
-        );
+        const uploadOptions: any = {
+          folder,
+          resource_type: isPdf ? "raw" : "image",
+          public_id: publicId,
+          overwrite: true,
+        };
+
+        if (!isPdf) {
+          uploadOptions.format = "webp";
+          uploadOptions.transformation = [{ quality: "auto:good", fetch_format: "webp" }];
+        }
+
+        const uploadStream = cloudinary.uploader.upload_stream(uploadOptions, (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        });
         uploadStream.end(compressed.buffer);
       });
 
+      let secureUrl = result.secure_url;
+      if (!isPdf && !secureUrl.endsWith(".webp") && secureUrl.includes("/image/upload/")) {
+        secureUrl = secureUrl.replace(/\.[a-zA-Z0-9]+$/, ".webp");
+      }
+
       return NextResponse.json({
         success: true,
-        url: result.secure_url,
+        url: secureUrl,
         publicId: result.public_id,
         name: file.name,
+        format: isPdf ? "pdf" : "webp",
         size: compressed.buffer.length,
         originalSize: file.size,
+        sizeKb: (compressed.buffer.length / 1024).toFixed(1),
+        originalSizeKb: (file.size / 1024).toFixed(1),
         compressionRatio: `${((1 - compressed.buffer.length / file.size) * 100).toFixed(0)}%`,
       });
     }
@@ -228,8 +241,11 @@ export async function POST(request: Request) {
       url: `/uploads/${localFileName}`,
       publicId: localFileName,
       name: file.name,
+      format: isPdf ? "pdf" : "webp",
       size: compressed.buffer.length,
       originalSize: file.size,
+      sizeKb: (compressed.buffer.length / 1024).toFixed(1),
+      originalSizeKb: (file.size / 1024).toFixed(1),
       compressionRatio: `${((1 - compressed.buffer.length / file.size) * 100).toFixed(0)}%`,
     });
   } catch (error: any) {
