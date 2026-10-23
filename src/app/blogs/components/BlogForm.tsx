@@ -8,11 +8,7 @@ import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
 import { ChapterStoryEditor } from "./ChapterStoryEditor";
-import {
-  blocksToStoryText,
-  storyTextToBlocks,
-  BlogBlockItem,
-} from "@/lib/blogContentParser";
+import { blocksToStoryText, storyTextToBlocks, BlogBlockItem } from "@/lib/blogContentParser";
 import {
   ArrowLeft,
   Plus,
@@ -93,8 +89,6 @@ const CATEGORY_PRESETS = [
   "Local Culture",
   "Community Rituals",
 ];
-
-
 
 export function BlogForm({
   initialData,
@@ -215,12 +209,8 @@ export function BlogForm({
     }
     loadJourneyCategories();
   }, []);
-  const [sidebarBadge, setSidebarBadge] = useState(
-    initialData?.sidebarBadge || "First-timer pick",
-  );
-  const [shareTitle, setShareTitle] = useState(
-    initialData?.shareTitle || "psst…",
-  );
+  const [sidebarBadge, setSidebarBadge] = useState(initialData?.sidebarBadge || "First-timer pick");
+  const [shareTitle, setShareTitle] = useState(initialData?.shareTitle || "psst…");
   const [shareNote, setShareNote] = useState(
     initialData?.shareNote || "Know a nervous first-timer? Send this their way.",
   );
@@ -263,11 +253,7 @@ export function BlogForm({
     setExpandedChapters((prev) => ({ ...prev, [newId]: true }));
   };
 
-  const handleUpdateSectionField = (
-    secIdx: number,
-    field: keyof SectionFormState,
-    val: any,
-  ) => {
+  const handleUpdateSectionField = (secIdx: number, field: keyof SectionFormState, val: any) => {
     const updated = [...sections];
     updated[secIdx] = { ...updated[secIdx], [field]: val };
     setSections(updated);
@@ -432,7 +418,11 @@ export function BlogForm({
       <div className="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-xs flex items-center gap-1 overflow-x-auto">
         {[
           { key: "header", label: "Hero & Details", icon: BookOpen },
-          { key: "intro", label: `Story Intro (${detectedIntroParagraphs.length})`, icon: FileText },
+          {
+            key: "intro",
+            label: `Story Intro (${detectedIntroParagraphs.length})`,
+            icon: FileText,
+          },
           { key: "chapters", label: `Chapters & Story (${sections.length})`, icon: Layers },
           { key: "cta", label: "CTA & Recommendation", icon: Compass },
           { key: "seo", label: "SEO & Social", icon: Globe },
@@ -611,12 +601,14 @@ export function BlogForm({
                 Story Intro Narrative
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
-                Write your opening story paragraphs in one continuous space. Paragraph 1 will automatically render with Kokalachi's signature drop-cap initial on the website.
+                Write your opening story paragraphs in one continuous space. Paragraph 1 will
+                automatically render with Kokalachi's signature drop-cap initial on the website.
               </p>
             </div>
 
             <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#FAF5EE] text-[#0E5A60] border border-[#0E5A60]/20">
-              {detectedIntroParagraphs.length} {detectedIntroParagraphs.length === 1 ? "paragraph" : "paragraphs"} detected
+              {detectedIntroParagraphs.length}{" "}
+              {detectedIntroParagraphs.length === 1 ? "paragraph" : "paragraphs"} detected
             </span>
           </div>
 
@@ -639,7 +631,9 @@ export function BlogForm({
             <div>
               <h2 className="text-lg font-serif font-bold text-slate-900">Story Chapters</h2>
               <p className="text-xs text-slate-500">
-                Click any chapter to expand and edit. Write continuously in the single editor window, insert scrapbook elements from the toolbar, and toggle Visual Preview to verify formatting.
+                Click any chapter to expand and edit. Write continuously in the single editor
+                window, insert scrapbook elements from the toolbar, and toggle Visual Preview to
+                verify formatting.
               </p>
             </div>
             <button

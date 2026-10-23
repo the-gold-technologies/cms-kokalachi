@@ -77,7 +77,10 @@ export function storyTextToBlocks(content: string = ""): BlogBlockItem[] {
   while ((match = blockRegex.exec(trimmed)) !== null) {
     const preText = trimmed.slice(lastIndex, match.index).trim();
     if (preText) {
-      const paras = preText.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+      const paras = preText
+        .split(/\n\s*\n/)
+        .map((p) => p.trim())
+        .filter(Boolean);
       for (const p of paras) {
         blocks.push({ type: "p", text: p });
       }
@@ -161,7 +164,10 @@ export function storyTextToBlocks(content: string = ""): BlogBlockItem[] {
   // Any remaining text after the last match
   const remainingText = trimmed.slice(lastIndex).trim();
   if (remainingText) {
-    const paras = remainingText.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+    const paras = remainingText
+      .split(/\n\s*\n/)
+      .map((p) => p.trim())
+      .filter(Boolean);
     for (const p of paras) {
       blocks.push({ type: "p", text: p });
     }

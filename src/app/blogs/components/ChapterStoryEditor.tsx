@@ -63,8 +63,10 @@ export function ChapterStoryEditor({
     const before = content.substring(0, start);
     const after = content.substring(end);
 
-    const prefix = before.endsWith("\n\n") || before === "" ? "" : before.endsWith("\n") ? "\n" : "\n\n";
-    const suffix = after.startsWith("\n\n") || after === "" ? "" : after.startsWith("\n") ? "\n" : "\n\n";
+    const prefix =
+      before.endsWith("\n\n") || before === "" ? "" : before.endsWith("\n") ? "\n" : "\n\n";
+    const suffix =
+      after.startsWith("\n\n") || after === "" ? "" : after.startsWith("\n") ? "\n" : "\n\n";
 
     const newContent = `${before}${prefix}${snippet}${suffix}${after}`;
     onChange(newContent);
@@ -294,7 +296,10 @@ export function ChapterStoryEditor({
 
             <div className="text-[11px] text-slate-500 flex items-center gap-1">
               <Info className="w-3 h-3 text-slate-400" />
-              <span>Press Enter twice for paragraph breaks · Switch to Visual Preview to see rendered scrapbook!</span>
+              <span>
+                Press Enter twice for paragraph breaks · Switch to Visual Preview to see rendered
+                scrapbook!
+              </span>
             </div>
           </div>
         </div>
@@ -337,7 +342,10 @@ export function ChapterStoryEditor({
                 parsedBlocks.map((block, idx) => {
                   if (block.type === "p") {
                     return (
-                      <p key={idx} className="text-slate-700 text-[15px] sm:text-base leading-relaxed">
+                      <p
+                        key={idx}
+                        className="text-slate-700 text-[15px] sm:text-base leading-relaxed"
+                      >
                         {renderRichTextWithLinks(block.text || "")}
                       </p>
                     );
@@ -403,7 +411,9 @@ export function ChapterStoryEditor({
                         <div className="relative w-full max-w-[520px] bg-[#FDFAF3] border border-amber-900/20 rounded-md shadow-md rotate-[-1.2deg] p-6">
                           <div className="absolute top-4 right-4 w-12 h-14 border-2 border-dashed border-[#D96C2C]/60 bg-[#D96C2C]/10 flex flex-col items-center justify-center rotate-3">
                             <span className="text-lg">🏔️</span>
-                            <span className="text-[7px] font-bold text-[#C85A24] uppercase">Kokalachi</span>
+                            <span className="text-[7px] font-bold text-[#C85A24] uppercase">
+                              Kokalachi
+                            </span>
                           </div>
                           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C85A24] mb-3">
                             Souvenir Postcard
@@ -439,7 +449,9 @@ export function ChapterStoryEditor({
                             </span>
                             <p className="text-sm text-slate-700 leading-relaxed">
                               {item.title && (
-                                <strong className="text-[#0E5A60] font-bold mr-1.5">{item.title}</strong>
+                                <strong className="text-[#0E5A60] font-bold mr-1.5">
+                                  {item.title}
+                                </strong>
                               )}
                               {renderRichTextWithLinks(item.text)}
                             </p>
@@ -476,7 +488,8 @@ export function ChapterStoryEditor({
             </div>
 
             <p className="text-xs text-slate-500">
-              Upload or pick a photo from Cloudinary. It will be styled like a vintage tilted Polaroid with masking tape and handwritten caption.
+              Upload or pick a photo from Cloudinary. It will be styled like a vintage tilted
+              Polaroid with masking tape and handwritten caption.
             </p>
 
             <div className="space-y-4">
@@ -555,7 +568,8 @@ export function ChapterStoryEditor({
             </div>
 
             <p className="text-xs text-slate-500">
-              Postcards render with a vintage mountain stamp, cancellation postmark, and handwritten cursive note.
+              Postcards render with a vintage mountain stamp, cancellation postmark, and handwritten
+              cursive note.
             </p>
 
             <div className="space-y-4">

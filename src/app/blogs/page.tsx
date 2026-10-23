@@ -3,6 +3,11 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
+import { SectionHeader } from "@/components/SectionHeader";
+import { InputField } from "@/components/InputField";
+import { TextAreaField } from "@/components/TextAreaField";
+import { ImagePickerField } from "@/components/ImagePickerField";
+import { SaveButton } from "@/components/SaveButton";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import {
   Search,
@@ -13,12 +18,8 @@ import {
   Feather,
   Edit,
   Trash2,
-  ExternalLink,
   Sparkles,
-  CheckCircle2,
-  AlertCircle,
   Eye,
-  Filter,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -50,26 +51,160 @@ export default function BlogsListPage() {
   const [postToDelete, setPostToDelete] = useState<{ id: string; title: string } | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const fetchPosts = async () => {
+  // Expandable Section 1: Public Blog Page Header Banner State
+  const [isHeroOpen, setIsHeroOpen] = useState(false);
+  const [heroLoading, setHeroLoading] = useState(false);
+  const [heroSaved, setHeroSaved] = useState(false);
+  const [heroEyebrow, setHeroEyebrow] = useState("The Kokalachi Journal");
+  const [heroTitleLead, setHeroTitleLead] = useState("Stories for the ");
+  const [heroTitleAccent, setHeroTitleAccent] = useState("curious traveller.");
+  const [heroDescription, setHeroDescription] = useState(
+    "Honest guides, little rituals and real stories from the road, for anyone who has a bucket list but not yet a travel buddy.",
+  );
+  const [heroImage, setHeroImage] = useState(
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80",
+  );
+  const [heroAlt, setHeroAlt] = useState("The Kokalachi Journal");
+
+  // Expandable Section 2: Blog Page Accents & Bottom CTA State
+  const [isCtaOpen, setIsCtaOpen] = useState(false);
+  const [ctaLoading, setCtaLoading] = useState(false);
+  const [ctaSaved, setCtaSaved] = useState(false);
+  const [kicker, setKicker] = useState("Fresh off the press");
+  const [chaiNote, setChaiNote] = useState("grab a chai first ☕");
+  const [brewingTitle, setBrewingTitle] = useState("more stories brewing…");
+  const [brewingDescription, setBrewingDescription] = useState(
+    "Packing lists, route guides and traveller memoirs are on their way. Until then, the best stories are the ones you go and make.",
+  );
+  const [ctaBtnText, setCtaBtnText] = useState("Find your journey");
+  const [ctaBtnUrl, setCtaBtnUrl] = useState("/journeys");
+
+  // Single unified fetch: gets blogs cards, hero banner, CTA, and SEO from /api/blogs
+  const fetchBlogsData = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/blogs");
       const json = await res.json();
-      if (json.success && Array.isArray(json.data)) {
-        setPosts(json.data);
+
+      if (json.success) {
+        // Extract blogs array from json.data.blogs (or fallback json.data / json.blogs)
+        const blogsList = Array.isArray(json.data?.blogs)
+          ? json.data.blogs
+          : Array.isArray(json.data)
+          ? json.data
+          : Array.isArray(json.blogs)
+          ? json.blogs
+          : [];
+        setPosts(blogsList);
+
+        // Extract sections from json.data.sections
+        const sections = json.data?.sections || json.sections || {};
+        const hero = sections.BlogHeroSection || json.hero;
+        if (hero) {
+          if (hero.eyebrow !== undefined) setHeroEyebrow(hero.eyebrow);
+          if (hero.titleLead !== undefined) setHeroTitleLead(hero.titleLead);
+          if (hero.titleAccent !== undefined) setHeroTitleAccent(hero.titleAccent);
+          if (hero.description !== undefined) setHeroDescription(hero.description);
+          if (hero.heroImage !== undefined) setHeroImage(hero.heroImage);
+          if (hero.heroAlt !== undefined) setHeroAlt(hero.heroAlt);
+        }
+
+        const cta = sections.BlogCtaSection || json.cta;
+        if (cta) {
+          if (cta.kicker !== undefined) setKicker(cta.kicker);
+          if (cta.chaiNote !== undefined) setChaiNote(cta.chaiNote);
+          if (cta.brewingTitle !== undefined) setBrewingTitle(cta.brewingTitle);
+          if (cta.brewingDescription !== undefined) setBrewingDescription(cta.brewingDescription);
+          if (cta.ctaBtnText !== undefined) setCtaBtnText(cta.ctaBtnText);
+          if (cta.ctaBtnUrl !== undefined) setCtaBtnUrl(cta.ctaBtnUrl);
+        }
       } else {
         toast.error(json.error || "Failed to load blog stories");
       }
     } catch {
-      toast.error("Network error loading stories");
+      toast.error("Network error loading blog data");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchBlogsData();
   }, []);
+
+  const handleSaveHero = async () => {
+    setHeroLoading(true);
+    setHeroSaved(false);
+    try {
+      const payload = {
+        eyebrow: heroEyebrow,
+        titleLead: heroTitleLead,
+        titleAccent: heroTitleAccent,
+        description: heroDescription,
+        heroImage,
+        heroAlt,
+      };
+
+      const res = await fetch("/api/blogs", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          section: "BlogHeroSection",
+          content: payload,
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        setHeroSaved(true);
+        toast.success("Blog page banner updated successfully!");
+        setTimeout(() => setHeroSaved(false), 3000);
+      } else {
+        toast.error(json.error || "Failed to save blog banner");
+      }
+    } catch {
+      toast.error("Network error saving blog banner");
+    } finally {
+      setHeroLoading(false);
+    }
+  };
+
+  const handleSaveCta = async () => {
+    setCtaLoading(true);
+    setCtaSaved(false);
+    try {
+      const payload = {
+        kicker,
+        chaiNote,
+        brewingTitle,
+        brewingDescription,
+        ctaBtnText,
+        ctaBtnUrl,
+      };
+
+      const res = await fetch("/api/blogs", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          section: "BlogCtaSection",
+          content: payload,
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        setCtaSaved(true);
+        toast.success("Blog page CTA and accents updated successfully!");
+        setTimeout(() => setCtaSaved(false), 3000);
+      } else {
+        toast.error(json.error || "Failed to save CTA content");
+      }
+    } catch {
+      toast.error("Network error saving CTA content");
+    } finally {
+      setCtaLoading(false);
+    }
+  };
 
   const handleDeleteConfirm = async () => {
     if (!postToDelete) return;
@@ -119,12 +254,13 @@ export default function BlogsListPage() {
   const filteredPosts = posts.filter((p) => {
     const matchesSearch =
       !search ||
-      p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.heroLead.toLowerCase().includes(search.toLowerCase()) ||
-      p.excerpt.toLowerCase().includes(search.toLowerCase()) ||
-      p.author.toLowerCase().includes(search.toLowerCase());
+      p.title?.toLowerCase().includes(search.toLowerCase()) ||
+      p.author?.toLowerCase().includes(search.toLowerCase()) ||
+      p.excerpt?.toLowerCase().includes(search.toLowerCase());
 
-    const matchesCategory = categoryFilter === "All" || p.category === categoryFilter;
+    const matchesCategory =
+      categoryFilter === "All" || p.category?.toLowerCase() === categoryFilter.toLowerCase();
+
     const matchesStatus =
       statusFilter === "All" ||
       (statusFilter === "Published" && p.isPublished) ||
@@ -134,28 +270,159 @@ export default function BlogsListPage() {
   });
 
   return (
-    <section className="flex flex-col gap-8 pb-20">
+    <section className="flex flex-col gap-8 pb-16 max-w-7xl mx-auto w-full">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight flex items-center gap-3">
-            The Kokalachi Journal
-            <span className="px-3 py-1 rounded-full text-xs font-sans font-bold bg-[#FAF5EE] text-[#D96C2C] border border-[#D96C2C]/20">
-              {posts.length} {posts.length === 1 ? "Story" : "Stories"}
-            </span>
-          </h1>
-          <p className="text-slate-500 text-xs sm:text-sm mt-1">
-            Curate, craft, and publish slow-travel stories, first-timer guides, and memoirs.
-          </p>
-        </div>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <PageHeader
+          title="Kokalachi Journal & Stories"
+          description="Manage your slow-travel stories, publish status, editorial chapters, and public blog page banner and CTA content."
+        />
 
         <Link
           href="/blogs/create"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#0E5A60] hover:bg-[#0B2A3D] text-white font-semibold text-xs sm:text-sm rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer shrink-0"
+          className="px-5 py-3 rounded-2xl bg-[#0E5A60] hover:bg-[#061C29] text-white font-bold text-xs transition-all shadow-sm hover:shadow-md inline-flex items-center gap-2 shrink-0 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           Write New Story
         </Link>
+      </div>
+
+      {/* Expandable Section 1: Public Blog Page Header Banner */}
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm transition-all duration-300">
+        <SectionHeader
+          title="Public Blog Page Header Banner"
+          description='Controls the top hero banner headline ("Stories for the curious traveller"), badge, description, and hero cover photo on /blogs.'
+          isOpen={isHeroOpen}
+          onToggle={() => setIsHeroOpen(!isHeroOpen)}
+        />
+
+        {isHeroOpen && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSaveHero();
+            }}
+            className="mt-6 flex flex-col gap-6"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField
+                label="Eyebrow Badge"
+                value={heroEyebrow}
+                onChange={(e) => setHeroEyebrow(e.target.value)}
+                placeholder="e.g. The Kokalachi Journal"
+              />
+              <InputField
+                label="Main Title Word / Prefix"
+                value={heroTitleLead}
+                onChange={(e) => setHeroTitleLead(e.target.value)}
+                placeholder="e.g. Stories for the"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField
+                label="Script Accent Text (Underlined)"
+                value={heroTitleAccent}
+                onChange={(e) => setHeroTitleAccent(e.target.value)}
+                placeholder="e.g. curious traveller."
+              />
+              <InputField
+                label="Image Alt Text"
+                value={heroAlt}
+                onChange={(e) => setHeroAlt(e.target.value)}
+                placeholder="e.g. The Kokalachi Journal"
+              />
+            </div>
+
+            <ImagePickerField
+              label="Hero Background Image"
+              value={heroImage}
+              onChange={(val) => setHeroImage(val)}
+              placeholder="https://..."
+            />
+
+            <TextAreaField
+              label="Hero Description"
+              value={heroDescription}
+              onChange={(e) => setHeroDescription(e.target.value)}
+              rows={2}
+              placeholder="Honest guides, little rituals and real stories from the road..."
+            />
+
+            <div className="pt-4 border-t border-gray-100">
+              <SaveButton loading={heroLoading} saved={heroSaved} onClick={handleSaveHero} />
+            </div>
+          </form>
+        )}
+      </div>
+
+      {/* Expandable Section 2: Blog Page Accents & Bottom CTA */}
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm transition-all duration-300">
+        <SectionHeader
+          title="Blog Page Accents & Bottom CTA"
+          description='Controls the section kicker ("Fresh off the press"), chai note, and bottom brewing story CTA box on /blogs.'
+          isOpen={isCtaOpen}
+          onToggle={() => setIsCtaOpen(!isCtaOpen)}
+        />
+
+        {isCtaOpen && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSaveCta();
+            }}
+            className="mt-6 flex flex-col gap-6"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField
+                label="Section Kicker Tag"
+                value={kicker}
+                onChange={(e) => setKicker(e.target.value)}
+                placeholder="e.g. Fresh off the press"
+              />
+              <InputField
+                label="Featured Story Chai Note (Script font)"
+                value={chaiNote}
+                onChange={(e) => setChaiNote(e.target.value)}
+                placeholder="e.g. grab a chai first ☕"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField
+                label="Bottom Brewing Title (Script font)"
+                value={brewingTitle}
+                onChange={(e) => setBrewingTitle(e.target.value)}
+                placeholder="e.g. more stories brewing…"
+              />
+              <InputField
+                label="CTA Button Label"
+                value={ctaBtnText}
+                onChange={(e) => setCtaBtnText(e.target.value)}
+                placeholder="e.g. Find your journey"
+              />
+            </div>
+
+            <InputField
+              label="CTA Button Target URL"
+              value={ctaBtnUrl}
+              onChange={(e) => setCtaBtnUrl(e.target.value)}
+              placeholder="e.g. /journeys"
+            />
+
+            <TextAreaField
+              label="Bottom Brewing Description"
+              value={brewingDescription}
+              onChange={(e) => setBrewingDescription(e.target.value)}
+              rows={2}
+              placeholder="Packing lists, route guides and traveller memoirs are on their way..."
+            />
+
+            <div className="pt-4 border-t border-gray-100">
+              <SaveButton loading={ctaLoading} saved={ctaSaved} onClick={handleSaveCta} />
+            </div>
+          </form>
+        )}
       </div>
 
       {/* Filter and Search Bar */}
@@ -212,7 +479,9 @@ export default function BlogsListPage() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-[#0E5A60]" />
-          <p className="text-xs text-slate-400 font-semibold">Loading Kokalachi Journal stories...</p>
+          <p className="text-xs text-slate-400 font-semibold">
+            Loading Kokalachi Journal stories...
+          </p>
         </div>
       ) : filteredPosts.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-100 shadow-xs flex flex-col items-center justify-center">
@@ -255,32 +524,30 @@ export default function BlogsListPage() {
                   </div>
                 )}
 
-                {/* Top Badges */}
-                <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#D96C2C] text-white shadow-sm">
+                {/* Subtle top gradient overlay */}
+                <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/50 via-black/20 to-transparent pointer-events-none" />
+
+                {/* Category Badge (Top Left) */}
+                <div className="absolute top-3 left-3">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-white border border-white/20 shadow-sm">
                     {post.category || "Story"}
                   </span>
-                  {post.isFeatured && (
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-900 shadow-sm flex items-center gap-1">
-                      <Sparkles className="w-3 h-3" /> Featured
-                    </span>
-                  )}
                 </div>
 
-                {/* Publish Toggle Button */}
+                {/* Publish Toggle Button (Top Right) */}
                 <button
                   type="button"
                   onClick={() => handleTogglePublish(post)}
-                  className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer backdrop-blur-xs ${
+                  className={`absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer backdrop-blur-md border ${
                     post.isPublished
-                      ? "bg-emerald-600/90 hover:bg-emerald-700 text-white"
-                      : "bg-slate-800/80 hover:bg-slate-900 text-slate-200"
+                      ? "bg-emerald-950/80 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/90"
+                      : "bg-slate-950/80 border-white/20 text-slate-300 hover:bg-slate-900/90"
                   }`}
                   title={post.isPublished ? "Click to set as Draft" : "Click to Publish"}
                 >
                   <span
                     className={`w-1.5 h-1.5 rounded-full ${
-                      post.isPublished ? "bg-emerald-300 animate-pulse" : "bg-slate-400"
+                      post.isPublished ? "bg-emerald-400 animate-pulse" : "bg-slate-400"
                     }`}
                   />
                   {post.isPublished ? "Published" : "Draft"}
@@ -290,6 +557,16 @@ export default function BlogsListPage() {
               {/* Card Body */}
               <div className="p-6 flex-1 flex flex-col justify-between">
                 <div>
+                  {/* Featured Badge */}
+                  {post.isFeatured && (
+                    <div className="mb-2">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-700 border border-amber-300/80 shadow-2xs">
+                        <Sparkles className="w-3 h-3 text-amber-500 fill-amber-400" /> Featured
+                        Story
+                      </span>
+                    </div>
+                  )}
+
                   <h3 className="font-serif font-bold text-lg text-[#0E5A60] leading-snug line-clamp-2 mb-2 group-hover:text-[#D96C2C] transition-colors">
                     {post.title}
                   </h3>

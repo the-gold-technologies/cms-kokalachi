@@ -7,10 +7,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const post = await prisma.blogPost.findFirst({
@@ -20,10 +17,7 @@ export async function GET(
     });
 
     if (!post) {
-      return NextResponse.json(
-        { success: false, error: "Blog post not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Blog post not found" }, { status: 404 });
     }
 
     return NextResponse.json({ success: true, data: post });
@@ -36,10 +30,7 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const body = await request.json();
@@ -51,10 +42,7 @@ export async function PUT(
     });
 
     if (!existingPost) {
-      return NextResponse.json(
-        { success: false, error: "Blog post not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Blog post not found" }, { status: 404 });
     }
 
     const {
@@ -133,46 +121,60 @@ export async function PUT(
             ? Array.isArray(intro)
               ? intro
               : []
-            : (existingPost.intro as any) ?? [],
+            : ((existingPost.intro as any) ?? []),
         sections:
           sections !== undefined
             ? Array.isArray(sections)
               ? sections
               : []
-            : (existingPost.sections as any) ?? [],
-        ctaEyebrow: ctaEyebrow !== undefined ? ctaEyebrow : (existingPost as any).ctaEyebrow ?? "Your first chai stop is waiting",
+            : ((existingPost.sections as any) ?? []),
+        ctaEyebrow:
+          ctaEyebrow !== undefined
+            ? ctaEyebrow
+            : ((existingPost as any).ctaEyebrow ?? "Your first chai stop is waiting"),
         ctaTitle: ctaTitle !== undefined ? ctaTitle : existingPost.ctaTitle,
         ctaText: ctaText !== undefined ? ctaText : existingPost.ctaText,
         ctaPrimaryBtnText:
-          ctaPrimaryBtnText !== undefined ? ctaPrimaryBtnText : (existingPost as any).ctaPrimaryBtnText ?? "Explore Upcoming Trips",
+          ctaPrimaryBtnText !== undefined
+            ? ctaPrimaryBtnText
+            : ((existingPost as any).ctaPrimaryBtnText ?? "Explore Upcoming Trips"),
         ctaPrimaryBtnUrl:
-          ctaPrimaryBtnUrl !== undefined ? ctaPrimaryBtnUrl : (existingPost as any).ctaPrimaryBtnUrl ?? "/#upcoming-journeys",
+          ctaPrimaryBtnUrl !== undefined
+            ? ctaPrimaryBtnUrl
+            : ((existingPost as any).ctaPrimaryBtnUrl ?? "/#upcoming-journeys"),
         ctaSecondaryBtnText:
-          ctaSecondaryBtnText !== undefined ? ctaSecondaryBtnText : (existingPost as any).ctaSecondaryBtnText ?? "Read our FAQs",
+          ctaSecondaryBtnText !== undefined
+            ? ctaSecondaryBtnText
+            : ((existingPost as any).ctaSecondaryBtnText ?? "Read our FAQs"),
         ctaSecondaryBtnUrl:
-          ctaSecondaryBtnUrl !== undefined ? ctaSecondaryBtnUrl : (existingPost as any).ctaSecondaryBtnUrl ?? "/faqs",
+          ctaSecondaryBtnUrl !== undefined
+            ? ctaSecondaryBtnUrl
+            : ((existingPost as any).ctaSecondaryBtnUrl ?? "/faqs"),
         shareBtnText:
-          shareBtnText !== undefined ? shareBtnText : (existingPost as any).shareBtnText ?? "Share on WhatsApp",
+          shareBtnText !== undefined
+            ? shareBtnText
+            : ((existingPost as any).shareBtnText ?? "Share on WhatsApp"),
         relatedCategory:
           relatedCategory !== undefined ? relatedCategory : existingPost.relatedCategory,
         sidebarBadge:
-          sidebarBadge !== undefined ? sidebarBadge : (existingPost as any).sidebarBadge ?? "First-timer pick",
+          sidebarBadge !== undefined
+            ? sidebarBadge
+            : ((existingPost as any).sidebarBadge ?? "First-timer pick"),
         shareTitle:
-          shareTitle !== undefined ? shareTitle : (existingPost as any).shareTitle ?? "psst…",
+          shareTitle !== undefined ? shareTitle : ((existingPost as any).shareTitle ?? "psst…"),
         shareNote:
-          shareNote !== undefined ? shareNote : (existingPost as any).shareNote ?? "Know a nervous first-timer? Send this their way.",
-        isPublished:
-          typeof isPublished === "boolean" ? isPublished : existingPost.isPublished,
-        isFeatured:
-          typeof isFeatured === "boolean" ? isFeatured : existingPost.isFeatured,
+          shareNote !== undefined
+            ? shareNote
+            : ((existingPost as any).shareNote ??
+              "Know a nervous first-timer? Send this their way."),
+        isPublished: typeof isPublished === "boolean" ? isPublished : existingPost.isPublished,
+        isFeatured: typeof isFeatured === "boolean" ? isFeatured : existingPost.isFeatured,
         order: typeof order === "number" ? order : existingPost.order,
         metaTitle: metaTitle !== undefined ? metaTitle : existingPost.metaTitle,
         metaDescription:
           metaDescription !== undefined ? metaDescription : existingPost.metaDescription,
-        targetKeywords:
-          targetKeywords !== undefined ? targetKeywords : existingPost.targetKeywords,
-        canonicalUrl:
-          canonicalUrl !== undefined ? canonicalUrl : existingPost.canonicalUrl,
+        targetKeywords: targetKeywords !== undefined ? targetKeywords : existingPost.targetKeywords,
+        canonicalUrl: canonicalUrl !== undefined ? canonicalUrl : existingPost.canonicalUrl,
         noIndex: typeof noIndex === "boolean" ? noIndex : existingPost.noIndex,
       },
     });
@@ -192,10 +194,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const existingPost = await prisma.blogPost.findFirst({
@@ -205,10 +204,7 @@ export async function DELETE(
     });
 
     if (!existingPost) {
-      return NextResponse.json(
-        { success: false, error: "Blog post not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Blog post not found" }, { status: 404 });
     }
 
     await prisma.blogPost.delete({ where: { id: existingPost.id } });
