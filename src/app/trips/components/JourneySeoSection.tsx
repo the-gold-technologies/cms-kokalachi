@@ -25,6 +25,7 @@ export function JourneySeoSection({
   const [metaDescription, setMetaDescription] = useState("");
   const [targetKeywords, setTargetKeywords] = useState("");
   const [noIndex, setNoIndex] = useState(false);
+  const [schema, setSchema] = useState("");
 
   useEffect(() => {
     if (initialData) {
@@ -32,6 +33,7 @@ export function JourneySeoSection({
       setMetaDescription(initialData.metaDescription ?? "");
       setTargetKeywords(initialData.targetKeywords ?? "");
       setNoIndex(!!initialData.noIndex);
+      setSchema(initialData.schema ?? "");
     }
   }, [initialData]);
 
@@ -44,6 +46,7 @@ export function JourneySeoSection({
         metaDescription,
         targetKeywords,
         noIndex,
+        schema: schema.trim() || undefined,
       };
 
       const res = await fetch(`/api/trips/${tripId}`, {
@@ -107,6 +110,23 @@ export function JourneySeoSection({
             rows={2}
             placeholder="Experience Kashmir's autumn colours, Dal Lake houseboats, and alpine meadow walks..."
           />
+
+          <div className="flex flex-col gap-2">
+            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+              Structured Data (Schema Markup JSON-LD)
+            </span>
+            <textarea
+              value={schema}
+              onChange={(e) => setSchema(e.target.value)}
+              placeholder={'e.g. { "@context": "https://schema.org", "@type": "TouristTrip", ... }'}
+              rows={6}
+              className="w-full font-mono text-xs px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:bg-white focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60] outline-none transition-all text-gray-800"
+            />
+            <span className="text-[11px] text-gray-400">
+              Optional custom JSON-LD schema. Leave empty to use auto-generated TouristTrip
+              structured data.
+            </span>
+          </div>
 
           <div className="flex items-center gap-3 pt-1">
             <label className="flex items-center gap-2.5 cursor-pointer">

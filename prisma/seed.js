@@ -214,6 +214,35 @@ async function main() {
           vibeTags: item.vibeTags || [],
           isFeatured: !!item.featured,
           order: item.id || 0,
+          metaTitle: tp.metaTitle || null,
+          metaDescription: tp.metaDescription || tp.subtitle || null,
+          targetKeywords: tp.targetKeywords || null,
+          noIndex: !!tp.noIndex,
+          schema:
+            tp.schema ||
+            JSON.stringify(
+              {
+                "@context": "https://schema.org",
+                "@type": "TouristTrip",
+                name: tp.title,
+                description: tp.subtitle || tp.location,
+                image: tp.image,
+                touristType: "Group Travel",
+                offers: {
+                  "@type": "Offer",
+                  price: priceNum,
+                  priceCurrency: "INR",
+                  availability: "https://schema.org/InStock",
+                },
+                provider: {
+                  "@type": "Organization",
+                  name: "Kokalachi",
+                  url: "https://kokalachi.com",
+                },
+              },
+              null,
+              2,
+            ),
         },
         create: {
           title: tp.title,
@@ -259,6 +288,35 @@ async function main() {
           vibeTags: item.vibeTags || [],
           isFeatured: !!item.featured,
           order: item.id || 0,
+          metaTitle: tp.metaTitle || null,
+          metaDescription: tp.metaDescription || tp.subtitle || null,
+          targetKeywords: tp.targetKeywords || null,
+          noIndex: !!tp.noIndex,
+          schema:
+            tp.schema ||
+            JSON.stringify(
+              {
+                "@context": "https://schema.org",
+                "@type": "TouristTrip",
+                name: tp.title,
+                description: tp.subtitle || tp.location,
+                image: tp.image,
+                touristType: "Group Travel",
+                offers: {
+                  "@type": "Offer",
+                  price: priceNum,
+                  priceCurrency: "INR",
+                  availability: "https://schema.org/InStock",
+                },
+                provider: {
+                  "@type": "Organization",
+                  name: "Kokalachi",
+                  url: "https://kokalachi.com",
+                },
+              },
+              null,
+              2,
+            ),
         },
       });
 
@@ -1313,6 +1371,67 @@ async function main() {
         },
       ],
     },
+    {
+      title: "The Kokalachi Journal | Stories for the curious traveller",
+      slug: "blogs",
+      description:
+        "Honest guides, little rituals and real stories from the road, for anyone who has a bucket list but not yet a travel buddy.",
+      order: 6,
+      type: "Main Page",
+      metaTitle: "The Kokalachi Journal | Stories for the curious traveller",
+      metaDescription:
+        "Honest guides, little rituals and real stories from the road, for anyone who has a bucket list but not yet a travel buddy.",
+      targetKeywords:
+        "blogs, journal, slow travel stories, kokalachi memoirs, travel guides, solo traveler tips",
+      canonicalUrl: "https://kokalachi.com/blogs",
+      headingOptions: "h1",
+      schema: JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          name: "The Kokalachi Journal",
+          url: "https://kokalachi.com/blogs",
+          description:
+            "Honest guides, little rituals and real stories from the road, for anyone who has a bucket list but not yet a travel buddy.",
+          publisher: {
+            "@type": "Organization",
+            name: "Kokalachi",
+            url: "https://kokalachi.com",
+          },
+        },
+        null,
+        2,
+      ),
+      sections: [
+        {
+          type: "BlogHeroSection",
+          order: 1,
+          content: {
+            eyebrow: "The Kokalachi Journal",
+            titleLead: "Stories for the ",
+            titleAccent: "curious traveller.",
+            description:
+              "Honest guides, little rituals and real stories from the road, for anyone who has a bucket list but not yet a travel buddy.",
+            heroImage:
+              "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80",
+            heroAlt: "The Kokalachi Journal",
+          },
+        },
+        {
+          type: "BlogCtaSection",
+          order: 2,
+          content: {
+            kicker: "Fresh off the press",
+            chaiNote: "grab a chai first ☕",
+            brewingTitle: "more stories brewing…",
+            brewingDescription:
+              "Packing lists, route guides and traveller memoirs are on their way. Until then, the best stories are the ones you go and make.",
+            ctaBtnText: "Find your journey",
+            ctaBtnUrl: "/journeys",
+          },
+        },
+      ],
+    },
   ];
 
   for (const pageData of pagesData) {
@@ -1662,13 +1781,27 @@ async function main() {
             marginNote: bp.marginNote || null,
             intro: bp.intro || [],
             sections: bp.sections || [],
-            ctaTitle: bp.cta?.title || "Ready to take the first step?",
-            ctaText: bp.cta?.text || "",
+            ctaEyebrow: bp.ctaEyebrow || bp.cta?.eyebrow || null,
+            ctaTitle: bp.ctaTitle || bp.cta?.title || "Ready to take the first step?",
+            ctaText: bp.ctaText || bp.cta?.text || "",
+            ctaPrimaryBtnText: bp.ctaPrimaryBtnText || bp.cta?.primaryBtnText || null,
+            ctaPrimaryBtnUrl: bp.ctaPrimaryBtnUrl || bp.cta?.primaryBtnUrl || null,
+            ctaSecondaryBtnText: bp.ctaSecondaryBtnText || bp.cta?.secondaryBtnText || null,
+            ctaSecondaryBtnUrl: bp.ctaSecondaryBtnUrl || bp.cta?.secondaryBtnUrl || null,
+            shareBtnText: bp.shareBtnText || null,
+            sidebarBadge: bp.sidebarBadge || null,
+            shareTitle: bp.shareTitle || null,
+            shareNote: bp.shareNote || null,
             relatedCategory: bp.relatedCategory || "FirstTimers",
             isPublished: true,
             isFeatured: i === 0,
             order: i,
-            canonicalUrl: `/blogs/${bp.slug}`,
+            metaTitle: bp.metaTitle || null,
+            metaDescription: bp.metaDescription || bp.excerpt || null,
+            targetKeywords: bp.targetKeywords || null,
+            canonicalUrl: bp.canonicalUrl || `/blogs/${bp.slug}`,
+            noIndex: !!bp.noIndex,
+            schema: bp.schema || null,
           },
           create: {
             slug: bp.slug,
@@ -1685,13 +1818,27 @@ async function main() {
             marginNote: bp.marginNote || null,
             intro: bp.intro || [],
             sections: bp.sections || [],
-            ctaTitle: bp.cta?.title || "Ready to take the first step?",
-            ctaText: bp.cta?.text || "",
+            ctaEyebrow: bp.ctaEyebrow || bp.cta?.eyebrow || null,
+            ctaTitle: bp.ctaTitle || bp.cta?.title || "Ready to take the first step?",
+            ctaText: bp.ctaText || bp.cta?.text || "",
+            ctaPrimaryBtnText: bp.ctaPrimaryBtnText || bp.cta?.primaryBtnText || null,
+            ctaPrimaryBtnUrl: bp.ctaPrimaryBtnUrl || bp.cta?.primaryBtnUrl || null,
+            ctaSecondaryBtnText: bp.ctaSecondaryBtnText || bp.cta?.secondaryBtnText || null,
+            ctaSecondaryBtnUrl: bp.ctaSecondaryBtnUrl || bp.cta?.secondaryBtnUrl || null,
+            shareBtnText: bp.shareBtnText || null,
+            sidebarBadge: bp.sidebarBadge || null,
+            shareTitle: bp.shareTitle || null,
+            shareNote: bp.shareNote || null,
             relatedCategory: bp.relatedCategory || "FirstTimers",
             isPublished: true,
             isFeatured: i === 0,
             order: i,
-            canonicalUrl: `/blogs/${bp.slug}`,
+            metaTitle: bp.metaTitle || null,
+            metaDescription: bp.metaDescription || bp.excerpt || null,
+            targetKeywords: bp.targetKeywords || null,
+            canonicalUrl: bp.canonicalUrl || `/blogs/${bp.slug}`,
+            noIndex: !!bp.noIndex,
+            schema: bp.schema || null,
           },
         });
       }

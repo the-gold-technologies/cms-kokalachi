@@ -46,7 +46,6 @@ export default function BlogsListPage() {
   const [posts, setPosts] = useState<BlogPostItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [postToDelete, setPostToDelete] = useState<{ id: string; title: string } | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -91,10 +90,10 @@ export default function BlogsListPage() {
         const blogsList = Array.isArray(json.data?.blogs)
           ? json.data.blogs
           : Array.isArray(json.data)
-          ? json.data
-          : Array.isArray(json.blogs)
-          ? json.blogs
-          : [];
+            ? json.data
+            : Array.isArray(json.blogs)
+              ? json.blogs
+              : [];
         setPosts(blogsList);
 
         // Extract sections from json.data.sections
@@ -248,9 +247,6 @@ export default function BlogsListPage() {
     }
   };
 
-  // Extract distinct categories
-  const categories = ["All", ...Array.from(new Set(posts.map((p) => p.category).filter(Boolean)))];
-
   const filteredPosts = posts.filter((p) => {
     const matchesSearch =
       !search ||
@@ -258,15 +254,12 @@ export default function BlogsListPage() {
       p.author?.toLowerCase().includes(search.toLowerCase()) ||
       p.excerpt?.toLowerCase().includes(search.toLowerCase());
 
-    const matchesCategory =
-      categoryFilter === "All" || p.category?.toLowerCase() === categoryFilter.toLowerCase();
-
     const matchesStatus =
       statusFilter === "All" ||
       (statusFilter === "Published" && p.isPublished) ||
       (statusFilter === "Draft" && !p.isPublished);
 
-    return matchesSearch && matchesCategory && matchesStatus;
+    return matchesSearch && matchesStatus;
   });
 
   return (
@@ -439,23 +432,6 @@ export default function BlogsListPage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
-          {/* Category Filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 md:pb-0">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategoryFilter(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                  categoryFilter === cat
-                    ? "bg-[#0E5A60] text-white shadow-xs"
-                    : "bg-slate-100 hover:bg-slate-200 text-slate-600"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
           {/* Status Filter */}
           <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-full text-xs font-semibold">
             {["All", "Published", "Draft"].map((st) => (
@@ -490,7 +466,7 @@ export default function BlogsListPage() {
           </div>
           <h3 className="font-serif font-bold text-lg text-slate-800 mb-1">No stories found</h3>
           <p className="text-xs sm:text-sm text-slate-500 max-w-sm mb-6">
-            {search || categoryFilter !== "All" || statusFilter !== "All"
+            {search || statusFilter !== "All"
               ? "No stories match your current search or filters. Try adjusting them."
               : "Start by writing and publishing your very first slow-travel story!"}
           </p>

@@ -18,6 +18,19 @@ const pool = new Pool({
 });
 const adapter = new PrismaPg(pool);
 
+// In development, ensure we pick up fresh generated schemas if ctaEyebrow was newly added
+if (process.env.NODE_ENV !== "production") {
+  const dmmf = (global.prismaInstance as any)?._dmmf;
+  const blogFields = dmmf?.modelMap?.BlogPost?.fields;
+  const hasCta = blogFields?.some((f: any) => f.name === "ctaEyebrow");
+  if (!hasCta && global.prismaInstance) {
+    try {
+      (global.prismaInstance as any).$disconnect();
+    } catch {}
+    global.prismaInstance = undefined;
+  }
+}
+
 export const prisma =
   global.prismaInstance && (global.prismaInstance as any).blogPost
     ? global.prismaInstance

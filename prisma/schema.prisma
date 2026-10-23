@@ -98,6 +98,7 @@ model Trip {
   metaDescription String?
   targetKeywords  String?
   noIndex         Boolean      @default(false)
+  schema          String?
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   destination     Destination? @relation(fields: [destinationSlug], references: [slug], onDelete: SetNull)
@@ -254,6 +255,7 @@ model BlogPost {
   targetKeywords  String?
   canonicalUrl    String?
   noIndex         Boolean  @default(false)
+  schema          String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

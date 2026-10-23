@@ -23,7 +23,33 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ success: false, error: "Journey not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, data: trip });
+    const tripJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "TouristTrip",
+      name: trip.title,
+      description: trip.subtitle || trip.location,
+      image: trip.image,
+      touristType: "Group Travel",
+      offers: {
+        "@type": "Offer",
+        price: trip.price,
+        priceCurrency: "INR",
+        availability: "https://schema.org/InStock",
+      },
+      provider: {
+        "@type": "Organization",
+        name: "Kokalachi",
+        url: "https://kokalachi.com",
+      },
+    };
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...trip,
+        schema: trip.schema || JSON.stringify(tripJsonLd, null, 2),
+      },
+    });
   } catch (error: any) {
     console.error("Error fetching single trip:", error);
     return NextResponse.json(
@@ -82,6 +108,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       metaDescription,
       targetKeywords,
       noIndex,
+      schema,
       departures,
     } = body;
 
@@ -194,6 +221,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
           metaDescription !== undefined ? metaDescription : existingTrip.metaDescription,
         targetKeywords: targetKeywords !== undefined ? targetKeywords : existingTrip.targetKeywords,
         noIndex: typeof noIndex === "boolean" ? noIndex : existingTrip.noIndex,
+        schema: schema !== undefined ? (schema ? schema.trim() : null) : existingTrip.schema,
       },
     });
 

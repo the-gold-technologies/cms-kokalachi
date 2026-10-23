@@ -170,6 +170,7 @@ export async function POST(request: Request) {
       targetKeywords,
       canonicalUrl,
       noIndex,
+      schema,
     } = body;
 
     if (!title || typeof title !== "string" || title.trim() === "") {
@@ -240,6 +241,7 @@ export async function POST(request: Request) {
         targetKeywords: targetKeywords || null,
         canonicalUrl: canonicalUrl || `/blogs/${cleanSlug}`,
         noIndex: typeof noIndex === "boolean" ? noIndex : false,
+        schema: schema || null,
       },
     });
 

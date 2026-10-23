@@ -35,9 +35,39 @@ const CORE_PAGES = [
     ),
   },
   {
+    slug: "blogs",
+    title: "Blog Journal",
+    order: 2,
+    type: "Main Page",
+    metaTitle: "The Kokalachi Journal | Stories for the curious traveller",
+    metaDescription:
+      "Honest guides, little rituals and real stories from the road, for anyone who has a bucket list but not yet a travel buddy.",
+    targetKeywords:
+      "blogs, journal, slow travel stories, kokalachi memoirs, travel guides, solo traveler tips",
+    canonicalUrl: "https://kokalachi.com/blogs",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        name: "The Kokalachi Journal",
+        url: "https://kokalachi.com/blogs",
+        description:
+          "Honest guides, little rituals and real stories from the road, for anyone who has a bucket list but not yet a travel buddy.",
+        publisher: {
+          "@type": "Organization",
+          name: "Kokalachi",
+          url: "https://kokalachi.com",
+        },
+      },
+      null,
+      2,
+    ),
+  },
+  {
     slug: "about",
     title: "About Us",
-    order: 2,
+    order: 3,
     type: "Main Page",
     metaTitle: "About Us | Kokalachi - Our Philosophy, Story & Tribe",
     metaDescription:
@@ -67,7 +97,7 @@ const CORE_PAGES = [
   {
     slug: "contact",
     title: "Contact Us",
-    order: 3,
+    order: 4,
     type: "Main Page",
     metaTitle: "Contact Us | Kokalachi - Connect With Our Travel Tribe",
     metaDescription:
@@ -98,7 +128,7 @@ const CORE_PAGES = [
   {
     slug: "faqs",
     title: "FAQ Page",
-    order: 4,
+    order: 5,
     type: "Main Page",
     metaTitle: "FAQs | Kokalachi - Answers on Bookings, Packing & Travel Tribes",
     metaDescription:
@@ -154,7 +184,7 @@ const CORE_PAGES = [
 
 export async function GET() {
   try {
-    // Upsert the 4 core pages with complete metadata if missing
+    // Upsert the core pages with complete metadata if missing
     for (const core of CORE_PAGES) {
       const existing = await prisma.page.findUnique({
         where: { slug: core.slug },
@@ -196,10 +226,10 @@ export async function GET() {
       }
     }
 
-    // Return the 4 distinct pages in order (Home is managed in Global SEO, Journeys detail in Journey editor)
+    // Return the distinct pages in order (Home is managed in Global SEO, Journeys detail in Journey editor)
     const pages = await prisma.page.findMany({
       where: {
-        slug: { in: ["journeys", "about", "contact", "faqs"] },
+        slug: { in: ["journeys", "blogs", "about", "contact", "faqs"] },
       },
       select: {
         id: true,
@@ -209,11 +239,12 @@ export async function GET() {
         metaDescription: true,
         order: true,
         type: true,
+        schema: true,
       },
       orderBy: { order: "asc" },
     });
 
-    const slugOrder = ["journeys", "about", "contact", "faqs"];
+    const slugOrder = ["journeys", "blogs", "about", "contact", "faqs"];
     const sorted = [...pages].sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug));
 
     return NextResponse.json({

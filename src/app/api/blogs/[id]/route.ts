@@ -20,7 +20,35 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ success: false, error: "Blog post not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, data: post });
+    const blogJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.excerpt,
+      image: post.heroImage ? [post.heroImage] : [],
+      datePublished: post.publishedAt,
+      author: {
+        "@type": "Person",
+        name: post.author || "Team Kokalachi",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Kokalachi",
+        url: "https://kokalachi.com",
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `https://kokalachi.com/blogs/${post.slug}`,
+      },
+    };
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...post,
+        schema: post.schema || JSON.stringify(blogJsonLd, null, 2),
+      },
+    });
   } catch (error: any) {
     console.error("Error fetching blog post:", error);
     return NextResponse.json(
@@ -80,6 +108,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       targetKeywords,
       canonicalUrl,
       noIndex,
+      schema,
     } = body;
 
     // Check slug uniqueness if changed
@@ -176,6 +205,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         targetKeywords: targetKeywords !== undefined ? targetKeywords : existingPost.targetKeywords,
         canonicalUrl: canonicalUrl !== undefined ? canonicalUrl : existingPost.canonicalUrl,
         noIndex: typeof noIndex === "boolean" ? noIndex : existingPost.noIndex,
+        schema: schema !== undefined ? schema : existingPost.schema,
       },
     });
 

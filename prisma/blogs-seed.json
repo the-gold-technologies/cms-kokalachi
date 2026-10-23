@@ -275,6 +275,21 @@
       "title": "Ready to take the first step?",
       "text": "Browse our upcoming journeys and find the one that makes you a little excited and a little nervous. That's usually the right one."
     },
-    "relatedCategory": "FirstTimers"
+    "relatedCategory": "FirstTimers",
+    "ctaEyebrow": "Your first chai stop is waiting",
+    "ctaPrimaryBtnText": "Explore Upcoming Trips",
+    "ctaPrimaryBtnUrl": "/#upcoming-journeys",
+    "ctaSecondaryBtnText": "Read our FAQs",
+    "ctaSecondaryBtnUrl": "/faqs",
+    "shareBtnText": "Share on WhatsApp",
+    "sidebarBadge": "First-timer pick",
+    "shareTitle": "psst…",
+    "shareNote": "Know a nervous first-timer? Send this their way.",
+    "metaTitle": "First Time on a Group Trip? Here's What to Expect",
+    "metaDescription": "You've picked a destination, found a trip, and then the doubts arrive. What if I don't click with anyone? What if everyone already knows each other? Here's what a first group trip is actually like.",
+    "targetKeywords": "first group trip, slow travel tips, solo travel group, what to expect on a group tour",
+    "canonicalUrl": "/blogs/first-group-trip-what-to-expect",
+    "noIndex": false,
+    "schema": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"BlogPosting\",\n  \"headline\": \"First Time on a Group Trip? Here's What to Expect (and How to Make It Great)\",\n  \"description\": \"You've picked a destination, found a trip, and then the doubts arrive. What if I don't click with anyone? What if everyone already knows each other? Here's what a first group trip is actually like.\",\n  \"image\": [\n    \"https://images.unsplash.com/photo-1790488976420-696cd3a12498?auto=format&fit=crop&q=85&w=2400\"\n  ],\n  \"datePublished\": \"2026-10-21\",\n  \"author\": {\n    \"@type\": \"Person\",\n    \"name\": \"Team Kokalachi\"\n  },\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Kokalachi\",\n    \"url\": \"https://kokalachi.com\"\n  },\n  \"mainEntityOfPage\": {\n    \"@type\": \"WebPage\",\n    \"@id\": \"https://kokalachi.com/blogs/first-group-trip-what-to-expect\"\n  }\n}"
   }
 ]

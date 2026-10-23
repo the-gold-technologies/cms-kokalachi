@@ -71,6 +71,7 @@ export interface BlogFormData {
   targetKeywords?: string;
   canonicalUrl?: string;
   noIndex: boolean;
+  schema?: string;
 }
 
 interface SectionFormState {
@@ -110,11 +111,9 @@ export function BlogForm({
   const [heroLead, setHeroLead] = useState(initialData?.heroLead || "");
   const [heroAccent, setHeroAccent] = useState(initialData?.heroAccent || "");
   const [excerpt, setExcerpt] = useState(initialData?.excerpt || "");
-  const [category, setCategory] = useState(initialData?.category || "First-Timer Guide");
-  const [publishedAt, setPublishedAt] = useState(
-    initialData?.publishedAt || new Date().toISOString().split("T")[0],
-  );
-  const [author, setAuthor] = useState(initialData?.author || "Team Kokalachi");
+  const [category, setCategory] = useState(initialData?.category || "");
+  const [publishedAt, setPublishedAt] = useState(initialData?.publishedAt || "");
+  const [author, setAuthor] = useState(initialData?.author || "");
   const [heroImage, setHeroImage] = useState(initialData?.heroImage || "");
   const [heroAlt, setHeroAlt] = useState(initialData?.heroAlt || "");
   const [marginNote, setMarginNote] = useState(initialData?.marginNote || "");
@@ -159,34 +158,19 @@ export function BlogForm({
   });
 
   // CTA & Recommendation
-  const [ctaEyebrow, setCtaEyebrow] = useState(
-    initialData?.ctaEyebrow || "Your first chai stop is waiting",
-  );
-  const [ctaTitle, setCtaTitle] = useState(
-    initialData?.ctaTitle || "Ready to take the first step?",
-  );
-  const [ctaText, setCtaText] = useState(
-    initialData?.ctaText ||
-      "Browse our upcoming journeys and find the one that makes you a little excited and a little nervous. That's usually the right one.",
-  );
-  const [ctaPrimaryBtnText, setCtaPrimaryBtnText] = useState(
-    initialData?.ctaPrimaryBtnText || "Explore Upcoming Trips",
-  );
-  const [ctaPrimaryBtnUrl, setCtaPrimaryBtnUrl] = useState(
-    initialData?.ctaPrimaryBtnUrl || "/#upcoming-journeys",
-  );
+  const [ctaEyebrow, setCtaEyebrow] = useState(initialData?.ctaEyebrow || "");
+  const [ctaTitle, setCtaTitle] = useState(initialData?.ctaTitle || "");
+  const [ctaText, setCtaText] = useState(initialData?.ctaText || "");
+  const [ctaPrimaryBtnText, setCtaPrimaryBtnText] = useState(initialData?.ctaPrimaryBtnText || "");
+  const [ctaPrimaryBtnUrl, setCtaPrimaryBtnUrl] = useState(initialData?.ctaPrimaryBtnUrl || "");
   const [ctaSecondaryBtnText, setCtaSecondaryBtnText] = useState(
-    initialData?.ctaSecondaryBtnText || "Read our FAQs",
+    initialData?.ctaSecondaryBtnText || "",
   );
   const [ctaSecondaryBtnUrl, setCtaSecondaryBtnUrl] = useState(
-    initialData?.ctaSecondaryBtnUrl || "/faqs",
+    initialData?.ctaSecondaryBtnUrl || "",
   );
-  const [shareBtnText, setShareBtnText] = useState(
-    initialData?.shareBtnText || "Share on WhatsApp",
-  );
-  const [relatedCategory, setRelatedCategory] = useState(
-    initialData?.relatedCategory || "FirstTimers",
-  );
+  const [shareBtnText, setShareBtnText] = useState(initialData?.shareBtnText || "");
+  const [relatedCategory, setRelatedCategory] = useState(initialData?.relatedCategory || "");
   const [journeyCategories, setJourneyCategories] = useState<{ id: string; label: string }[]>([]);
 
   useEffect(() => {
@@ -209,11 +193,9 @@ export function BlogForm({
     }
     loadJourneyCategories();
   }, []);
-  const [sidebarBadge, setSidebarBadge] = useState(initialData?.sidebarBadge || "First-timer pick");
-  const [shareTitle, setShareTitle] = useState(initialData?.shareTitle || "psst…");
-  const [shareNote, setShareNote] = useState(
-    initialData?.shareNote || "Know a nervous first-timer? Send this their way.",
-  );
+  const [sidebarBadge, setSidebarBadge] = useState(initialData?.sidebarBadge || "");
+  const [shareTitle, setShareTitle] = useState(initialData?.shareTitle || "");
+  const [shareNote, setShareNote] = useState(initialData?.shareNote || "");
 
   // Publishing & SEO
   const [isPublished, setIsPublished] = useState(initialData?.isPublished ?? true);
@@ -224,6 +206,7 @@ export function BlogForm({
   const [targetKeywords, setTargetKeywords] = useState(initialData?.targetKeywords || "");
   const [canonicalUrl, setCanonicalUrl] = useState(initialData?.canonicalUrl || "");
   const [noIndex, setNoIndex] = useState(initialData?.noIndex ?? false);
+  const [schema, setSchema] = useState(initialData?.schema || "");
 
   // Auto-generate slug from title
   const handleAutoSlug = () => {
@@ -348,6 +331,7 @@ export function BlogForm({
       targetKeywords: targetKeywords.trim() || undefined,
       canonicalUrl: canonicalUrl.trim() || `/blogs/${cleanSlug}`,
       noIndex,
+      schema: schema.trim() || undefined,
     };
 
     try {
@@ -1046,6 +1030,25 @@ export function BlogForm({
                 value={canonicalUrl}
                 onChange={(e) => setCanonicalUrl(e.target.value)}
               />
+            </div>
+
+            <div className="md:col-span-2 flex flex-col gap-2">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                Structured Data (Schema Markup JSON-LD)
+              </span>
+              <textarea
+                value={schema}
+                onChange={(e) => setSchema(e.target.value)}
+                placeholder={
+                  'e.g. { "@context": "https://schema.org", "@type": "BlogPosting", ... }'
+                }
+                rows={7}
+                className="w-full font-mono text-xs px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60] outline-none transition-all text-slate-800"
+              />
+              <span className="text-[11px] text-slate-400">
+                Optional custom JSON-LD schema for this story. Leave empty to use auto-generated
+                BlogPosting structured data.
+              </span>
             </div>
 
             <div className="md:col-span-2 flex items-center gap-2 pt-2">

@@ -76,6 +76,7 @@ export async function POST(request: Request) {
       metaDescription,
       targetKeywords,
       noIndex,
+      schema,
       departures,
     } = body;
 
@@ -169,6 +170,7 @@ export async function POST(request: Request) {
         metaDescription: metaDescription ?? null,
         targetKeywords: targetKeywords ?? null,
         noIndex: typeof noIndex === "boolean" ? noIndex : false,
+        schema: schema ? schema.trim() : null,
       },
     });
 
