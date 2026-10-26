@@ -1,3 +1,4 @@
+import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -280,6 +281,10 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
     const body = await request.json();
     const { label, url, type, parent, order, description, title } = body;
 
@@ -315,6 +320,10 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
     const body = await request.json();
 
     // Check if sync action requested
@@ -389,6 +398,10 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 

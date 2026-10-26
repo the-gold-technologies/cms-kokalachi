@@ -1,3 +1,4 @@
+import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -5,6 +6,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
     const [enquiryCount, pageCount, sectionCount, navLinkCount] = await Promise.all([
       prisma.enquiry.count ? prisma.enquiry.count() : 2,
       prisma.page.count ? prisma.page.count() : 6,

@@ -1,3 +1,12 @@
+function escapeHtml(str: any): string {
+  if (typeof str !== "string") return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 import nodemailer from "nodemailer";
 
 export interface EnquiryEmailData {
@@ -120,7 +129,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
                   </td>
                   <td valign="middle">
                     <h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #0F172A;">
-                      ${data.name}
+                      ${escapeHtml(data.name)}
                     </h2>
                     <p style="margin: 3px 0 0 0; font-size: 12px; color: #64748B;">
                       Submitted via Website Contact Form
@@ -134,21 +143,21 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
                 <tr>
                   <td style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 18px; font-size: 13px;">
                     <div style="color: #64748B; font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Interested Journey</div>
-                    <div style="color: #0E5A60; font-weight: 700; font-size: 15px;">${data.journey || "General Enquiry"}</div>
+                    <div style="color: #0E5A60; font-weight: 700; font-size: 15px;">${escapeHtml(data.journey || "General Enquiry")}</div>
                   </td>
                 </tr>
                 <tr><td height="10"></td></tr>
                 <tr>
                   <td style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 18px; font-size: 13px;">
                     <div style="color: #64748B; font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Group Size & Preferred Date</div>
-                    <div style="color: #0F172A; font-weight: 600;">Group Size: ${data.groupSize || "1 traveller"} • Travel Date: ${data.travelDate || "Flexible"}</div>
+                    <div style="color: #0F172A; font-weight: 600;">Group Size: ${escapeHtml(data.groupSize || "1 traveller")} • Travel Date: ${escapeHtml(data.travelDate || "Flexible")}</div>
                   </td>
                 </tr>
                 <tr><td height="10"></td></tr>
                 <tr>
                   <td style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 18px; font-size: 13px;">
                     <div style="color: #64748B; font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Discovery Source</div>
-                    <div style="color: #0F172A; font-weight: 600;">${data.hearAboutUs || "Not specified"}</div>
+                    <div style="color: #0F172A; font-weight: 600;">${escapeHtml(data.hearAboutUs || "Not specified")}</div>
                   </td>
                 </tr>
               </table>
@@ -162,7 +171,7 @@ export async function sendEnquiryNotificationEmail(data: EnquiryEmailData) {
                   Traveller Message
                 </h3>
                 <div style="background-color: #F8FAFC; border-left: 4px solid #0E5A60; padding: 16px 20px; border-radius: 0 12px 12px 0; color: #334155; font-size: 14px; line-height: 1.6;">
-                  ${data.message.replace(/\n/g, "<br/>")}
+                  ${escapeHtml(data.message).replace(/\n/g, "<br/>")}
                 </div>
               </div>`
                   : ""

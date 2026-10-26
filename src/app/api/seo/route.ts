@@ -1,3 +1,4 @@
+import { checkAdminSession } from "@/lib/auth-check";
 import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
@@ -26,6 +27,10 @@ export async function GET(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
     const { searchParams } = new URL(request.url);
     const type = searchParams.get("type");
     const body = await request.json();

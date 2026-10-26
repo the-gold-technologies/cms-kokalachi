@@ -1,3 +1,4 @@
+import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -47,6 +48,10 @@ export async function PUT(
   { params }: { params: Promise<{ slug: string | string[] }> },
 ) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
     const { slug: rawSlug } = await params;
     const slug = Array.isArray(rawSlug) ? rawSlug.join("/") : rawSlug;
 

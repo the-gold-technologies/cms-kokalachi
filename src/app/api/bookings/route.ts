@@ -1,8 +1,16 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { checkAdminSession } from "@/lib/auth-check";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search") ?? "";
     const status = searchParams.get("status") ?? "";
@@ -35,13 +43,18 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const body = await request.json();
     const { id, status } = body;
 
     if (!id || !status) {
       return NextResponse.json(
         { success: false, error: "ID and status are required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -59,13 +72,18 @@ export async function PATCH(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
     if (!id) {
       return NextResponse.json(
         { success: false, error: "Booking ID is required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 

@@ -3,6 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import sharp from "sharp";
 import fs from "fs/promises";
 import path from "path";
+import { checkAdminSession } from "@/lib/auth-check";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME,
@@ -24,7 +25,7 @@ function extractCloudinaryAsset(
     const match = url.match(/\/(image|raw|video)\/upload\/(?:v\d+\/)?(.+?)(?:\.[a-zA-Z0-9]+)?$/);
     if (!match) return null;
 
-    const resourceType = (match[1] as any) || "image";
+    const resourceType = match[1] as "image" | "raw" | "video";
     let publicId = match[2];
 
     if (
@@ -43,10 +44,10 @@ function extractCloudinaryAsset(
 }
 
 /**
- * Deletes previous asset from Cloudinary
+ * Deletes previous asset from Cloudinary or local storage securely
  */
 async function deletePreviousAsset(urlOrPublicId: string) {
-  if (!urlOrPublicId) return;
+  if (!urlOrPublicId || typeof urlOrPublicId !== "string") return;
 
   const hasCloudinaryCredentials =
     (process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME) &&
@@ -54,12 +55,18 @@ async function deletePreviousAsset(urlOrPublicId: string) {
     process.env.CLOUDINARY_API_SECRET;
 
   if (!hasCloudinaryCredentials) {
-    // If stored locally, remove local file
     if (urlOrPublicId.startsWith("/uploads/")) {
       try {
-        const localPath = path.join(process.cwd(), "public", urlOrPublicId);
-        await fs.unlink(localPath);
-        console.log(`[Local Uploads] Deleted previous local file: ${localPath}`);
+        const uploadsDir = path.resolve(process.cwd(), "public", "uploads");
+        const cleanRelPath = urlOrPublicId.replace(/^\/+/, "");
+        const localPath = path.resolve(process.cwd(), "public", cleanRelPath);
+        // Prevent path traversal outside public/uploads
+        if (localPath.startsWith(uploadsDir)) {
+          await fs.unlink(localPath);
+          console.log(`[Local Uploads] Deleted previous local file: ${localPath}`);
+        } else {
+          console.warn(`[Security] Blocked path traversal attempt on delete: ${urlOrPublicId}`);
+        }
       } catch (e) {
         // ignore if already deleted
       }
@@ -105,12 +112,10 @@ async function compressImageBuffer(
   }
 
   try {
-    const originalSizeKb = (inputBuffer.length / 1024).toFixed(1);
     const sharpInstance = sharp(inputBuffer, { animated: false });
     const metadata = await sharpInstance.metadata();
 
     let pipeline = sharpInstance;
-    // Resize down if excessively large, keeping aspect ratio without upscaling
     if ((metadata.width && metadata.width > 2000) || (metadata.height && metadata.height > 2000)) {
       pipeline = pipeline.resize({
         width: 2000,
@@ -120,7 +125,6 @@ async function compressImageBuffer(
       });
     }
 
-    // Convert to optimized WebP for massive KB savings with premium visual quality
     const compressedBuffer = await pipeline
       .webp({
         quality: 80,
@@ -128,11 +132,6 @@ async function compressImageBuffer(
         smartSubsample: true,
       })
       .toBuffer();
-
-    const compressedSizeKb = (compressedBuffer.length / 1024).toFixed(1);
-    console.log(
-      `[Image Compression] ${fileName}: ${originalSizeKb} KB -> ${compressedSizeKb} KB (WebP quality 82)`,
-    );
 
     return {
       buffer: compressedBuffer,
@@ -154,29 +153,72 @@ async function compressImageBuffer(
 
 export async function POST(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const data = await request.formData();
     const file: File | null = data.get("file") as unknown as File;
     const folder = (data.get("folder") as string) || "kokalachi/uploads";
     const previousUrl = (data.get("previousUrl") || data.get("oldImageUrl")) as string | null;
 
     if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+      return NextResponse.json({ success: false, error: "No file uploaded" }, { status: 400 });
     }
 
-    // 1. Delete previous asset if re-uploading / replacing
+    // 1. File size validation (15 MB max)
+    const MAX_FILE_SIZE = 15 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { success: false, error: "File exceeds maximum size limit of 15MB" },
+        { status: 400 }
+      );
+    }
+
+    // 2. Extension validation
+    const ext = path.extname(file.name).toLowerCase();
+    const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".pdf", ".ico"];
+    if (!allowedExtensions.includes(ext)) {
+      return NextResponse.json(
+        { success: false, error: "Unsupported file type. Please upload images or PDFs." },
+        { status: 400 }
+      );
+    }
+
+    // 3. Delete previous asset if replacing
     if (previousUrl) {
       await deletePreviousAsset(previousUrl);
     }
 
-    // 2. Read array buffer
     const bytes = await file.arrayBuffer();
     const rawBuffer = Buffer.from(bytes);
 
-    // 3. Compress image before sending to Cloudinary
+    // 4. SVG XSS check: block embedded script tags or events
+    const isSvg = file.type === "image/svg+xml" || ext === ".svg";
+    if (isSvg) {
+      const svgText = rawBuffer.toString("utf-8");
+      if (
+        /<script[\s>]/i.test(svgText) ||
+        /javascript:/i.test(svgText) ||
+        /onload\s*=/i.test(svgText) ||
+        /onerror\s*=/i.test(svgText)
+      ) {
+        return NextResponse.json(
+          { success: false, error: "Malicious executable script detected in SVG file." },
+          { status: 400 }
+        );
+      }
+    }
+
+    // 5. Compress image
     const compressed = await compressImageBuffer(rawBuffer, file.type, file.name);
 
-    const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-    const cleanBaseName = file.name.replace(/\.[a-zA-Z0-9]+$/i, "").replace(/[^a-zA-Z0-9_-]/g, "_");
+    const isPdf = file.type === "application/pdf" || ext === ".pdf";
+    const cleanBaseName = file.name
+      .replace(/\.[a-zA-Z0-9]+$/i, "")
+      .replace(/[^a-zA-Z0-9_-]/g, "_")
+      .slice(0, 80);
 
     const hasCloudinaryCredentials = Boolean(
       (process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME) &&
@@ -184,7 +226,7 @@ export async function POST(request: Request) {
       process.env.CLOUDINARY_API_SECRET,
     );
 
-    // 4. Upload to Cloudinary if credentials are configured
+    // 6. Upload to Cloudinary if configured
     if (hasCloudinaryCredentials) {
       const publicId = isPdf
         ? `${cleanBaseName}_${Date.now()}.pdf`
@@ -229,7 +271,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // 5. Local Fallback for offline development when credentials are unset
+    // 7. Local storage fallback
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     await fs.mkdir(uploadDir, { recursive: true });
     const localFileName = `${cleanBaseName}_${Date.now()}${compressed.extension}`;
@@ -259,11 +301,16 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const body = await request.json();
     const target = body.url || body.publicId;
 
     if (!target) {
-      return NextResponse.json({ error: "Target URL or publicId required" }, { status: 400 });
+      return NextResponse.json({ success: false, error: "Target URL or publicId required" }, { status: 400 });
     }
 
     await deletePreviousAsset(target);

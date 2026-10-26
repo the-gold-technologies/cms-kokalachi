@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEnquiryNotificationEmail } from "@/lib/mail";
+import { checkAdminSession } from "@/lib/auth-check";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const { searchParams } = new URL(request.url);
     const limit = searchParams.get("limit");
 
@@ -21,6 +30,16 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    // Rate limit public submissions: 10 per 15 minutes per IP
+    const clientIp = getClientIp(request);
+    const limitResult = rateLimit(`enquiry_${clientIp}`, 10, 15 * 60 * 1000);
+    if (!limitResult.success) {
+      return NextResponse.json(
+        { success: false, error: "Too many enquiries submitted. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const {
       name,
@@ -40,25 +59,34 @@ export async function POST(request: Request) {
           success: false,
           error: "Name and at least one contact method (email or phone) are required",
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
+    // Basic sanitization
+    const cleanName = String(name).slice(0, 120).trim();
+    const cleanEmail = email ? String(email).slice(0, 150).trim() : "noemail@provided.com";
+    const cleanPhone = phone ? String(phone).slice(0, 40).trim() : "";
+    const cleanJourney = journey ? String(journey).slice(0, 150).trim() : null;
+    const cleanTravelDate = travelDate ? String(travelDate).slice(0, 100).trim() : null;
+    const cleanGroupSize = groupSize ? String(groupSize).slice(0, 50).trim() : null;
+    const cleanMessage = message ? String(message).slice(0, 3000).trim() : "";
+    const cleanHearAboutUs = hearAboutUs ? String(hearAboutUs).slice(0, 100).trim() : null;
+
     const created = await prisma.enquiry.create({
       data: {
-        name,
-        email: email || "noemail@provided.com",
-        phone: phone || "",
-        journey: journey || null,
-        travelDate: travelDate || null,
-        groupSize: groupSize || null,
-        message: message || "",
-        hearAboutUs: hearAboutUs || null,
+        name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        journey: cleanJourney,
+        travelDate: cleanTravelDate,
+        groupSize: cleanGroupSize,
+        message: cleanMessage,
+        hearAboutUs: cleanHearAboutUs,
         status: status || "Pending",
       },
     });
 
-    // Fire email notifications asynchronously without blocking the response
     sendEnquiryNotificationEmail(created).catch((mailErr) => {
       console.error("Async email dispatch failed for enquiry:", mailErr);
     });
@@ -72,13 +100,18 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const body = await request.json();
     const { id, status } = body;
 
     if (!id || !status) {
       return NextResponse.json(
         { success: false, error: "id and status are required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -96,6 +129,11 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const authCheck = await checkAdminSession();
+    if (!authCheck.authorized) {
+      return authCheck.response;
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
