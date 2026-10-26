@@ -11,6 +11,7 @@ import {
   MomentsThatStayedSection,
   WhoTravelsSection,
   UpcomingJourneysSection,
+  BehindKokalachiSection,
 } from "./components";
 
 export default function HomePageEditor() {
@@ -44,8 +45,10 @@ export default function HomePageEditor() {
       <DifferenceSection initialData={homeData?.DifferenceSection} />
       <GoodCompanySection initialData={homeData?.GoodCompanySection} />
       <MomentsThatStayedSection initialData={homeData?.MomentsThatStayedSection} />
-      <WhoTravelsSection initialData={homeData?.WhoTravelsSection} />
+      {/* Section 7: Who Travels With Us — Commented out to match website layout */}
+      {/* <WhoTravelsSection initialData={homeData?.WhoTravelsSection} /> */}
       <UpcomingJourneysSection initialData={homeData?.UpcomingJourneysSection} />
+      <BehindKokalachiSection initialData={homeData?.BehindKokalachiSection} />
     </section>
   );
 }

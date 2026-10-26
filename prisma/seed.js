@@ -780,6 +780,19 @@ async function main() {
             ctaLink: "/journeys",
           },
         },
+        {
+          type: "BehindKokalachiSection",
+          order: 9,
+          content: {
+            tagline: "FROM THE JOURNAL",
+            headline: "Stories that inspire your next",
+            scriptAccent: "journey.",
+            description:
+              "Travel isn't just about destinations. It's about people, cultures, conversations and the memories we bring home. Explore stories, guides and reflections from the Kokalachi community.",
+            ctaText: "Explore the Journal",
+            ctaUrl: "/blogs",
+          },
+        },
       ],
     },
     {

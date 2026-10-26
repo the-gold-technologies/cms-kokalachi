@@ -6,3 +6,4 @@ export * from "./GoodCompanySection";
 export * from "./MomentsThatStayedSection";
 export * from "./WhoTravelsSection";
 export * from "./UpcomingJourneysSection";
+export * from "./BehindKokalachiSection";
