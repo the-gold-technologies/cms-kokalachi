@@ -1,7 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Loader2, Layout, BadgeCheck, ShieldAlert, Eye } from "lucide-react";
+import {
+  ArrowRight,
+  Loader2,
+  Layout,
+  BadgeCheck,
+  ShieldAlert,
+  Eye,
+  ExternalLink,
+} from "lucide-react";
 
 interface PageListItem {
   id: string;
@@ -19,9 +27,34 @@ interface PageStructureProps {
   loading?: boolean;
 }
 
+function getEditorUrl(slug: string): string {
+  switch (slug) {
+    case "blogs":
+      return "/blogs";
+    case "journeys":
+      return "/trips";
+    case "home":
+      return "/static-pages/home";
+    case "about":
+      return "/static-pages/about";
+    case "contact":
+      return "/static-pages/contact";
+    case "community":
+      return "/static-pages/community";
+    case "faqs":
+      return "/static-pages/faqs";
+    default:
+      return `/static-pages/${slug}`;
+  }
+}
+
+function getPublicRoute(slug: string): string {
+  if (slug === "home") return "/";
+  return `/${slug}`;
+}
+
 export function PageStructure({ stats, loading }: PageStructureProps) {
   const pagesList = stats?.pagesList || [];
-  const displayedPages = pagesList.slice(0, 4);
 
   return (
     <div className="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-gray-50">
@@ -29,7 +62,7 @@ export function PageStructure({ stats, loading }: PageStructureProps) {
         <div>
           <h3 className="font-bold text-lg text-[#0B0F29]">Kokalachi Website Pages</h3>
           <p className="text-xs font-medium text-gray-400 mt-0.5">
-            Overview of static pages, layout layouts, and section configurations.
+            Overview of static pages, layout editors, and section configurations.
           </p>
         </div>
         <Link
@@ -71,29 +104,33 @@ export function PageStructure({ stats, loading }: PageStructureProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {displayedPages.map((page) => {
+              {pagesList.map((page) => {
                 const isPublic = page.visibility === "published" || page.visibility === "public";
-                const editorUrl = `/static-pages/${page.slug}`;
+                const editorUrl = getEditorUrl(page.slug);
+                const publicRoute = getPublicRoute(page.slug);
+                const pageTypeDisplay = page.type?.toLowerCase().endsWith("page")
+                  ? page.type
+                  : `${page.type || "Main"} Page`;
 
                 return (
                   <tr key={page.id} className="hover:bg-gray-50/20 transition-colors">
                     <td className="py-3.5">
                       <Link href={editorUrl} className="flex items-center gap-2 group">
-                        <div className="h-8 w-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-[#D8232A]/10 group-hover:text-[#D8232A] transition-colors">
+                        <div className="h-8 w-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-[#0E5A60]/10 group-hover:text-[#0E5A60] transition-colors">
                           <Layout className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col">
-                          <span className="font-bold text-gray-900 group-hover:text-[#D8232A] transition-colors">
+                          <span className="font-bold text-gray-900 group-hover:text-[#0E5A60] transition-colors">
                             {page.title}
                           </span>
                           <span className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
-                            {page.type} Page
+                            {pageTypeDisplay}
                           </span>
                         </div>
                       </Link>
                     </td>
-                    <td className="py-3.5 font-mono text-xs text-gray-500">
-                      /{page.slug === "home" ? "" : page.slug}
+                    <td className="py-3.5 font-mono text-xs text-gray-600 font-semibold">
+                      {publicRoute}
                     </td>
                     <td className="py-3.5">
                       <span

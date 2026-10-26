@@ -50,6 +50,13 @@ export default function ProfileSettingsPage() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if ((currentPassword || confirmPassword) && !newPassword) {
+      toast.error(
+        "Please enter a new password to change your password, or clear the password fields",
+      );
+      return;
+    }
+
     if (newPassword) {
       if (!currentPassword) {
         toast.error("Please enter your current password to set a new password");

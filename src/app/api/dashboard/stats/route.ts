@@ -14,8 +14,9 @@ export async function GET() {
 
     // Fetch all pages with section counts
     let pages: any[] = [];
+    const slugOrder = ["home", "about", "journeys", "blogs", "community", "contact", "faqs"];
     try {
-      pages = await prisma.page.findMany({
+      const dbPages = await prisma.page.findMany({
         select: {
           id: true,
           title: true,
@@ -24,9 +25,14 @@ export async function GET() {
           type: true,
           sections: true,
         },
-        orderBy: {
-          slug: "asc",
-        },
+      });
+      pages = [...dbPages].sort((a, b) => {
+        const idxA = slugOrder.indexOf(a.slug);
+        const idxB = slugOrder.indexOf(b.slug);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return a.slug.localeCompare(b.slug);
       });
     } catch {
       pages = [];
