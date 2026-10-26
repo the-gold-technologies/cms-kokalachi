@@ -60,6 +60,7 @@ const sidebarLinks: SidebarLink[] = [
       { title: "Home", href: "/static-pages/home" },
       { title: "About Us", href: "/static-pages/about" },
       { title: "Contact Us", href: "/static-pages/contact" },
+      { title: "Community", href: "/static-pages/community" },
       { title: "FAQs", href: "/static-pages/faqs" },
     ],
   },

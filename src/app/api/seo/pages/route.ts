@@ -126,9 +126,39 @@ const CORE_PAGES = [
     ),
   },
   {
+    slug: "community",
+    title: "Community",
+    order: 5,
+    type: "Main Page",
+    metaTitle: "The Kokalachi Community | Strangers once, now family",
+    metaDescription:
+      "Real stories, photos and videos from Kokalachi travellers. Hear from the people who came as strangers and went home as family.",
+    targetKeywords:
+      "kokalachi community, traveller stories, slow travel memories, trip photos, travel reviews, group travel letters",
+    canonicalUrl: "https://kokalachi.com/community",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "The Kokalachi Community",
+        url: "https://kokalachi.com/community",
+        description:
+          "Real stories, photos and videos from Kokalachi travellers. Hear from the people who came as strangers and went home as family.",
+        publisher: {
+          "@type": "Organization",
+          name: "Kokalachi",
+          url: "https://kokalachi.com",
+        },
+      },
+      null,
+      2,
+    ),
+  },
+  {
     slug: "faqs",
     title: "FAQ Page",
-    order: 5,
+    order: 6,
     type: "Main Page",
     metaTitle: "FAQs | Kokalachi - Answers on Bookings, Packing & Travel Tribes",
     metaDescription:
@@ -229,7 +259,7 @@ export async function GET() {
     // Return the distinct pages in order (Home is managed in Global SEO, Journeys detail in Journey editor)
     const pages = await prisma.page.findMany({
       where: {
-        slug: { in: ["journeys", "blogs", "about", "contact", "faqs"] },
+        slug: { in: ["journeys", "blogs", "about", "contact", "community", "faqs"] },
       },
       select: {
         id: true,
@@ -244,8 +274,10 @@ export async function GET() {
       orderBy: { order: "asc" },
     });
 
-    const slugOrder = ["journeys", "blogs", "about", "contact", "faqs"];
-    const sorted = [...pages].sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug));
+    const slugOrder = ["journeys", "blogs", "about", "contact", "community", "faqs"];
+    const sorted = [...pages]
+      .sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug))
+      .map((p, idx) => ({ ...p, order: idx + 1 }));
 
     return NextResponse.json({
       success: true,

@@ -1104,7 +1104,7 @@ async function main() {
       title: "FAQ Page",
       slug: "faqs",
       description: "Everything you might want to know before you join a Kokalachi journey.",
-      order: 4,
+      order: 6,
       type: "Main Page",
       metaTitle: "FAQs | Kokalachi - Answers on Bookings, Packing & Travel Tribes",
       metaDescription:
@@ -1433,6 +1433,15 @@ async function main() {
       ],
     },
   ];
+
+  const commSeedPath = path.join(__dirname, "community-seed.json");
+  if (fs.existsSync(commSeedPath)) {
+    const commData = JSON.parse(fs.readFileSync(commSeedPath, "utf8"));
+    pagesData.push({
+      ...commData.seo,
+      sections: commData.sections,
+    });
+  }
 
   for (const pageData of pagesData) {
     const page = await prisma.page.upsert({
