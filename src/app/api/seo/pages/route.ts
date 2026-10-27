@@ -210,6 +210,66 @@ const CORE_PAGES = [
       2,
     ),
   },
+  {
+    slug: "terms",
+    title: "Terms & Conditions",
+    order: 7,
+    type: "Legal Page",
+    metaTitle: "Terms & Conditions | Kokalachi",
+    metaDescription:
+      "Read the Kokalachi booking terms, cancellation policies, trip conditions, liability waivers, and participant responsibilities.",
+    targetKeywords:
+      "kokalachi terms, booking terms, cancellation policy, travel terms and conditions",
+    canonicalUrl: "https://kokalachi.com/terms",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Terms & Conditions",
+        url: "https://kokalachi.com/terms",
+        description:
+          "Read the Kokalachi booking terms, cancellation policies, trip conditions, liability waivers, and participant responsibilities.",
+        publisher: {
+          "@type": "Organization",
+          name: "Kokalachi",
+          url: "https://kokalachi.com",
+        },
+      },
+      null,
+      2,
+    ),
+  },
+  {
+    slug: "privacy-policy",
+    title: "Privacy Policy",
+    order: 8,
+    type: "Legal Page",
+    metaTitle: "Privacy Policy | Kokalachi",
+    metaDescription:
+      "Understand how Kokalachi collects, uses, and safeguards your personal information, booking details, and browsing data.",
+    targetKeywords:
+      "kokalachi privacy policy, data protection, personal data privacy, travel agency privacy",
+    canonicalUrl: "https://kokalachi.com/privacy-policy",
+    headingOptions: "h1",
+    schema: JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Privacy Policy",
+        url: "https://kokalachi.com/privacy-policy",
+        description:
+          "Understand how Kokalachi collects, uses, and safeguards your personal information, booking details, and browsing data.",
+        publisher: {
+          "@type": "Organization",
+          name: "Kokalachi",
+          url: "https://kokalachi.com",
+        },
+      },
+      null,
+      2,
+    ),
+  },
 ];
 
 export async function GET() {
@@ -259,7 +319,7 @@ export async function GET() {
     // Return the distinct pages in order (Home is managed in Global SEO, Journeys detail in Journey editor)
     const pages = await prisma.page.findMany({
       where: {
-        slug: { in: ["journeys", "blogs", "about", "contact", "community", "faqs"] },
+        slug: { in: ["journeys", "blogs", "about", "contact", "community", "faqs", "terms", "privacy-policy"] },
       },
       select: {
         id: true,
@@ -274,7 +334,7 @@ export async function GET() {
       orderBy: { order: "asc" },
     });
 
-    const slugOrder = ["journeys", "blogs", "about", "contact", "community", "faqs"];
+    const slugOrder = ["journeys", "blogs", "about", "contact", "community", "faqs", "terms", "privacy-policy"];
     const sorted = [...pages]
       .sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug))
       .map((p, idx) => ({ ...p, order: idx + 1 }));

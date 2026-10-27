@@ -1456,6 +1456,92 @@ async function main() {
     });
   }
 
+  const termsSeedPath = path.join(__dirname, "terms-seed.json");
+  if (fs.existsSync(termsSeedPath)) {
+    const termsDoc = JSON.parse(fs.readFileSync(termsSeedPath, "utf8"));
+    pagesData.push({
+      title: "Terms & Conditions",
+      slug: "terms",
+      description: termsDoc.description,
+      order: 7,
+      type: "Legal Page",
+      metaTitle: "Terms & Conditions | Kokalachi",
+      metaDescription:
+        "Read the Kokalachi booking terms, cancellation policies, trip conditions, liability waivers, and participant responsibilities.",
+      targetKeywords:
+        "kokalachi terms, booking terms, cancellation policy, travel terms and conditions",
+      canonicalUrl: "https://kokalachi.com/terms",
+      headingOptions: "h1",
+      schema: JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Terms & Conditions",
+          url: "https://kokalachi.com/terms",
+          description:
+            "Read the Kokalachi booking terms, cancellation policies, trip conditions, liability waivers, and participant responsibilities.",
+          publisher: {
+            "@type": "Organization",
+            name: "Kokalachi",
+            url: "https://kokalachi.com",
+          },
+        },
+        null,
+        2,
+      ),
+      sections: [
+        {
+          type: "LegalDocumentSection",
+          order: 1,
+          content: termsDoc,
+        },
+      ],
+    });
+  }
+
+  const privacySeedPath = path.join(__dirname, "privacy-policy-seed.json");
+  if (fs.existsSync(privacySeedPath)) {
+    const privacyDoc = JSON.parse(fs.readFileSync(privacySeedPath, "utf8"));
+    pagesData.push({
+      title: "Privacy Policy",
+      slug: "privacy-policy",
+      description: privacyDoc.description,
+      order: 8,
+      type: "Legal Page",
+      metaTitle: "Privacy Policy | Kokalachi",
+      metaDescription:
+        "Understand how Kokalachi collects, uses, and safeguards your personal information, booking details, and browsing data.",
+      targetKeywords:
+        "kokalachi privacy policy, data protection, personal data privacy, travel agency privacy",
+      canonicalUrl: "https://kokalachi.com/privacy-policy",
+      headingOptions: "h1",
+      schema: JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Privacy Policy",
+          url: "https://kokalachi.com/privacy-policy",
+          description:
+            "Understand how Kokalachi collects, uses, and safeguards your personal information, booking details, and browsing data.",
+          publisher: {
+            "@type": "Organization",
+            name: "Kokalachi",
+            url: "https://kokalachi.com",
+          },
+        },
+        null,
+        2,
+      ),
+      sections: [
+        {
+          type: "LegalDocumentSection",
+          order: 1,
+          content: privacyDoc,
+        },
+      ],
+    });
+  }
+
   for (const pageData of pagesData) {
     const page = await prisma.page.upsert({
       where: { slug: pageData.slug },

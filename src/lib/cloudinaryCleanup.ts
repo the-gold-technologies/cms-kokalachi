@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import path from "path";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
@@ -23,7 +23,6 @@ export function extractMediaUrls(data: any, collected: Set<string> = new Set()):
         for (const m of cloudMatches) {
           const cloudName =
             process.env.CLOUDINARY_CLOUD_NAME ||
-            process.env.NEXT_CLOUDINARY_CLOUD_NAME ||
             "kokalachi";
           if (m.includes("/kokalachi/") || m.includes(`/${cloudName}/`)) {
             collected.add(m);
@@ -76,7 +75,7 @@ export async function deleteCloudinaryAsset(url: string | null | undefined): Pro
   if (!url.includes("cloudinary.com")) return false;
 
   const hasCredentials = Boolean(
-    (process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME) &&
+    (process.env.CLOUDINARY_CLOUD_NAME) &&
     process.env.CLOUDINARY_API_KEY &&
     process.env.CLOUDINARY_API_SECRET,
   );

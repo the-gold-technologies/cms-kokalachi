@@ -18,3 +18,5 @@ export * from "./StringListEditor";
 export * from "./PdfUploadField";
 export * from "./RichTextEditor";
 export * from "./DeleteConfirmModal";
+
+export * from "./LegalDocumentEditor";

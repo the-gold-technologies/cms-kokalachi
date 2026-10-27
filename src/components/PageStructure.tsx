@@ -43,6 +43,10 @@ function getEditorUrl(slug: string): string {
       return "/static-pages/community";
     case "faqs":
       return "/static-pages/faqs";
+    case "terms":
+      return "/static-pages/terms";
+    case "privacy-policy":
+      return "/static-pages/privacy-policy";
     default:
       return `/static-pages/${slug}`;
   }

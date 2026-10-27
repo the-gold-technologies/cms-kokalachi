@@ -62,6 +62,8 @@ const sidebarLinks: SidebarLink[] = [
       { title: "Contact Us", href: "/static-pages/contact" },
       { title: "Community", href: "/static-pages/community" },
       { title: "FAQs", href: "/static-pages/faqs" },
+      { title: "Terms & Conditions", href: "/static-pages/terms" },
+      { title: "Privacy Policy", href: "/static-pages/privacy-policy" },
     ],
   },
   {

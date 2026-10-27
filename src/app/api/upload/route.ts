@@ -6,7 +6,7 @@ import path from "path";
 import { checkAdminSession } from "@/lib/auth-check";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
@@ -50,7 +50,7 @@ async function deletePreviousAsset(urlOrPublicId: string) {
   if (!urlOrPublicId || typeof urlOrPublicId !== "string") return;
 
   const hasCloudinaryCredentials =
-    (process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME) &&
+    (process.env.CLOUDINARY_CLOUD_NAME) &&
     process.env.CLOUDINARY_API_KEY &&
     process.env.CLOUDINARY_API_SECRET;
 
@@ -159,8 +159,8 @@ export async function POST(request: Request) {
     }
 
     const data = await request.formData();
-    const file: File | null = data.get("file") as unknown as File;
-    const folder = (data.get("folder") as string) || "kokalachi/uploads";
+    const file: File | null = (data.get("file") || data.get("files")) as unknown as File;
+    const folder = (data.get("folder") as string) || process.env.CLOUDINARY_FOLDER || "kokalachi";
     const previousUrl = (data.get("previousUrl") || data.get("oldImageUrl")) as string | null;
 
     if (!file) {
@@ -221,7 +221,7 @@ export async function POST(request: Request) {
       .slice(0, 80);
 
     const hasCloudinaryCredentials = Boolean(
-      (process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_CLOUDINARY_CLOUD_NAME) &&
+      (process.env.CLOUDINARY_CLOUD_NAME) &&
       process.env.CLOUDINARY_API_KEY &&
       process.env.CLOUDINARY_API_SECRET,
     );
@@ -260,6 +260,7 @@ export async function POST(request: Request) {
       return NextResponse.json({
         success: true,
         url: secureUrl,
+        urls: [secureUrl],
         publicId: result.public_id,
         name: file.name,
         format: isPdf ? "pdf" : "webp",
@@ -281,6 +282,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       url: `/uploads/${localFileName}`,
+      urls: [`/uploads/${localFileName}`],
       publicId: localFileName,
       name: file.name,
       format: isPdf ? "pdf" : "webp",

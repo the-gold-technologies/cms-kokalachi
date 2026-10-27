@@ -59,7 +59,8 @@ export function RichTextEditor({
       const toastId = toast.loading("Uploading article image...");
       try {
         const formData = new FormData();
-        formData.append("files", file);
+        formData.append("file", file);
+        formData.append("folder", "kokalachi");
 
         const res = await fetch("/api/upload", {
           method: "POST",
@@ -67,8 +68,8 @@ export function RichTextEditor({
         });
 
         const json = await res.json();
-        if (json.success && json.urls && json.urls.length > 0) {
-          const imageUrl = json.urls[0];
+        if (json.success && (json.url || (json.urls && json.urls.length > 0))) {
+          const imageUrl = json.url || json.urls[0];
           const editor = quillRef.current?.getEditor?.();
 
           if (editor) {
@@ -97,11 +98,9 @@ export function RichTextEditor({
     () => ({
       toolbar: {
         container: [
-          [{ header: [2, 3, 4, false] }],
-          ["bold", "italic", "underline", "strike"],
-          [{ list: "ordered" }, { list: "bullet" }],
-          [{ color: [] }, { background: [] }],
-          [{ align: [] }],
+          ["bold", "italic", "underline"],
+          [{ header: [false, 1, 2, 3] }],
+          [{ list: "bullet" }, { list: "ordered" }],
           ["blockquote", "code-block"],
           ["link", "image"],
           ["clean"],

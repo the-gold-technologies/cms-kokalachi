@@ -30,7 +30,7 @@ export function ImagePickerField({
   helperText,
   tooltip,
   placeholder = "https://... or upload from computer",
-  folder = "kokalachi/uploads",
+  folder = "kokalachi",
 }: ImagePickerFieldProps) {
   const [uploading, setUploading] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(false);
