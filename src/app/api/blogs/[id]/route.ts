@@ -5,6 +5,7 @@ import {
   cleanupObsoleteCloudinaryAssets,
   deleteCloudinaryAssetsFromData,
 } from "@/lib/cloudinaryCleanup";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export const dynamic = "force-dynamic";
 
@@ -219,6 +220,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       console.error("Cleanup error on saving blog post:", err),
     );
 
+    revalidateWebsite(WebsiteTag.blogs);
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
     console.error("Error updating blog post:", error);
@@ -253,6 +255,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       console.error("Cleanup error on deleting blog post:", err),
     );
 
+    revalidateWebsite(WebsiteTag.blogs);
     return NextResponse.json({
       success: true,
       message: "Blog post deleted successfully",

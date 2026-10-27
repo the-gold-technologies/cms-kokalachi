@@ -1,6 +1,7 @@
 import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 const TERMS_SLUG = "terms";
 const SECTION_TYPE = "LegalDocumentSection";
@@ -95,6 +96,7 @@ export async function PUT(request: Request) {
       });
     }
 
+    revalidateWebsite(WebsiteTag.page("terms"));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error updating Terms & Conditions:", error);

@@ -2,6 +2,7 @@ import { checkAdminSession } from "@/lib/auth-check";
 import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 const FAQS_SLUG = "faqs";
 
@@ -93,6 +94,7 @@ export async function PUT(request: Request) {
         });
       }
 
+      revalidateWebsite(WebsiteTag.page("faqs"));
       return NextResponse.json({ success: true });
     }
 
@@ -129,6 +131,7 @@ export async function PUT(request: Request) {
       }
     }
 
+    revalidateWebsite(WebsiteTag.page("faqs"));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error updating FAQs sections:", error);

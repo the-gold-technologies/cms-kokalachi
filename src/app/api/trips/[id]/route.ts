@@ -5,6 +5,7 @@ import {
 } from "@/lib/cloudinaryCleanup";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -90,8 +91,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       price,
       originalPrice,
       gstAmount,
+      gstIncluded,
+      tcsPercent,
+      offerLabel,
       image,
       category,
+      categories,
       tag,
       tagColor,
       hook,
@@ -202,8 +207,18 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
               ? parseFloat(gstAmount)
               : 0
             : existingTrip.gstAmount,
+        gstIncluded: typeof gstIncluded === "boolean" ? gstIncluded : existingTrip.gstIncluded,
+        tcsPercent:
+          tcsPercent !== undefined
+            ? tcsPercent
+              ? parseFloat(tcsPercent)
+              : null
+            : existingTrip.tcsPercent,
+        offerLabel:
+          offerLabel !== undefined ? (offerLabel ? offerLabel : null) : existingTrip.offerLabel,
         image: image !== undefined ? image : existingTrip.image,
         category: category !== undefined ? category : existingTrip.category,
+        categories: Array.isArray(categories) ? categories : undefined, // undefined keeps the saved list
         tag: tag !== undefined ? tag : existingTrip.tag,
         tagColor: tagColor !== undefined ? tagColor : existingTrip.tagColor,
         hook: hook !== undefined ? hook : existingTrip.hook,
@@ -268,6 +283,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     cleanupObsoleteCloudinaryAssets(existingTrip, completeTrip).catch((err) =>
       console.error("Cleanup error on saving trip:", err),
     );
+    revalidateWebsite(WebsiteTag.trips);
     return NextResponse.json({ success: true, data: completeTrip });
   } catch (error: any) {
     console.error("Error updating trip:", error);
@@ -299,6 +315,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     deleteCloudinaryAssetsFromData(existingTrip).catch((err) =>
       console.error("Cleanup error on deleting trip:", err),
     );
+    revalidateWebsite(WebsiteTag.trips);
     return NextResponse.json({ success: true, message: "Journey deleted successfully" });
   } catch (error: any) {
     console.error("Error deleting trip:", error);

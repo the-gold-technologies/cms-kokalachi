@@ -16,15 +16,11 @@
     "seed": "node prisma/seed.js"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.11.1",
     "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^6.19.2",
-    "@radix-ui/react-slot": "^1.2.4",
-    "@supabase/supabase-js": "^2.98.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.34.3",
     "lucide-react": "^0.575.0",
     "next": "16.1.6",
     "next-auth": "^5.0.0-beta.30",
@@ -34,7 +30,6 @@
     "react-dom": "19.2.3",
     "react-hot-toast": "^2.6.0",
     "react-quill-new": "^3.8.3",
-    "recharts": "^3.7.0",
     "sharp": "^0.35.2",
     "tailwind-merge": "^3.5.0"
   },
@@ -48,9 +43,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prettier": "^3.9.9",
     "prisma": "6.19.2",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "prettier": "^3.9.9"
+    "typescript": "^5"
   }
 }

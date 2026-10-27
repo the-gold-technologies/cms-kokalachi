@@ -2,6 +2,7 @@ import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 const ABOUT_SLUG = "about";
 
@@ -102,6 +103,7 @@ export async function PUT(request: Request) {
       }
     }
 
+    revalidateWebsite(WebsiteTag.page("about"));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error saving about sections:", error);

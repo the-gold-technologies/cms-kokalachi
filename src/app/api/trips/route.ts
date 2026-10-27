@@ -1,6 +1,7 @@
 import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export async function GET(request: Request) {
   try {
@@ -58,8 +59,12 @@ export async function POST(request: Request) {
       price,
       originalPrice,
       gstAmount,
+      gstIncluded,
+      tcsPercent,
+      offerLabel,
       image,
       category,
+      categories,
       tag,
       tagColor,
       hook,
@@ -152,8 +157,12 @@ export async function POST(request: Request) {
         price: typeof price === "number" ? price : parseFloat(price) || 0,
         originalPrice: originalPrice ? parseFloat(originalPrice) : null,
         gstAmount: gstAmount ? parseFloat(gstAmount) : 0,
+        gstIncluded: typeof gstIncluded === "boolean" ? gstIncluded : false,
+        tcsPercent: tcsPercent ? parseFloat(tcsPercent) : null,
+        offerLabel: offerLabel ? offerLabel : null,
         image: image ?? "",
         category: category ?? "Trending",
+        categories: Array.isArray(categories) ? categories : [],
         tag: tag ?? null,
         tagColor: tagColor ?? null,
         hook: hook ?? null,
@@ -207,6 +216,7 @@ export async function POST(request: Request) {
       include: { departures: true },
     });
 
+    revalidateWebsite(WebsiteTag.trips);
     return NextResponse.json({ success: true, data: completeTrip });
   } catch (error: any) {
     console.error("Error creating trip:", error);

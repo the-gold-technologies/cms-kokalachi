@@ -54,7 +54,7 @@ async function main() {
         navbarLightLogo:
           "https://res.cloudinary.com/dpa93copz/image/upload/v1793097823/kokalachi/clean_logo_lighter.png",
         footerLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793097824/kokalachi/logo-footer.png",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1793103088/kokalachi/brand/clean_logo_lighter_1793103085550.webp",
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",

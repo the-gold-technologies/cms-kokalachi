@@ -1,6 +1,7 @@
 import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export const dynamic = "force-dynamic";
 
@@ -308,6 +309,7 @@ export async function POST(request: Request) {
       },
     });
 
+    revalidateWebsite(WebsiteTag.site);
     return NextResponse.json({ success: true, data: created });
   } catch (error: any) {
     console.error("Error creating nav link:", error);
@@ -345,6 +347,7 @@ export async function PUT(request: Request) {
         });
       }
       const links = await prisma.navLink.findMany({ orderBy: { order: "asc" } });
+      revalidateWebsite(WebsiteTag.site);
       return NextResponse.json({ success: true, data: links });
     }
 
@@ -363,6 +366,7 @@ export async function PUT(request: Request) {
           description: description !== undefined ? description : undefined,
         },
       });
+      revalidateWebsite(WebsiteTag.site);
       return NextResponse.json({ success: true, data: updated });
     }
 
@@ -383,6 +387,7 @@ export async function PUT(request: Request) {
         });
       }
       const all = await prisma.navLink.findMany({ orderBy: { order: "asc" } });
+      revalidateWebsite(WebsiteTag.site);
       return NextResponse.json({ success: true, data: all });
     }
 
@@ -416,6 +421,7 @@ export async function DELETE(request: Request) {
     await prisma.navLink.deleteMany({ where: { parent: id } });
     await prisma.navLink.delete({ where: { id } });
 
+    revalidateWebsite(WebsiteTag.site);
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Error deleting nav link:", error);

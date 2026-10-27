@@ -35,7 +35,11 @@ export function JourneyCardSection({
   const [price, setPrice] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
   const [gstAmount, setGstAmount] = useState("");
+  const [gstIncluded, setGstIncluded] = useState(false);
+  const [tcsPercent, setTcsPercent] = useState("");
+  const [offerLabel, setOfferLabel] = useState("");
   const [category, setCategory] = useState("Trending");
+  const [categories, setCategories] = useState<string[]>([]);
   const [tag, setTag] = useState("");
   const [tagColor, setTagColor] = useState("");
   const [hook, setHook] = useState("");
@@ -76,7 +80,11 @@ export function JourneyCardSection({
       setPrice(initialData.price !== undefined ? String(initialData.price) : "");
       setOriginalPrice(initialData.originalPrice ? String(initialData.originalPrice) : "");
       setGstAmount(initialData.gstAmount ? String(initialData.gstAmount) : "");
+      setGstIncluded(!!initialData.gstIncluded);
+      setTcsPercent(initialData.tcsPercent ? String(initialData.tcsPercent) : "");
+      setOfferLabel(initialData.offerLabel ?? "");
       setCategory(initialData.category ?? "Trending");
+      setCategories(Array.isArray(initialData.categories) ? initialData.categories : []);
       setTag(initialData.tag ?? "");
       setTagColor(initialData.tagColor ?? "");
       setHook(initialData.hook ?? "");
@@ -123,7 +131,11 @@ export function JourneyCardSection({
         price: price ? parseFloat(price) : 0,
         originalPrice: originalPrice ? parseFloat(originalPrice) : null,
         gstAmount: gstAmount ? parseFloat(gstAmount) : 0,
+        gstIncluded,
+        tcsPercent: tcsPercent ? parseFloat(tcsPercent) : null,
+        offerLabel,
         category,
+        categories,
         tag,
         tagColor,
         hook,
@@ -291,6 +303,33 @@ export function JourneyCardSection({
             />
           </div>
 
+          {/* Row 4b: Offer label, TCS & GST-inclusive pricing */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-end">
+            <InputField
+              label="Offer Label (shown above price)"
+              value={offerLabel}
+              onChange={(e) => setOfferLabel(e.target.value)}
+              placeholder="e.g. Limited Offer"
+            />
+            <InputField
+              label="TCS % (international trips)"
+              type="number"
+              step="0.01"
+              value={tcsPercent}
+              onChange={(e) => setTcsPercent(e.target.value)}
+              placeholder="e.g. 5"
+            />
+            <label className="flex items-center gap-2.5 cursor-pointer pb-3.5">
+              <input
+                type="checkbox"
+                checked={gstIncluded}
+                onChange={(e) => setGstIncluded(e.target.checked)}
+                className="w-4 h-4 text-[#0E5A60] rounded border-gray-300 focus:ring-[#0E5A60]"
+              />
+              <span className="text-xs font-bold text-gray-700">Price already includes GST</span>
+            </label>
+          </div>
+
           {/* Row 5: Primary Vibe Category & Tag */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="flex flex-col gap-2">
@@ -327,6 +366,36 @@ export function JourneyCardSection({
               onChange={(e) => setRating(e.target.value)}
               placeholder="e.g. 4.95"
             />
+          </div>
+
+          {/* Row 5b: Filter categories the journey appears under on the website */}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+              Show Under Website Filters
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {vibeCategories.map((v) => {
+                const active = categories.includes(v.id);
+                return (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() =>
+                      setCategories((prev) =>
+                        active ? prev.filter((c) => c !== v.id) : [...prev, v.id],
+                      )
+                    }
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
+                      active
+                        ? "bg-[#0E5A60] text-white border-[#0E5A60]"
+                        : "bg-white text-gray-600 border-gray-200 hover:border-[#0E5A60]"
+                    }`}
+                  >
+                    {v.label || v.id}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Row 6: Hook */}

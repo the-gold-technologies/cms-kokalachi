@@ -2,6 +2,7 @@ import { checkAdminSession } from "@/lib/auth-check";
 import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export const dynamic = "force-dynamic";
 
@@ -51,6 +52,7 @@ export async function PUT(request: Request) {
         },
         update: seoData,
       });
+      revalidateWebsite(WebsiteTag.page(slug));
       return NextResponse.json({ success: true, data: updated });
     }
 
@@ -93,6 +95,7 @@ export async function PUT(request: Request) {
       );
     }
 
+    revalidateWebsite(WebsiteTag.site, WebsiteTag.page("home"));
     return NextResponse.json({ success: true, data: updatedConfig });
   } catch (error) {
     console.error("Error saving SEO config:", error);

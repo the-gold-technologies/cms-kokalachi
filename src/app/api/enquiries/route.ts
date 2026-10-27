@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { sendEnquiryNotificationEmail } from "@/lib/mail";
 import { checkAdminSession } from "@/lib/auth-check";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { isWebsiteRequest } from "@/lib/revalidateWebsite";
+import { sendContactEnquiry } from "@/lib/websiteMail";
+import { after } from "next/server";
 
 export const dynamic = "force-dynamic";
 
@@ -30,8 +32,13 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    // Rate limit public submissions: 10 per 15 minutes per IP
-    const clientIp = getClientIp(request);
+    // Enquiries come only from the website's server, which passes on the visitor's IP
+    if (!isWebsiteRequest(request)) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
+    }
+
+    // Rate limit submissions: 10 per 15 minutes per visitor
+    const clientIp = request.headers.get("x-client-ip") || getClientIp(request);
     const limitResult = rateLimit(`enquiry_${clientIp}`, 10, 15 * 60 * 1000);
     if (!limitResult.success) {
       return NextResponse.json(
@@ -87,9 +94,19 @@ export async function POST(request: Request) {
       },
     });
 
-    sendEnquiryNotificationEmail(created).catch((mailErr) => {
-      console.error("Async email dispatch failed for enquiry:", mailErr);
-    });
+    // Admin notification (ADMIN_NOTIFICATION_EMAIL), sent after the response
+    after(() =>
+      sendContactEnquiry({
+        name: created.name,
+        email: created.email,
+        phone: created.phone,
+        journey: created.journey ?? undefined,
+        travelDate: created.travelDate ?? undefined,
+        groupSize: created.groupSize ?? undefined,
+        message: created.message,
+        hearAboutUs: created.hearAboutUs ?? undefined,
+      }).catch((mailErr) => console.error("[mail] Enquiry email failed:", mailErr)),
+    );
 
     return NextResponse.json({ success: true, data: created });
   } catch (error) {

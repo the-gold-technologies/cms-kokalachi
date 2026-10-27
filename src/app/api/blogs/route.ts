@@ -2,6 +2,7 @@ import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export const dynamic = "force-dynamic";
 
@@ -250,6 +251,7 @@ export async function POST(request: Request) {
       },
     });
 
+    revalidateWebsite(WebsiteTag.blogs, WebsiteTag.page("blogs"));
     return NextResponse.json({ success: true, data: newPost }, { status: 201 });
   } catch (error: any) {
     console.error("Error creating blog post:", error);
@@ -305,6 +307,7 @@ export async function PUT(request: Request) {
         });
       }
 
+      revalidateWebsite(WebsiteTag.blogs, WebsiteTag.page("blogs"));
       return NextResponse.json({ success: true });
     }
 
@@ -350,6 +353,7 @@ export async function PUT(request: Request) {
       });
     }
 
+    revalidateWebsite(WebsiteTag.blogs, WebsiteTag.page("blogs"));
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Error updating blog page configuration:", error);

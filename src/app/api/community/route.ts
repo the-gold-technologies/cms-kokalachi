@@ -2,6 +2,7 @@ import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanupObsoleteCloudinaryAssets } from "@/lib/cloudinaryCleanup";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 const COMMUNITY_SLUG = "community";
 
@@ -104,6 +105,7 @@ export async function PUT(request: Request) {
       }
     }
 
+    revalidateWebsite(WebsiteTag.page("community"));
     return NextResponse.json({ success: true, message: "Community content updated successfully" });
   } catch (error) {
     console.error("Error updating community page content:", error);

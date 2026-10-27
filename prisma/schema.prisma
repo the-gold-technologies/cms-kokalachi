@@ -75,8 +75,12 @@ model Trip {
   price           Float
   originalPrice   Float?
   gstAmount       Float        @default(0)
+  gstIncluded     Boolean      @default(false)
+  tcsPercent      Float?
+  offerLabel      String?
   image           String
   category        String       @default("Trending")
+  categories      Json?        @default("[]")
   tag             String?
   tagColor        String?
   hook            String?

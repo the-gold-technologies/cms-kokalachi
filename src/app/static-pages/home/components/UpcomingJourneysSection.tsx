@@ -16,6 +16,7 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
   const [tag, setTag] = useState("");
   const [headline, setHeadline] = useState("");
   const [scriptAccent, setScriptAccent] = useState("");
+  const [headlineSuffix, setHeadlineSuffix] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [ctaText, setCtaText] = useState("");
   const [ctaLink, setCtaLink] = useState("");
@@ -25,6 +26,7 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
       setTag(initialData.tag ?? "");
       setHeadline(initialData.headline ?? "");
       setScriptAccent(initialData.scriptAccent ?? "");
+      setHeadlineSuffix(initialData.headlineSuffix ?? "");
       setSubtitle(initialData.subtitle ?? "");
       setCtaText(initialData.ctaText ?? "");
       setCtaLink(initialData.ctaLink ?? "");
@@ -39,6 +41,7 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
         tag,
         headline,
         scriptAccent,
+        headlineSuffix,
         subtitle,
         ctaText,
         ctaLink,
@@ -93,7 +96,7 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
                 placeholder="e.g. UPCOMING JOURNEYS"
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <InputField
                   label="Headline"
                   value={headline}
@@ -105,6 +108,12 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
                   value={scriptAccent}
                   onChange={(e) => setScriptAccent(e.target.value)}
                   placeholder="e.g. escape."
+                />
+                <InputField
+                  label="Headline Suffix"
+                  value={headlineSuffix}
+                  onChange={(e) => setHeadlineSuffix(e.target.value)}
+                  placeholder="e.g. begin?"
                 />
               </div>
 
