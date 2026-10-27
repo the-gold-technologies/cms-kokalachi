@@ -52,9 +52,9 @@ async function main() {
       linkedinUrl: "",
       socialLinks: {
         navbarLightLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793097823/kokalachi/clean_logo_lighter.png",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         footerLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793103088/kokalachi/brand/clean_logo_lighter_1793103085550.webp",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
@@ -203,8 +203,16 @@ async function main() {
           price: priceNum,
           originalPrice: origPriceNum,
           gstAmount: tp.gstAmount || 0,
+          gstIncluded: !!tp.gstIncluded,
+          tcsPercent: tp.tcsPercent ?? null,
+          offerLabel: tp.offerLabel || null,
           image: tp.image,
           category: tp.category || "Trending",
+          categories: item.categories || [],
+          categories: item.categories || [],
+          gstIncluded: typeof tp.gstIncluded === "boolean" ? tp.gstIncluded : false,
+          tcsPercent: tp.tcsPercent ? parseFloat(tp.tcsPercent) : null,
+          offerLabel: tp.offerLabel || null,
           tag: tp.tag || "",
           tagColor: tp.tagColor || "",
           hook: tp.hook || "",
@@ -218,7 +226,7 @@ async function main() {
           weather: tp.weather || [],
           faqs: tp.faqs || [],
           highlights: tp.highlights || [],
-          gallery: tp.gallery || [],
+          gallery: [...new Set([...(item.images || []), ...(tp.gallery || [])])],
           vibeTags: item.vibeTags || [],
           isFeatured: !!item.featured,
           order: item.id || 0,
@@ -277,8 +285,16 @@ async function main() {
           price: priceNum,
           originalPrice: origPriceNum,
           gstAmount: tp.gstAmount || 0,
+          gstIncluded: !!tp.gstIncluded,
+          tcsPercent: tp.tcsPercent ?? null,
+          offerLabel: tp.offerLabel || null,
           image: tp.image,
           category: tp.category || "Trending",
+          categories: item.categories || [],
+          categories: item.categories || [],
+          gstIncluded: typeof tp.gstIncluded === "boolean" ? tp.gstIncluded : false,
+          tcsPercent: tp.tcsPercent ? parseFloat(tp.tcsPercent) : null,
+          offerLabel: tp.offerLabel || null,
           tag: tp.tag || "",
           tagColor: tp.tagColor || "",
           hook: tp.hook || "",
@@ -292,7 +308,7 @@ async function main() {
           weather: tp.weather || [],
           faqs: tp.faqs || [],
           highlights: tp.highlights || [],
-          gallery: tp.gallery || [],
+          gallery: [...new Set([...(item.images || []), ...(tp.gallery || [])])],
           vibeTags: item.vibeTags || [],
           isFeatured: !!item.featured,
           order: item.id || 0,
@@ -328,35 +344,11 @@ async function main() {
         },
       });
 
-      // Departures
-      const departuresToSeed =
-        Array.isArray(tp.departures) && tp.departures.length > 0
-          ? tp.departures
-          : item.slug === "meghalaya"
-            ? [
-                {
-                  id: "meghalaya-2026-11-15",
-                  startDate: "2026-11-15",
-                  endDate: "2026-11-20",
-                  spotsLeft: 12,
-                  status: "open",
-                  label: "Autumn Circle",
-                  note: "Fly into Guwahati (GAU) by 11:00 AM",
-                },
-              ]
-            : item.slug === "bhutan"
-              ? [
-                  {
-                    id: "bhutan-2026-12-05",
-                    startDate: "2026-12-05",
-                    endDate: "2026-12-11",
-                    spotsLeft: 10,
-                    status: "open",
-                    label: "Winter Heritage",
-                    note: "Paro arrival & departure",
-                  },
-                ]
-              : [];
+      // Departures: exactly the dates in trips-seed.json (dates no longer listed are removed)
+      const departuresToSeed = Array.isArray(tp.departures) ? tp.departures : [];
+      await prisma.departure.deleteMany({
+        where: { tripId: tripRecord.id, id: { notIn: departuresToSeed.map((d) => d.id) } },
+      });
 
       for (const dep of departuresToSeed) {
         await prisma.departure.upsert({
@@ -386,7 +378,7 @@ async function main() {
         });
       }
     }
-    console.log("✓ All 10 Trips and their dated Departures seeded.");
+    console.log(`✓ ${rawTrips.length} Trips and their dated Departures seeded.`);
   }
 
   // 5. Testimonials

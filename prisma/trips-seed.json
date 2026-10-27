@@ -6,9 +6,19 @@
     "locationTag": "📍 Manali",
     "duration": "3 Days / 2 Nights",
     "groupSize": "Intimate Group",
-    "price": "7,999",
-    "vibeTags": ["Mountains", "Cafés", "Road Trip", "Scenic", "Community"],
-    "categories": ["Trending", "FirstTimers", "Adventure"],
+    "price": "5,999",
+    "vibeTags": [
+      "Mountains",
+      "Cafés",
+      "Road Trip",
+      "Scenic",
+      "Community"
+    ],
+    "categories": [
+      "Trending",
+      "FirstTimers",
+      "Adventure"
+    ],
     "featured": true,
     "images": [
       "https://images.unsplash.com/photo-1597167231350-d057a45dc868?auto=format&fit=crop&q=85&w=800",
@@ -22,9 +32,11 @@
       "location": "Manali",
       "duration": "2 Nights / 3 Days",
       "rating": 5,
-      "price": 7819,
+      "price": 5999,
       "gstAmount": 180,
-      "originalPrice": null,
+      "gstIncluded": true,
+      "originalPrice": 7999,
+      "offerLabel": "Limited Offer",
       "image": "https://images.unsplash.com/photo-1597167231350-d057a45dc868?auto=format&fit=crop&q=85&w=800",
       "category": "Mountains",
       "tag": "Triple Sharing",
@@ -34,6 +46,7 @@
           "id": "manali-2026-10-29",
           "startDate": "2026-10-29",
           "endDate": "2026-11-01",
+          "label": "Limited Offer",
           "note": "Overnight departure from Delhi by AC Tempo Traveller"
         }
       ],
@@ -135,33 +148,6 @@
           "question": "What is the cancellation policy?",
           "answer": "Contact us for more details"
         }
-      ],
-      "highlights": [
-        {
-          "icon": "🏔️",
-          "title": "Atal Tunnel & Sissu Falls",
-          "description": "Drive through the engineering marvel into Lahauls raw, high desert valley."
-        },
-        {
-          "icon": "🌲",
-          "title": "Old Manali Cedar Trails",
-          "description": "Stroll through quiet apple orchards and rustic stone cottages away from town crowds."
-        },
-        {
-          "icon": "♨️",
-          "title": "Vashisht Natural Hot Springs",
-          "description": "Relax in healing thermal sulfur springs surrounded by pine-covered cliffs."
-        },
-        {
-          "icon": "☕",
-          "title": "Mountain Café Conversations",
-          "description": "Evenings in indie art cafés listening to live acoustic music and acoustic jam sessions."
-        }
-      ],
-      "meals": [
-        "Daily hearty breakfasts with eggs, parathas, and fresh mountain apple preserves",
-        "Curated traditional Himachali Siddu & group dinner experiences",
-        "Evening hot masala chai and cookies after day excursions"
       ]
     }
   },
@@ -172,9 +158,19 @@
     "locationTag": "📍 Kashmir",
     "duration": "4 Days / 3 Nights",
     "groupSize": "10–12 Travellers",
-    "price": "TBA",
-    "vibeTags": ["Adventure", "Nature", "Scenic", "Heritage", "Culture"],
-    "categories": ["Trending", "Adventure", "ScenicJourney"],
+    "price": "15,999",
+    "vibeTags": [
+      "Adventure",
+      "Nature",
+      "Scenic",
+      "Heritage",
+      "Culture"
+    ],
+    "categories": [
+      "Trending",
+      "Adventure",
+      "ScenicJourney"
+    ],
     "images": [
       "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1715457573748-8e8a70b2c1be?auto=format&fit=crop&q=85&w=800",
@@ -187,7 +183,7 @@
       "location": "Kashmir",
       "duration": "3 Nights / 4 Days",
       "rating": 5,
-      "price": 25999,
+      "price": 15999,
       "gstAmount": 360,
       "originalPrice": null,
       "image": "https://images.unsplash.com/photo-1715457573748-8e8a70b2c1be?auto=format&fit=crop&q=85&w=800",
@@ -338,576 +334,191 @@
     }
   },
   {
-    "id": 6,
-    "slug": "sri-lanka-women",
-    "destination": "Sri Lanka",
-    "locationTag": "📍 Sri Lanka",
-    "duration": "5 Days / 4 Nights",
+    "id": 2,
+    "slug": "meghalaya",
+    "destination": "Meghalaya",
+    "locationTag": "📍 Meghalaya",
+    "duration": "5 Nights / 6 Days",
     "groupSize": "Intimate Group",
-    "price": "44,999",
-    "vibeTags": ["Women Only", "Island", "Culture", "Beach", "Community"],
-    "categories": ["WomenOnly", "BeachEscape"],
+    "dates": "Upcoming",
+    "price": "TBA",
+    "vibeTags": [
+      "Adventure",
+      "Trekking",
+      "Scenic",
+      "Exploration"
+    ],
+    "categories": [
+      "Trending",
+      "Adventure"
+    ],
     "images": [
-      "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1519566335946-e6f65f0f4fdf?auto=format&fit=crop&q=85&w=800"
+      "https://images.unsplash.com/photo-1593813738953-fb3c93e0769d?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1689089526066-c7e6e95ee265?auto=format&fit=crop&q=85&w=800"
     ],
     "tourPackage": {
-      "id": 6,
-      "title": "Sri Lanka · Women-Only Journey",
-      "subtitle": "An all-women group trip across the island. Full itinerary coming soon",
-      "location": "Sri Lanka",
-      "duration": "5 Days / 4 Nights",
-      "price": 44999,
-      "image": "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?auto=format&fit=crop&q=85&w=800",
-      "category": "Women Only",
-      "departures": [
-        {
-          "id": "sri-lanka-women-2026-11-12",
-          "startDate": "2026-11-12",
-          "endDate": "2026-11-16",
-          "label": "Women Only"
-        }
+      "id": 2,
+      "title": "Roots & Rainbows - Meghalaya",
+      "subtitle": "The Mist & Waterfalls Circle · Lush Rainforests, Deep Canyons, and High-Energy Adventure",
+      "location": "Meghalaya",
+      "duration": "5 Nights / 6 Days",
+      "rating": 5,
+      "price": 42999,
+      "gstAmount": 540,
+      "originalPrice": null,
+      "image": "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800",
+      "category": "Adventure",
+      "tag": "Intimate Group",
+      "tagColor": "bg-[#0E5A60]",
+      "spotsLeft": 12,
+      "nextDeparture": "Upcoming",
+      "hook": "This Journey of Roots & Rainbows is a 5-night, 6-day plunge into Meghalaya's rainforests, canyons, and living-root bridges, built for travellers who want their group chat buzzing long after the last waterfall dip.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1593813738953-fb3c93e0769d?auto=format&fit=crop&q=85&w=800",
+        "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800",
+        "https://images.unsplash.com/photo-1689089526066-c7e6e95ee265?auto=format&fit=crop&q=85&w=800"
       ],
       "overview": [
-        "Sri Lanka: Island Sisterhood is a 5-night, 6-day women-only journey connecting ancient fortress ruins, misty mountain tea estates, and sunlit coastal shores.",
-        "Here is what the journey holds:",
-        "• Climb the dramatic Sigiriya Lion Rock at sunrise before the heat",
-        "• Wander through lush emerald tea estates in Nuwara Eliya and stay at colonial heritage bungalows",
-        "• Sunset surfing circles and whale watching in the coastal waters of Mirissa",
-        "• Explore the cobbled lanes and artisan boutiques of the 17th-century Dutch Galle Fort",
-        "• Signature Kokalachi sisterhood circles, laughter, and lifelong connections"
+        "This Journey of Roots & Rainbows is a 5-night, 6-day plunge into Meghalaya's rainforests, canyons, and living-root bridges, built for travellers who want their group chat buzzing long after the last waterfall dip.",
+        "Here's what the journey holds:",
+        "• Land in Guwahati and drive into Shillong, pausing at Umiam Lake before an evening street-food walk through Police Bazaar",
+        "• Stand above the clouds at Laitlum Canyons, then cool off with a swim under Krang Suri Waterfall",
+        "• Walk through the sacred, centuries-old Mawphlang forest and visit the Mawsynram caves before arriving in Cherrapunjee",
+        "• Descend 3,200 steps to Meghalaya's famous Double Decker Living Root Bridge, hiking on to Rainbow Falls",
+        "• Close the trip with a Brahmaputra River sunset cruise, a postcard ritual, and a Kamakhya Temple visit before departure"
       ],
       "highlights": [
         {
-          "icon": "🏰",
-          "title": "Sigiriya Rock Fortress",
-          "description": "Climb the ancient fifth-century palace citadel rising 200m above the jungle canopy."
+          "icon": "Users",
+          "title": "Intimate Circle Size",
+          "description": "Max 12 Travellers"
         },
         {
-          "icon": "☕",
-          "title": "Ceylon Tea Country",
-          "description": "Walk among misty tea slopes in Nuwara Eliya and experience authentic tea picking."
+          "icon": "ShieldCheck",
+          "title": "Vetted Community",
+          "description": "Pre-trip intro & dedicated chat"
         },
         {
-          "icon": "🌊",
-          "title": "Mirissa Ocean Breezes",
-          "description": "Coastal relaxation, gentle surf lessons, and sunset beach picnics with your tribe."
+          "icon": "Compass",
+          "title": "Kokalachi Trip Host",
+          "description": "Expert guidance throughout the journey"
         },
         {
-          "icon": "👭",
-          "title": "Safe & Supportive Circle",
-          "description": "100% women-only verified group with experienced female Kokalachi trip host."
+          "icon": "Heart",
+          "title": "Zero Planning Stress",
+          "description": "Stays, transport & select meals covered"
         }
       ],
       "itinerary": [
         {
-          "day": "Day 1",
-          "title": "Arrival & Negombo Lagoon Welcome",
-          "journey": "Arrive at Colombo (CMB) airport. Transfer to boutique coastal villa in Negombo. Relax by the pool.",
-          "community": "Sunset welcome drinks and circle introduction."
+          "day": "Day 01",
+          "title": "The Unfiltered Welcome",
+          "journey": "Guwahati Airport arrival → Scenic drive to Shillong → Umiam Lake pause → Police Bazaar evening walk.",
+          "community": "\"Two Truths & A Travel Lie\" and Street-Food Quest: An icebreaker session on the drive to Shillong, followed by pairing up at Police Bazaar to find and review local street snacks over evening tea.",
+          "image": "https://images.unsplash.com/photo-1593813738953-fb3c93e0769d?auto=format&fit=crop&q=85&w=800"
         },
         {
-          "day": "Day 2",
-          "title": "Ancient Kingdom of Sigiriya",
-          "journey": "Early morning climb of Sigiriya Lion Rock. Afternoon village catamaran ride and traditional organic farm lunch.",
-          "community": "Evening poolside reflection and travel stories."
+          "day": "Day 02",
+          "title": "Canyon Trails & Waterfall Dips",
+          "journey": "Laitlum Canyons viewpoint → Krang Suri Waterfall swim → Return to Shillong.",
+          "community": "The Pass-the-Aux Horizon Session and Water Curtain Plunge: A 15-minute group quiet moment at Laitlum adding tracks to the shared Spotify playlist, followed by a synchronized team plunge under the Krang Suri waterfall curtain.",
+          "image": "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800"
         },
         {
-          "day": "Day 3",
-          "title": "Sacred Kandy & High Tea Trails",
-          "journey": "Visit the Temple of the Sacred Tooth Relic in Kandy. Scenic winding drive up into Nuwara Eliya tea hills.",
-          "community": "Afternoon high tea and warm hearth chats in a colonial tea planter estate."
+          "day": "Day 03",
+          "title": "Ancient Forests & Mountain Myths",
+          "journey": "Mawsynram Caves → Mawphlang Sacred Grove walk → Khasi Model Village → Elephant Falls → Cherrapunjee arrival.",
+          "community": "The Silent Forest Walk and \"Waiting Problem\" Fireside Chat: A 10-minute silent walk through the ancient grove, ending with an evening bonfire chat sharing the trips everyone put off before joining this circle.",
+          "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=800"
         },
         {
-          "day": "Day 4",
-          "title": "Ella Scenic Train & Southern Coast",
-          "journey": "Ride the iconic blue train through tea plantations and Nine Arch Bridge. Drive down to Mirissa beaches.",
-          "community": "Beach bonfire with coconut rotis and island music."
+          "day": "Day 04",
+          "title": "The Tribe Challenge",
+          "journey": "Full-day Nongriat trek → 3,200 steps descent → Double Decker Living Root Bridge → Rainbow Falls hike → Cherrapunjee return.",
+          "community": "The Step Buddy System and Victory Dip: Travellers are paired as \"Step Buddies\" to support each other during the 3,200-step trek, celebrating the finish with a group splash at Rainbow Falls.",
+          "image": "https://images.unsplash.com/photo-1689089526066-c7e6e95ee265?auto=format&fit=crop&q=85&w=800"
         },
         {
-          "day": "Day 5",
-          "title": "Galle Dutch Fort & Farewell",
-          "journey": "Explore the UNESCO World Heritage Galle Fort. Boutique shopping, gelato, and lighthouse views.",
-          "community": "Farewell seafood feast and group address exchange."
+          "day": "Day 05",
+          "title": "Sunset Reflections",
+          "journey": "Cherrapunjee to Guwahati drive → Brahmaputra River sunset cruise.",
+          "community": "The Postcard Ritual and Circle Awards: Writing physical postcards to fellow travellers on the deck of the riverboat, followed by handing out non-competitive \"Circle Badges\" during dinner.",
+          "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "Day 06",
+          "title": "The Unbroken Circle",
+          "journey": "Morning Kamakhya Temple visit → Guwahati Airport drop.",
+          "community": "The Circle Alumni Onboarding: A final group photo exchange and onboarding into the official post-trip alumni chat before departure.",
+          "image": "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&q=85&w=800"
         }
       ],
       "inclusions": [
-        "4 nights boutique stays (2 nights beach villa, 1 night tea estate bungalow, 1 night heritage hotel)",
-        "Daily tropical breakfasts and curated group dinners",
-        "Private AC coach with verified driver throughout",
-        "All monument entry tickets (Sigiriya, Kandy Temple, Galle Fort)",
-        "Experienced female Kokalachi trip host accompanying the group 24/7",
-        "Airport transfers on start and end dates"
+        "Accommodation in Shillong and Cherrapunjee",
+        "Daily breakfast",
+        "Private airport and inter-hotel transfers",
+        "English-speaking guide throughout the itinerary",
+        "Laitlum Canyons and Krang Suri Waterfall excursion",
+        "Mawsynram Caves and Mawphlang Sacred Grove entry",
+        "Nongriat trek to the Double Decker Living Root Bridge",
+        "Brahmaputra River sunset cruise",
+        "Kokalachi Trip Host throughout the journey",
+        "Flight assistance for arrival/departure"
       ],
       "exclusions": [
-        "International flights to/from Colombo (CMB)",
-        "Daily lunches and personal café orders",
-        "Personal shopping and Ayurvedic spa treatments",
-        "Sri Lanka tourist ETA visa fees"
-      ],
-      "meals": [
-        "Daily tropical breakfasts with hoppers, fresh fruit platters, and eggs",
-        "Curated authentic Sri Lankan dinners with coconut sambol and fresh catches",
-        "Afternoon Ceylon tea and traditional sweet jaggery treats"
-      ],
-      "whatToPack": [
-        "Modest cotton clothing covering shoulders and knees for temple visits",
-        "Light breathable linen shirts and shorts",
-        "Swimwear and beach towel",
-        "Comfortable walking sandals or sneakers",
-        "Sun hat, sunglasses, and reef-safe sunscreen",
-        "Universal travel adapter"
-      ],
-      "weather": [
-        "Sunny tropical weather along the coast (28°C to 32°C)",
-        "Pleasant cooler temperatures in Nuwara Eliya hills (16°C to 20°C)",
-        "Light evening sea breezes along the southern beaches"
-      ],
-      "faqs": [
-        {
-          "question": "Is this trip exclusively for women?",
-          "answer": "Yes, this journey is strictly for women travellers. It is designed to provide a safe, welcoming, and empowering environment."
-        },
-        {
-          "question": "Can I join solo?",
-          "answer": "Over 80% of our travellers join solo! We pair same-gender solo joiners in twin rooms, or you can opt for a private single room."
-        },
-        {
-          "question": "Do I need a visa for Sri Lanka?",
-          "answer": "Most travellers require an online Electronic Travel Authorization (ETA) before flying. It takes around 24-48 hours to approve."
-        }
-      ],
-      "gallery": [
-        "https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&q=85&w=1200"
-      ]
-    }
-  },
-  {
-    "id": 5,
-    "slug": "udaipur",
-    "destination": "Udaipur",
-    "locationTag": "📍 Udaipur",
-    "duration": "3 Days / 2 Nights",
-    "groupSize": "20 Travellers",
-    "price": "9,999",
-    "vibeTags": ["Heritage", "Culture", "Scenic", "Road Trip", "Community"],
-    "categories": ["Trending", "FirstTimers"],
-    "images": [
-      "https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1695956353120-54ce5e91632b?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1589901164570-f9de6556e1c1?auto=format&fit=crop&q=85&w=800"
-    ],
-    "tourPackage": {
-      "id": 5,
-      "title": "The Majestic Sunsets | Udaipur · Royalty, Lakes & Connections",
-      "subtitle": "Royal Havelis, Lakeside Sunsets, an Overnight Trip that helps you meet new people sharing the love for travel, thereby turning strangers into friends",
-      "location": "Udaipur",
-      "duration": "3 Days / 2 Nights",
-      "rating": 4.9,
-      "price": 9999,
-      "originalPrice": 18999,
-      "gstAmount": 360,
-      "image": "https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&q=85&w=800",
-      "category": "Heritage",
-      "tag": "Community",
-      "tagColor": "bg-amber-100 text-amber-800",
-      "departures": [
-        {
-          "id": "udaipur-2026-10-01",
-          "startDate": "2026-10-01",
-          "endDate": "2026-10-04",
-          "spotsLeft": 20
-        },
-        {
-          "id": "udaipur-2026-11-13",
-          "startDate": "2026-11-13",
-          "endDate": "2026-11-16"
-        },
-        {
-          "id": "udaipur-2026-12-11",
-          "startDate": "2026-12-11",
-          "endDate": "2026-12-13",
-          "note": "Departs Delhi on 10 Dec night"
-        }
-      ],
-      "hook": "Overnight departure via Tempo Traveller from Delhi to Udaipur",
-      "overview": [
-        "The Majestics Sunsets is a 2-night, 3-day road trip to the City of Lakes, built around the ideation that the journey towards this royal destination matters equally as much as the destination",
-        "Here's what the journey holds:",
-        "Depart Delhi by Tempo Traveller at night, with ice-breakers and music as the group gets to know each other before Udaipur even comes into view",
-        "Check into Sarovar on Lake Pichola, then spend the evening watching the sunset over Lake Pichola",
-        "Explore the City Palace, Jagdish Temple, and the lanes of Old Udaipur, followed by an afternoon at Fateh Sagar Lake and Saheliyon Ki Bari",
-        "Close the second night with one last evening of music, games, and conversation as a full group",
-        "Share a final \"one thing I'll take back from this trip\" moment by the lake before the road trip back to Delhi"
-      ],
-      "itinerary": [
-        {
-          "day": "01",
-          "title": "Departure Night: The Journey Begins",
-          "journey": "Common departure from Delhi by Tempo Traveller → Overnight journey towards Udaipur.",
-          "community": "The Kokalachi Moment: Ice-breaker activities and introductions on the road, with music, games, and travel conversations as the trip begins before Udaipur is even in sight. \"You came as strangers. Let the journey change that.\"",
-          "image": "https://images.unsplash.com/photo-1695956353120-54ce5e91632b?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "02",
-          "title": "Welcome to the City of Lakes",
-          "journey": "Arrive in Udaipur → Check in at Sarovar on Lake Pichola → Leisure afternoon → Evening at Lake Pichola for sunset and group photographs.",
-          "community": "The Lake Pichola Sunset: The group gathers by the lake as the sun sets over the City of Lakes, with music, conversations, and group photographs, the signature evening of the trip.",
-          "image": "https://images.unsplash.com/photo-1589901164570-f9de6556e1c1?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "03",
-          "title": "Royal Udaipur, Explored Together",
-          "journey": "City Palace → Jagdish Temple → Old Udaipur lanes and local markets → Afternoon at Saheliyon Ki Bari and Fateh Sagar Lake.",
-          "community": "The Kokalachi Old City Experience and Sunset Moment: Photography stops, local handicraft discoveries, a chai break, and group interaction challenges through Old Udaipur's lanes, followed by an evening of music, conversations, games, and drinks back at the hotel.",
-          "image": "https://images.unsplash.com/photo-1622462281019-f6118fc42e46?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "04",
-          "title": "Goodbyes, But Not Really",
-          "journey": "Breakfast and check-out → Final photographs by Lake Pichola → Free time for shopping → Return road trip to Delhi.",
-          "community": "The Kokalachi Circle: Before leaving Udaipur, everyone shares \"one thing I'll take back from this trip\", because the idea was never just to visit Udaipur, but to find the people you met along the way.",
-          "image": "https://images.unsplash.com/photo-1633702738734-443da2c18f3c?auto=format&fit=crop&q=85&w=800"
-        }
-      ],
-      "inclusions": [
-        "Delhi–Udaipur–Delhi travel by Tempo Traveller",
-        "Accommodation at Sarovar on Lake Pichola, Udaipur",
-        "Hotel breakfast (2 mornings)",
-        "Udaipur local sightseeing",
-        "Kokalachi community experiences",
-        "Trip coordination"
-      ],
-      "exclusions": [
-        "Travel to and from the Delhi departure point",
-        "Meals not explicitly listed above",
+        "Flights to and from Guwahati",
+        "Meals and beverages, unless explicitly mentioned",
         "Personal expenses, shopping, and tips",
         "Travel insurance",
-        "Entry fees for monuments/attractions not included in the group itinerary",
-        "Any costs arising from unforeseen circumstances, such as road delays or weather disruptions",
-        "Taxes, if not already included in the ₹9,999 package price"
+        "Entry fees for optional activities not listed above",
+        "Any costs arising from unforeseen circumstances, such as flight delays or natural disasters",
+        "Taxes (5% GST and 2% TCS)"
+      ],
+      "meals": [
+        "Day 1: Evening tea and street-food tasting at Police Bazaar",
+        "Day 3: Bonfire dinner in Cherrapunjee",
+        "Day 5: Dinner aboard the Brahmaputra sunset cruise",
+        "Daily breakfast is included throughout the trip",
+        "Lunches and dinners outside of the moments listed above are not included"
       ],
       "whatToPack": [
-        "Light, breathable clothing for warm October days, with a light layer for cooler evenings by the lake",
-        "Comfortable walking shoes for the City Palace, Old Udaipur's lanes, and general sightseeing",
-        "A neck pillow or light blanket for the overnight Tempo Traveller journey",
-        "Sunscreen, sunglasses, and a cap for daytime sightseeing",
-        "A power bank, useful for the long road journey both ways",
-        "A camera or phone ready for the Lake Pichola sunset. This is the trip's most photographed moment",
-        "A valid photo ID for hotel check-in",
-        "Cash in small denominations for Old Udaipur's local markets and handicraft stalls"
+        "Sturdy trekking shoes with good grip. The Nongriat descent involves 3,200 steps and can be slippery",
+        "A quick-dry change of clothes for the waterfall swim at Krang Suri",
+        "A light raincoat or poncho. Meghalaya is one of the wettest regions in the world",
+        "Layered clothing for cooler mornings and evenings in Shillong and Cherrapunjee",
+        "A dry bag or waterproof pouch for phones and cameras",
+        "A reusable water bottle and a basic first-aid kit for the trek",
+        "A valid photo ID",
+        "Cash in small denominations. Card acceptance is limited in Cherrapunjee and Nongriat"
       ],
       "weather": [
-        "Udaipur in October sits at the tail end of the monsoon, with warm, mostly dry days and pleasantly cool evenings, one of the more comfortable times of year to visit.",
-        "Daytime highs typically reach around 32–33°C (90–91°F)",
-        "Evenings and nights cool down to around 18–20°C (65–68°F), comfortable for the Lake Pichola sunset evenings",
-        "Rain is unlikely but not impossible. A light layer for evenings is more useful than rain gear"
+        "Expected Weather & Temperature Meghalaya's climate depends heavily on the season. It's known globally for its rainfall, so conditions can shift quickly between misty and clear.",
+        "Expect cool, humid mornings and evenings, with daytime temperatures generally comfortable for trekking",
+        "Rain is possible at any time of year in this region, even outside the monsoon months. Pack for it regardless of your travel dates",
+        "Trails can be slippery after rainfall, so grip-focused footwear matters more than warmth here"
       ],
       "faqs": [
         {
-          "question": "Group Size",
-          "answer": "20 people"
+          "question": "Age Category:",
+          "answer": "Curated for adults (check with team for specific age group details)."
         },
         {
           "question": "Need Assistance in Air Fare, Visa, Permit?",
-          "answer": "Not applicable for this trip. It's a road journey by Tempo Traveller with a common departure point in Delhi, so no flights or permits are required."
+          "answer": "Yes, our team can help you plan your flights to Guwahati. No special permits are required for Indian nationals travelling to Meghalaya."
         },
         {
           "question": "Where does this trip start from?",
-          "answer": "The trip begins with a common departure from Delhi by Tempo Traveller on the night of departure, and returns to Delhi on the last day of the trip."
+          "answer": "The trip begins at Guwahati Airport, with pickup arranged as part of your package. Your journey home also ends at Guwahati Airport on Day 6."
+        },
+        {
+          "question": "I am travelling solo. Who will I share a room with?",
+          "answer": "You'll be matched with a fellow solo traveller of the same gender in the Double Sharing Room. Our team curates roommate pairings the same way we curate the group itself. Prefer your own space? The Private Room option is available at checkout."
         },
         {
           "question": "What is the cancellation policy?",
-          "answer": "Contact us for more details"
+          "answer": "Please reach out to our team or refer to the checkout page for detailed cancellation policies."
         }
-      ],
-      "highlights": [
-        {
-          "icon": "🏰",
-          "title": "Private Lake Pichola Boat Cruise",
-          "description": "Sunset cruise gliding past the iconic City Palace and Lake Palace illuminated at dusk."
-        },
-        {
-          "icon": "☕",
-          "title": "Rooftop Heritage Dining",
-          "description": "Dine under lanterns overlooking glistening waters with traditional Mewari delicacies."
-        },
-        {
-          "icon": "🎨",
-          "title": "Miniature Art Masterclass",
-          "description": "Hands-on session with master artisans painting fine Mewar scroll details."
-        },
-        {
-          "icon": "🌅",
-          "title": "Monsoon Palace Golden Hour",
-          "description": "Panoramic golden hour vistas from Sajjangarh hilltop fortress overlooking the Aravalli range."
-        }
-      ],
-      "meals": [
-        "Daily royal Mewari breakfasts with fresh kachoris, poha, and fruits",
-        "Curated candlelit lakeview dinners featuring authentic Dal Baati Churma & Laal Maas",
-        "Sunset chai and traditional Rajasthani snacks overlooking Lake Pichola"
-      ]
-    }
-  },
-  {
-    "id": 8,
-    "slug": "beas-kund-trek",
-    "destination": "Beas Kund",
-    "locationTag": "📍 Beas Kund",
-    "duration": "3 Days / 2 Nights",
-    "groupSize": "Intimate Group",
-    "price": "8,999",
-    "vibeTags": ["Trek", "Himalayas", "Adventure", "Community"],
-    "categories": ["Adventure"],
-    "images": [
-      "https://images.unsplash.com/photo-1620236232016-3eb7bc6ede3d?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1624881256794-a7ee33ecbb99?auto=format&fit=crop&q=85&w=800"
-    ],
-    "tourPackage": {
-      "id": 8,
-      "title": "Beas Kund Trek",
-      "subtitle": "A Himalayan group trek to the glacial lake at the source of the Beas. Full itinerary coming soon",
-      "location": "Himachal Pradesh",
-      "duration": "3 Days / 2 Nights",
-      "price": 8999,
-      "image": "https://images.unsplash.com/photo-1620236232016-3eb7bc6ede3d?auto=format&fit=crop&q=85&w=800",
-      "category": "Trek",
-      "departures": [
-        {
-          "id": "beas-kund-2026-11-20",
-          "startDate": "2026-11-20",
-          "endDate": "2026-11-22",
-          "note": "Departs Delhi on 19 Nov night"
-        }
-      ],
-      "overview": [
-        "Beas Kund Trek is a legendary 3-day Himalayan alpine journey tracing the pristine mountain source of the river Beas through deodar valleys, boulder fields, and hanging glaciers.",
-        "Here is what the journey holds:",
-        "• Trek from Dhundi through the wildflower meadows of Bakarthach",
-        "• Stand beside the turquoise glacial waters of sacred Beas Kund at 12,772 ft",
-        "• Spectacular towering views of Hanuman Tibba, Friendship Peak, and Ladakhi Peak",
-        "• High-altitude camping under millions of glittering Himalayan stars",
-        "• Guided by certified mountain mountaineering leaders with Kokalachi community spirit"
-      ],
-      "highlights": [
-        {
-          "icon": "🏔️",
-          "title": "Emerald Glacial Lake",
-          "description": "Reach the sacred turquoise lake of Beas Kund cradled by sheer snow walls."
-        },
-        {
-          "icon": "⛺",
-          "title": "Alpine Meadows of Bakarthach",
-          "description": "Camp beside mountain streams surrounded by looming 6000m Himalayan giants."
-        },
-        {
-          "icon": "🔥",
-          "title": "Campfire Stargazing",
-          "description": "Breathtaking views of the Milky Way with hot soup and stories around the camp."
-        },
-        {
-          "icon": "🧗",
-          "title": "Friendship Peak Views",
-          "description": "Up-close panoramic vistas of Hanuman Tibba and the Pir Panjal mountain range."
-        }
-      ],
-      "itinerary": [
-        {
-          "day": "Day 1",
-          "title": "Manali to Dhundi & Trek to Bakarthach",
-          "journey": "Meet at Old Manali. Drive to Dhundi via Solang Valley. Trek 4.5 km through pine glades to Bakarthach camp (10,800 ft).",
-          "community": "Evening camp briefing, warm soup, and team bonding circle."
-        },
-        {
-          "day": "Day 2",
-          "title": "Bakarthach to Beas Kund & Return",
-          "journey": "Early morning trek across glacial moraines to the sacred emerald lake of Beas Kund (12,772 ft). Soak in 360° peak views. Descend to Bakarthach.",
-          "community": "Celebratory mountain dinner and acoustic jam session under the stars."
-        },
-        {
-          "day": "Day 3",
-          "title": "Bakarthach to Dhundi & Return to Manali",
-          "journey": "Morning descent to Dhundi roadhead. Drive back to Manali. Afternoon hot spring relaxation in Vashisht.",
-          "community": "Farewell mountain café lunch and departure."
-        }
-      ],
-      "inclusions": [
-        "2 nights alpine tent accommodation on twin/triple sharing",
-        "All meals during the trek (breakfast, hot lunch/pack lunch, dinner)",
-        "Certified mountaineering guides, safety gear, and oxygen cylinder",
-        "Forest department camping and trekking permits",
-        "Manali to Dhundi road transfers"
-      ],
-      "exclusions": [
-        "Travel to and from Manali",
-        "Personal trekking gear (shoes, backpack, jacket)",
-        "Mule / porter charges for offloading personal backpacks",
-        "Emergency evacuation insurance"
-      ],
-      "meals": [
-        "Hot nutritious vegetarian mountain meals prepared fresh at camp",
-        "Warm porridge, eggs, and chai for breakfast",
-        "High-energy trail snacks, dry fruits, and hot evening soup"
-      ],
-      "whatToPack": [
-        "Trekking boots with high ankle support and deep tread grip",
-        "40L to 50L backpack with waterproof rain cover",
-        "Down feather jacket and fleece layer",
-        "Thermal inner wear (top and bottom)",
-        "Headlamp or flashlight with extra batteries",
-        "Two 1-litre reusable water bottles"
-      ],
-      "weather": [
-        "Daytime temperatures: 10°C to 16°C with crisp sunshine",
-        "Night temperatures: -2°C to 4°C at high camps",
-        "Clear mountain air with rapid weather shifts; layers are essential"
-      ],
-      "faqs": [
-        {
-          "question": "What is the difficulty level of Beas Kund?",
-          "answer": "Moderate. It is suitable for beginners with good physical fitness and endurance."
-        },
-        {
-          "question": "Are toilets available at the campsite?",
-          "answer": "Yes, dry toilet tents with organic pit systems are set up at all designated camps."
-        },
-        {
-          "question": "Can solo travellers join?",
-          "answer": "Absolutely! Most of our trekkers join solo and form close friendships on the trail."
-        }
-      ],
-      "gallery": [
-        "https://images.unsplash.com/photo-1620236232016-3eb7bc6ede3d?auto=format&fit=crop&q=85&w=1200",
-        "https://images.unsplash.com/photo-1624881256794-a7ee33ecbb99?auto=format&fit=crop&q=85&w=1200"
-      ]
-    }
-  },
-  {
-    "id": 9,
-    "slug": "nag-tibba-trek",
-    "destination": "Nag Tibba",
-    "locationTag": "📍 Nag Tibba",
-    "duration": "3 Days / 2 Nights",
-    "groupSize": "Intimate Group",
-    "price": "6,499",
-    "vibeTags": ["Trek", "Himalayas", "Adventure", "Community"],
-    "categories": ["Adventure", "FirstTimers"],
-    "images": [
-      "https://images.unsplash.com/photo-1697807880008-234c28ae6632?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1643284674341-659e5c67dfbd?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1697473046112-4dce673cf87d?auto=format&fit=crop&q=85&w=800"
-    ],
-    "tourPackage": {
-      "id": 9,
-      "title": "Nag Tibba Trek",
-      "subtitle": "A weekend group trek to the highest peak of the Nag Tibba range in Uttarakhand. Full itinerary coming soon",
-      "location": "Uttarakhand",
-      "duration": "3 Days / 2 Nights",
-      "price": 6499,
-      "image": "https://images.unsplash.com/photo-1697807880008-234c28ae6632?auto=format&fit=crop&q=85&w=800",
-      "category": "Trek",
-      "departures": [
-        {
-          "id": "nag-tibba-2026-11-20",
-          "startDate": "2026-11-20",
-          "endDate": "2026-11-22",
-          "note": "Departs Delhi on 19 Nov night"
-        }
-      ],
-      "overview": [
-        "Nag Tibba (Serpent's Peak) is the highest peak in the lower Garhwal Himalayas at 9,915 ft, making it the perfect weekend mountain escape from Delhi.",
-        "Here is what the journey holds:",
-        "• Hike through dense rhododendron and deodar forests",
-        "• Panoramic 360-degree views of Bandarpoonch, Swargarohini, and Gangotri ranges",
-        "• Cozy ridge camping under star-filled skies with bonfire warmth",
-        "• Stunning sunrise from the summit temple ridge",
-        "• Curated by Kokalachi for weekend recharge and genuine travel connections"
-      ],
-      "highlights": [
-        {
-          "icon": "🌅",
-          "title": "Nag Tibba Summit Sunrise",
-          "description": "Watch dawn break over Bandarpoonch and Kedarnath peaks from 9,915 ft."
-        },
-        {
-          "icon": "🌲",
-          "title": "Ancient Oak & Deodar Forests",
-          "description": "Walk through moss-covered fairy tale woodlands and rolling meadows."
-        },
-        {
-          "icon": "⛺",
-          "title": "Ridge Top Campsite",
-          "description": "Camp high above the clouds with panoramic mountain sunsets."
-        },
-        {
-          "icon": "🎒",
-          "title": "Beginner-Friendly Himalayan Escape",
-          "description": "Ideal first Himalayan summit trek with gentle gradients and cozy logistics."
-        }
-      ],
-      "itinerary": [
-        {
-          "day": "Day 1",
-          "title": "Dehradun to Pantwari & Camp 1",
-          "journey": "Drive from Dehradun through Mussoorie to Pantwari village. Trek 4.5 km to Nag Tibba base camp through oak woods.",
-          "community": "Campfire stories, hot dinner, and stargazing."
-        },
-        {
-          "day": "Day 2",
-          "title": "Summit Push & Nag Devta Temple",
-          "journey": "Pre-dawn climb to the summit of Nag Tibba (9,915 ft). Witness glorious Himalayan sunrise. Descend to base camp.",
-          "community": "Celebratory sunset circle with hot pakoras and tea."
-        },
-        {
-          "day": "Day 3",
-          "title": "Descent & Return to Dehradun",
-          "journey": "Morning breakfast with valley views. Trek down to Pantwari. Scenic drive back to Dehradun railway station.",
-          "community": "Final group addresses and hugs before boarding evening trains."
-        }
-      ],
-      "inclusions": [
-        "2 nights high-altitude camping on twin/triple sharing",
-        "All meals from Day 1 lunch to Day 3 breakfast",
-        "Professional trek leader and certified local mountain guides",
-        "Camping equipment: spacious tents, sleeping bags, sleeping mats",
-        "Dehradun to Pantwari round-trip shared transport"
-      ],
-      "exclusions": [
-        "Train/flight travel to Dehradun",
-        "Personal trekking gear and personal porter",
-        "Expenses of personal nature and tips"
-      ],
-      "meals": [
-        "Freshly prepared hot vegetarian meals at camp",
-        "Nutritious breakfast with porridge, eggs, and tea",
-        "Hot trail snacks and summit soup"
-      ],
-      "whatToPack": [
-        "Trekking shoes with decent ankle support and grip",
-        "Fleece jacket and windproof outer layer",
-        "Warm woolen cap and gloves",
-        "Water bottle (minimum 1.5 litres)",
-        "Headlamp or torch with fresh batteries"
-      ],
-      "weather": [
-        "Pleasant sunny hiking weather (15°C to 20°C)",
-        "Chilly nights around 4°C to 8°C"
-      ],
-      "faqs": [
-        {
-          "question": "Is Nag Tibba suitable for complete beginners?",
-          "answer": "Yes, it is one of the most accessible and rewarding beginner weekend treks in India."
-        },
-        {
-          "question": "What is the pickup point?",
-          "answer": "We pick up and drop off at Dehradun Railway Station."
-        }
-      ],
-      "gallery": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=85&w=1200"
       ]
     }
   },
@@ -919,8 +530,17 @@
     "duration": "5 Nights / 6 Days",
     "groupSize": "Intimate Group",
     "price": "TBA",
-    "vibeTags": ["Heritage", "Coastal", "Culture", "Relaxed", "Scenic"],
-    "categories": ["Trending", "SlowTravel"],
+    "vibeTags": [
+      "Heritage",
+      "Coastal",
+      "Culture",
+      "Relaxed",
+      "Scenic"
+    ],
+    "categories": [
+      "Trending",
+      "SlowTravel"
+    ],
     "images": [
       "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1583513645242-25a32d451084?auto=format&fit=crop&q=85&w=800",
@@ -1095,338 +715,6 @@
     }
   },
   {
-    "id": 7,
-    "slug": "sri-lanka",
-    "destination": "Sri Lanka",
-    "locationTag": "📍 Sri Lanka",
-    "duration": "6 Days / 5 Nights",
-    "groupSize": "Intimate Group",
-    "price": "46,999",
-    "vibeTags": ["Island", "Culture", "Beach", "Community"],
-    "categories": ["BeachEscape"],
-    "images": [
-      "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1519566335946-e6f65f0f4fdf?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?auto=format&fit=crop&q=85&w=800"
-    ],
-    "tourPackage": {
-      "id": 7,
-      "title": "Sri Lanka · Island Journey",
-      "subtitle": "A year-end group trip across the island. Full itinerary coming soon",
-      "location": "Sri Lanka",
-      "duration": "6 Days / 5 Nights",
-      "price": 46999,
-      "image": "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&q=85&w=800",
-      "category": "Island",
-      "departures": [
-        {
-          "id": "sri-lanka-2026-12-18",
-          "startDate": "2026-12-18",
-          "endDate": "2026-12-23"
-        }
-      ],
-      "overview": [
-        "Sri Lanka: The Island Mosaic is a 6-day, 5-night adventure across ancient kingdoms, misty tea hills, iconic mountain railways, and turquoise southern coastlines.",
-        "Here is what the journey holds:",
-        "• Stand atop the dramatic Sigiriya Lion Rock fortress",
-        "• Experience the world-famous blue train ride through Ella tea country",
-        "• Spot wild Asian elephants and leopards in Yala National Park",
-        "• Relax in colonial beach towns of Mirissa and Galle Dutch Fort",
-        "• Handpicked boutique stays, genuine group camaraderie, and curated authentic meals"
-      ],
-      "highlights": [
-        {
-          "icon": "🚂",
-          "title": "Ella Scenic Blue Train",
-          "description": "Ride through cloud-kissed tea estates over the iconic stone Nine Arch Bridge."
-        },
-        {
-          "icon": "🐘",
-          "title": "Yala Wildlife Safari",
-          "description": "Open-top 4x4 jeep safari in search of leopards, wild elephants, and sloth bears."
-        },
-        {
-          "icon": "🏰",
-          "title": "Sigiriya Lion Rock Citadel",
-          "description": "Climb the ancient sky citadel with fifth-century frescoes and panoramic vistas."
-        },
-        {
-          "icon": "🌊",
-          "title": "Southern Coast & Galle Fort",
-          "description": "Sunset walks on colonial ramparts and golden beaches of Mirissa."
-        }
-      ],
-      "itinerary": [
-        {
-          "day": "Day 1",
-          "title": "Colombo to Sigiriya",
-          "journey": "Arrival at CMB airport. Scenic inland drive toward the Cultural Triangle. Check in to tropical jungle resort.",
-          "community": "Evening welcome dinner and trip orientation."
-        },
-        {
-          "day": "Day 2",
-          "title": "Sigiriya Fortress & Minneriya",
-          "journey": "Early climb of Sigiriya. Afternoon jeep safari in Minneriya National Park to witness wild elephant herds.",
-          "community": "Sunset tea and stargazing circle."
-        },
-        {
-          "day": "Day 3",
-          "title": "Tea Country & Ella",
-          "journey": "Drive through Kandy into Nuwara Eliya. Board the scenic highland blue train into mountain town Ella.",
-          "community": "Café hopping and acoustic music night in Ella town."
-        },
-        {
-          "day": "Day 4",
-          "title": "Yala Safari Excursion",
-          "journey": "Hike Little Adams Peak at dawn. Drive south into Yala for afternoon game safari.",
-          "community": "Bush campfire dinner under starry southern skies."
-        },
-        {
-          "day": "Day 5",
-          "title": "Galle Fort & Coastal Glow",
-          "journey": "Drive along the southern coastal highway to the UNESCO Galle Dutch Fort.",
-          "community": "Seafood dinner on the beach with sunset views."
-        },
-        {
-          "day": "Day 6",
-          "title": "Farewell Colombo",
-          "journey": "Morning beach dip. Return transfer to Colombo airport for evening departures.",
-          "community": "Final group addresses and hugs."
-        }
-      ],
-      "inclusions": [
-        "5 nights boutique accommodations",
-        "Daily breakfast and curated dinners",
-        "Private AC transport with experienced chauffeur guide",
-        "All national park safari jeeps and park entrance fees",
-        "Scenic Ella train reserved seats",
-        "Experienced Kokalachi trip leader"
-      ],
-      "exclusions": ["International flights", "Daily lunches", "Personal expenses & visa"],
-      "meals": [
-        "Daily breakfast buffets",
-        "Authentic curry feasts & coastal seafood dinners",
-        "Highland tea tastings"
-      ],
-      "whatToPack": [
-        "Breathable cotton clothes and shorts",
-        "Light sweater for Ella highlands",
-        "Sturdy walking shoes",
-        "Sun protection and swimwear"
-      ],
-      "weather": [
-        "Warm sunny days along the coast (30°C)",
-        "Pleasant mild temperatures in Ella highlands (18°C-22°C)"
-      ],
-      "faqs": [
-        {
-          "question": "What is the group size?",
-          "answer": "Intimate group of 10 to 14 travellers."
-        },
-        {
-          "question": "Are safari permits included?",
-          "answer": "Yes, all jeep hires and park entry permits are 100% included."
-        }
-      ],
-      "gallery": [
-        "https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&q=85&w=1200"
-      ]
-    }
-  },
-  {
-    "id": 2,
-    "slug": "meghalaya",
-    "destination": "Meghalaya",
-    "locationTag": "📍 Meghalaya",
-    "duration": "5 Nights / 6 Days",
-    "groupSize": "Intimate Group",
-    "dates": "Upcoming",
-    "price": "TBA",
-    "vibeTags": ["Adventure", "Trekking", "Scenic", "Exploration"],
-    "categories": ["Trending", "Adventure"],
-    "images": [
-      "https://images.unsplash.com/photo-1593813738953-fb3c93e0769d?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800",
-      "https://images.unsplash.com/photo-1689089526066-c7e6e95ee265?auto=format&fit=crop&q=85&w=800"
-    ],
-    "tourPackage": {
-      "id": 2,
-      "title": "Roots & Rainbows - Meghalaya",
-      "subtitle": "The Mist & Waterfalls Circle · Lush Rainforests, Deep Canyons, and High-Energy Adventure",
-      "location": "Meghalaya",
-      "duration": "5 Nights / 6 Days",
-      "rating": 5,
-      "price": 42999,
-      "gstAmount": 540,
-      "originalPrice": null,
-      "image": "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800",
-      "category": "Adventure",
-      "tag": "Intimate Group",
-      "tagColor": "bg-[#0E5A60]",
-      "spotsLeft": 12,
-      "nextDeparture": "Upcoming",
-      "hook": "This Journey of Roots & Rainbows is a 5-night, 6-day plunge into Meghalaya's rainforests, canyons, and living-root bridges, built for travellers who want their group chat buzzing long after the last waterfall dip.",
-      "gallery": [
-        "https://images.unsplash.com/photo-1593813738953-fb3c93e0769d?auto=format&fit=crop&q=85&w=800",
-        "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800",
-        "https://images.unsplash.com/photo-1689089526066-c7e6e95ee265?auto=format&fit=crop&q=85&w=800"
-      ],
-      "overview": [
-        "This Journey of Roots & Rainbows is a 5-night, 6-day plunge into Meghalaya's rainforests, canyons, and living-root bridges, built for travellers who want their group chat buzzing long after the last waterfall dip.",
-        "Here's what the journey holds:",
-        "• Land in Guwahati and drive into Shillong, pausing at Umiam Lake before an evening street-food walk through Police Bazaar",
-        "• Stand above the clouds at Laitlum Canyons, then cool off with a swim under Krang Suri Waterfall",
-        "• Walk through the sacred, centuries-old Mawphlang forest and visit the Mawsynram caves before arriving in Cherrapunjee",
-        "• Descend 3,200 steps to Meghalaya's famous Double Decker Living Root Bridge, hiking on to Rainbow Falls",
-        "• Close the trip with a Brahmaputra River sunset cruise, a postcard ritual, and a Kamakhya Temple visit before departure"
-      ],
-      "highlights": [
-        {
-          "icon": "Users",
-          "title": "Intimate Circle Size",
-          "description": "Max 12 Travellers"
-        },
-        {
-          "icon": "ShieldCheck",
-          "title": "Vetted Community",
-          "description": "Pre-trip intro & dedicated chat"
-        },
-        {
-          "icon": "Compass",
-          "title": "Kokalachi Trip Host",
-          "description": "Expert guidance throughout the journey"
-        },
-        {
-          "icon": "Heart",
-          "title": "Zero Planning Stress",
-          "description": "Stays, transport & select meals covered"
-        }
-      ],
-      "itinerary": [
-        {
-          "day": "Day 01",
-          "title": "The Unfiltered Welcome",
-          "journey": "Guwahati Airport arrival → Scenic drive to Shillong → Umiam Lake pause → Police Bazaar evening walk.",
-          "community": "\"Two Truths & A Travel Lie\" and Street-Food Quest: An icebreaker session on the drive to Shillong, followed by pairing up at Police Bazaar to find and review local street snacks over evening tea.",
-          "image": "https://images.unsplash.com/photo-1593813738953-fb3c93e0769d?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "Day 02",
-          "title": "Canyon Trails & Waterfall Dips",
-          "journey": "Laitlum Canyons viewpoint → Krang Suri Waterfall swim → Return to Shillong.",
-          "community": "The Pass-the-Aux Horizon Session and Water Curtain Plunge: A 15-minute group quiet moment at Laitlum adding tracks to the shared Spotify playlist, followed by a synchronized team plunge under the Krang Suri waterfall curtain.",
-          "image": "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "Day 03",
-          "title": "Ancient Forests & Mountain Myths",
-          "journey": "Mawsynram Caves → Mawphlang Sacred Grove walk → Khasi Model Village → Elephant Falls → Cherrapunjee arrival.",
-          "community": "The Silent Forest Walk and \"Waiting Problem\" Fireside Chat: A 10-minute silent walk through the ancient grove, ending with an evening bonfire chat sharing the trips everyone put off before joining this circle.",
-          "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "Day 04",
-          "title": "The Tribe Challenge",
-          "journey": "Full-day Nongriat trek → 3,200 steps descent → Double Decker Living Root Bridge → Rainbow Falls hike → Cherrapunjee return.",
-          "community": "The Step Buddy System and Victory Dip: Travellers are paired as \"Step Buddies\" to support each other during the 3,200-step trek, celebrating the finish with a group splash at Rainbow Falls.",
-          "image": "https://images.unsplash.com/photo-1689089526066-c7e6e95ee265?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "Day 05",
-          "title": "Sunset Reflections",
-          "journey": "Cherrapunjee to Guwahati drive → Brahmaputra River sunset cruise.",
-          "community": "The Postcard Ritual and Circle Awards: Writing physical postcards to fellow travellers on the deck of the riverboat, followed by handing out non-competitive \"Circle Badges\" during dinner.",
-          "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=800"
-        },
-        {
-          "day": "Day 06",
-          "title": "The Unbroken Circle",
-          "journey": "Morning Kamakhya Temple visit → Guwahati Airport drop.",
-          "community": "The Circle Alumni Onboarding: A final group photo exchange and onboarding into the official post-trip alumni chat before departure.",
-          "image": "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&q=85&w=800"
-        }
-      ],
-      "inclusions": [
-        "Accommodation in Shillong and Cherrapunjee",
-        "Daily breakfast",
-        "Private airport and inter-hotel transfers",
-        "English-speaking guide throughout the itinerary",
-        "Laitlum Canyons and Krang Suri Waterfall excursion",
-        "Mawsynram Caves and Mawphlang Sacred Grove entry",
-        "Nongriat trek to the Double Decker Living Root Bridge",
-        "Brahmaputra River sunset cruise",
-        "Kokalachi Trip Host throughout the journey",
-        "Flight assistance for arrival/departure"
-      ],
-      "exclusions": [
-        "Flights to and from Guwahati",
-        "Meals and beverages, unless explicitly mentioned",
-        "Personal expenses, shopping, and tips",
-        "Travel insurance",
-        "Entry fees for optional activities not listed above",
-        "Any costs arising from unforeseen circumstances, such as flight delays or natural disasters",
-        "Taxes (5% GST and 2% TCS)"
-      ],
-      "meals": [
-        "Day 1: Evening tea and street-food tasting at Police Bazaar",
-        "Day 3: Bonfire dinner in Cherrapunjee",
-        "Day 5: Dinner aboard the Brahmaputra sunset cruise",
-        "Daily breakfast is included throughout the trip",
-        "Lunches and dinners outside of the moments listed above are not included"
-      ],
-      "whatToPack": [
-        "Sturdy trekking shoes with good grip. The Nongriat descent involves 3,200 steps and can be slippery",
-        "A quick-dry change of clothes for the waterfall swim at Krang Suri",
-        "A light raincoat or poncho. Meghalaya is one of the wettest regions in the world",
-        "Layered clothing for cooler mornings and evenings in Shillong and Cherrapunjee",
-        "A dry bag or waterproof pouch for phones and cameras",
-        "A reusable water bottle and a basic first-aid kit for the trek",
-        "A valid photo ID",
-        "Cash in small denominations. Card acceptance is limited in Cherrapunjee and Nongriat"
-      ],
-      "weather": [
-        "Expected Weather & Temperature Meghalaya's climate depends heavily on the season. It's known globally for its rainfall, so conditions can shift quickly between misty and clear.",
-        "Expect cool, humid mornings and evenings, with daytime temperatures generally comfortable for trekking",
-        "Rain is possible at any time of year in this region, even outside the monsoon months. Pack for it regardless of your travel dates",
-        "Trails can be slippery after rainfall, so grip-focused footwear matters more than warmth here"
-      ],
-      "faqs": [
-        {
-          "question": "Age Category:",
-          "answer": "Curated for adults (check with team for specific age group details)."
-        },
-        {
-          "question": "Need Assistance in Air Fare, Visa, Permit?",
-          "answer": "Yes, our team can help you plan your flights to Guwahati. No special permits are required for Indian nationals travelling to Meghalaya."
-        },
-        {
-          "question": "Where does this trip start from?",
-          "answer": "The trip begins at Guwahati Airport, with pickup arranged as part of your package. Your journey home also ends at Guwahati Airport on Day 6."
-        },
-        {
-          "question": "I am travelling solo. Who will I share a room with?",
-          "answer": "You'll be matched with a fellow solo traveller of the same gender in the Double Sharing Room. Our team curates roommate pairings the same way we curate the group itself. Prefer your own space? The Private Room option is available at checkout."
-        },
-        {
-          "question": "What is the cancellation policy?",
-          "answer": "Please reach out to our team or refer to the checkout page for detailed cancellation policies."
-        }
-      ],
-      "departures": [
-        {
-          "id": "meghalaya-2026-11-15",
-          "startDate": "2026-11-15",
-          "endDate": "2026-11-20",
-          "price": 42999,
-          "spotsLeft": 12,
-          "status": "open",
-          "label": "Autumn Circle",
-          "note": "Fly into Guwahati (GAU) by 11:00 AM"
-        }
-      ]
-    }
-  },
-  {
     "id": 4,
     "slug": "bhutan",
     "destination": "Bhutan",
@@ -1435,8 +723,17 @@
     "groupSize": "Intimate Group",
     "dates": "Upcoming",
     "price": "TBA",
-    "vibeTags": ["Culture", "Scenic", "Mindful", "Heritage", "Discovery"],
-    "categories": ["Trending", "SlowTravel"],
+    "vibeTags": [
+      "Culture",
+      "Scenic",
+      "Mindful",
+      "Heritage",
+      "Discovery"
+    ],
+    "categories": [
+      "Trending",
+      "SlowTravel"
+    ],
     "images": [
       "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?auto=format&fit=crop&q=85&w=800",
       "https://images.unsplash.com/photo-1580649851649-992b28f56e98?auto=format&fit=crop&q=85&w=800",
@@ -1604,17 +901,388 @@
           "question": "What is the cancellation policy?",
           "answer": "Please reach out to our team or refer to the checkout page for detailed cancellation policies."
         }
-      ],
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "slug": "udaipur",
+    "destination": "Udaipur",
+    "locationTag": "📍 Udaipur",
+    "duration": "3 Days / 2 Nights",
+    "groupSize": "20 Travellers",
+    "price": "9,999",
+    "vibeTags": [
+      "Heritage",
+      "Culture",
+      "Scenic",
+      "Road Trip",
+      "Community"
+    ],
+    "categories": [
+      "Trending",
+      "FirstTimers"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1695956353120-54ce5e91632b?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1589901164570-f9de6556e1c1?auto=format&fit=crop&q=85&w=800"
+    ],
+    "tourPackage": {
+      "id": 5,
+      "title": "The Majestic Sunsets | Udaipur · Royalty, Lakes & Connections",
+      "subtitle": "Royal Havelis, Lakeside Sunsets, an Overnight Trip that helps you meet new people sharing the love for travel, thereby turning strangers into friends",
+      "location": "Udaipur",
+      "duration": "3 Days / 2 Nights",
+      "rating": 4.9,
+      "price": 9999,
+      "originalPrice": 18999,
+      "gstAmount": 360,
+      "image": "https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&q=85&w=800",
+      "category": "Heritage",
+      "tag": "Community",
+      "tagColor": "bg-amber-100 text-amber-800",
       "departures": [
         {
-          "id": "bhutan-2026-12-05",
-          "startDate": "2026-12-05",
-          "endDate": "2026-12-11",
-          "price": 54999,
-          "spotsLeft": 10,
-          "status": "open",
-          "label": "Winter Heritage",
-          "note": "Paro International Airport arrival"
+          "id": "udaipur-2026-10-01",
+          "startDate": "2026-10-01",
+          "endDate": "2026-10-04",
+          "spotsLeft": 20
+        },
+        {
+          "id": "udaipur-2026-11-13",
+          "startDate": "2026-11-13",
+          "endDate": "2026-11-16"
+        },
+        {
+          "id": "udaipur-2026-12-11",
+          "startDate": "2026-12-11",
+          "endDate": "2026-12-13",
+          "note": "Departs Delhi on 10 Dec night"
+        }
+      ],
+      "hook": "Overnight departure via Tempo Traveller from Delhi to Udaipur",
+      "overview": [
+        "The Majestics Sunsets is a 2-night, 3-day road trip to the City of Lakes, built around the ideation that the journey towards this royal destination matters equally as much as the destination",
+        "Here's what the journey holds:",
+        "Depart Delhi by Tempo Traveller at night, with ice-breakers and music as the group gets to know each other before Udaipur even comes into view",
+        "Check into Sarovar on Lake Pichola, then spend the evening watching the sunset over Lake Pichola",
+        "Explore the City Palace, Jagdish Temple, and the lanes of Old Udaipur, followed by an afternoon at Fateh Sagar Lake and Saheliyon Ki Bari",
+        "Close the second night with one last evening of music, games, and conversation as a full group",
+        "Share a final \"one thing I'll take back from this trip\" moment by the lake before the road trip back to Delhi"
+      ],
+      "itinerary": [
+        {
+          "day": "01",
+          "title": "Departure Night: The Journey Begins",
+          "journey": "Common departure from Delhi by Tempo Traveller → Overnight journey towards Udaipur.",
+          "community": "The Kokalachi Moment: Ice-breaker activities and introductions on the road, with music, games, and travel conversations as the trip begins before Udaipur is even in sight. \"You came as strangers. Let the journey change that.\"",
+          "image": "https://images.unsplash.com/photo-1695956353120-54ce5e91632b?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "02",
+          "title": "Welcome to the City of Lakes",
+          "journey": "Arrive in Udaipur → Check in at Sarovar on Lake Pichola → Leisure afternoon → Evening at Lake Pichola for sunset and group photographs.",
+          "community": "The Lake Pichola Sunset: The group gathers by the lake as the sun sets over the City of Lakes, with music, conversations, and group photographs, the signature evening of the trip.",
+          "image": "https://images.unsplash.com/photo-1589901164570-f9de6556e1c1?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "03",
+          "title": "Royal Udaipur, Explored Together",
+          "journey": "City Palace → Jagdish Temple → Old Udaipur lanes and local markets → Afternoon at Saheliyon Ki Bari and Fateh Sagar Lake.",
+          "community": "The Kokalachi Old City Experience and Sunset Moment: Photography stops, local handicraft discoveries, a chai break, and group interaction challenges through Old Udaipur's lanes, followed by an evening of music, conversations, games, and drinks back at the hotel.",
+          "image": "https://images.unsplash.com/photo-1622462281019-f6118fc42e46?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "04",
+          "title": "Goodbyes, But Not Really",
+          "journey": "Breakfast and check-out → Final photographs by Lake Pichola → Free time for shopping → Return road trip to Delhi.",
+          "community": "The Kokalachi Circle: Before leaving Udaipur, everyone shares \"one thing I'll take back from this trip\", because the idea was never just to visit Udaipur, but to find the people you met along the way.",
+          "image": "https://images.unsplash.com/photo-1633702738734-443da2c18f3c?auto=format&fit=crop&q=85&w=800"
+        }
+      ],
+      "inclusions": [
+        "Delhi–Udaipur–Delhi travel by Tempo Traveller",
+        "Accommodation at Sarovar on Lake Pichola, Udaipur",
+        "Hotel breakfast (2 mornings)",
+        "Udaipur local sightseeing",
+        "Kokalachi community experiences",
+        "Trip coordination"
+      ],
+      "exclusions": [
+        "Travel to and from the Delhi departure point",
+        "Meals not explicitly listed above",
+        "Personal expenses, shopping, and tips",
+        "Travel insurance",
+        "Entry fees for monuments/attractions not included in the group itinerary",
+        "Any costs arising from unforeseen circumstances, such as road delays or weather disruptions",
+        "Taxes, if not already included in the ₹9,999 package price"
+      ],
+      "whatToPack": [
+        "Light, breathable clothing for warm October days, with a light layer for cooler evenings by the lake",
+        "Comfortable walking shoes for the City Palace, Old Udaipur's lanes, and general sightseeing",
+        "A neck pillow or light blanket for the overnight Tempo Traveller journey",
+        "Sunscreen, sunglasses, and a cap for daytime sightseeing",
+        "A power bank, useful for the long road journey both ways",
+        "A camera or phone ready for the Lake Pichola sunset. This is the trip's most photographed moment",
+        "A valid photo ID for hotel check-in",
+        "Cash in small denominations for Old Udaipur's local markets and handicraft stalls"
+      ],
+      "weather": [
+        "Udaipur in October sits at the tail end of the monsoon, with warm, mostly dry days and pleasantly cool evenings, one of the more comfortable times of year to visit.",
+        "Daytime highs typically reach around 32–33°C (90–91°F)",
+        "Evenings and nights cool down to around 18–20°C (65–68°F), comfortable for the Lake Pichola sunset evenings",
+        "Rain is unlikely but not impossible. A light layer for evenings is more useful than rain gear"
+      ],
+      "faqs": [
+        {
+          "question": "Group Size",
+          "answer": "20 people"
+        },
+        {
+          "question": "Need Assistance in Air Fare, Visa, Permit?",
+          "answer": "Not applicable for this trip. It's a road journey by Tempo Traveller with a common departure point in Delhi, so no flights or permits are required."
+        },
+        {
+          "question": "Where does this trip start from?",
+          "answer": "The trip begins with a common departure from Delhi by Tempo Traveller on the night of departure, and returns to Delhi on the last day of the trip."
+        },
+        {
+          "question": "What is the cancellation policy?",
+          "answer": "Contact us for more details"
+        }
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "slug": "sri-lanka",
+    "destination": "Sri Lanka",
+    "locationTag": "📍 Sri Lanka",
+    "duration": "5 Days / 4 Nights",
+    "groupSize": "Intimate Group",
+    "price": "40,000",
+    "vibeTags": [
+      "Coastal",
+      "Heritage",
+      "Food",
+      "Ocean",
+      "Community"
+    ],
+    "categories": [
+      "BeachEscape"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1579989197111-928f586796a3?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1561426802-392f5b6290cf?auto=format&fit=crop&q=85&w=800"
+    ],
+    "tourPackage": {
+      "id": 7,
+      "title": "Ramparts & Whale Waters",
+      "subtitle": "Galle Fort Sunsets, Southern Beaches, and a Morning Out on the Open Ocean",
+      "location": "Sri Lanka · Galle & Colombo",
+      "duration": "4 Nights / 5 Days",
+      "price": 40000,
+      "gstAmount": 900,
+      "originalPrice": 42000,
+      "offerLabel": "Early Bird",
+      "image": "https://images.unsplash.com/photo-1579989197111-928f586796a3?auto=format&fit=crop&q=85&w=800",
+      "category": "Beach Escape",
+      "tag": "Twin Sharing",
+      "departures": [
+        {
+          "id": "sri-lanka-2026-11-18",
+          "startDate": "2026-11-18",
+          "endDate": "2026-11-22",
+          "label": "Early Bird"
+        }
+      ],
+      "hook": "Ramparts & Whale Waters is a 4-night, 5-day escape to Sri Lanka's southern coast — sunsets on the walls of Galle Fort, a morning at sea out of Mirissa, and a final night in Colombo with the people you started the week as strangers with.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1579989197111-928f586796a3?auto=format&fit=crop&q=85&w=800",
+        "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?auto=format&fit=crop&q=85&w=800",
+        "https://images.unsplash.com/photo-1561426802-392f5b6290cf?auto=format&fit=crop&q=85&w=800"
+      ],
+      "overview": [
+        "Ramparts & Whale Waters is a 4-night, 5-day escape to Sri Lanka's southern coast — sunsets on the walls of Galle Fort, a morning at sea out of Mirissa, and a final night in Colombo with the people you started the week as strangers with.",
+        "Here's what the journey holds:",
+        "• Land in Colombo, transfer straight to Galle, and open the trip with a Galle Fort walk, sunset on the ramparts, and a welcome sundowner with the group",
+        "• Spend a beach day at Unawatuna with a group picnic, then café-hop and shop through Galle Fort, with a friendly street photography competition on the side",
+        "• Head out from Mirissa on a whale-watching excursion, then try a Sri Lankan cooking class and a traditional group lunch, ending the day with a beachside sunset",
+        "• Drive up the coast to Bentota for a Madu River boat safari or turtle conservation visit, then take in Colombo's Galle Face Green, Independence Square, and Colombo Fort",
+        "• Close with a farewell dinner and the \"Best Travel Moment\" awards before flying home"
+      ],
+      "itinerary": [
+        {
+          "day": "Day 01",
+          "title": "Arrival & Welcome Sundowner",
+          "journey": "Arrival at Colombo Airport → Meet & greet and private transfer to Galle → Hotel check-in → Relax by the pool or beach → Evening Galle Fort walk → Sunset at the ramparts → Welcome dinner with the group.",
+          "community": "Welcome Sundowner & Introductions: A welcome sundowner combined with group introductions and interactive icebreaker games.",
+          "image": "https://images.unsplash.com/photo-1566299597203-225f611b865f?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "Day 02",
+          "title": "Galle Beach & Experiences",
+          "journey": "Breakfast → Morning visit to Unawatuna Beach → Optional water activities → Lunch at a beachfront café → Afternoon free for spa, pool, or relaxation → Evening café hopping and shopping in Galle Fort → Dinner.",
+          "community": "Beach Picnic & Street Photography: A group beach picnic, photoshoot, and friendly street photography competition around Galle Fort.",
+          "image": "https://images.unsplash.com/photo-1645839451285-6010ab4a47d6?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "Day 03",
+          "title": "Ocean Adventure & Sunset",
+          "journey": "Early breakfast → Whale-watching excursion from Mirissa → Return to hotel → Relaxation and pool time → Evening at leisure → Beachside dinner and sunset experience.",
+          "community": "Cultural Culinary & Coastal Vibe: An optional coconut plantation visit and interactive Sri Lankan cooking class, followed by a traditional group lunch and a sunset gathering.",
+          "image": "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "Day 04",
+          "title": "Coastal Drive & Colombo City Tour",
+          "journey": "Breakfast and check-out → En-route stop at Bentota (Madu River boat safari / turtle conservation) → Continue to Colombo and check in → Colombo city tour (Galle Face Green, Independence Square, Colombo Fort, shopping) → Evening farewell dinner.",
+          "community": "Farewell Dinner & Best Travel Moment Awards: A group farewell dinner featuring the \"Best Travel Moment\" awards presentation.",
+          "image": "https://images.unsplash.com/photo-1663654558464-a5680b70e04f?auto=format&fit=crop&q=85&w=800"
+        },
+        {
+          "day": "Day 05",
+          "title": "The Unbroken Circle",
+          "journey": "Breakfast → Free time depending on flight → Transfer to Colombo Airport → Departure for India.",
+          "community": "The Circle Alumni Onboarding: Photo exchange and official onboarding into the Kokalachi alumni network before departure.",
+          "image": "https://images.unsplash.com/photo-1653151106233-8e928c21bc1a?auto=format&fit=crop&q=85&w=800"
+        }
+      ],
+      "inclusions": [
+        "Private airport meet & greet and transfer from Colombo Airport to Galle",
+        "Accommodation in Galle and Colombo",
+        "Daily breakfast",
+        "Whale-watching excursion from Mirissa",
+        "Sri Lankan cooking class",
+        "Bentota stop (Madu River boat safari / turtle conservation) and Colombo city tour",
+        "Transfers and transport throughout the itinerary",
+        "Kokalachi community experiences",
+        "Kokalachi Trip Host throughout the journey"
+      ],
+      "exclusions": [
+        "International flights to and from Colombo",
+        "Visa or electronic travel authorisation fees, if applicable",
+        "Optional water activities at Unawatuna and the optional coconut plantation visit, if charged separately",
+        "Meals not explicitly listed in the itinerary",
+        "Personal expenses, shopping, spa treatments, and tips",
+        "Travel insurance",
+        "Any costs arising from unforeseen circumstances, such as flight delays, sea conditions, or natural disasters",
+        "Taxes (5% GST and TCS), unless already included in the quoted price"
+      ],
+      "whatToPack": [
+        "Valid passport (check it has at least six months of validity) and any required travel authorisation",
+        "Light, breathable clothing for warm, humid days, plus swimwear and a quick-dry towel",
+        "A light rain jacket — showers can roll in on the south-west coast in November",
+        "Motion-sickness tablets if you're prone to seasickness — the whale-watching trip is on open water",
+        "Sunscreen, sunglasses, a hat, and reef-safe sun protection if you have it",
+        "Comfortable sandals and walking shoes for Galle Fort's cobbled lanes",
+        "Modest clothing (shoulders and knees covered) if you plan to visit any temples in Colombo",
+        "A power bank and a Type D/G plug adapter (Sri Lanka uses 230V)",
+        "A little Sri Lankan rupee cash for markets and small purchases"
+      ],
+      "weather": [
+        "November falls in the inter-monsoon period on Sri Lanka's south-west coast: warm and humid, with a chance of afternoon or evening showers.",
+        "Expect daytime temperatures in the high 20s to around 30°C, with warm evenings",
+        "Showers tend to be short and are usually followed by sunshine, so a light rain layer beats an umbrella",
+        "Whale-watching season off Mirissa generally begins around November, so conditions are on the early side of the season and sightings can't be guaranteed",
+        "Figures above are typical seasonal ranges, not a forecast — worth refreshing a week before departure."
+      ],
+      "faqs": [
+        {
+          "question": "Need Assistance in Air Fare, Visa, Permit?",
+          "answer": "Yes — our team can help you plan flights into and out of Colombo and walk you through any entry documents Sri Lanka requires for Indian passport holders."
+        },
+        {
+          "question": "Where does this trip start from?",
+          "answer": "The trip begins and ends at Colombo Airport (Bandaranaike International), with your arrival transfer to Galle and departure transfer included."
+        },
+        {
+          "question": "Need more Details about the Trip?",
+          "answer": "Contact us"
+        }
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "slug": "beas-kund-trek",
+    "destination": "Beas Kund",
+    "locationTag": "📍 Beas Kund",
+    "duration": "3 Days / 2 Nights",
+    "groupSize": "Intimate Group",
+    "price": "TBA",
+    "vibeTags": [
+      "Trek",
+      "Himalayas",
+      "Adventure",
+      "Community"
+    ],
+    "categories": [
+      "Adventure"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1620236232016-3eb7bc6ede3d?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1624881256794-a7ee33ecbb99?auto=format&fit=crop&q=85&w=800"
+    ],
+    "tourPackage": {
+      "id": 8,
+      "title": "Beas Kund Trek",
+      "subtitle": "A Himalayan group trek to the glacial lake at the source of the Beas. Full itinerary coming soon",
+      "location": "Himachal Pradesh",
+      "duration": "3 Days / 2 Nights",
+      "price": "TBA",
+      "image": "https://images.unsplash.com/photo-1620236232016-3eb7bc6ede3d?auto=format&fit=crop&q=85&w=800",
+      "category": "Trek",
+      "departures": [
+        {
+          "id": "beas-kund-2026-11-20",
+          "startDate": "2026-11-20",
+          "endDate": "2026-11-22",
+          "note": "Departs Delhi on 19 Nov night"
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "slug": "nag-tibba-trek",
+    "destination": "Nag Tibba",
+    "locationTag": "📍 Nag Tibba",
+    "duration": "3 Days / 2 Nights",
+    "groupSize": "Intimate Group",
+    "price": "TBA",
+    "vibeTags": [
+      "Trek",
+      "Himalayas",
+      "Adventure",
+      "Community"
+    ],
+    "categories": [
+      "Adventure",
+      "FirstTimers"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1697807880008-234c28ae6632?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1643284674341-659e5c67dfbd?auto=format&fit=crop&q=85&w=800",
+      "https://images.unsplash.com/photo-1697473046112-4dce673cf87d?auto=format&fit=crop&q=85&w=800"
+    ],
+    "tourPackage": {
+      "id": 9,
+      "title": "Nag Tibba Trek",
+      "subtitle": "A weekend group trek to the highest peak of the Nag Tibba range in Uttarakhand. Full itinerary coming soon",
+      "location": "Uttarakhand",
+      "duration": "3 Days / 2 Nights",
+      "price": "TBA",
+      "image": "https://images.unsplash.com/photo-1697807880008-234c28ae6632?auto=format&fit=crop&q=85&w=800",
+      "category": "Trek",
+      "departures": [
+        {
+          "id": "nag-tibba-2026-11-20",
+          "startDate": "2026-11-20",
+          "endDate": "2026-11-22",
+          "note": "Departs Delhi on 19 Nov night"
         }
       ]
     }

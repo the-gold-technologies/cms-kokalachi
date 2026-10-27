@@ -160,15 +160,15 @@ export default function BookingsCMSPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-left text-sm min-w-[860px]">
               <thead className="bg-gray-50/70 border-b border-gray-100 text-gray-400 uppercase text-[10px] tracking-wider font-bold">
                 <tr>
                   <th className="py-3.5 px-6">Guest</th>
                   <th className="py-3.5 px-6">Journey / Destination</th>
-                  <th className="py-3.5 px-6">Departure Date</th>
-                  <th className="py-3.5 px-6">Guests</th>
-                  <th className="py-3.5 px-6">Status</th>
-                  <th className="py-3.5 px-6 text-right">Actions</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Departure Date</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Guests</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Status</th>
+                  <th className="py-3.5 px-6 text-right whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -176,20 +176,20 @@ export default function BookingsCMSPage() {
                   <tr key={b.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="py-4 px-6">
                       <div className="font-bold text-gray-900">{b.name}</div>
-                      <div className="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
+                      <div className="text-xs text-gray-400 flex items-center gap-2 mt-0.5 whitespace-nowrap">
                         <span>{b.email}</span> &bull; <span>{b.phone}</span>
                       </div>
                     </td>
                     <td className="py-4 px-6">
                       <div className="font-semibold text-[#0E5A60]">{b.tripName}</div>
                     </td>
-                    <td className="py-4 px-6 text-gray-600 font-mono text-xs">
+                    <td className="py-4 px-6 text-gray-600 font-medium text-xs whitespace-nowrap">
                       {b.departureDate ?? "Flexible / Unassigned"}
                     </td>
-                    <td className="py-4 px-6 font-bold text-gray-700">
+                    <td className="py-4 px-6 font-bold text-gray-700 whitespace-nowrap">
                       {b.guests} traveller{b.guests > 1 ? "s" : ""}
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">
                       <span
                         className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
                           b.status === "Confirmed"
@@ -202,26 +202,28 @@ export default function BookingsCMSPage() {
                         {b.status}
                       </span>
                     </td>
-                    <td className="py-4 px-6 text-right space-x-2">
-                      <button
-                        onClick={() => setActiveBooking(b)}
-                        className="p-2 text-gray-400 hover:text-[#0E5A60] rounded-lg hover:bg-gray-100 transition-colors"
-                        title="View Details"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          setBookingToDelete({
-                            id: b.id,
-                            name: `Booking for ${b.name || "Guest"} (${b.tripName || "Journey"})`,
-                          })
-                        }
-                        className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
-                        title="Delete Booking"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                    <td className="py-4 px-6 text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => setActiveBooking(b)}
+                          className="p-2 text-gray-400 hover:text-[#0E5A60] rounded-lg hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
+                          title="View Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            setBookingToDelete({
+                              id: b.id,
+                              name: `Booking for ${b.name || "Guest"} (${b.tripName || "Journey"})`,
+                            })
+                          }
+                          className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors inline-flex items-center justify-center"
+                          title="Delete Booking"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
