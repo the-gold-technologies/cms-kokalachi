@@ -21,9 +21,7 @@ export function extractMediaUrls(data: any, collected: Set<string> = new Set()):
       const cloudMatches = data.match(/https?:\/\/[^\s"'<>]*(?:res\.cloudinary\.com)[^\s"'<>]*/gi);
       if (cloudMatches) {
         for (const m of cloudMatches) {
-          const cloudName =
-            process.env.CLOUDINARY_CLOUD_NAME ||
-            "kokalachi";
+          const cloudName = process.env.CLOUDINARY_CLOUD_NAME || "kokalachi";
           if (m.includes("/kokalachi/") || m.includes(`/${cloudName}/`)) {
             collected.add(m);
           }
@@ -75,7 +73,7 @@ export async function deleteCloudinaryAsset(url: string | null | undefined): Pro
   if (!url.includes("cloudinary.com")) return false;
 
   const hasCredentials = Boolean(
-    (process.env.CLOUDINARY_CLOUD_NAME) &&
+    process.env.CLOUDINARY_CLOUD_NAME &&
     process.env.CLOUDINARY_API_KEY &&
     process.env.CLOUDINARY_API_SECRET,
   );

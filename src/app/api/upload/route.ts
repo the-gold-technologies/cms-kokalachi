@@ -50,7 +50,7 @@ async function deletePreviousAsset(urlOrPublicId: string) {
   if (!urlOrPublicId || typeof urlOrPublicId !== "string") return;
 
   const hasCloudinaryCredentials =
-    (process.env.CLOUDINARY_CLOUD_NAME) &&
+    process.env.CLOUDINARY_CLOUD_NAME &&
     process.env.CLOUDINARY_API_KEY &&
     process.env.CLOUDINARY_API_SECRET;
 
@@ -172,7 +172,7 @@ export async function POST(request: Request) {
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         { success: false, error: "File exceeds maximum size limit of 15MB" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -182,7 +182,7 @@ export async function POST(request: Request) {
     if (!allowedExtensions.includes(ext)) {
       return NextResponse.json(
         { success: false, error: "Unsupported file type. Please upload images or PDFs." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -206,7 +206,7 @@ export async function POST(request: Request) {
       ) {
         return NextResponse.json(
           { success: false, error: "Malicious executable script detected in SVG file." },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -221,7 +221,7 @@ export async function POST(request: Request) {
       .slice(0, 80);
 
     const hasCloudinaryCredentials = Boolean(
-      (process.env.CLOUDINARY_CLOUD_NAME) &&
+      process.env.CLOUDINARY_CLOUD_NAME &&
       process.env.CLOUDINARY_API_KEY &&
       process.env.CLOUDINARY_API_SECRET,
     );
@@ -312,7 +312,10 @@ export async function DELETE(request: Request) {
     const target = body.url || body.publicId;
 
     if (!target) {
-      return NextResponse.json({ success: false, error: "Target URL or publicId required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Target URL or publicId required" },
+        { status: 400 },
+      );
     }
 
     await deletePreviousAsset(target);

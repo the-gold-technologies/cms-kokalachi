@@ -319,7 +319,18 @@ export async function GET() {
     // Return the distinct pages in order (Home is managed in Global SEO, Journeys detail in Journey editor)
     const pages = await prisma.page.findMany({
       where: {
-        slug: { in: ["journeys", "blogs", "about", "contact", "community", "faqs", "terms", "privacy-policy"] },
+        slug: {
+          in: [
+            "journeys",
+            "blogs",
+            "about",
+            "contact",
+            "community",
+            "faqs",
+            "terms",
+            "privacy-policy",
+          ],
+        },
       },
       select: {
         id: true,
@@ -334,7 +345,16 @@ export async function GET() {
       orderBy: { order: "asc" },
     });
 
-    const slugOrder = ["journeys", "blogs", "about", "contact", "community", "faqs", "terms", "privacy-policy"];
+    const slugOrder = [
+      "journeys",
+      "blogs",
+      "about",
+      "contact",
+      "community",
+      "faqs",
+      "terms",
+      "privacy-policy",
+    ];
     const sorted = [...pages]
       .sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug))
       .map((p, idx) => ({ ...p, order: idx + 1 }));

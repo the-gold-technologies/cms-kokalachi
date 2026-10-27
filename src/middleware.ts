@@ -8,7 +8,10 @@ function getAllowedOrigin(): string {
   return (process.env.ALLOWED_ORIGIN || "").trim();
 }
 
-function resolveMatchingOrigin(incomingOrigin: string | null, requestOrigin: string): string | null {
+function resolveMatchingOrigin(
+  incomingOrigin: string | null,
+  requestOrigin: string,
+): string | null {
   if (!incomingOrigin) return null;
   const configuredOrigin = getAllowedOrigin();
 
@@ -55,10 +58,13 @@ export default auth((req) => {
     const response = NextResponse.next();
     if (matchingOrigin) {
       response.headers.set("Access-Control-Allow-Origin", matchingOrigin);
-      response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+      response.headers.set(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+      );
       response.headers.set(
         "Access-Control-Allow-Headers",
-        "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+        "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization",
       );
       response.headers.set("Access-Control-Allow-Credentials", "true");
     }
@@ -88,7 +94,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|templates/).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|templates/).*)"],
 };

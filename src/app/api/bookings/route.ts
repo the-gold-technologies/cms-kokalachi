@@ -54,7 +54,7 @@ export async function PATCH(request: Request) {
     if (!id || !status) {
       return NextResponse.json(
         { success: false, error: "ID and status are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -83,7 +83,7 @@ export async function DELETE(request: Request) {
     if (!id) {
       return NextResponse.json(
         { success: false, error: "Booking ID is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

@@ -63,9 +63,7 @@ export function LegalDocumentEditor({
         const json = await res.json();
         if (json.success && json.data) {
           const loadedDoc: LegalDoc =
-            json.data.LegalDocumentSection ||
-            json.data.doc ||
-            json.data || {};
+            json.data.LegalDocumentSection || json.data.doc || json.data || {};
 
           setTitle(loadedDoc.title || "");
           setDescription(loadedDoc.description || "");
@@ -159,9 +157,7 @@ export function LegalDocumentEditor({
 
         <div
           className={`grid transition-all duration-300 ease-in-out ${
-            detailsOpen
-              ? "grid-rows-[1fr] opacity-100"
-              : "grid-rows-[0fr] opacity-0 invisible"
+            detailsOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 invisible"
           }`}
         >
           <div className="overflow-hidden flex flex-col gap-6 pt-2">
@@ -231,9 +227,7 @@ export function LegalDocumentEditor({
 
         <div
           className={`grid transition-all duration-300 ease-in-out ${
-            bodyOpen
-              ? "grid-rows-[1fr] opacity-100"
-              : "grid-rows-[0fr] opacity-0 invisible"
+            bodyOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 invisible"
           }`}
         >
           <div className="overflow-hidden flex flex-col gap-6 pt-2">

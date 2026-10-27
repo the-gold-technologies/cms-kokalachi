@@ -19,7 +19,17 @@ export async function GET() {
 
     // Fetch all pages with section counts
     let pages: any[] = [];
-    const slugOrder = ["home", "about", "journeys", "blogs", "community", "contact", "faqs", "terms", "privacy-policy"];
+    const slugOrder = [
+      "home",
+      "about",
+      "journeys",
+      "blogs",
+      "community",
+      "contact",
+      "faqs",
+      "terms",
+      "privacy-policy",
+    ];
     try {
       const dbPages = await prisma.page.findMany({
         select: {

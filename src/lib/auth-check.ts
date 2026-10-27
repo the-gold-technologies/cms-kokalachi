@@ -9,7 +9,7 @@ export async function checkAdminSession() {
       session: null,
       response: NextResponse.json(
         { success: false, error: "Unauthorized. Admin session required." },
-        { status: 401 }
+        { status: 401 },
       ),
     };
   }

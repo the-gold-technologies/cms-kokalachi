@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     if (!limitResult.success) {
       return NextResponse.json(
         { success: false, error: "Too many enquiries submitted. Please try again later." },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
           success: false,
           error: "Name and at least one contact method (email or phone) are required",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -111,7 +111,7 @@ export async function PUT(request: Request) {
     if (!id || !status) {
       return NextResponse.json(
         { success: false, error: "id and status are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

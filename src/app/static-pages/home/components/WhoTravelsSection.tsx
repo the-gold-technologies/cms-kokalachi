@@ -157,11 +157,13 @@ export function WhoTravelsSection({ initialData }: { initialData?: any }) {
           }`}
         >
           <div className="overflow-hidden min-h-0">
-                        <div className="flex flex-col gap-6 pt-4">
+            <div className="flex flex-col gap-6 pt-4">
               <div className="p-4 bg-amber-50/70 rounded-2xl border border-amber-200/70 text-xs text-amber-900 leading-relaxed flex items-start gap-2">
                 <span className="font-bold text-amber-700">⚠️ Status Notice:</span>
                 <span>
-                  This section is currently commented out in the website layout (<code>src/app/page.tsx</code>). You can edit and save its content here, and it will immediately display on the website whenever the component is re-enabled.
+                  This section is currently commented out in the website layout (
+                  <code>src/app/page.tsx</code>). You can edit and save its content here, and it
+                  will immediately display on the website whenever the component is re-enabled.
                 </span>
               </div>
               <InputField
