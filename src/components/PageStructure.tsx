@@ -1,15 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ArrowRight,
-  Loader2,
-  Layout,
-  BadgeCheck,
-  ShieldAlert,
-  Eye,
-  ExternalLink,
-} from "lucide-react";
+import { ArrowRight, Loader2, Layout, BadgeCheck, ShieldAlert, Eye } from "lucide-react";
 
 interface PageListItem {
   id: string;
