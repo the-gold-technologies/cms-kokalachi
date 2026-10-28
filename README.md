@@ -1,220 +1,249 @@
-# Kokalachi — Headless Content Management System (CMS)
+# Kokalachi CMS — Headless Content Management System
 
-A dedicated, enterprise-grade Headless Content Management System and Administration Portal engineered for **Kokalachi** (Authorized Distributor for HP Lubricants). This system empowers content administrators to manage live website pages, SEO directives, the HP Lubricants product catalog, blog publications, corporate events, commercial inquiries, and email notification workflows.
+A dedicated, enterprise-grade Headless Content Management System and Administration Portal engineered for **Kokalachi** ([kokalachi.com](https://kokalachi.com)). The platform provides editorial control over slow-travel journeys, departure calendars, journal publications, static page sections with 1-to-1 website component parity, SEO directives, media assets, and customer travel submissions.
 
 ---
 
-## 🚀 Key Capabilities & Modules
+## 🌟 Key Capabilities & Modules
 
-- **Secure Administrative Authentication:**
-  - Robust session management and password hashing powered by **NextAuth.js v5** (Credentials Provider).
-  - Protected administrative dashboard routes with public exceptions for authentication and crawler feeds.
-- **Visual Page & Section Customization:**
-  - Full CRUD controls for Homepage, About Us, Events, Blogs, Contact Us, and Privacy Policy content blocks.
-  - Granular control over page headings, hero banners, and brand value proposition sections.
-- **Enterprise SEO & Crawler Directive Control:**
-  - **Sitemap & Robots Management:** Configure dynamic XML sitemap options and upload custom rules directly from the admin UI.
-  - **Live Endpoint Verification:** Inspect live `sitemap.xml` and `robots.txt` feeds with a single click.
-  - **Per-Page SEO:** Meta title, description, keywords, OpenGraph tags, and indexing rules (`noIndex`).
-  - **Dynamic Heading Tags:** Configure semantic heading tags (`h1`, `h2`, `h3`, `div`) per page section for search engine optimization.
-- **HP Lubricants Product & Category Catalog:**
-  - Hierarchical taxonomy: Categories, Subcategories, and detailed Product records.
-  - Application areas, performance benefits, packaging sizes, and technical features management.
-- **Commercial Inquiries & Lead Management:**
-  - Ingestion of product quote requests, general contact enquiries, and dealership inquiries.
-  - Live status tracking, resolution notes, and audit logs.
-  - Automated SMTP notification dispatch to configured administrative emails upon new lead submissions.
-- **Cloudinary Media Assets Management:**
-  - High-performance cloud asset storage for product images, event photo galleries, and corporate banners.
-- **Prisma Relational Database Architecture:**
-  - Strongly-typed Prisma schemas with PostgreSQL compatibility (Supabase, Neon, or self-hosted PostgreSQL).
-  - Automated seed scripts for rapid environment bootstrapping.
+### 1. Curated Journeys & Departures (`/trips`)
+
+- **Complete Itinerary Management**: Multi-day schedule, inclusions, exclusions, packing lists, weather notes, and FAQs.
+- **Departures Calendar**: Schedule upcoming dates, manage spots left, pricing, discounts, and booking status (`open`, `sold_out`, `waitlist`).
+- **Pricing & Tax Structure**: Base price, original price, GST rate, and TCS calculation options.
+- **Vibe & Category Filters**: Multi-tag categorisation (e.g., _Road Trips_, _Weekend Gateways_, _Slow Travel_).
+- **Google Doc Itinerary Importer**: Direct parser tool to import structured itinerary documents into database trips.
+
+### 2. Journal & Storytelling Engine (`/blogs`)
+
+- **Chapter & Story Builder**: Visual modular blocks for narrative travelogues, image interludes, pull quotes, and tips.
+- **Rich Text Editor**: Powered by `react-quill-new` featuring custom inline link editing ("Word-as-Link").
+- **CTA & Social Hooks**: Contextual call-to-actions, WhatsApp share triggers, and author attributions.
+
+### 3. Visual Page Sections with 1-to-1 Component Parity (`/static-pages`)
+
+Every CMS section maps directly to its corresponding frontend component on the live website:
+
+- **Home**: `HeroSection`, `WhyWeExistSection`, `HowItWorksSection`, `DifferenceSection`, `GoodCompanySection`, `MomentsThatStayedSection`, `WhoTravelsSection`, `UpcomingJourneysSection`, `BehindKokalachiSection`.
+- **About Us**: `AboutHeroSection`, `WhyWeStartedSection`, `WhatWeBelieveSection`, `MeetFounderSection`, `ExploreJourneysSection`, `JoinTribeSection`.
+- **Contact Us**: `ContactHeroSection`, `ContactFormSection`, `ContactSidebarSection`.
+- **FAQs**: `FaqsHeroSection`, `FaqsAccordionSection`, `FaqsCtaSection`.
+- **Community**: `CommunityHeroSection`, `CommunityChaptersSection`, `CommunityCtaSection`, `CommunitySeoSection`.
+- **Legal**: Markdown/Rich-text editors for `Privacy Policy` and `Terms & Conditions`.
+
+### 4. Automated Image Optimization & Cloudinary Pipeline
+
+- **Sharp WebP Compression**: Images are automatically downscaled (max 2000px) and converted into modern **WebP** format prior to transmission.
+- **Cloudinary Integration**: Direct streaming of optimized buffers into designated folders with automatic asset invalidation.
+- **Automatic Asset Cleanup**: Detects removed or replaced image URLs on form submission and automatically deletes obsolete assets from Cloudinary to eliminate storage waste.
+- **Local Fallback**: Gracefully saves compressed WebP files to `/public/uploads/` if cloud credentials are absent.
+
+### 5. Enterprise SEO & Indexing Controls (`/seo`)
+
+- **Global SEO**: Site title, meta description, favicon, logo, Google Analytics (GA4), Google Tag Manager (GTM), Google Search Console verification tokens, and custom head/body injection scripts.
+- **Per-Page Directives**: Custom page slugs, meta titles, descriptions, target keywords, canonical URLs, OpenGraph previews (`og:image`, `og:title`), JSON-LD schema, and `noIndex` toggles.
+- **Dynamic Robots & Sitemap**: Real-time configuration of `robots.txt` directives and automated XML sitemap feeds.
+
+### 6. Submissions & Lead Ingestion (`/submissions`)
+
+- **Travel Inquiries**: Track traveler inquiries, travel dates, preferred journeys, group sizes, and referral sources.
+- **Direct Bookings**: Log booking requests with guest counts, selected departure dates, and payment statuses.
+- **Automated Email Notifications**: Instant administrative alerts dispatched via secure SMTP transport (Nodemailer) on new submissions.
+
+### 7. Global Brand & Navigation (`/navigation`)
+
+- **Header & Footer Menus**: Drag-and-drop order, label customization, and target URL routing.
+- **Social Media Profiles**: Instagram, YouTube, Facebook, LinkedIn, and WhatsApp channels.
 
 ---
 
 ## 🛠️ Technology Stack
 
-| Layer                | Technologies                                                        |
-| :------------------- | :------------------------------------------------------------------ |
-| **Framework**        | Next.js 16 (App Router)                                             |
-| **Language**         | TypeScript                                                          |
-| **ORM & Database**   | Prisma ORM, PostgreSQL (Compatible with Supabase / Neon / Local PG) |
-| **Authentication**   | NextAuth.js v5 (Auth.js Beta)                                       |
-| **Styling & UI**     | Tailwind CSS v4, Lucide React Icons, Radix UI Slot                  |
-| **Media & Storage**  | Cloudinary SDK                                                      |
-| **Email Service**    | Nodemailer (SMTP transport with automated alert dispatch)           |
-| **Rich Text Editor** | React Quill New                                                     |
-| **Visual Charts**    | Recharts                                                            |
+| Layer                     | Technology                                           |
+| :------------------------ | :--------------------------------------------------- |
+| **Framework**             | Next.js 16 (App Router)                              |
+| **Language**              | TypeScript                                           |
+| **Styling**               | Tailwind CSS v4                                      |
+| **Database & ORM**        | PostgreSQL with Prisma ORM                           |
+| **Authentication**        | NextAuth.js v5 (Auth.js Beta - Credentials Provider) |
+| **Image Processing**      | Sharp (WebP compression & resize engine)             |
+| **Cloud Storage**         | Cloudinary SDK v2                                    |
+| **Rich Text Editor**      | React Quill New                                      |
+| **Icons & Notifications** | Lucide React & React Hot Toast                       |
+| **Email Service**         | Nodemailer (SMTP transport)                          |
 
 ---
 
-## 📂 Project Structure
+## 📂 Project Directory Structure
 
 ```text
-kokalachi-enterprises-cms/
+kokalachi-cms/
 ├── prisma/
-│   ├── schema.prisma       # Prisma relational data model definition
-│   └── seed.js             # Initial database seeder script
-├── public/                 # Static brand assets and icons
+│   ├── schema.prisma            # Relational database schema
+│   ├── seed.js                  # Database seeder (admin, journeys, blogs, pages)
+│   ├── trips-seed.json          # Seed journeys and itineraries
+│   ├── blogs-seed.json          # Seed blog articles
+│   └── community-seed.json      # Seed community chapters data
+├── public/
+│   ├── brand/                   # Official brand graphics & logos
+│   └── uploads/                 # Local image upload fallback storage
 ├── src/
-│   ├── app/                # Next.js App Router endpoints & admin pages
-│   │   ├── (auth)/         # Login and authentication views
-│   │   ├── api/            # REST API endpoints
-│   │   │   ├── auth/       # NextAuth handler routes
-│   │   │   ├── blogs/      # Blog articles management API
-│   │   │   ├── enquiries/  # Commercial leads and contact API
-│   │   │   ├── events/     # Corporate events API
-│   │   │   ├── products/   # Lubricant products and categories API
-│   │   │   ├── pages/      # Dynamic site page content blocks API
-│   │   │   └── seo/        # Global SEO, sitemap, and robots API
-│   │   ├── blogs/          # Admin blog manager and article editor
-│   │   ├── dashboard/      # Admin analytics and metrics overview
-│   │   ├── enquiries/      # B2B leads, filter table, and detail drawer
-│   │   ├── events/         # Event management and image gallery manager
-│   │   ├── pages/          # Individual website page section editors
-│   │   ├── products/       # Lubricant product and category manager
-│   │   ├── robots.txt/     # Direct CMS-level robots.txt route
-│   │   ├── sitemap.xml/    # Direct CMS-level sitemap.xml route
-│   │   ├── seo/            # Global SEO, robots.txt, and sitemap configuration
-│   │   ├── layout.tsx      # Admin dashboard shell, sidebar, and notifications
-│   │   └── page.tsx        # Dashboard landing page
-│   ├── components/         # Reusable admin UI components and forms
-│   ├── lib/                # Prisma client, Cloudinary helper, and email utilities
-│   ├── auth.ts             # NextAuth configuration and credentials provider
-│   └── middleware.ts       # Edge middleware for route protection and CORS
-├── .env.example            # Environment variables template
-├── package.json            # Dependencies and npm scripts
-└── tsconfig.json           # TypeScript configuration
+│   ├── app/
+│   │   ├── (auth)/login/        # Admin authentication page
+│   │   ├── api/                 # Secure REST API routes
+│   │   │   ├── auth/            # NextAuth API endpoints
+│   │   │   ├── blogs/           # Journal CRUD
+│   │   │   ├── bookings/        # Booking submissions
+│   │   │   ├── enquiries/       # Travel inquiries & SMTP notification
+│   │   │   ├── trips/           # Journey & departure management
+│   │   │   ├── upload/          # Sharp compression + Cloudinary upload stream
+│   │   │   ├── seo/             # Global & per-page SEO management
+│   │   │   └── static-pages/    # Home, About, Contact, Community, FAQs routes
+│   │   ├── blogs/               # Journal manager & chapter editor
+│   │   ├── navigation/          # Menu links & social channels
+│   │   ├── seo/                 # Global SEO & sitemap/robots directives
+│   │   ├── settings/            # Admin credentials & profile management
+│   │   ├── static-pages/        # Visual editors matching website components
+│   │   ├── submissions/         # Enquiries & booking lead tables
+│   │   ├── trips/               # Journey catalog & itinerary builder
+│   │   ├── layout.tsx           # Dashboard layout shell with responsive sidebar
+│   │   └── page.tsx             # CMS executive dashboard & quick stats
+│   ├── components/              # Modular UI components (ImagePicker, RichText, etc.)
+│   ├── lib/
+│   │   ├── auth-check.ts        # Admin session verification guard
+│   │   ├── cloudinaryCleanup.ts # Obsolete asset garbage collection
+│   │   ├── journeyDocParser.ts  # Document itinerary parsing utility
+│   │   ├── prisma.ts            # Prisma client singleton
+│   │   └── websiteMail.ts       # Nodemailer SMTP transmission utility
+│   ├── auth.ts                  # NextAuth credentials authentication provider
+│   └── middleware.ts            # Route protection guard & CORS headers
+├── .env.example                 # Sanitized environment template
+├── package.json                 # Project dependencies & npm scripts
+└── tsconfig.json                # TypeScript compiler configuration
 ```
 
 ---
 
-## ⚙️ Getting Started & Local Development
+## ⚙️ Getting Started & Installation
 
 ### 1. Prerequisites
 
-- **Node.js:** `v18.17.0` or higher (Node 20+ LTS recommended)
-- **PostgreSQL Database:** Local instance or managed provider (e.g., Supabase / Neon)
-- **Package Manager:** `npm`, `pnpm`, or `yarn`
+- **Node.js**: `v20.x` or higher (LTS recommended)
+- **PostgreSQL**: Local PostgreSQL instance (or cloud database such as Supabase / Neon)
+- **Package Manager**: `npm` (or `pnpm` / `yarn`)
 
-### 2. Installation
+### 2. Clone and Install Dependencies
 
 ```bash
-# Clone the repository
 git clone <repository-url>
-cd kokalachi-enterprises-cms
-
-# Install dependencies
+cd kokalachi-cms
 npm install
 ```
 
 ### 3. Environment Configuration
 
-Create a `.env` file in the project root based on `.env.example`:
+Copy the sanitized environment template to create your local `.env`:
 
 ```bash
 cp .env.example .env
 ```
 
-Configure your environment variables using placeholders:
+Populate `.env` with your environment credentials:
 
 ```env
 # =========================================================================
-# Kokalachi CMS - Environment Configuration
+# Kokalachi CMS - Environment Configuration Template
 # =========================================================================
 
-# Database Connections (PostgreSQL)
-DATABASE_URL="postgresql://user:password@localhost:5432/kokalachi_cms?schema=public"
-DIRECT_URL="postgresql://user:password@localhost:5432/kokalachi_cms?schema=public"
+# Database Connection (PostgreSQL)
+DATABASE_URL="postgresql://<DB_USER>:<DB_PASSWORD>@<DB_HOST>:<DB_PORT>/<DB_NAME>?schema=public"
+DIRECT_URL="postgresql://<DB_USER>:<DB_PASSWORD>@<DB_HOST>:<DB_PORT>/<DB_NAME>?schema=public"
 
 # NextAuth Authentication
-AUTH_SECRET="generate-a-secure-random-secret"
+AUTH_SECRET="<GENERATE_A_STRONG_RANDOM_SECRET>"
 NEXTAUTH_URL="http://localhost:3001"
-ALLOWED_ORIGINS="*"
 
-# Client Frontend Website URL (For live sitemap and robots previews)
+# Client Frontend Website URL
 NEXT_PUBLIC_WEBSITE_URL="http://localhost:3000"
 
-# Cloudinary Media Storage
-NEXT_CLOUDINARY_CLOUD_NAME="your_cloud_name"
-CLOUDINARY_CLOUD_NAME="your_cloud_name"
-CLOUDINARY_API_KEY="your_api_key"
-CLOUDINARY_API_SECRET="your_api_secret"
-CLOUDINARY_URL="cloudinary://your_api_key:your_api_secret@your_cloud_name"
+# Cloudinary Media Storage (Optional: Falls back to /public/uploads/ if omitted)
+CLOUDINARY_URL=""
+CLOUDINARY_CLOUD_NAME="<YOUR_CLOUDINARY_CLOUD_NAME>"
+CLOUDINARY_API_KEY="<YOUR_CLOUDINARY_API_KEY>"
+CLOUDINARY_API_SECRET="<YOUR_CLOUDINARY_API_SECRET>"
+CLOUDINARY_FOLDER="kokalachi"
 
-# SMTP Mail Dispatch Configuration (For automated inquiry alerts)
-SMTP_HOST="smtp.mailtrap.io"
-SMTP_PORT="587"
-SMTP_SECURE="false"
-SMTP_USER="your_smtp_username"
-SMTP_PASS="your_smtp_password"
-SMTP_FROM="Kokalachi <no-reply@kokalachi.com>"
-ADMIN_NOTIFICATION_EMAIL="admin@kokalachi.com"
+# SMTP Configuration (For Inquiry & Booking Notifications)
+SMTP_HOST="<YOUR_SMTP_HOST>"
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER="<YOUR_SMTP_USERNAME>"
+SMTP_PASS="<YOUR_SMTP_PASSWORD>"
+SMTP_FROM="Kokalachi <hello@kokalachi.com>"
+ADMIN_NOTIFICATION_EMAIL="<YOUR_NOTIFICATION_RECEIVER_EMAIL>"
+
+# Shared Webhook Secret (Cross-site revalidation & API sync)
+CMS_SHARED_SECRET="<GENERATE_A_SHARED_SECRET_STRING>"
 ```
 
-> **Security Warning:** Never commit real database connection strings, authentication secrets, Cloudinary API keys, or SMTP passwords to version control. Always store production secrets in your deployment platform's encrypted environment variables dashboard.
+> **Security Note:** Never commit `.env` or sensitive credentials to source control. Production secrets must be configured via environment settings on your deployment host.
 
-### 4. Database Setup & Migrations
+### 4. Database Setup & Seeding
 
-Push the Prisma schema to your PostgreSQL database and generate the Prisma Client:
+Push the Prisma schema to your PostgreSQL database and seed the system:
 
 ```bash
 # Generate the Prisma Client
 npx prisma generate
 
-# Synchronize the database schema
+# Apply schema migrations to your database
 npx prisma db push
 
-# (Optional) Seed the database with default sections, initial pages, and an admin user
+# Seed default admin user, journeys, journal entries, and static sections
 npm run seed
 ```
 
-### 5. Running the Development Server
+### 5. Running the Application
 
-Start the CMS development server on port 3001:
+Launch the development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3001](http://localhost:3001) in your browser to access the CMS portal.
+The CMS portal will be accessible at:
+
+```text
+http://localhost:3001
+```
+
+---
+
+## 🔒 Security & Architectural Standards
+
+- **Server-Side Isolation**: Sensitive API credentials, database strings, and SMTP credentials never reach client-side bundles.
+- **Session Verification**: All mutations and administrative routes are protected by `checkAdminSession()` and NextAuth edge middleware.
+- **Zero Default Data Pattern**: Form states initialize cleanly with empty defaults (`""`, `[]`, `null`) and populate strictly from dynamic API responses.
+- **Asset Lifecycle Management**: Replaced or deleted image URLs are automatically tracked and removed from Cloudinary storage to prevent orphaned media build-up.
+- **XSS & SVG Sanitization**: Uploaded SVGs are inspected on the server to block embedded executable `<script>` tags, event handlers, or malicious payloads.
 
 ---
 
 ## 📦 Available Scripts
 
-| Command                | Description                                                |
-| :--------------------- | :--------------------------------------------------------- |
-| `npm run dev`          | Starts the Next.js development server on port 3001         |
-| `npm run build`        | Generates the Prisma client and compiles production assets |
-| `npm run start`        | Boots the compiled production server                       |
-| `npm run seed`         | Executes `prisma/seed.js` to seed initial data             |
-| `npm run lint`         | Runs ESLint code quality checks                            |
-| `npm run format`       | Formats code with Prettier                                 |
-| `npm run format:check` | Verifies code formatting across the repository             |
-
----
-
-## 🛡️ Security & Best Practices
-
-- **Client Environment Variables:** Only variables prefixed with `NEXT_PUBLIC_` are accessible to client components (such as `NEXT_PUBLIC_WEBSITE_URL`). All sensitive database, email, and authentication secrets remain strictly server-side.
-- **Middleware Whitelist:** API endpoints (`/api/*`), authentication flows (`/login`, `/register`), and public crawlers (`/robots.txt`, `/sitemap.xml`) are accessible without authentication; all administrative pages require a valid session.
-- **CORS Protection:** Cross-origin request headers are validated in `src/middleware.ts` to ensure secure communication between the frontend client and CMS API.
-
----
-
-## 🚢 Deployment
-
-The CMS is designed for deployment on modern platforms such as **Vercel**, **Railway**, or containerized Docker instances:
-
-1. Configure all required environment variables in your hosting provider's dashboard.
-2. Build command: `npm run build`
-3. Output directory: `.next`
-4. Ensure the database host allows incoming connections from your deployment IP ranges or connection pooler.
+| Command                | Description                                                   |
+| :--------------------- | :------------------------------------------------------------ |
+| `npm run dev`          | Boots the Next.js development server on port 3001             |
+| `npm run build`        | Builds the Prisma client and compiles production assets       |
+| `npm run start`        | Starts the production server build                            |
+| `npm run seed`         | Seeds database with journeys, static pages, and initial admin |
+| `npm run lint`         | Runs ESLint analysis for code quality                         |
+| `npm run format`       | Auto-formats all codebase files using Prettier                |
+| `npm run format:check` | Verifies codebase compliance with Prettier formatting         |
 
 ---
 
 ## 📄 License & Confidentiality
 
-© **Kokalachi**. All rights reserved.  
-This software, documentation, and data schemas are proprietary and confidential. Unauthorized duplication, dissemination, or distribution is strictly prohibited.
+© **Kokalachi Travel**. All rights reserved.  
+This software, documentation, and underlying assets are proprietary and confidential. Unauthorized duplication, distribution, or reverse engineering is strictly prohibited.
