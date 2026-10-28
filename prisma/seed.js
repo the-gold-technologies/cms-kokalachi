@@ -79,9 +79,9 @@ async function main() {
       linkedinUrl: "",
       socialLinks: {
         navbarLightLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793097823/kokalachi/clean_logo_lighter.png",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         footerLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793097824/kokalachi/logo-footer.png",
+          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
@@ -381,9 +381,10 @@ async function main() {
     console.log(`✓ ${rawTrips.length} Trips and their dated Departures seeded.`);
   }
 
-  // 5. Testimonials
+  // 5. Testimonials (using deterministic IDs and upsert to prevent duplicates on repeated seed runs)
   const testimonials = [
     {
+      id: "testimonial-riya-sharma",
       name: "Riya Sharma",
       location: "Mumbai",
       tripName: "The Houseboat Diaries (Kashmir)",
@@ -397,6 +398,7 @@ async function main() {
       order: 1,
     },
     {
+      id: "testimonial-rohan-verma",
       name: "Rohan Verma",
       location: "Bengaluru",
       tripName: "Roots & Rainbows (Meghalaya)",
@@ -410,6 +412,7 @@ async function main() {
       order: 2,
     },
     {
+      id: "testimonial-priya-patel",
       name: "Priya Patel",
       location: "Ahmedabad",
       tripName: "Tides & Tea Gardens (Kerala)",
@@ -422,6 +425,7 @@ async function main() {
       order: 3,
     },
     {
+      id: "testimonial-ankit-mehta",
       name: "Ankit Mehta",
       location: "Delhi",
       tripName: "The Thunder Dragon Trail (Bhutan)",
@@ -435,8 +439,20 @@ async function main() {
     },
   ];
 
+  // Clean up any un-keyed duplicates from previous runs
+  await prisma.testimonial.deleteMany({
+    where: {
+      name: { in: testimonials.map((t) => t.name) },
+      id: { notIn: testimonials.map((t) => t.id) },
+    },
+  });
+
   for (const t of testimonials) {
-    await prisma.testimonial.create({ data: t });
+    await prisma.testimonial.upsert({
+      where: { id: t.id },
+      update: t,
+      create: t,
+    });
   }
   console.log("✓ Testimonials seeded.");
 
