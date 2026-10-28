@@ -5,7 +5,7 @@ import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export const dynamic = "force-dynamic";
 
-export const KOKALACHI_NAV_DEFAULT = [
+const KOKALACHI_NAV_DEFAULT = [
   {
     id: "nav-about",
     label: "About Us",
