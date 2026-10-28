@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "prisma generate && node prisma/seed.js && next build --webpack",
+    "build": "npx prisma generate && npx prisma migrate deploy && node prisma/seed.js && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
+    "migrate": "prisma migrate deploy",
     "seed": "node prisma/seed.js",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
