@@ -96,7 +96,7 @@ export function AdminHeader() {
         </h1>
 
         <div className="h-10 w-10 rounded-full border-2 border-white shadow-sm overflow-hidden bg-gray-100 flex items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* eslint-disable-next-line @next/next/no-img-element  */}
           <img
             src={`https://api.dicebear.com/7.x/notionists/svg?seed=Admin&backgroundColor=d9f969`}
             alt="Profile"
