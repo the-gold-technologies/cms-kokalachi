@@ -40,9 +40,8 @@ async function main() {
       siteTitle: "Kokalachi - Journeys Become Friendships",
       siteDescription:
         "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
-      favicon:
-        "https://res.cloudinary.com/dpa93copz/image/upload/v1793097839/kokalachi/favicon.png",
-      logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1793097821/kokalachi/logo-clean.png",
+      favicon: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266971/kokalachi/favicon.png",
+      logo: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266973/kokalachi/logo-clean.png",
       phone: "+91 97118 45700",
       email: "hello@kokalachi.com",
       address: "91 Springboard, C-2, Sector 1, Noida - 201301",
@@ -52,9 +51,9 @@ async function main() {
       linkedinUrl: "",
       socialLinks: {
         navbarLightLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         footerLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
@@ -67,9 +66,8 @@ async function main() {
       siteTitle: "Kokalachi - Journeys Become Friendships",
       siteDescription:
         "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
-      favicon:
-        "https://res.cloudinary.com/dpa93copz/image/upload/v1793097839/kokalachi/favicon.png",
-      logo: "https://res.cloudinary.com/dpa93copz/image/upload/v1793097821/kokalachi/logo-clean.png",
+      favicon: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266971/kokalachi/favicon.png",
+      logo: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266973/kokalachi/logo-clean.png",
       phone: "+91 97118 45700",
       email: "hello@kokalachi.com",
       address: "91 Springboard, C-2, Sector 1, Noida - 201301",
@@ -79,9 +77,9 @@ async function main() {
       linkedinUrl: "",
       socialLinks: {
         navbarLightLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         footerLogo:
-          "https://res.cloudinary.com/dpa93copz/image/upload/v1793104935/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
@@ -150,6 +148,15 @@ async function main() {
         "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=800",
       order: 7,
     },
+    {
+      name: "Almaty",
+      slug: "almaty",
+      description:
+        "Kazakhstan's mountain city: Kok-Tobe views, Shymbulak slopes, and Arbat Street strolls.",
+      coverImage:
+        "https://images.unsplash.com/photo-1659651117607-d2b397cf100f?auto=format&fit=crop&q=85&w=800",
+      order: 8,
+    },
   ];
 
   for (const dest of destinationsData) {
@@ -196,7 +203,9 @@ async function main() {
                       ? "udaipur"
                       : item.slug.includes("sri-lanka")
                         ? "sri-lanka"
-                        : null,
+                        : item.slug.includes("almaty")
+                          ? "almaty"
+                          : null,
           location: tp.location,
           duration: tp.duration,
           rating: tp.rating || 5,
@@ -278,7 +287,9 @@ async function main() {
                       ? "udaipur"
                       : item.slug.includes("sri-lanka")
                         ? "sri-lanka"
-                        : null,
+                        : item.slug.includes("almaty")
+                          ? "almaty"
+                          : null,
           location: tp.location,
           duration: tp.duration,
           rating: tp.rating || 5,
@@ -473,7 +484,7 @@ async function main() {
             subtitle1: "Curated group trips for solo travellers.",
             subtitle2: "Real people. Real stories. Real connections.",
             backgroundImage:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097825/kokalachi/hero_bg.png",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266977/kokalachi/hero_bg.png",
             destPlaceholder: "Where to?",
             popularDestinations: [
               "Himachal Pradesh",
@@ -853,20 +864,20 @@ async function main() {
             headlineSuffix: "Journeys.",
             handwrittenSubtitle: "Same Roads. New People. Greater Stories.",
             backgroundImage:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097826/kokalachi/aboutherobg.png",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266983/kokalachi/aboutherobg.png",
             primaryCtaText: "Our Story",
             primaryCtaLink: "#why-we-started",
             secondaryCtaText: "Watch Our Journey",
             secondaryCtaLink: "#video",
             polaroid1Title: "New Places",
             polaroid1Image:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097828/kokalachi/hero_friends_mountain_peak.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266978/kokalachi/hero_friends_mountain_peak.jpg",
             polaroid2Title: "Bigger Stories",
             polaroid2Image:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097829/kokalachi/about_hero_polaroid.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266980/kokalachi/about_hero_polaroid.jpg",
             polaroid3Title: "Real Connections",
             polaroid3Image:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097830/kokalachi/hero_group_sunset_bg.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266981/kokalachi/hero_group_sunset_bg.jpg",
             doodleNote: "More Than Just Destinations",
           },
         },
@@ -880,9 +891,9 @@ async function main() {
             description:
               "Big travel plans often stay on hold, not because the desire fades but because life gets busy and the right people are hard to find.",
             mainImage:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097831/kokalachi/about_why_started.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266985/kokalachi/about_why_started.jpg",
             polaroidImage:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097829/kokalachi/about_hero_polaroid.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266980/kokalachi/about_hero_polaroid.jpg",
             polaroidNote: "Plans are easy. People make it real.",
             item1Title: "Big plans, left on hold.",
             item2Title: "Schedules don't always align.",
@@ -903,9 +914,9 @@ async function main() {
             description:
               "Everything we design every itinerary, every group, every detail comes back to a handful of things we simply won't compromise on.",
             mainImage:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097830/kokalachi/hero_group_sunset_bg.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266981/kokalachi/hero_group_sunset_bg.jpg",
             polaroidImage:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097832/kokalachi/about_belief_respect.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266987/kokalachi/about_belief_respect.jpg",
             polaroidCaption: "Always a better way to travel",
             footerNote: "BETTER PEOPLE. BRIGHTER JOURNEYS.",
             pillars: [
@@ -944,7 +955,7 @@ async function main() {
             founderFullName: "Rachit Ahuja & Hitesh Kalra",
             founderTitle: "Co-Founders, Kokalachi ♡",
             founderPhoto:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097833/kokalachi/founders.png",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266989/kokalachi/founders.png",
             leadQuote: "Kokalachi is one of them.",
             story:
               "We've been friends for over 35 years through countless conversations, road trips, family holidays, and adventures along the way. And somewhere in all of it, we noticed the same thing, again and again: the destination was rarely what stayed with us. It was always the people we shared it with.\n\nHitesh has spent 28 years in the travel industry, designing holidays and helping thousands of travellers explore the world. Rachit has spent his own years chasing curiosity hiking mountains, riding scenic highways, chasing adventure sports, and finding the hidden stays most travellers never discover.\n\nBetween the two of us, one thing became clear travel isn't just about seeing new places. It's about finding the people who make those places unforgettable.\n\nThat's why we built Kokalachi. Not as another travel company but as a community where meaningful journeys begin with meaningful people.",
@@ -974,7 +985,7 @@ async function main() {
             secondaryButtonText: "Find your Next Journey",
             secondaryButtonLink: "/#upcoming-journeys",
             blobImage:
-              "https://res.cloudinary.com/dpa93copz/image/upload/v1793097831/kokalachi/about_why_started.jpg",
+              "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266985/kokalachi/about_why_started.jpg",
             polaroidNote: "Good People Brighter Journeys ♡",
             footerTag: "TRAVEL • PEOPLE • PURPOSE",
           },
