@@ -72,13 +72,13 @@ export function JourneyExperienceSection({
 
   const toggleHighlight = (idx: number) => {
     setOpenHighlightIndices((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
   const toggleItinerary = (idx: number) => {
     setOpenItineraryIndices((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
@@ -126,7 +126,7 @@ export function JourneyExperienceSection({
   const handleRemoveHighlight = (idx: number) => {
     setHighlights((prev) => prev.filter((_, i) => i !== idx));
     setOpenHighlightIndices((prev) =>
-      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i))
+      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i)),
     );
   };
 
@@ -158,7 +158,7 @@ export function JourneyExperienceSection({
   const handleRemoveDay = (idx: number) => {
     setItinerary((prev) => prev.filter((_, i) => i !== idx));
     setOpenItineraryIndices((prev) =>
-      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i))
+      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i)),
     );
   };
 
@@ -253,7 +253,7 @@ export function JourneyExperienceSection({
                       setOpenHighlightIndices(
                         openHighlightIndices.length === highlights.length
                           ? []
-                          : highlights.map((_, i) => i)
+                          : highlights.map((_, i) => i),
                       )
                     }
                     className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
@@ -336,7 +336,7 @@ export function JourneyExperienceSection({
                       setOpenItineraryIndices(
                         openItineraryIndices.length === itinerary.length
                           ? []
-                          : itinerary.map((_, i) => i)
+                          : itinerary.map((_, i) => i),
                       )
                     }
                     className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"

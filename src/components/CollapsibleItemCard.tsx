@@ -84,10 +84,7 @@ export function CollapsibleItemCard({
           </div>
         </div>
 
-        <div
-          className="flex items-center gap-1 shrink-0"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="flex items-center gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
           {extraHeaderActions}
           {onDelete && (
             <button
@@ -118,9 +115,7 @@ export function CollapsibleItemCard({
       {/* Collapsible Content */}
       <div
         className={`grid transition-all duration-300 ease-in-out ${
-          isOpen
-            ? "grid-rows-[1fr] opacity-100"
-            : "grid-rows-[0fr] opacity-0 invisible"
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 invisible"
         }`}
       >
         <div className="overflow-hidden min-h-0">
@@ -130,4 +125,3 @@ export function CollapsibleItemCard({
     </div>
   );
 }
-

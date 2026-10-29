@@ -20,6 +20,7 @@ export function BehindKokalachiSection({ initialData }: { initialData?: any }) {
   const [description, setDescription] = useState("");
   const [ctaText, setCtaText] = useState("");
   const [ctaUrl, setCtaUrl] = useState("");
+  const [readStoryText, setReadStoryText] = useState("");
 
   useEffect(() => {
     if (initialData) {
@@ -29,6 +30,7 @@ export function BehindKokalachiSection({ initialData }: { initialData?: any }) {
       setDescription(initialData.description ?? initialData.subtitle ?? "");
       setCtaText(initialData.ctaText ?? initialData.buttonText ?? "");
       setCtaUrl(initialData.ctaUrl ?? initialData.buttonUrl ?? "");
+      setReadStoryText(initialData.readStoryText ?? "");
     }
   }, [initialData]);
 
@@ -43,6 +45,7 @@ export function BehindKokalachiSection({ initialData }: { initialData?: any }) {
         description,
         ctaText,
         ctaUrl,
+        readStoryText,
       };
 
       const res = await fetch("/api/home", {
@@ -129,7 +132,7 @@ export function BehindKokalachiSection({ initialData }: { initialData?: any }) {
                 rows={3}
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <InputField
                   label="CTA Button Text"
                   value={ctaText}
@@ -141,6 +144,12 @@ export function BehindKokalachiSection({ initialData }: { initialData?: any }) {
                   value={ctaUrl}
                   onChange={(e) => setCtaUrl(e.target.value)}
                   placeholder="e.g. /blogs"
+                />
+                <InputField
+                  label="Card Button Text"
+                  value={readStoryText}
+                  onChange={(e) => setReadStoryText(e.target.value)}
+                  placeholder="e.g. Read Story"
                 />
               </div>
 

@@ -39,7 +39,7 @@ export function JourneyDeparturesSection({
 
   const toggleDep = (idx: number) => {
     setOpenDepIndices((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
@@ -93,7 +93,7 @@ export function JourneyDeparturesSection({
   const handleRemove = (index: number) => {
     setDepartures((prev) => prev.filter((_, i) => i !== index));
     setOpenDepIndices((prev) =>
-      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i))
+      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i)),
     );
   };
 
@@ -168,14 +168,12 @@ export function JourneyDeparturesSection({
                     setOpenDepIndices(
                       openDepIndices.length === departures.length
                         ? []
-                        : departures.map((_, i) => i)
+                        : departures.map((_, i) => i),
                     )
                   }
                   className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  {openDepIndices.length === departures.length
-                    ? "Collapse all"
-                    : "Expand all"}
+                  {openDepIndices.length === departures.length ? "Collapse all" : "Expand all"}
                 </button>
               )}
               <button
@@ -230,7 +228,9 @@ export function JourneyDeparturesSection({
                       <InputField
                         label="Custom Batch Price (₹)"
                         type="number"
-                        value={dep.price !== undefined && dep.price !== null ? String(dep.price) : ""}
+                        value={
+                          dep.price !== undefined && dep.price !== null ? String(dep.price) : ""
+                        }
                         onChange={(e) => handleUpdate(idx, "price", e.target.value)}
                         placeholder="Leave blank to use base"
                       />

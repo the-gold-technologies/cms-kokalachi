@@ -29,13 +29,15 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
   const [polaroidImage, setPolaroidImage] = useState("");
   const [polaroidCaption, setPolaroidCaption] = useState("");
   const [footerNote, setFooterNote] = useState("");
+  const [mainImageAlt, setMainImageAlt] = useState("");
+  const [polaroidImageAlt, setPolaroidImageAlt] = useState("");
 
   const [pillars, setPillars] = useState<BeliefPillar[]>([]);
   const [openPillarIndices, setOpenPillarIndices] = useState<number[]>([]);
 
   const togglePillar = (idx: number) => {
     setOpenPillarIndices((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
@@ -49,6 +51,8 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
       setPolaroidImage(initialData.polaroidImage ?? "");
       setPolaroidCaption(initialData.polaroidCaption ?? "");
       setFooterNote(initialData.footerNote ?? "");
+      setMainImageAlt(initialData.mainImageAlt ?? "");
+      setPolaroidImageAlt(initialData.polaroidImageAlt ?? "");
 
       if (Array.isArray(initialData.pillars)) {
         setPillars(
@@ -72,7 +76,7 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
   const handleRemovePillar = (index: number) => {
     setPillars((prev) => prev.filter((_, i) => i !== index));
     setOpenPillarIndices((prev) =>
-      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i))
+      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i)),
     );
   };
 
@@ -96,6 +100,8 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
         mainImage,
         polaroidImage,
         polaroidCaption,
+        mainImageAlt,
+        polaroidImageAlt,
         footerNote,
         pillars,
       };
@@ -191,7 +197,7 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
                           setOpenPillarIndices(
                             openPillarIndices.length === pillars.length
                               ? []
-                              : pillars.map((_, i) => i)
+                              : pillars.map((_, i) => i),
                           )
                         }
                         className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
@@ -258,6 +264,12 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
                   label="Sunset Group Photo (Right Main Visual)"
                   value={mainImage}
                   onChange={setMainImage}
+                />
+                <InputField
+                  label="Main Image Alt Text"
+                  value={mainImageAlt}
+                  onChange={(e) => setMainImageAlt(e.target.value)}
+                  placeholder="e.g. Group sitting together"
                 />
                 <div className="space-y-3">
                   <ImagePickerField

@@ -7,6 +7,8 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
+import { Plus } from "lucide-react";
 
 interface CompanyCard {
   title: string;
@@ -28,31 +30,11 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
   const [description, setDescription] = useState("");
   const [leftMarginTag, setLeftMarginTag] = useState("");
   const [rightMarginTag, setRightMarginTag] = useState("");
+  const [ctaText, setCtaText] = useState("");
+  const [ctaLink, setCtaLink] = useState("");
 
-  const [card1, setCard1] = useState<CompanyCard>({
-    title: "",
-    hashtag: "",
-    description: "",
-    image: "",
-  });
-  const [card2, setCard2] = useState<CompanyCard>({
-    title: "",
-    hashtag: "",
-    description: "",
-    image: "",
-  });
-  const [card3, setCard3] = useState<CompanyCard>({
-    title: "",
-    hashtag: "",
-    description: "",
-    image: "",
-  });
-  const [card4, setCard4] = useState<CompanyCard>({
-    title: "",
-    hashtag: "",
-    description: "",
-    image: "",
-  });
+  const [cards, setCards] = useState<CompanyCard[]>([]);
+  const [openCardIndices, setOpenCardIndices] = useState<number[]>([0]);
 
   useEffect(() => {
     if (initialData) {
@@ -63,47 +45,48 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
       setDescription(initialData.description ?? "");
       setLeftMarginTag(initialData.leftMarginTag ?? "");
       setRightMarginTag(initialData.rightMarginTag ?? "");
+      setCtaText(initialData.ctaText ?? "");
+      setCtaLink(initialData.ctaLink ?? "");
 
-      const cards = Array.isArray(initialData.pillars)
+      const rawCards = Array.isArray(initialData.pillars)
         ? initialData.pillars
         : Array.isArray(initialData.cards)
           ? initialData.cards
           : [];
 
-      if (cards[0]) {
-        setCard1({
-          title: cards[0].title ?? "",
-          hashtag: cards[0].hashtag ?? "",
-          description: cards[0].description ?? "",
-          image: cards[0].image ?? "",
-        });
-      }
-      if (cards[1]) {
-        setCard2({
-          title: cards[1].title ?? "",
-          hashtag: cards[1].hashtag ?? "",
-          description: cards[1].description ?? "",
-          image: cards[1].image ?? "",
-        });
-      }
-      if (cards[2]) {
-        setCard3({
-          title: cards[2].title ?? "",
-          hashtag: cards[2].hashtag ?? "",
-          description: cards[2].description ?? "",
-          image: cards[2].image ?? "",
-        });
-      }
-      if (cards[3]) {
-        setCard4({
-          title: cards[3].title ?? "",
-          hashtag: cards[3].hashtag ?? "",
-          description: cards[3].description ?? "",
-          image: cards[3].image ?? "",
-        });
-      }
+      setCards(
+        rawCards.map((c: any) => ({
+          title: c.title ?? "",
+          hashtag: c.hashtag ?? "",
+          description: c.description ?? "",
+          image: c.image ?? "",
+        })),
+      );
     }
   }, [initialData]);
+
+  const toggleCard = (idx: number) => {
+    setOpenCardIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
+    );
+  };
+
+  const addCard = () => {
+    const nextIdx = cards.length;
+    setCards([...cards, { title: "", hashtag: "", description: "", image: "" }]);
+    setOpenCardIndices((prev) => [...prev, nextIdx]);
+  };
+
+  const removeCard = (idx: number) => {
+    setCards(cards.filter((_, i) => i !== idx));
+    setOpenCardIndices((prev) => prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i)));
+  };
+
+  const updateCard = (idx: number, field: keyof CompanyCard, value: string) => {
+    const updated = [...cards];
+    updated[idx] = { ...updated[idx], [field]: value };
+    setCards(updated);
+  };
 
   const handleSave = async () => {
     setLoading(true);
@@ -117,7 +100,9 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
         description,
         leftMarginTag,
         rightMarginTag,
-        cards: [card1, card2, card3, card4],
+        ctaText,
+        ctaLink,
+        cards,
       };
 
       const res = await fetch("/api/home", {
@@ -163,7 +148,7 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
           <div className="overflow-hidden min-h-0">
             <div className="flex flex-col gap-6 pt-4">
               <InputField
-                label="Section Header Badge"
+                label="Section Tagline"
                 value={tag}
                 onChange={(e) => setTag(e.target.value)}
                 placeholder="e.g. TRAVEL WITH CONFIDENCE"
@@ -174,13 +159,14 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
                   label="Headline Prefix"
                   value={headline}
                   onChange={(e) => setHeadline(e.target.value)}
-                  placeholder="e.g. You’re in"
+                  placeholder="e.g. You're in"
                 />
                 <InputField
-                  label="Script Accent"
+                  label="Script Font Accent Word"
                   value={scriptAccent}
                   onChange={(e) => setScriptAccent(e.target.value)}
                   placeholder="e.g. good"
+                  tooltip="Rendered in handwritten script"
                 />
                 <InputField
                   label="Headline Suffix"
@@ -194,142 +180,124 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
                 label="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Every Kokalachi journey is thoughtfully curated so you can focus on the experience..."
+                placeholder="Every Kokalachi journey is thoughtfully curated..."
                 rows={2}
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField
-                  label="Left Margin Doodle Note"
+                  label="Left Margin Floating Tag"
                   value={leftMarginTag}
                   onChange={(e) => setLeftMarginTag(e.target.value)}
                   placeholder="e.g. ✨ 100% vetted circles"
                 />
                 <InputField
-                  label="Right Margin Doodle Note"
+                  label="Right Margin Floating Tag"
                   value={rightMarginTag}
                   onChange={(e) => setRightMarginTag(e.target.value)}
                   placeholder="e.g. ♡ verified solo safety"
                 />
               </div>
 
-              {/* 4 Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
-                    Card 1
-                  </span>
+              {/* CTA Link */}
+              <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-4">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                    Trust & Safety Call To Action
+                  </h4>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    Bottom link button for trust and safety inquiries
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <InputField
-                    label="Title"
-                    value={card1.title}
-                    onChange={(e) => setCard1({ ...card1, title: e.target.value })}
-                    placeholder="e.g. Small, Curated Groups"
+                    label="CTA Button Text"
+                    value={ctaText}
+                    onChange={(e) => setCtaText(e.target.value)}
+                    placeholder="e.g. Learn More About Trust & Safety"
                   />
                   <InputField
-                    label="Hashtag"
-                    value={card1.hashtag}
-                    onChange={(e) => setCard1({ ...card1, hashtag: e.target.value })}
-                    placeholder="e.g. #curatedgroups"
+                    label="CTA Destination Link"
+                    value={ctaLink}
+                    onChange={(e) => setCtaLink(e.target.value)}
+                    placeholder="e.g. /faqs#safety-and-comfort"
                   />
-                  <TextAreaField
-                    label="Description"
-                    value={card1.description}
-                    onChange={(e) => setCard1({ ...card1, description: e.target.value })}
-                    rows={2}
-                  />
-                  <ImagePickerField
-                    label="Card Photo"
-                    value={card1.image}
-                    onChange={(url) => setCard1({ ...card1, image: url })}
-                  />
+                </div>
+              </div>
+
+              {/* 4 Cards with CollapsibleItemCard */}
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-800">Trust & Safety Pillar Cards</h4>
+                    <p className="text-xs text-gray-500">
+                      Core pillars highlighting comfort, vetting, and pace
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {cards.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenCardIndices(
+                            openCardIndices.length === cards.length ? [] : cards.map((_, i) => i),
+                          )
+                        }
+                        className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                      >
+                        {openCardIndices.length === cards.length ? "Collapse all" : "Expand all"}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={addCard}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E5A60] text-white text-xs font-medium hover:bg-[#0c4e53] transition-colors"
+                    >
+                      <Plus size={14} /> Add Card
+                    </button>
+                  </div>
                 </div>
 
-                <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
-                    Card 2
-                  </span>
-                  <InputField
-                    label="Title"
-                    value={card2.title}
-                    onChange={(e) => setCard2({ ...card2, title: e.target.value })}
-                    placeholder="e.g. Meet Before You Travel"
-                  />
-                  <InputField
-                    label="Hashtag"
-                    value={card2.hashtag}
-                    onChange={(e) => setCard2({ ...card2, hashtag: e.target.value })}
-                    placeholder="e.g. #meetfirst"
-                  />
-                  <TextAreaField
-                    label="Description"
-                    value={card2.description}
-                    onChange={(e) => setCard2({ ...card2, description: e.target.value })}
-                    rows={2}
-                  />
-                  <ImagePickerField
-                    label="Card Photo"
-                    value={card2.image}
-                    onChange={(url) => setCard2({ ...card2, image: url })}
-                  />
-                </div>
-
-                <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
-                    Card 3
-                  </span>
-                  <InputField
-                    label="Title"
-                    value={card3.title}
-                    onChange={(e) => setCard3({ ...card3, title: e.target.value })}
-                    placeholder="e.g. A Safe & Welcoming Space"
-                  />
-                  <InputField
-                    label="Hashtag"
-                    value={card3.hashtag}
-                    onChange={(e) => setCard3({ ...card3, hashtag: e.target.value })}
-                    placeholder="e.g. #safespaces"
-                  />
-                  <TextAreaField
-                    label="Description"
-                    value={card3.description}
-                    onChange={(e) => setCard3({ ...card3, description: e.target.value })}
-                    rows={2}
-                  />
-                  <ImagePickerField
-                    label="Card Photo"
-                    value={card3.image}
-                    onChange={(url) => setCard3({ ...card3, image: url })}
-                  />
-                </div>
-
-                <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-3">
-                  <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
-                    Card 4
-                  </span>
-                  <InputField
-                    label="Title"
-                    value={card4.title}
-                    onChange={(e) => setCard4({ ...card4, title: e.target.value })}
-                    placeholder="e.g. Shared Experiences, Not Rigid Schedules"
-                  />
-                  <InputField
-                    label="Hashtag"
-                    value={card4.hashtag}
-                    onChange={(e) => setCard4({ ...card4, hashtag: e.target.value })}
-                    placeholder="e.g. #slowtravel"
-                  />
-                  <TextAreaField
-                    label="Description"
-                    value={card4.description}
-                    onChange={(e) => setCard4({ ...card4, description: e.target.value })}
-                    rows={2}
-                  />
-                  <ImagePickerField
-                    label="Card Photo"
-                    value={card4.image}
-                    onChange={(url) => setCard4({ ...card4, image: url })}
-                  />
-                </div>
+                {cards.map((c, idx) => (
+                  <CollapsibleItemCard
+                    key={idx}
+                    title={`Pillar #${idx + 1}: ${c.title || "Untitled"}`}
+                    subtitle={c.description}
+                    badge={c.hashtag}
+                    image={c.image}
+                    isOpen={openCardIndices.includes(idx)}
+                    onToggle={() => toggleCard(idx)}
+                    onDelete={() => removeCard(idx)}
+                    deleteTitle="Remove Card"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <InputField
+                        label="Title"
+                        value={c.title}
+                        onChange={(e) => updateCard(idx, "title", e.target.value)}
+                        placeholder="e.g. Small, Curated Groups"
+                      />
+                      <InputField
+                        label="Hashtag"
+                        value={c.hashtag}
+                        onChange={(e) => updateCard(idx, "hashtag", e.target.value)}
+                        placeholder="e.g. #curatedgroups"
+                      />
+                    </div>
+                    <TextAreaField
+                      label="Description"
+                      value={c.description}
+                      onChange={(e) => updateCard(idx, "description", e.target.value)}
+                      placeholder="We keep our groups intentionally small..."
+                      rows={2}
+                    />
+                    <ImagePickerField
+                      label="Card Photo"
+                      value={c.image}
+                      onChange={(url) => updateCard(idx, "image", url)}
+                    />
+                  </CollapsibleItemCard>
+                ))}
               </div>
 
               <div className="pt-4 border-t border-gray-100">

@@ -17,6 +17,11 @@ export interface LegalDoc {
   intro: string;
   questionsEmail?: string;
   bodyHtml?: string;
+  badge?: string;
+  lastUpdatedLabel?: string;
+  tableOfContentsLabel?: string;
+  questionsTitle?: string;
+  questionsSubtitle?: string;
 }
 
 interface LegalDocumentEditorProps {
@@ -40,6 +45,11 @@ export function LegalDocumentEditor({
   const [updatedOn, setUpdatedOn] = useState("");
   const [intro, setIntro] = useState("");
   const [questionsEmail, setQuestionsEmail] = useState("hello@kokalachi.com");
+  const [badge, setBadge] = useState("");
+  const [lastUpdatedLabel, setLastUpdatedLabel] = useState("");
+  const [tableOfContentsLabel, setTableOfContentsLabel] = useState("");
+  const [questionsTitle, setQuestionsTitle] = useState("");
+  const [questionsSubtitle, setQuestionsSubtitle] = useState("");
 
   // Rich Text Editor HTML content
   const [bodyHtml, setBodyHtml] = useState("");
@@ -71,6 +81,11 @@ export function LegalDocumentEditor({
           setIntro(loadedDoc.intro || "");
           setQuestionsEmail(loadedDoc.questionsEmail || "hello@kokalachi.com");
           setBodyHtml(loadedDoc.bodyHtml || "");
+          setBadge(loadedDoc.badge || "");
+          setLastUpdatedLabel(loadedDoc.lastUpdatedLabel || "");
+          setTableOfContentsLabel(loadedDoc.tableOfContentsLabel || "");
+          setQuestionsTitle(loadedDoc.questionsTitle || "");
+          setQuestionsSubtitle(loadedDoc.questionsSubtitle || "");
         }
       } catch (err) {
         console.error("Failed to load legal document:", err);
@@ -91,6 +106,11 @@ export function LegalDocumentEditor({
       updatedOn: updatedOn.trim(),
       intro: intro.trim(),
       questionsEmail: questionsEmail.trim(),
+      badge: badge.trim(),
+      lastUpdatedLabel: lastUpdatedLabel.trim(),
+      tableOfContentsLabel: tableOfContentsLabel.trim(),
+      questionsTitle: questionsTitle.trim(),
+      questionsSubtitle: questionsSubtitle.trim(),
       bodyHtml,
       ...customOverrides,
     };
@@ -161,7 +181,7 @@ export function LegalDocumentEditor({
           }`}
         >
           <div className="overflow-hidden flex flex-col gap-6 pt-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <InputField
                 label="Document Title"
                 value={title}
@@ -169,11 +189,32 @@ export function LegalDocumentEditor({
                 placeholder="e.g. Terms & Conditions"
               />
               <InputField
-                label="Last Updated Date (YYYY-MM-DD or text)"
+                label="Header Badge Text"
+                value={badge}
+                onChange={(e) => setBadge(e.target.value)}
+                placeholder="e.g. Legal"
+              />
+              <InputField
+                label="Last Updated Date"
                 value={updatedOn}
                 onChange={(e) => setUpdatedOn(e.target.value)}
                 placeholder="e.g. 2026-10-25"
-                tooltip="Displayed in the header banner as Last updated date"
+                tooltip="Displayed in the header banner"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField
+                label="Last Updated Label Prefix"
+                value={lastUpdatedLabel}
+                onChange={(e) => setLastUpdatedLabel(e.target.value)}
+                placeholder="e.g. Last updated"
+              />
+              <InputField
+                label="Table of Contents Label"
+                value={tableOfContentsLabel}
+                onChange={(e) => setTableOfContentsLabel(e.target.value)}
+                placeholder="e.g. On this page"
               />
             </div>
 
@@ -200,6 +241,26 @@ export function LegalDocumentEditor({
               placeholder="Introductory paragraph shown prominently below the hero heading..."
               rows={3}
             />
+
+            <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-4">
+              <span className="text-xs font-bold text-teal-800 uppercase block tracking-wider">
+                Bottom Questions Callout
+              </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField
+                  label="Questions Box Title"
+                  value={questionsTitle}
+                  onChange={(e) => setQuestionsTitle(e.target.value)}
+                  placeholder="e.g. Questions about this page?"
+                />
+                <InputField
+                  label="Questions Box Subtitle"
+                  value={questionsSubtitle}
+                  onChange={(e) => setQuestionsSubtitle(e.target.value)}
+                  placeholder="e.g. We're happy to explain anything in plain words."
+                />
+              </div>
+            </div>
 
             {/* Dedicated Save Button for Document Details */}
             <div className="pt-4 border-t border-gray-100">

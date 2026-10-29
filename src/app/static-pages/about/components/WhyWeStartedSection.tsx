@@ -16,6 +16,8 @@ interface WhyWeStartedContent {
   mainImage: string;
   polaroidImage: string;
   polaroidNote: string;
+  mainImageAlt: string;
+  polaroidImageAlt: string;
   item1Title: string;
   item2Title: string;
   item3Title: string;
@@ -37,6 +39,8 @@ export function WhyWeStartedSection({ initialData }: { initialData?: any }) {
   const [mainImage, setMainImage] = useState("");
   const [polaroidImage, setPolaroidImage] = useState("");
   const [polaroidNote, setPolaroidNote] = useState("");
+  const [mainImageAlt, setMainImageAlt] = useState("");
+  const [polaroidImageAlt, setPolaroidImageAlt] = useState("");
 
   const [item1Title, setItem1Title] = useState("");
   const [item2Title, setItem2Title] = useState("");
@@ -55,6 +59,8 @@ export function WhyWeStartedSection({ initialData }: { initialData?: any }) {
       setMainImage(initialData.mainImage ?? "");
       setPolaroidImage(initialData.polaroidImage ?? "");
       setPolaroidNote(initialData.polaroidNote ?? "");
+      setMainImageAlt(initialData.mainImageAlt ?? "");
+      setPolaroidImageAlt(initialData.polaroidImageAlt ?? "");
 
       setItem1Title(initialData.item1Title ?? initialData.items?.[0] ?? "");
       setItem2Title(initialData.item2Title ?? initialData.items?.[1] ?? "");
@@ -78,6 +84,8 @@ export function WhyWeStartedSection({ initialData }: { initialData?: any }) {
         mainImage,
         polaroidImage,
         polaroidNote,
+        mainImageAlt,
+        polaroidImageAlt,
         item1Title,
         item2Title,
         item3Title,

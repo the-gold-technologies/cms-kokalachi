@@ -7,6 +7,13 @@ import { InputField } from "@/components/InputField";
 import { StringListEditor } from "@/components/StringListEditor";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
+import { Plus } from "lucide-react";
+
+interface TravellerOption {
+  label: string;
+  desc: string;
+}
 
 interface HeroSectionContent {
   tagline: string;
@@ -16,6 +23,14 @@ interface HeroSectionContent {
   subtitle2: string;
   backgroundImage: string;
   destPlaceholder: string;
+  searchPlaceholder: string;
+  popularDestinationsTitle: string;
+  whenLabel: string;
+  travellersLabel: string;
+  groupSizeTitle: string;
+  searchButtonText: string;
+  popularSearchesLabel: string;
+  travellerOptions: TravellerOption[];
   popularDestinations: string[];
   quickDatePresets: string[];
 }
@@ -33,8 +48,18 @@ export function HeroSection({ initialData }: { initialData?: any }) {
   const [subtitle2, setSubtitle2] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
   const [destPlaceholder, setDestPlaceholder] = useState("");
+  const [searchPlaceholder, setSearchPlaceholder] = useState("");
+  const [popularDestinationsTitle, setPopularDestinationsTitle] = useState("");
+  const [whenLabel, setWhenLabel] = useState("");
+  const [travellersLabel, setTravellersLabel] = useState("");
+  const [groupSizeTitle, setGroupSizeTitle] = useState("");
+  const [searchButtonText, setSearchButtonText] = useState("");
+  const [popularSearchesLabel, setPopularSearchesLabel] = useState("");
+  const [travellerOptions, setTravellerOptions] = useState<TravellerOption[]>([]);
   const [popularDestinations, setPopularDestinations] = useState<string[]>([]);
   const [quickDatePresets, setQuickDatePresets] = useState<string[]>([]);
+
+  const [openTravellerIndices, setOpenTravellerIndices] = useState<number[]>([]);
 
   useEffect(() => {
     if (initialData) {
@@ -45,6 +70,21 @@ export function HeroSection({ initialData }: { initialData?: any }) {
       setSubtitle2(initialData.subtitle2 ?? "");
       setBackgroundImage(initialData.backgroundImage ?? "");
       setDestPlaceholder(initialData.destPlaceholder ?? "");
+      setSearchPlaceholder(initialData.searchPlaceholder ?? "");
+      setPopularDestinationsTitle(initialData.popularDestinationsTitle ?? "");
+      setWhenLabel(initialData.whenLabel ?? "");
+      setTravellersLabel(initialData.travellersLabel ?? "");
+      setGroupSizeTitle(initialData.groupSizeTitle ?? "");
+      setSearchButtonText(initialData.searchButtonText ?? "");
+      setPopularSearchesLabel(initialData.popularSearchesLabel ?? "");
+      if (Array.isArray(initialData.travellerOptions)) {
+        setTravellerOptions(
+          initialData.travellerOptions.map((opt: any) => ({
+            label: typeof opt === "string" ? opt : (opt?.label ?? ""),
+            desc: opt?.desc ?? "",
+          })),
+        );
+      }
       setPopularDestinations(
         Array.isArray(initialData.popularDestinations) ? initialData.popularDestinations : [],
       );
@@ -53,6 +93,31 @@ export function HeroSection({ initialData }: { initialData?: any }) {
       );
     }
   }, [initialData]);
+
+  const toggleTravellerOption = (idx: number) => {
+    setOpenTravellerIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
+    );
+  };
+
+  const addTravellerOption = () => {
+    const nextIdx = travellerOptions.length;
+    setTravellerOptions([...travellerOptions, { label: "", desc: "" }]);
+    setOpenTravellerIndices((prev) => [...prev, nextIdx]);
+  };
+
+  const removeTravellerOption = (idx: number) => {
+    setTravellerOptions(travellerOptions.filter((_, i) => i !== idx));
+    setOpenTravellerIndices((prev) =>
+      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i)),
+    );
+  };
+
+  const updateTravellerOption = (idx: number, field: keyof TravellerOption, value: string) => {
+    const updated = [...travellerOptions];
+    updated[idx] = { ...updated[idx], [field]: value };
+    setTravellerOptions(updated);
+  };
 
   const handleSave = async () => {
     setLoading(true);
@@ -66,6 +131,14 @@ export function HeroSection({ initialData }: { initialData?: any }) {
         subtitle2,
         backgroundImage,
         destPlaceholder,
+        searchPlaceholder,
+        popularDestinationsTitle,
+        whenLabel,
+        travellersLabel,
+        groupSizeTitle,
+        searchButtonText,
+        popularSearchesLabel,
+        travellerOptions,
         popularDestinations,
         quickDatePresets,
       };
@@ -158,12 +231,142 @@ export function HeroSection({ initialData }: { initialData?: any }) {
                 tooltip="High-res landscape photography backdrop for hero area"
               />
 
-              <InputField
-                label="Search Input Placeholder"
-                value={destPlaceholder}
-                onChange={(e) => setDestPlaceholder(e.target.value)}
-                placeholder="e.g. Where to?"
-              />
+              {/* Search Widget Controls */}
+              <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-4">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                    Search Bar / Widget Controls
+                  </h4>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    Customize labels and placeholders inside the interactive search box
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <InputField
+                    label="Destination Input Placeholder"
+                    value={destPlaceholder}
+                    onChange={(e) => setDestPlaceholder(e.target.value)}
+                    placeholder="e.g. Where to?"
+                  />
+                  <InputField
+                    label="Destination Search Popup Placeholder"
+                    value={searchPlaceholder}
+                    onChange={(e) => setSearchPlaceholder(e.target.value)}
+                    placeholder="e.g. Search destinations"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <InputField
+                    label="Popular Destinations Popup Title"
+                    value={popularDestinationsTitle}
+                    onChange={(e) => setPopularDestinationsTitle(e.target.value)}
+                    placeholder="e.g. Popular Destinations"
+                  />
+                  <InputField
+                    label="When / Dates Button Label"
+                    value={whenLabel}
+                    onChange={(e) => setWhenLabel(e.target.value)}
+                    placeholder="e.g. When?"
+                  />
+                  <InputField
+                    label="Travellers Button Label"
+                    value={travellersLabel}
+                    onChange={(e) => setTravellersLabel(e.target.value)}
+                    placeholder="e.g. Travellers"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <InputField
+                    label="Group Size Popup Title"
+                    value={groupSizeTitle}
+                    onChange={(e) => setGroupSizeTitle(e.target.value)}
+                    placeholder="e.g. Group Size"
+                  />
+                  <InputField
+                    label="Search CTA Button Text"
+                    value={searchButtonText}
+                    onChange={(e) => setSearchButtonText(e.target.value)}
+                    placeholder="e.g. SEARCH TRIPS"
+                  />
+                  <InputField
+                    label="Popular Searches Label"
+                    value={popularSearchesLabel}
+                    onChange={(e) => setPopularSearchesLabel(e.target.value)}
+                    placeholder="e.g. Popular Searches:"
+                  />
+                </div>
+
+                {/* Traveller Options (Collapsible Cards) */}
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
+                        Traveller Group Options
+                      </span>
+                      <p className="text-xs text-gray-500">
+                        Options selectable in the Travellers dropdown
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {travellerOptions.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setOpenTravellerIndices(
+                              openTravellerIndices.length === travellerOptions.length
+                                ? []
+                                : travellerOptions.map((_, i) => i),
+                            )
+                          }
+                          className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                        >
+                          {openTravellerIndices.length === travellerOptions.length
+                            ? "Collapse all"
+                            : "Expand all"}
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={addTravellerOption}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E5A60] text-white text-xs font-medium hover:bg-[#0c4e53] transition-colors"
+                      >
+                        <Plus size={14} /> Add Option
+                      </button>
+                    </div>
+                  </div>
+
+                  {travellerOptions.map((opt, idx) => (
+                    <CollapsibleItemCard
+                      key={idx}
+                      title={`Option #${idx + 1}: ${opt.label || "Untitled"}`}
+                      subtitle={opt.desc}
+                      badge={`${idx + 1}`}
+                      isOpen={openTravellerIndices.includes(idx)}
+                      onToggle={() => toggleTravellerOption(idx)}
+                      onDelete={() => removeTravellerOption(idx)}
+                      deleteTitle="Remove Option"
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <InputField
+                          label="Option Label"
+                          value={opt.label}
+                          onChange={(e) => updateTravellerOption(idx, "label", e.target.value)}
+                          placeholder="e.g. 1 Traveller"
+                        />
+                        <InputField
+                          label="Option Description"
+                          value={opt.desc}
+                          onChange={(e) => updateTravellerOption(idx, "desc", e.target.value)}
+                          placeholder="e.g. Solo explorer joining a group"
+                        />
+                      </div>
+                    </CollapsibleItemCard>
+                  ))}
+                </div>
+              </div>
 
               <StringListEditor
                 label="Popular Destinations (Search Suggestions)"

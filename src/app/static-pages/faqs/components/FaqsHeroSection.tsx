@@ -14,6 +14,7 @@ interface FaqsHeroContent {
   scriptAccent: string;
   description: string;
   bannerImage: string;
+  bannerAlt: string;
 }
 
 export function FaqsHeroSection({ initialData }: { initialData?: any }) {
@@ -26,6 +27,7 @@ export function FaqsHeroSection({ initialData }: { initialData?: any }) {
   const [scriptAccent, setScriptAccent] = useState("");
   const [description, setDescription] = useState("");
   const [bannerImage, setBannerImage] = useState("");
+  const [bannerAlt, setBannerAlt] = useState("");
 
   useEffect(() => {
     if (initialData) {
@@ -34,6 +36,7 @@ export function FaqsHeroSection({ initialData }: { initialData?: any }) {
       setScriptAccent(initialData.scriptAccent ?? "");
       setDescription(initialData.description ?? "");
       setBannerImage(initialData.bannerImage ?? "");
+      setBannerAlt(initialData.bannerAlt ?? "");
     }
   }, [initialData]);
 
@@ -47,6 +50,7 @@ export function FaqsHeroSection({ initialData }: { initialData?: any }) {
         scriptAccent,
         description,
         bannerImage,
+        bannerAlt,
       };
 
       const res = await fetch("/api/faqs", {
@@ -129,6 +133,12 @@ export function FaqsHeroSection({ initialData }: { initialData?: any }) {
                 value={bannerImage}
                 onChange={setBannerImage}
                 tooltip="High-res photography banner backdrop for the FAQ page"
+              />
+              <InputField
+                label="Banner Image Alt Text"
+                value={bannerAlt}
+                onChange={(e) => setBannerAlt(e.target.value)}
+                placeholder="e.g. Travellers planning a journey"
               />
 
               <div className="pt-4 border-t border-gray-100">

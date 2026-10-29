@@ -98,6 +98,10 @@ export function CommunityChaptersSection({ initialData }: { initialData?: any })
   const [saved, setSaved] = useState(false);
 
   const [chapters, setChapters] = useState<CommunityTripChapter[]>([]);
+  const [moreMomentsLabel, setMoreMomentsLabel] = useState("");
+  const [inTheirWordsLabel, setInTheirWordsLabel] = useState("");
+  const [inShortLabel, setInShortLabel] = useState("");
+  const [whatTheyLovedLabel, setWhatTheyLovedLabel] = useState("");
   const [activeChapterIndex, setActiveChapterIndex] = useState<number | null>(0);
   const [activeStoryIndex, setActiveStoryIndex] = useState<number | null>(0);
 
@@ -107,6 +111,10 @@ export function CommunityChaptersSection({ initialData }: { initialData?: any })
     } else {
       setChapters([]);
     }
+    setMoreMomentsLabel(initialData?.moreMomentsLabel || "");
+    setInTheirWordsLabel(initialData?.inTheirWordsLabel || "");
+    setInShortLabel(initialData?.inShortLabel || "");
+    setWhatTheyLovedLabel(initialData?.whatTheyLovedLabel || "");
   }, [initialData]);
 
   // Add Chapter
@@ -263,7 +271,13 @@ export function CommunityChaptersSection({ initialData }: { initialData?: any })
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           section: "CommunityChaptersSection",
-          content: { chapters },
+          content: {
+            moreMomentsLabel,
+            inTheirWordsLabel,
+            inShortLabel,
+            whatTheyLovedLabel,
+            chapters,
+          },
         }),
       });
 
@@ -295,6 +309,39 @@ export function CommunityChaptersSection({ initialData }: { initialData?: any })
 
       {isOpen && (
         <div className="flex flex-col gap-6 pt-2 animate-in fade-in duration-300">
+          {/* Chapter Story Labels */}
+          <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col gap-4">
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              Template Labels
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <InputField
+                label="More Moments Button / Pill"
+                value={moreMomentsLabel}
+                onChange={(e) => setMoreMomentsLabel(e.target.value)}
+                placeholder="more moments"
+              />
+              <InputField
+                label="In Their Words Header"
+                value={inTheirWordsLabel}
+                onChange={(e) => setInTheirWordsLabel(e.target.value)}
+                placeholder="In their words"
+              />
+              <InputField
+                label="In Short Header"
+                value={inShortLabel}
+                onChange={(e) => setInShortLabel(e.target.value)}
+                placeholder="In short"
+              />
+              <InputField
+                label="What They Loved Header"
+                value={whatTheyLovedLabel}
+                onChange={(e) => setWhatTheyLovedLabel(e.target.value)}
+                placeholder="What they loved"
+              />
+            </div>
+          </div>
+
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Chapters List ({chapters.length})

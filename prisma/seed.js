@@ -40,8 +40,8 @@ async function main() {
       siteTitle: "Kokalachi - Journeys Become Friendships",
       siteDescription:
         "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
-      favicon: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266971/kokalachi/favicon.png",
-      logo: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266973/kokalachi/logo-clean.png",
+      favicon: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272478/kokalachi/favicon.png",
+      logo: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272480/kokalachi/logo-clean.png",
       phone: "+91 97118 45700",
       email: "hello@kokalachi.com",
       address: "91 Springboard, C-2, Sector 1, Noida - 201301",
@@ -51,9 +51,9 @@ async function main() {
       linkedinUrl: "",
       socialLinks: {
         navbarLightLogo:
-          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272482/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         footerLogo:
-          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272482/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
@@ -66,8 +66,8 @@ async function main() {
       siteTitle: "Kokalachi - Journeys Become Friendships",
       siteDescription:
         "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
-      favicon: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266971/kokalachi/favicon.png",
-      logo: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266973/kokalachi/logo-clean.png",
+      favicon: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272478/kokalachi/favicon.png",
+      logo: "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272480/kokalachi/logo-clean.png",
       phone: "+91 97118 45700",
       email: "hello@kokalachi.com",
       address: "91 Springboard, C-2, Sector 1, Noida - 201301",
@@ -77,9 +77,9 @@ async function main() {
       linkedinUrl: "",
       socialLinks: {
         navbarLightLogo:
-          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272482/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         footerLogo:
-          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793266975/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
+          "https://res.cloudinary.com/p0bt6xsf/image/upload/v1793272482/kokalachi/brand/clean_logo_lighter_1793104933961.webp",
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
@@ -502,6 +502,18 @@ async function main() {
               "Upcoming Weekends",
               "Autumn 2026",
             ],
+            searchPlaceholder: "Search destinations",
+            popularDestinationsTitle: "Popular Destinations",
+            whenLabel: "When?",
+            travellersLabel: "Travellers",
+            groupSizeTitle: "Group Size",
+            searchButtonText: "SEARCH TRIPS",
+            popularSearchesLabel: "Popular Searches:",
+            travellerOptions: [
+              { label: "1 Traveller", desc: "Solo explorer joining a group" },
+              { label: "2 Travellers", desc: "Travelling with a friend / partner" },
+              { label: "3+ Travellers", desc: "Small group of friends" },
+            ],
           },
         },
         {
@@ -520,6 +532,47 @@ async function main() {
             conclusionTitle: "So, we decided to build a better way to do it.",
             conclusionDescription:
               "At Kokalachi, we bring together people who share a love for travel so you can stop waiting and start exploring.",
+            callout1Text: "Excitement",
+            callout2Text: "Plans change",
+            callout3Text: "The trip never happens",
+            chatMembersCount: "10 members",
+            chatGroupImage:
+              "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=120",
+            chatMessages: [
+              {
+                sender: "Rohit",
+                text: "Guys, shall we do Kashmir in October? 🏔️😍",
+                time: "10:30 AM",
+                color: "text-emerald-700",
+                reactions: "❤️ 🔥 🙌 4",
+              },
+              {
+                sender: "Neha",
+                text: "I'm in! 🙌",
+                time: "10:31 AM",
+                color: "text-rose-600",
+              },
+              {
+                sender: "Aman",
+                text: "Sorry guys, can't get leave 🙁",
+                time: "10:32 AM ✓",
+                color: "text-emerald-800",
+                isUser: true,
+              },
+              {
+                sender: "Priya",
+                text: "Maybe next year?",
+                time: "10:33 AM",
+                color: "text-purple-600",
+              },
+              {
+                sender: "System",
+                text: "No replies...",
+                time: "10:45 AM",
+                color: "text-slate-400",
+                isSilence: true,
+              },
+            ],
             photos: [
               {
                 image:
@@ -566,6 +619,19 @@ async function main() {
             headlineSuffix: "journey.",
             description:
               "Joining Kokalachi is simple. We take care of the planning, so you can focus on the experience.",
+            ctaPrimaryText: "Explore upcoming journeys",
+            ctaPrimaryUrl: "/journeys",
+            ctaSecondaryText: "Have questions? Read the FAQs",
+            ctaSecondaryUrl: "/faqs",
+            step1UpcomingTitle: "Upcoming journeys",
+            step1BookButtonText: "Book your spot",
+            step2GroupTitle: "Your pre-trip group",
+            step2GroupSubtitle: "You + your fellow travellers",
+            step2Message1Author: "Priya",
+            step2Message1Text: "So excited for this! Anyone flying in early? 🎒",
+            step2Message2Author: "Arjun",
+            step2Message2Text: "Land at 2pm! Shared cab from airport?",
+            step2Message3Text: "Can\x27t wait to meet everyone! ✨",
             steps: [
               {
                 stepNumber: 1,
@@ -661,6 +727,8 @@ async function main() {
               "Every Kokalachi journey is thoughtfully curated so you can focus on the experience, not the uncertainty.",
             leftMarginTag: "✨ 100% vetted circles",
             rightMarginTag: "♡ verified solo safety",
+            ctaText: "Learn More About Trust & Safety",
+            ctaLink: "/faqs#safety-and-comfort",
             cards: [
               {
                 title: "Small, Curated Groups",
@@ -713,6 +781,56 @@ async function main() {
             featuredLocation: "The Slow Island, Sri Lanka - March 2026",
             annotationLeft: "✨ 100% Unfiltered Memories",
             annotationRight: "♡ Captured by Real Travellers",
+            unfilteredMomentsLabel: "📌 Unfiltered Moments",
+            readLetterLabel: "Read letter",
+            readFullLetterLabel: "Read full letter",
+            chatBadgeLabel: "Chat",
+            memoryLaneLabel: "♡ Memory Lane",
+            timelineTitle: "The Journey Continues...",
+            timelineSteps: [
+              {
+                icon: "plane",
+                title: "Trip Ends",
+                text: "Hugs at the airport. Tears maybe.",
+                description: "Hugs at the airport. Tears maybe.",
+                color: "bg-[#0E5A60]",
+              },
+              {
+                icon: "message",
+                title: "WhatsApp Still Active",
+                text: "Daily memes and photo sharing.",
+                description: "Daily memes and photo sharing.",
+                color: "bg-[#25D366]",
+              },
+              {
+                icon: "cake",
+                title: "Birthday Wishes",
+                text: "Everyone remembers without a reminder.",
+                description: "Everyone remembers without a reminder.",
+                color: "bg-[#C85A24]",
+              },
+              {
+                icon: "pin",
+                title: "First Reunion",
+                text: "Coffee date in Mumbai, dinner in Bangalore.",
+                description: "Coffee date in Mumbai, dinner in Bangalore.",
+                color: "bg-[#0B2A3D]",
+              },
+              {
+                icon: "camera",
+                title: "Trip #2 Planned",
+                text: "“Same crew next year? Definitely.”",
+                description: "“Same crew next year? Definitely.”",
+                color: "bg-[#D97706]",
+              },
+              {
+                icon: "heart",
+                title: "Lifelong Friends",
+                text: "No longer strangers. Family now.",
+                description: "No longer strangers. Family now.",
+                color: "bg-[#EF4444]",
+              },
+            ],
             cards: [
               {
                 quote:
@@ -822,6 +940,7 @@ async function main() {
               "Travel isn't just about destinations. It's about people, cultures, conversations and the memories we bring home. Explore stories, guides and reflections from the Kokalachi community.",
             ctaText: "Explore the Journal",
             ctaUrl: "/blogs",
+            readStoryText: "Read Story",
           },
         },
       ],
@@ -1037,6 +1156,7 @@ async function main() {
             scriptAccent: "join the tribe?",
             bannerImage:
               "https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+            bannerAlt: "Travellers planning a journey",
           },
         },
         {
@@ -1048,6 +1168,25 @@ async function main() {
             successTitle: "Enquiry Sent Successfully",
             successSubtitle:
               "Thanks for reaching out! We\'ve received your message and our team will get back to you within 24 hours.",
+            sendAnotherMessageText: "Send another message",
+            nameLabel: "Full Name",
+            namePlaceholder: "e.g. Jane Doe",
+            emailLabel: "Email Address",
+            emailPlaceholder: "e.g. jane@example.com",
+            phoneLabel: "Phone Number",
+            phonePlaceholder: "+91 98765 43210",
+            journeyLabel: "Which journey are you interested in?",
+            journeyPlaceholder: "Select an option (optional)",
+            travelDateLabel: "Preferred Travel Date",
+            guestsLabel: "How many of you are travelling?",
+            guestsSoloText: "Just me",
+            guestsPluralSuffix: "people",
+            messageLabel: "How can we help?",
+            messagePlaceholder:
+              "Tell us what's on your mind — a question, a special request, or just 'I don't know where to start.'",
+            hearAboutLabel: "How did you hear about us?",
+            hearAboutPlaceholder: "Select an option (optional)",
+            submittingButtonText: "Sending...",
             journeyOptions: [
               "The Houseboat Diaries (Kashmir)",
               "Roots & Rainbows (Meghalaya)",

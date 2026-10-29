@@ -33,7 +33,7 @@ export function JourneyFaqSection({
 
   const toggleFaq = (idx: number) => {
     setOpenFaqIndices((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
@@ -65,7 +65,7 @@ export function JourneyFaqSection({
   const handleRemove = (index: number) => {
     setFaqs((prev) => prev.filter((_, i) => i !== index));
     setOpenFaqIndices((prev) =>
-      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i))
+      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i)),
     );
   };
 
@@ -127,16 +127,12 @@ export function JourneyFaqSection({
                   type="button"
                   onClick={() =>
                     setOpenFaqIndices(
-                      openFaqIndices.length === faqs.length
-                        ? []
-                        : faqs.map((_, i) => i)
+                      openFaqIndices.length === faqs.length ? [] : faqs.map((_, i) => i),
                     )
                   }
                   className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  {openFaqIndices.length === faqs.length
-                    ? "Collapse all"
-                    : "Expand all"}
+                  {openFaqIndices.length === faqs.length ? "Collapse all" : "Expand all"}
                 </button>
               )}
               <button

@@ -90,7 +90,9 @@ export async function PUT(request: Request) {
     }
 
     if (existingConfig) {
-      cleanupObsoleteCloudinaryAssets(existingConfig, body).catch((err) =>
+      // Compare against the saved row, not the body: each settings screen sends only its own
+      // fields, so assets missing from a partial body (logo, favicon) are not actually removed
+      cleanupObsoleteCloudinaryAssets(existingConfig, updatedConfig).catch((err) =>
         console.error("Cleanup error on saving global config:", err),
       );
     }

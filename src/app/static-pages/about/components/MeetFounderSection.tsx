@@ -17,6 +17,7 @@ interface MeetFounderContent {
   founderFullName: string;
   founderTitle: string;
   founderPhoto: string;
+  imageAlt: string;
   leadQuote: string;
   story?: string;
   storyParagraphs?: string;
@@ -41,6 +42,7 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
   const [founderFullName, setFounderFullName] = useState("");
   const [founderTitle, setFounderTitle] = useState("");
   const [founderPhoto, setFounderPhoto] = useState("");
+  const [imageAlt, setImageAlt] = useState("");
   const [leadQuote, setLeadQuote] = useState("");
   const [story, setStory] = useState("");
   const [closingNote, setClosingNote] = useState("");
@@ -55,6 +57,7 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
       setFounderFullName(initialData.founderFullName ?? "");
       setFounderTitle(initialData.founderTitle ?? initialData.role ?? "");
       setFounderPhoto(initialData.founderPhoto ?? initialData.photo ?? "");
+      setImageAlt(initialData.imageAlt ?? "");
       setLeadQuote(initialData.leadQuote ?? "");
 
       // Use unified story field if present, otherwise join legacy paragraphs
@@ -88,6 +91,7 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
         founderFullName,
         founderTitle,
         founderPhoto,
+        imageAlt,
         leadQuote,
         story,
         closingNote,
@@ -164,6 +168,12 @@ export function MeetFounderSection({ initialData }: { initialData?: any }) {
                   value={founderPhoto}
                   onChange={setFounderPhoto}
                   tooltip="Card photo of Rachit & Hitesh"
+                />
+                <InputField
+                  label="Founders Photo Alt Text"
+                  value={imageAlt}
+                  onChange={(e) => setImageAlt(e.target.value)}
+                  placeholder="e.g. Kokalachi Founders"
                 />
 
                 <div className="space-y-3">

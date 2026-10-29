@@ -17,6 +17,7 @@ interface JoinTribeContent {
   secondaryButtonText: string;
   secondaryButtonLink: string;
   blobImage: string;
+  blobImageAlt: string;
   polaroidNote: string;
   footerTag: string;
 }
@@ -35,6 +36,7 @@ export function JoinTribeSection({ initialData }: { initialData?: any }) {
   const [secondaryButtonText, setSecondaryButtonText] = useState("");
   const [secondaryButtonLink, setSecondaryButtonLink] = useState("");
   const [blobImage, setBlobImage] = useState("");
+  const [blobImageAlt, setBlobImageAlt] = useState("");
   const [polaroidNote, setPolaroidNote] = useState("");
   const [footerTag, setFooterTag] = useState("");
 
@@ -48,6 +50,7 @@ export function JoinTribeSection({ initialData }: { initialData?: any }) {
       setSecondaryButtonText(initialData.secondaryButtonText ?? "");
       setSecondaryButtonLink(initialData.secondaryButtonLink ?? "");
       setBlobImage(initialData.blobImage ?? "");
+      setBlobImageAlt(initialData.blobImageAlt ?? "");
       setPolaroidNote(initialData.polaroidNote ?? "");
       setFooterTag(initialData.footerTag ?? "");
     }
@@ -66,6 +69,7 @@ export function JoinTribeSection({ initialData }: { initialData?: any }) {
         secondaryButtonText,
         secondaryButtonLink,
         blobImage,
+        blobImageAlt,
         polaroidNote,
         footerTag,
       };
@@ -177,6 +181,12 @@ export function JoinTribeSection({ initialData }: { initialData?: any }) {
                   label="Curved Organic Blob Photo (Right Column)"
                   value={blobImage}
                   onChange={setBlobImage}
+                />
+                <InputField
+                  label="Blob Image Alt Text"
+                  value={blobImageAlt}
+                  onChange={(e) => setBlobImageAlt(e.target.value)}
+                  placeholder="e.g. Group on mountain"
                 />
                 <div className="space-y-3">
                   <InputField
