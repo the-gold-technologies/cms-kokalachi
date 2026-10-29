@@ -7,6 +7,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
 import { Plus, Trash2 } from "lucide-react";
 
 interface TestimonialCard {
@@ -58,12 +59,25 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
     }
   }, [initialData]);
 
+  const [openCardIndices, setOpenCardIndices] = useState<number[]>([]);
+
+  const toggleCard = (idx: number) => {
+    setOpenCardIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
+  };
+
   const addCard = () => {
+    const nextIdx = cards.length;
     setCards([...cards, { quote: "", author: "", trip: "", image: "" }]);
+    setOpenCardIndices((prev) => [...prev, nextIdx]);
   };
 
   const removeCard = (idx: number) => {
     setCards(cards.filter((_, i) => i !== idx));
+    setOpenCardIndices((prev) =>
+      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i))
+    );
   };
 
   const updateCard = (idx: number, field: keyof TestimonialCard, value: string) => {
@@ -209,31 +223,46 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
                     </h4>
                     <p className="text-xs text-gray-500">Candid traveller reviews and memories</p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={addCard}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E5A60] text-white text-xs font-medium hover:bg-[#0c4e53] transition-colors"
-                  >
-                    <Plus size={14} /> Add Card
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {cards.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenCardIndices(
+                            openCardIndices.length === cards.length
+                              ? []
+                              : cards.map((_, i) => i)
+                          )
+                        }
+                        className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                      >
+                        {openCardIndices.length === cards.length
+                          ? "Collapse all"
+                          : "Expand all"}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={addCard}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E5A60] text-white text-xs font-medium hover:bg-[#0c4e53] transition-colors"
+                    >
+                      <Plus size={14} /> Add Card
+                    </button>
+                  </div>
                 </div>
 
                 {cards.map((c, idx) => (
-                  <div
+                  <CollapsibleItemCard
                     key={idx}
-                    className="p-4 bg-gray-50/80 rounded-2xl border border-gray-100 space-y-3 relative"
+                    title={`Memory Card #${idx + 1}`}
+                    subtitle={c.author ? `${c.author}${c.trip ? ` (${c.trip})` : ""}` : c.quote}
+                    badge={c.trip}
+                    image={c.image}
+                    isOpen={openCardIndices.includes(idx)}
+                    onToggle={() => toggleCard(idx)}
+                    onDelete={() => removeCard(idx)}
+                    deleteTitle="Remove Card"
                   >
-                    <button
-                      type="button"
-                      onClick={() => removeCard(idx)}
-                      className="absolute top-3 right-3 text-red-500 hover:text-red-700 p-1"
-                      title="Remove Card"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                    <span className="text-xs font-bold text-teal-800 block">
-                      Memory Card #{idx + 1}
-                    </span>
                     <TextAreaField
                       label="Quote / Story"
                       value={c.quote}
@@ -260,7 +289,7 @@ export function MomentsThatStayedSection({ initialData }: { initialData?: any })
                       value={c.image}
                       onChange={(url) => updateCard(idx, "image", url)}
                     />
-                  </div>
+                  </CollapsibleItemCard>
                 ))}
               </div>
 

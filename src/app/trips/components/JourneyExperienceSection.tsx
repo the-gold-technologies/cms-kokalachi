@@ -6,6 +6,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
 import { Plus, Trash2, MapPin, Sparkles, BookOpen } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -66,6 +67,20 @@ export function JourneyExperienceSection({
   const [overviewText, setOverviewText] = useState("");
   const [highlights, setHighlights] = useState<HighlightItem[]>([]);
   const [itinerary, setItinerary] = useState<ItineraryDay[]>([]);
+  const [openHighlightIndices, setOpenHighlightIndices] = useState<number[]>([]);
+  const [openItineraryIndices, setOpenItineraryIndices] = useState<number[]>([]);
+
+  const toggleHighlight = (idx: number) => {
+    setOpenHighlightIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
+  };
+
+  const toggleItinerary = (idx: number) => {
+    setOpenItineraryIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
+  };
 
   useEffect(() => {
     if (initialData) {
@@ -95,7 +110,9 @@ export function JourneyExperienceSection({
 
   // Highlight Handlers
   const handleAddHighlight = () => {
+    const nextIdx = highlights.length;
     setHighlights((prev) => [...prev, { icon: "✨", title: "", description: "" }]);
+    setOpenHighlightIndices((prev) => [...prev, nextIdx]);
   };
 
   const handleUpdateHighlight = (idx: number, field: keyof HighlightItem, val: string) => {
@@ -108,10 +125,14 @@ export function JourneyExperienceSection({
 
   const handleRemoveHighlight = (idx: number) => {
     setHighlights((prev) => prev.filter((_, i) => i !== idx));
+    setOpenHighlightIndices((prev) =>
+      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i))
+    );
   };
 
   // Itinerary Handlers
   const handleAddDay = () => {
+    const nextIdx = itinerary.length;
     const nextDayNum = itinerary.length + 1;
     setItinerary((prev) => [
       ...prev,
@@ -123,6 +144,7 @@ export function JourneyExperienceSection({
         image: "",
       },
     ]);
+    setOpenItineraryIndices((prev) => [...prev, nextIdx]);
   };
 
   const handleUpdateDay = (idx: number, field: keyof ItineraryDay, val: string) => {
@@ -135,6 +157,9 @@ export function JourneyExperienceSection({
 
   const handleRemoveDay = (idx: number) => {
     setItinerary((prev) => prev.filter((_, i) => i !== idx));
+    setOpenItineraryIndices((prev) =>
+      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i))
+    );
   };
 
   const handleSave = async () => {
@@ -220,13 +245,32 @@ export function JourneyExperienceSection({
                 <Sparkles className="w-3.5 h-3.5 text-[#D96C2C]" /> Key Highlights (
                 {highlights.length})
               </span>
-              <button
-                type="button"
-                onClick={handleAddHighlight}
-                className="text-xs font-bold text-[#D96C2C] hover:text-[#b85419] flex items-center gap-1 bg-[#D96C2C]/10 hover:bg-[#D96C2C]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add Highlight
-              </button>
+              <div className="flex items-center gap-2">
+                {highlights.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenHighlightIndices(
+                        openHighlightIndices.length === highlights.length
+                          ? []
+                          : highlights.map((_, i) => i)
+                      )
+                    }
+                    className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    {openHighlightIndices.length === highlights.length
+                      ? "Collapse all"
+                      : "Expand all"}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleAddHighlight}
+                  className="text-xs font-bold text-[#D96C2C] hover:text-[#b85419] flex items-center gap-1 bg-[#D96C2C]/10 hover:bg-[#D96C2C]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Highlight
+                </button>
+              </div>
             </div>
 
             {highlights.length === 0 ? (
@@ -235,23 +279,17 @@ export function JourneyExperienceSection({
                 experiences.
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-3">
                 {highlights.map((item, idx) => (
-                  <div
+                  <CollapsibleItemCard
                     key={idx}
-                    className="p-4 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-3 relative"
+                    title={`${item.icon ? `${item.icon} ` : ""}Highlight #${idx + 1}`}
+                    subtitle={item.title}
+                    isOpen={openHighlightIndices.includes(idx)}
+                    onToggle={() => toggleHighlight(idx)}
+                    onDelete={() => handleRemoveHighlight(idx)}
+                    deleteTitle="Remove Highlight"
                   >
-                    <div className="flex items-center justify-between border-b border-gray-200/60 pb-2">
-                      <span className="text-xs font-bold text-gray-600">Highlight #{idx + 1}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveHighlight(idx)}
-                        className="p-1 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-
                     <div className="grid grid-cols-4 gap-3">
                       <InputField
                         label="Emoji / Icon"
@@ -277,7 +315,7 @@ export function JourneyExperienceSection({
                       placeholder="e.g. Hike through deep sub-tropical canyons..."
                       rows={2}
                     />
-                  </div>
+                  </CollapsibleItemCard>
                 ))}
               </div>
             )}
@@ -290,13 +328,32 @@ export function JourneyExperienceSection({
                 <MapPin className="w-3.5 h-3.5 text-[#0E5A60]" /> Day-by-Day Itinerary (
                 {itinerary.length} Days)
               </span>
-              <button
-                type="button"
-                onClick={handleAddDay}
-                className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add Day
-              </button>
+              <div className="flex items-center gap-2">
+                {itinerary.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenItineraryIndices(
+                        openItineraryIndices.length === itinerary.length
+                          ? []
+                          : itinerary.map((_, i) => i)
+                      )
+                    }
+                    className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    {openItineraryIndices.length === itinerary.length
+                      ? "Collapse all"
+                      : "Expand all"}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleAddDay}
+                  className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Day
+                </button>
+              </div>
             </div>
 
             {itinerary.length === 0 ? (
@@ -305,30 +362,18 @@ export function JourneyExperienceSection({
                 schedule.
               </div>
             ) : (
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
                 {itinerary.map((day, idx) => (
-                  <div
+                  <CollapsibleItemCard
                     key={idx}
-                    className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-4"
+                    title={day.day || `Day ${idx + 1}`}
+                    subtitle={day.title || "Untitled Day"}
+                    image={day.image}
+                    isOpen={openItineraryIndices.includes(idx)}
+                    onToggle={() => toggleItinerary(idx)}
+                    onDelete={() => handleRemoveDay(idx)}
+                    deleteTitle="Remove Day"
                   >
-                    <div className="flex items-center justify-between border-b border-gray-200/60 pb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-full bg-[#0E5A60]/10 text-[#0E5A60] text-xs font-bold flex items-center justify-center">
-                          {idx + 1}
-                        </span>
-                        <span className="text-xs font-bold text-gray-800">
-                          {day.day || `Day ${idx + 1}`}: {day.title || "Untitled Day"}
-                        </span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveDay(idx)}
-                        className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <InputField
                         label="Day Label *"
@@ -367,7 +412,7 @@ export function JourneyExperienceSection({
                       value={day.image ?? ""}
                       onChange={(url) => handleUpdateDay(idx, "image", url)}
                     />
-                  </div>
+                  </CollapsibleItemCard>
                 ))}
               </div>
             )}

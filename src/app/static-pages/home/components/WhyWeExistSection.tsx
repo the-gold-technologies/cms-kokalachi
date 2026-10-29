@@ -7,6 +7,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
 import { Plus, Trash2 } from "lucide-react";
 
 interface PhotoItem {
@@ -31,6 +32,8 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
   const [oldWayTitle, setOldWayTitle] = useState("");
   const [newWayBadge, setNewWayBadge] = useState("");
   const [newWayTitle, setNewWayTitle] = useState("");
+  const [conclusionTitle, setConclusionTitle] = useState("");
+  const [conclusionDescription, setConclusionDescription] = useState("");
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
 
   useEffect(() => {
@@ -43,6 +46,8 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
       setOldWayTitle(initialData.oldWayTitle ?? "");
       setNewWayBadge(initialData.newWayBadge ?? "");
       setNewWayTitle(initialData.newWayTitle ?? "");
+      setConclusionTitle(initialData.conclusionTitle ?? "");
+      setConclusionDescription(initialData.conclusionDescription ?? "");
       if (Array.isArray(initialData.photos)) {
         setPhotos(
           initialData.photos.map((p: any) => ({
@@ -57,12 +62,25 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
     }
   }, [initialData]);
 
+  const [openPhotoIndices, setOpenPhotoIndices] = useState<number[]>([]);
+
+  const togglePhoto = (idx: number) => {
+    setOpenPhotoIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
+  };
+
   const addPhoto = () => {
+    const nextIdx = photos.length;
     setPhotos([...photos, { image: "", alt: "", captionTitle: "", captionSub: "", badge: "" }]);
+    setOpenPhotoIndices((prev) => [...prev, nextIdx]);
   };
 
   const removePhoto = (idx: number) => {
     setPhotos(photos.filter((_, i) => i !== idx));
+    setOpenPhotoIndices((prev) =>
+      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i))
+    );
   };
 
   const updatePhoto = (idx: number, field: keyof PhotoItem, value: string) => {
@@ -84,6 +102,8 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
         oldWayTitle,
         newWayBadge,
         newWayTitle,
+        conclusionTitle,
+        conclusionDescription,
         photos,
       };
 
@@ -208,29 +228,46 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                       Curated photos displayed in the right-side animated phone card
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={addPhoto}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E5A60] text-white text-xs font-medium hover:bg-[#0c4e53] transition-colors"
-                  >
-                    <Plus size={14} /> Add Photo
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {photos.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenPhotoIndices(
+                            openPhotoIndices.length === photos.length
+                              ? []
+                              : photos.map((_, i) => i)
+                          )
+                        }
+                        className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                      >
+                        {openPhotoIndices.length === photos.length
+                          ? "Collapse all"
+                          : "Expand all"}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={addPhoto}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E5A60] text-white text-xs font-medium hover:bg-[#0c4e53] transition-colors"
+                    >
+                      <Plus size={14} /> Add Photo
+                    </button>
+                  </div>
                 </div>
 
                 {photos.map((item, idx) => (
-                  <div
+                  <CollapsibleItemCard
                     key={idx}
-                    className="p-4 bg-gray-50/80 rounded-2xl border border-gray-100 space-y-3 relative"
+                    title={`Photo #${idx + 1}`}
+                    subtitle={item.captionTitle || item.alt}
+                    badge={item.badge}
+                    image={item.image}
+                    isOpen={openPhotoIndices.includes(idx)}
+                    onToggle={() => togglePhoto(idx)}
+                    onDelete={() => removePhoto(idx)}
+                    deleteTitle="Remove Photo"
                   >
-                    <button
-                      type="button"
-                      onClick={() => removePhoto(idx)}
-                      className="absolute top-3 right-3 text-red-500 hover:text-red-700 p-1"
-                      title="Remove Photo"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                    <span className="text-xs font-bold text-teal-800 block">Photo #{idx + 1}</span>
                     <ImagePickerField
                       label="Image"
                       value={item.image}
@@ -264,8 +301,35 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                         placeholder="e.g. Kashmir Houseboat & Mountains"
                       />
                     </div>
-                  </div>
+                  </CollapsibleItemCard>
                 ))}
+              </div>
+
+              {/* Bottom Emphasis Conclusion */}
+              <div className="space-y-4 pt-2">
+                <div className="p-5 bg-gray-50/60 rounded-2xl border border-gray-100 space-y-4">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-teal-800">
+                      Bottom Emphasis Conclusion
+                    </h4>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      Closing message shown below the comparison cards
+                    </p>
+                  </div>
+                  <InputField
+                    label="Conclusion Heading"
+                    value={conclusionTitle}
+                    onChange={(e) => setConclusionTitle(e.target.value)}
+                    placeholder="e.g. So, we decided to build a better way to do it."
+                  />
+                  <TextAreaField
+                    label="Conclusion Description"
+                    value={conclusionDescription}
+                    onChange={(e) => setConclusionDescription(e.target.value)}
+                    placeholder="e.g. At Kokalachi, we bring together people who share a love for travel so you can stop waiting and start exploring."
+                    rows={3}
+                  />
+                </div>
               </div>
 
               <div className="pt-4 border-t border-gray-100">

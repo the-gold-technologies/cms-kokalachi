@@ -7,6 +7,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
 import { Plus, Trash2 } from "lucide-react";
 
 interface BeliefPillar {
@@ -30,6 +31,13 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
   const [footerNote, setFooterNote] = useState("");
 
   const [pillars, setPillars] = useState<BeliefPillar[]>([]);
+  const [openPillarIndices, setOpenPillarIndices] = useState<number[]>([]);
+
+  const togglePillar = (idx: number) => {
+    setOpenPillarIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
+  };
 
   useEffect(() => {
     if (initialData) {
@@ -56,11 +64,16 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
   }, [initialData]);
 
   const handleAddPillar = () => {
+    const nextIdx = pillars.length;
     setPillars((prev) => [...prev, { title: "", desc: "" }]);
+    setOpenPillarIndices((prev) => [...prev, nextIdx]);
   };
 
   const handleRemovePillar = (index: number) => {
     setPillars((prev) => prev.filter((_, i) => i !== index));
+    setOpenPillarIndices((prev) =>
+      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i))
+    );
   };
 
   const handleUpdatePillar = (index: number, field: "title" | "desc", value: string) => {
@@ -170,14 +183,33 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
                       Core values guiding group size, traveller vetting, and respect
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleAddPillar}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0E5A60] hover:text-[#061C29] bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer shadow-2xs"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add Pillar</span>
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {pillars.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenPillarIndices(
+                            openPillarIndices.length === pillars.length
+                              ? []
+                              : pillars.map((_, i) => i)
+                          )
+                        }
+                        className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                      >
+                        {openPillarIndices.length === pillars.length
+                          ? "Collapse all"
+                          : "Expand all"}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={handleAddPillar}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0E5A60] hover:text-[#061C29] bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer shadow-2xs"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add Pillar</span>
+                    </button>
+                  </div>
                 </div>
 
                 {pillars.length === 0 ? (
@@ -189,29 +221,17 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
                     <span>No pillars added yet. Click to add your first pillar.</span>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-3">
                     {pillars.map((pillar, idx) => (
-                      <div
+                      <CollapsibleItemCard
                         key={idx}
-                        className="p-5 bg-gray-50/70 hover:bg-gray-50 rounded-2xl border border-gray-200/80 space-y-3 relative transition-all group"
+                        title={`Pillar #${idx + 1}`}
+                        subtitle={pillar.title}
+                        isOpen={openPillarIndices.includes(idx)}
+                        onToggle={() => togglePillar(idx)}
+                        onDelete={() => handleRemovePillar(idx)}
+                        deleteTitle="Delete Pillar"
                       >
-                        <div className="flex items-center justify-between border-b border-gray-200/60 pb-2">
-                          <span className="text-xs font-bold text-[#0E5A60] flex items-center gap-2">
-                            <span className="w-5 h-5 rounded-full bg-[#0E5A60]/10 flex items-center justify-center text-[10px] font-black">
-                              {idx + 1}
-                            </span>
-                            Pillar #{idx + 1}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => handleRemovePillar(idx)}
-                            className="p-1 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
-                            title="Delete Pillar"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-
                         <InputField
                           label="Headline"
                           value={pillar.title}
@@ -226,7 +246,7 @@ export function WhatWeBelieveSection({ initialData }: { initialData?: any }) {
                           placeholder="Write pillar description..."
                           rows={3}
                         />
-                      </div>
+                      </CollapsibleItemCard>
                     ))}
                   </div>
                 )}

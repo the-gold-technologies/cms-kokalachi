@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
 import { Plus, Trash2, Calendar, Flame } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -34,6 +35,13 @@ export function JourneyDeparturesSection({
 
   // Clean empty state (ZERO default mock data)
   const [departures, setDepartures] = useState<DepartureItem[]>([]);
+  const [openDepIndices, setOpenDepIndices] = useState<number[]>([]);
+
+  const toggleDep = (idx: number) => {
+    setOpenDepIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
+  };
 
   useEffect(() => {
     if (Array.isArray(initialDepartures)) {
@@ -57,6 +65,7 @@ export function JourneyDeparturesSection({
   }, [initialDepartures]);
 
   const handleAddDeparture = () => {
+    const nextIdx = departures.length;
     setDepartures((prev) => [
       ...prev,
       {
@@ -70,6 +79,7 @@ export function JourneyDeparturesSection({
         note: "",
       },
     ]);
+    setOpenDepIndices((prev) => [...prev, nextIdx]);
   };
 
   const handleUpdate = (index: number, field: keyof DepartureItem, value: any) => {
@@ -82,6 +92,9 @@ export function JourneyDeparturesSection({
 
   const handleRemove = (index: number) => {
     setDepartures((prev) => prev.filter((_, i) => i !== index));
+    setOpenDepIndices((prev) =>
+      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i))
+    );
   };
 
   const handleSave = async () => {
@@ -147,13 +160,32 @@ export function JourneyDeparturesSection({
               <Calendar className="w-3.5 h-3.5 text-[#0E5A60]" /> Scheduled Departures (
               {departures.length})
             </span>
-            <button
-              type="button"
-              onClick={handleAddDeparture}
-              className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add Departure Batch
-            </button>
+            <div className="flex items-center gap-2">
+              {departures.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setOpenDepIndices(
+                      openDepIndices.length === departures.length
+                        ? []
+                        : departures.map((_, i) => i)
+                    )
+                  }
+                  className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                >
+                  {openDepIndices.length === departures.length
+                    ? "Collapse all"
+                    : "Expand all"}
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleAddDeparture}
+                className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add Departure Batch
+              </button>
+            </div>
           </div>
 
           {departures.length === 0 ? (
@@ -162,95 +194,90 @@ export function JourneyDeparturesSection({
               dates for this journey.
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
-              {departures.map((dep, idx) => (
-                <div
-                  key={idx}
-                  className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-4 relative"
-                >
-                  <div className="flex items-center justify-between border-b border-gray-200/60 pb-3">
-                    <span className="text-xs font-bold text-[#0E5A60] flex items-center gap-2">
-                      <span className="w-6 h-6 rounded-full bg-[#0E5A60]/10 flex items-center justify-center text-[11px] font-black">
-                        {idx + 1}
-                      </span>
-                      Departure Batch #{idx + 1}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemove(idx)}
-                      className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                      title="Remove Departure"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Dates Row */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <InputField
-                      label="Start Date *"
-                      type="date"
-                      value={dep.startDate}
-                      onChange={(e) => handleUpdate(idx, "startDate", e.target.value)}
-                      required
-                    />
-                    <InputField
-                      label="End Date *"
-                      type="date"
-                      value={dep.endDate}
-                      onChange={(e) => handleUpdate(idx, "endDate", e.target.value)}
-                      required
-                    />
-                    <InputField
-                      label="Custom Batch Price (₹)"
-                      type="number"
-                      value={dep.price !== undefined && dep.price !== null ? String(dep.price) : ""}
-                      onChange={(e) => handleUpdate(idx, "price", e.target.value)}
-                      placeholder="Leave blank to use base"
-                    />
-                    <InputField
-                      label="Spots Left *"
-                      type="number"
-                      value={String(dep.spotsLeft)}
-                      onChange={(e) => handleUpdate(idx, "spotsLeft", e.target.value)}
-                      placeholder="e.g. 8"
-                      required
-                    />
-                  </div>
-
-                  {/* Status & Labels Row */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                        Booking Status
-                      </label>
-                      <select
-                        value={dep.status}
-                        onChange={(e) => handleUpdate(idx, "status", e.target.value as any)}
-                        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-xs font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 cursor-pointer"
-                      >
-                        <option value="open">Open (Accepting Bookings)</option>
-                        <option value="soldout">Sold Out</option>
-                        <option value="closed">Closed / Archived</option>
-                      </select>
+            <div className="flex flex-col gap-3">
+              {departures.map((dep, idx) => {
+                const datesSubtitle =
+                  dep.startDate && dep.endDate
+                    ? `${dep.startDate} → ${dep.endDate}`
+                    : dep.startDate || undefined;
+                return (
+                  <CollapsibleItemCard
+                    key={idx}
+                    title={`Batch #${idx + 1}`}
+                    subtitle={datesSubtitle}
+                    badge={dep.status ? dep.status.toUpperCase() : undefined}
+                    isOpen={openDepIndices.includes(idx)}
+                    onToggle={() => toggleDep(idx)}
+                    onDelete={() => handleRemove(idx)}
+                    deleteTitle="Remove Departure"
+                  >
+                    {/* Dates Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <InputField
+                        label="Start Date *"
+                        type="date"
+                        value={dep.startDate}
+                        onChange={(e) => handleUpdate(idx, "startDate", e.target.value)}
+                        required
+                      />
+                      <InputField
+                        label="End Date *"
+                        type="date"
+                        value={dep.endDate}
+                        onChange={(e) => handleUpdate(idx, "endDate", e.target.value)}
+                        required
+                      />
+                      <InputField
+                        label="Custom Batch Price (₹)"
+                        type="number"
+                        value={dep.price !== undefined && dep.price !== null ? String(dep.price) : ""}
+                        onChange={(e) => handleUpdate(idx, "price", e.target.value)}
+                        placeholder="Leave blank to use base"
+                      />
+                      <InputField
+                        label="Spots Left *"
+                        type="number"
+                        value={String(dep.spotsLeft)}
+                        onChange={(e) => handleUpdate(idx, "spotsLeft", e.target.value)}
+                        placeholder="e.g. 8"
+                        required
+                      />
                     </div>
 
-                    <InputField
-                      label="Batch Badge / Label"
-                      value={dep.label ?? ""}
-                      onChange={(e) => handleUpdate(idx, "label", e.target.value)}
-                      placeholder="e.g. Diwali Special, Long Weekend"
-                    />
+                    {/* Status & Labels Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                          Booking Status
+                        </label>
+                        <select
+                          value={dep.status}
+                          onChange={(e) => handleUpdate(idx, "status", e.target.value as any)}
+                          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-xs font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 cursor-pointer"
+                        >
+                          <option value="open">Open (Accepting Bookings)</option>
+                          <option value="soldout">Sold Out</option>
+                          <option value="closed">Closed / Archived</option>
+                        </select>
+                      </div>
 
-                    <InputField
-                      label="Departure Note"
-                      value={dep.note ?? ""}
-                      onChange={(e) => handleUpdate(idx, "note", e.target.value)}
-                      placeholder="e.g. Departs Delhi on Friday night"
-                    />
-                  </div>
-                </div>
-              ))}
+                      <InputField
+                        label="Batch Badge / Label"
+                        value={dep.label ?? ""}
+                        onChange={(e) => handleUpdate(idx, "label", e.target.value)}
+                        placeholder="e.g. Diwali Special, Long Weekend"
+                      />
+
+                      <InputField
+                        label="Departure Note"
+                        value={dep.note ?? ""}
+                        onChange={(e) => handleUpdate(idx, "note", e.target.value)}
+                        placeholder="e.g. Departs Delhi on Friday night"
+                      />
+                    </div>
+                  </CollapsibleItemCard>
+                );
+              })}
             </div>
           )}
 

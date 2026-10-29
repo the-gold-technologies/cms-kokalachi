@@ -5,6 +5,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { SaveButton } from "@/components/SaveButton";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
 import { Plus, Trash2, HelpCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -28,6 +29,13 @@ export function JourneyFaqSection({
 
   // Clean empty state (ZERO default mock data)
   const [faqs, setFaqs] = useState<FaqItem[]>([]);
+  const [openFaqIndices, setOpenFaqIndices] = useState<number[]>([]);
+
+  const toggleFaq = (idx: number) => {
+    setOpenFaqIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
+  };
 
   useEffect(() => {
     if (Array.isArray(initialFaqs)) {
@@ -41,7 +49,9 @@ export function JourneyFaqSection({
   }, [initialFaqs]);
 
   const handleAddFaq = () => {
+    const nextIdx = faqs.length;
     setFaqs((prev) => [...prev, { question: "", answer: "" }]);
+    setOpenFaqIndices((prev) => [...prev, nextIdx]);
   };
 
   const handleUpdate = (index: number, field: keyof FaqItem, val: string) => {
@@ -54,6 +64,9 @@ export function JourneyFaqSection({
 
   const handleRemove = (index: number) => {
     setFaqs((prev) => prev.filter((_, i) => i !== index));
+    setOpenFaqIndices((prev) =>
+      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i))
+    );
   };
 
   const handleSave = async () => {
@@ -108,32 +121,45 @@ export function JourneyFaqSection({
               <HelpCircle className="w-3.5 h-3.5 text-[#0E5A60]" /> Questions & Answers (
               {faqs.length})
             </span>
-            <button
-              type="button"
-              onClick={handleAddFaq}
-              className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add FAQ
-            </button>
+            <div className="flex items-center gap-2">
+              {faqs.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setOpenFaqIndices(
+                      openFaqIndices.length === faqs.length
+                        ? []
+                        : faqs.map((_, i) => i)
+                    )
+                  }
+                  className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                >
+                  {openFaqIndices.length === faqs.length
+                    ? "Collapse all"
+                    : "Expand all"}
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleAddFaq}
+                className="text-xs font-bold text-[#0E5A60] hover:text-[#061C29] flex items-center gap-1 bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add FAQ
+              </button>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {faqs.map((faq, idx) => (
-              <div
+              <CollapsibleItemCard
                 key={idx}
-                className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 flex flex-col gap-3 relative"
+                title={`Question #${idx + 1}`}
+                subtitle={faq.question}
+                isOpen={openFaqIndices.includes(idx)}
+                onToggle={() => toggleFaq(idx)}
+                onDelete={() => handleRemove(idx)}
+                deleteTitle="Remove FAQ"
               >
-                <div className="flex items-center justify-between border-b border-gray-200/60 pb-2">
-                  <span className="text-xs font-bold text-[#0E5A60]">Question #{idx + 1}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleRemove(idx)}
-                    className="p-1 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
                 <InputField
                   label="Question"
                   value={faq.question}
@@ -148,7 +174,7 @@ export function JourneyFaqSection({
                   rows={2}
                   placeholder="e.g. Yes! Over 60% of our travellers join solo..."
                 />
-              </div>
+              </CollapsibleItemCard>
             ))}
           </div>
 

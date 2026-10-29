@@ -7,6 +7,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { SaveButton } from "@/components/SaveButton";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
 import { Plus, Trash2, ChevronDown, ChevronUp, ArrowUp, ArrowDown, FolderPlus } from "lucide-react";
 
 export interface FaqItem {
@@ -397,18 +398,14 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
                               ) : (
                                 <div className="flex flex-col gap-3">
                                   {category.items.map((item, qIndex) => (
-                                    <div
+                                    <CollapsibleItemCard
                                       key={qIndex}
-                                      className="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 flex flex-col gap-3 transition-colors"
-                                    >
-                                      <div className="flex items-start justify-between gap-3">
-                                        <div className="flex items-center gap-2 text-xs font-bold text-[#0E5A60]">
-                                          <span className="w-5 h-5 rounded-full bg-[#0E5A60] text-white flex items-center justify-center text-[10px]">
-                                            Q{qIndex + 1}
-                                          </span>
-                                          <span>Question & Answer Pair</span>
-                                        </div>
-                                        <div className="flex items-center gap-1">
+                                      title={`Q${qIndex + 1}`}
+                                      subtitle={item.question || "Untitled Question"}
+                                      onDelete={() => requestDeleteQuestion(catIndex, qIndex)}
+                                      deleteTitle="Delete question"
+                                      extraHeaderActions={
+                                        <div className="flex items-center gap-1 mr-1">
                                           <button
                                             type="button"
                                             onClick={() =>
@@ -431,17 +428,9 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
                                           >
                                             <ArrowDown className="w-3.5 h-3.5" />
                                           </button>
-                                          <button
-                                            type="button"
-                                            onClick={() => requestDeleteQuestion(catIndex, qIndex)}
-                                            className="p-1 text-red-400 hover:text-red-600 rounded ml-1"
-                                            title="Delete question"
-                                          >
-                                            <Trash2 className="w-3.5 h-3.5" />
-                                          </button>
                                         </div>
-                                      </div>
-
+                                      }
+                                    >
                                       <InputField
                                         label="Question"
                                         value={item.question}
@@ -470,7 +459,7 @@ export function FaqsAccordionSection({ initialData }: { initialData?: any }) {
                                         placeholder="Write the detailed answer that appears when the accordion opens..."
                                         rows={3}
                                       />
-                                    </div>
+                                    </CollapsibleItemCard>
                                   ))}
                                 </div>
                               )}

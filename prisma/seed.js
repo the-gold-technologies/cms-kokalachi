@@ -517,6 +517,9 @@ async function main() {
             oldWayTitle: "Kashmir Trip? 🏔️",
             newWayBadge: "THE KOKALACHI WAY",
             newWayTitle: "Curated groups. Fixed dates. Verified travellers.",
+            conclusionTitle: "So, we decided to build a better way to do it.",
+            conclusionDescription:
+              "At Kokalachi, we bring together people who share a love for travel so you can stop waiting and start exploring.",
             photos: [
               {
                 image:
