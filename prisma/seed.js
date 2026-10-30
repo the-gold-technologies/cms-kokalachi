@@ -369,7 +369,7 @@ async function main() {
             endDate: dep.endDate,
             price: dep.price || null,
             originalPrice: dep.originalPrice || null,
-            spotsLeft: dep.spotsLeft ?? 10,
+            spotsLeft: dep.spotsLeft ?? 0,
             status: dep.status || "open",
             label: dep.label || null,
             note: dep.note || null,
