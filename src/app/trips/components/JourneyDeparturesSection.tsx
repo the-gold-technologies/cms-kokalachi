@@ -55,7 +55,7 @@ export function JourneyDeparturesSection({
             d.originalPrice !== undefined && d.originalPrice !== null
               ? String(d.originalPrice)
               : "",
-          spotsLeft: d.spotsLeft !== undefined && d.spotsLeft !== null ? String(d.spotsLeft) : "10",
+          spotsLeft: d.spotsLeft !== undefined && d.spotsLeft !== null ? String(d.spotsLeft) : "",
           status: d.status ?? "open",
           label: d.label ?? "",
           note: d.note ?? "",
@@ -73,7 +73,7 @@ export function JourneyDeparturesSection({
         endDate: "",
         price: "",
         originalPrice: "",
-        spotsLeft: "10",
+        spotsLeft: "",
         status: "open",
         label: "",
         note: "",
@@ -109,7 +109,7 @@ export function JourneyDeparturesSection({
           price: d.price ? parseFloat(String(d.price)) : null,
           originalPrice: d.originalPrice ? parseFloat(String(d.originalPrice)) : null,
           spotsLeft:
-            typeof d.spotsLeft === "number" ? d.spotsLeft : parseInt(String(d.spotsLeft), 10) || 10,
+            typeof d.spotsLeft === "number" ? d.spotsLeft : parseInt(String(d.spotsLeft)) || null,
           status: d.status,
           label: d.label && d.label.trim() !== "" ? d.label : null,
           note: d.note && d.note.trim() !== "" ? d.note : null,

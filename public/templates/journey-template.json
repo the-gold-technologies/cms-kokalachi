@@ -28,7 +28,7 @@
       "startDate": "2026-11-10",
       "endDate": "2026-11-13",
       "price": 38999,
-      "spotsLeft": 10,
+      "spotsLeft": null,
       "status": "open",
       "label": "Autumn Batch",
       "note": "Arrive at Srinagar Airport by 11:00 AM"
@@ -37,7 +37,7 @@
       "startDate": "2026-11-20",
       "endDate": "2026-11-23",
       "price": 38999,
-      "spotsLeft": 8,
+      "spotsLeft": null,
       "status": "open",
       "label": "Weekend Batch",
       "note": "Arrive at Srinagar Airport by 11:00 AM"
@@ -45,7 +45,7 @@
     {
       "startDate": "",
       "endDate": "",
-      "spotsLeft": 10,
+      "spotsLeft": null,
       "status": "open",
       "label": "Spring Special",
       "note": "Arrive by 12:00 PM"

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Departure" ALTER COLUMN "spotsLeft" DROP NOT NULL,
+ALTER COLUMN "spotsLeft" DROP DEFAULT;

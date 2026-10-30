@@ -202,7 +202,9 @@ export async function POST(request: Request) {
             price: dep.price ? parseFloat(dep.price) : null,
             originalPrice: dep.originalPrice ? parseFloat(dep.originalPrice) : null,
             spotsLeft:
-              typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft, 10) || 10,
+              typeof dep.spotsLeft === "number"
+                ? dep.spotsLeft
+                : parseInt(dep.spotsLeft, 0) || null,
             status: dep.status ?? "open",
             label: dep.label ?? null,
             note: dep.note ?? null,

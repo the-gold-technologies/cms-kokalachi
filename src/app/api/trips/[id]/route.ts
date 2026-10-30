@@ -262,7 +262,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
             price: dep.price ? parseFloat(dep.price) : null,
             originalPrice: dep.originalPrice ? parseFloat(dep.originalPrice) : null,
             spotsLeft:
-              typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft, 10) || 10,
+              typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft) || null,
             status: dep.status ?? "open",
             label: dep.label ?? null,
             note: dep.note ?? null,

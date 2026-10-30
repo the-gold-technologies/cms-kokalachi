@@ -21,7 +21,7 @@ export interface ParsedJourneyDoc {
     endDate: string;
     price?: number | string;
     originalPrice?: number | string;
-    spotsLeft?: number | string;
+    spotsLeft?: number | string | null;
     status?: "open" | "soldout" | "closed";
     label?: string;
     note?: string;
@@ -185,7 +185,7 @@ function sanitizeParsedDoc(raw: any): ParsedJourneyDoc {
       endDate: d.endDate || "",
       price: d.price != null ? d.price : undefined,
       originalPrice: d.originalPrice != null ? d.originalPrice : undefined,
-      spotsLeft: d.spotsLeft != null ? d.spotsLeft : 10,
+      spotsLeft: d.spotsLeft != null ? d.spotsLeft : null,
       status: d.status || "open",
       label: d.label || "",
       note: d.note || "",
@@ -395,7 +395,7 @@ function parseDepartures(text: string): NonNullable<ParsedJourneyDoc["departures
       let label = "";
       let startDate = "";
       let endDate = "";
-      let spotsLeft = 10;
+      let spotsLeft: number | null = null;
       let status: "open" | "soldout" | "closed" = "open";
       let price: number | undefined = undefined;
       let note = "";
@@ -488,7 +488,7 @@ function parseDepartures(text: string): NonNullable<ParsedJourneyDoc["departures
       }
     }
 
-    let spotsLeft: number = 10;
+    let spotsLeft: number | null = null;
     let status: "open" | "soldout" | "closed" = "open";
     let label: string | undefined = undefined;
     let note: string | undefined = undefined;

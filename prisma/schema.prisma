@@ -116,7 +116,7 @@ model Departure {
   endDate       String
   price         Float?
   originalPrice Float?
-  spotsLeft     Int      @default(10)
+  spotsLeft     Int?
   status        String   @default("open")
   label         String?
   note          String?
