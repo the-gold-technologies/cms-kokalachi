@@ -6,6 +6,7 @@ import {
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { findHalfDatedDeparture, toDepartureRows } from "@/lib/departures";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -121,6 +122,14 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       schema,
       departures,
     } = body;
+
+    if (Array.isArray(departures) && findHalfDatedDeparture(departures) !== -1) {
+      const batch = findHalfDatedDeparture(departures) + 1;
+      return NextResponse.json(
+        { success: false, error: `Batch #${batch}: add both start and end dates, or leave both empty` },
+        { status: 400 },
+      );
+    }
 
     // Check slug uniqueness if changed
     if (slug && slug !== existingTrip.slug) {
@@ -245,30 +254,14 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       },
     });
 
-    // Sync departures if provided
+    // Sync departures if provided: replace them all in one transaction
     if (Array.isArray(departures)) {
-      // Delete existing departures for this trip
-      await prisma.departure.deleteMany({ where: { tripId: existingTrip.id } });
-
-      for (const dep of departures) {
-        if (!dep.startDate || !dep.endDate) continue;
-        const depId = dep.id && dep.id.trim() !== "" ? dep.id : `${updated.slug}-${dep.startDate}`;
-        await prisma.departure.create({
-          data: {
-            id: depId,
-            tripId: existingTrip.id,
-            startDate: dep.startDate,
-            endDate: dep.endDate,
-            price: dep.price ? parseFloat(dep.price) : null,
-            originalPrice: dep.originalPrice ? parseFloat(dep.originalPrice) : null,
-            spotsLeft:
-              typeof dep.spotsLeft === "number" ? dep.spotsLeft : parseInt(dep.spotsLeft) || null,
-            status: dep.status ?? "open",
-            label: dep.label ?? null,
-            note: dep.note ?? null,
-          },
-        });
-      }
+      await prisma.$transaction([
+        prisma.departure.deleteMany({ where: { tripId: existingTrip.id } }),
+        prisma.departure.createMany({
+          data: toDepartureRows(departures, existingTrip.id, updated.slug),
+        }),
+      ]);
     }
 
     const completeTrip = await prisma.trip.findUnique({

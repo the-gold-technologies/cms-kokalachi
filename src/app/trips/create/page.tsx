@@ -356,18 +356,8 @@ export default function CreateFullJourneyPage() {
         gallery: gallery.filter((g) => g.trim() !== ""),
         vibeTags,
         isFeatured,
-        departures: departures
-          .filter((d) => d.startDate && d.endDate)
-          .map((d) => ({
-            startDate: d.startDate,
-            endDate: d.endDate,
-            price: d.price ? parseFloat(d.price) : null,
-            originalPrice: d.originalPrice ? parseFloat(d.originalPrice) : null,
-            spotsLeft: parseInt(d.spotsLeft) || null,
-            status: d.status,
-            label: d.label && d.label.trim() !== "" ? d.label : null,
-            note: d.note && d.note.trim() !== "" ? d.note : null,
-          })),
+        // Blank dates make an "Upcoming" batch; the API turns blanks into nulls
+        departures,
         overview: overviewText
           .split("\n")
           .map((l) => l.trim())
@@ -735,18 +725,18 @@ export default function CreateFullJourneyPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <InputField
-                    label="Start Date *"
+                    label="Start Date"
                     type="date"
                     value={dep.startDate}
                     onChange={(e) => handleUpdateDeparture(idx, "startDate", e.target.value)}
-                    required
+                    required={!!dep.endDate}
                   />
                   <InputField
-                    label="End Date *"
+                    label="End Date"
                     type="date"
                     value={dep.endDate}
                     onChange={(e) => handleUpdateDeparture(idx, "endDate", e.target.value)}
-                    required
+                    required={!!dep.startDate}
                   />
                   <InputField
                     label="Batch Price Override (₹)"
@@ -756,12 +746,12 @@ export default function CreateFullJourneyPage() {
                     placeholder="Leave blank to use base"
                   />
                   <InputField
-                    label="Spots Left *"
+                    label="Spots Left"
                     type="number"
+                    min={0}
                     value={dep.spotsLeft}
                     onChange={(e) => handleUpdateDeparture(idx, "spotsLeft", e.target.value)}
                     placeholder="e.g. 10"
-                    required
                   />
                 </div>
 

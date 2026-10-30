@@ -112,8 +112,8 @@ model Trip {
 model Departure {
   id            String   @id
   tripId        String
-  startDate     String
-  endDate       String
+  startDate     String?
+  endDate       String?
   price         Float?
   originalPrice Float?
   spotsLeft     Int?

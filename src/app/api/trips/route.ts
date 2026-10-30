@@ -2,6 +2,7 @@ import { checkAdminSession } from "@/lib/auth-check";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { findHalfDatedDeparture, toDepartureRows } from "@/lib/departures";
 
 export async function GET(request: Request) {
   try {
@@ -93,6 +94,14 @@ export async function POST(request: Request) {
     if (!title || !slug) {
       return NextResponse.json(
         { success: false, error: "Title and slug are required" },
+        { status: 400 },
+      );
+    }
+
+    if (Array.isArray(departures) && findHalfDatedDeparture(departures) !== -1) {
+      const batch = findHalfDatedDeparture(departures) + 1;
+      return NextResponse.json(
+        { success: false, error: `Batch #${batch}: add both start and end dates, or leave both empty` },
         { status: 400 },
       );
     }
@@ -190,27 +199,7 @@ export async function POST(request: Request) {
 
     // Create departures if provided
     if (Array.isArray(departures) && departures.length > 0) {
-      for (const dep of departures) {
-        if (!dep.startDate || !dep.endDate) continue;
-        const depId = dep.id && dep.id.trim() !== "" ? dep.id : `${slug}-${dep.startDate}`;
-        await prisma.departure.create({
-          data: {
-            id: depId,
-            tripId: trip.id,
-            startDate: dep.startDate,
-            endDate: dep.endDate,
-            price: dep.price ? parseFloat(dep.price) : null,
-            originalPrice: dep.originalPrice ? parseFloat(dep.originalPrice) : null,
-            spotsLeft:
-              typeof dep.spotsLeft === "number"
-                ? dep.spotsLeft
-                : parseInt(dep.spotsLeft, 0) || null,
-            status: dep.status ?? "open",
-            label: dep.label ?? null,
-            note: dep.note ?? null,
-          },
-        });
-      }
+      await prisma.departure.createMany({ data: toDepartureRows(departures, trip.id, slug) });
     }
 
     const completeTrip = await prisma.trip.findUnique({

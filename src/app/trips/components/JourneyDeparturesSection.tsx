@@ -101,20 +101,8 @@ export function JourneyDeparturesSection({
     setLoading(true);
     setSaved(false);
     try {
-      const payload = {
-        departures: departures.map((d) => ({
-          id: d.id && d.id.trim() !== "" ? d.id : undefined,
-          startDate: d.startDate,
-          endDate: d.endDate,
-          price: d.price ? parseFloat(String(d.price)) : null,
-          originalPrice: d.originalPrice ? parseFloat(String(d.originalPrice)) : null,
-          spotsLeft:
-            typeof d.spotsLeft === "number" ? d.spotsLeft : parseInt(String(d.spotsLeft)) || null,
-          status: d.status,
-          label: d.label && d.label.trim() !== "" ? d.label : null,
-          note: d.note && d.note.trim() !== "" ? d.note : null,
-        })),
-      };
+      // The API turns blanks into nulls and keeps 0 spots as 0 (see lib/departures)
+      const payload = { departures };
 
       const res = await fetch(`/api/trips/${tripId}`, {
         method: "PUT",
@@ -189,7 +177,8 @@ export function JourneyDeparturesSection({
           {departures.length === 0 ? (
             <div className="py-8 text-center text-gray-400 text-xs bg-gray-50 rounded-2xl border border-dashed border-gray-200">
               No dates scheduled yet. Click &ldquo;Add Departure Batch&rdquo; to open live booking
-              dates for this journey.
+              dates for this journey. Leave the dates empty to show it as &ldquo;Upcoming&rdquo;
+              with just spots left and price.
             </div>
           ) : (
             <div className="flex flex-col gap-3">
@@ -197,7 +186,7 @@ export function JourneyDeparturesSection({
                 const datesSubtitle =
                   dep.startDate && dep.endDate
                     ? `${dep.startDate} → ${dep.endDate}`
-                    : dep.startDate || undefined;
+                    : dep.startDate || "Upcoming (dates to be announced)";
                 return (
                   <CollapsibleItemCard
                     key={idx}
@@ -212,18 +201,18 @@ export function JourneyDeparturesSection({
                     {/* Dates Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                       <InputField
-                        label="Start Date *"
+                        label="Start Date"
                         type="date"
                         value={dep.startDate}
                         onChange={(e) => handleUpdate(idx, "startDate", e.target.value)}
-                        required
+                        required={!!dep.endDate}
                       />
                       <InputField
-                        label="End Date *"
+                        label="End Date"
                         type="date"
                         value={dep.endDate}
                         onChange={(e) => handleUpdate(idx, "endDate", e.target.value)}
-                        required
+                        required={!!dep.startDate}
                       />
                       <InputField
                         label="Custom Batch Price (₹)"
@@ -235,12 +224,12 @@ export function JourneyDeparturesSection({
                         placeholder="Leave blank to use base"
                       />
                       <InputField
-                        label="Spots Left *"
+                        label="Spots Left"
                         type="number"
+                        min={0}
                         value={String(dep.spotsLeft)}
                         onChange={(e) => handleUpdate(idx, "spotsLeft", e.target.value)}
                         placeholder="e.g. 8"
-                        required
                       />
                     </div>
 
@@ -283,7 +272,8 @@ export function JourneyDeparturesSection({
 
           {/* Full-width Standard Save Button */}
           <div className="pt-4 border-t border-gray-100">
-            <SaveButton loading={loading} saved={saved} onClick={handleSave} />
+            {/* Submits the form (no onClick), so one click saves once and date pairs are checked */}
+            <SaveButton type="submit" loading={loading} saved={saved} />
           </div>
         </form>
       )}
