@@ -126,7 +126,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (Array.isArray(departures) && findHalfDatedDeparture(departures) !== -1) {
       const batch = findHalfDatedDeparture(departures) + 1;
       return NextResponse.json(
-        { success: false, error: `Batch #${batch}: add both start and end dates, or leave both empty` },
+        {
+          success: false,
+          error: `Batch #${batch}: add both start and end dates, or leave both empty`,
+        },
         { status: 400 },
       );
     }

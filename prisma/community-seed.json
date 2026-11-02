@@ -29,6 +29,10 @@
       "type": "CommunityChaptersSection",
       "order": 2,
       "content": {
+        "moreMomentsLabel": "more moments",
+        "inTheirWordsLabel": "In their words",
+        "inShortLabel": "In short",
+        "whatTheyLovedLabel": "What they loved",
         "chapters": [
           {
             "slug": "udaipur",
