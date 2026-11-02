@@ -20,11 +20,18 @@ interface PhotoItem {
 
 interface ChatMessageItem {
   sender: string;
-  avatar: string;
   text: string;
   time: string;
-  isSilent?: boolean;
+  isSilent?: boolean; // grey "No replies..." note
+  isUser?: boolean; // green bubble on the right, like your own WhatsApp message
+  reactions?: string;
+  // Stored but not edited here (e.g. sender name colour, legacy avatar) — kept so saving doesn't wipe them
+  [key: string]: unknown;
 }
+
+type MessageKind = "friend" | "me" | "silent";
+const kindOf = (m: ChatMessageItem): MessageKind =>
+  m.isSilent ? "silent" : m.isUser ? "me" : "friend";
 
 export function WhyWeExistSection({ initialData }: { initialData?: any }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,12 +76,15 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
       setChatMembersCount(initialData.chatMembersCount ?? "");
       if (Array.isArray(initialData.chatMessages)) {
         setChatMessages(
-          initialData.chatMessages.map((m: any) => ({
+          initialData.chatMessages.map(({ isSilence, ...m }: any) => ({
+            ...m,
             sender: m.sender ?? "",
-            avatar: m.avatar ?? "",
             text: m.text ?? "",
             time: m.time ?? "",
-            isSilent: Boolean(m.isSilent),
+            // Older content (and the seed) used `isSilence`; fold it into `isSilent`
+            isSilent: Boolean(m.isSilent || isSilence),
+            isUser: Boolean(m.isUser),
+            reactions: m.reactions ?? "",
           })),
         );
       }
@@ -132,7 +142,7 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
     const nextIdx = chatMessages.length;
     setChatMessages([
       ...chatMessages,
-      { sender: "", avatar: "", text: "", time: "", isSilent: false },
+      { sender: "", text: "", time: "", isSilent: false, isUser: false, reactions: "" },
     ]);
     setOpenChatIndices((prev) => [...prev, nextIdx]);
   };
@@ -145,6 +155,12 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
   const updateChat = (idx: number, field: keyof ChatMessageItem, value: any) => {
     const updated = [...chatMessages];
     updated[idx] = { ...updated[idx], [field]: value };
+    setChatMessages(updated);
+  };
+
+  const setMessageKind = (idx: number, kind: MessageKind) => {
+    const updated = [...chatMessages];
+    updated[idx] = { ...updated[idx], isSilent: kind === "silent", isUser: kind === "me" };
     setChatMessages(updated);
   };
 
@@ -249,12 +265,10 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
               <div className="space-y-4 pt-2">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-sm font-bold text-gray-800">
-                      Comparison Cards (The Old Way vs. The Kokalachi Way)
-                    </h4>
+                    <h4 className="text-sm font-bold text-gray-800">Before vs. After Cards</h4>
                     <p className="text-xs text-gray-500">
-                      Collapsible cards for Left Card (The Flaky Chat) and Right Card (The Kokalachi
-                      Way)
+                      Left: a group chat that plays one message at a time and fizzles out. Right: a
+                      photo slideshow that lights up once the chat ends.
                     </p>
                   </div>
                   <button
@@ -273,8 +287,8 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                 <div className="space-y-4">
                   {/* Left Card: The Old Way (Collapsible) */}
                   <CollapsibleItemCard
-                    title="Left Card — The Flaky Chat"
-                    subtitle={oldWayTitle}
+                    title="Left Card — Group Chat (the old way)"
+                    subtitle={oldWayTitle ? `Group: ${oldWayTitle}` : undefined}
                     badge={oldWayBadge || "THE OLD WAY"}
                     isOpen={isLeftCardOpen}
                     onToggle={() => setIsLeftCardOpen(!isLeftCardOpen)}
@@ -282,66 +296,94 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                     headerClassName="bg-rose-50/70 border-rose-100"
                   >
                     <div className="space-y-4">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <InputField
-                          label="Badge Text"
-                          value={oldWayBadge}
-                          onChange={(e) => setOldWayBadge(e.target.value)}
-                          placeholder="e.g. THE OLD WAY"
-                        />
-                        <InputField
-                          label="Card Title"
-                          value={oldWayTitle}
-                          onChange={(e) => setOldWayTitle(e.target.value)}
-                          placeholder="e.g. Goa Trip 2024 (11)"
+                      <InputField
+                        label="Badge Text"
+                        value={oldWayBadge}
+                        onChange={(e) => setOldWayBadge(e.target.value)}
+                        placeholder="e.g. THE OLD WAY"
+                        tooltip="Pill shown at the top of the left card"
+                      />
+
+                      {/* Chat header: looks like the top bar of a WhatsApp group */}
+                      <div className="p-3 bg-white/70 rounded-xl border border-rose-100/80 space-y-3">
+                        <div>
+                          <span className="text-[11px] font-bold text-rose-800 uppercase tracking-wider block">
+                            Chat Header
+                          </span>
+                          <p className="text-[11px] text-gray-500">
+                            The top bar of the group chat: group photo, group name and member count.
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <InputField
+                            label="Group Name"
+                            value={oldWayTitle}
+                            onChange={(e) => setOldWayTitle(e.target.value)}
+                            placeholder="e.g. Kashmir Trip? 🏔️"
+                            tooltip="The WhatsApp group's name, shown next to the group photo"
+                          />
+                          <InputField
+                            label="Members Label"
+                            value={chatMembersCount}
+                            onChange={(e) => setChatMembersCount(e.target.value)}
+                            placeholder="e.g. 10 members"
+                            tooltip="Small grey text under the group name"
+                          />
+                        </div>
+                        <ImagePickerField
+                          label="Group Photo"
+                          value={chatGroupImage}
+                          onChange={setChatGroupImage}
                         />
                       </div>
 
                       {/* Callout Annotations in a clean 2-row layout */}
                       <div className="p-3 bg-white/70 rounded-xl border border-rose-100/80 space-y-3">
-                        <span className="text-[11px] font-bold text-rose-800 uppercase tracking-wider block">
-                          Handwritten Callout Annotations
-                        </span>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <span className="text-[11px] font-bold text-rose-800 uppercase tracking-wider block">
+                            Handwritten Side Notes
+                          </span>
+                          <p className="text-[11px] text-gray-500">
+                            Short notes with arrows to the left of the chat (desktop only). Each one
+                            appears as the chat reaches that point.
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                           <InputField
-                            label="Callout 1"
+                            label="Top Note"
                             value={callout1Text}
                             onChange={(e) => setCallout1Text(e.target.value)}
                             placeholder="e.g. Excitement"
+                            tooltip="Appears with the 1st message"
                           />
                           <InputField
-                            label="Callout 2"
+                            label="Middle Note"
                             value={callout2Text}
                             onChange={(e) => setCallout2Text(e.target.value)}
                             placeholder="e.g. Plans change"
+                            tooltip="Appears with the 3rd message"
+                          />
+                          <InputField
+                            label="Bottom Note"
+                            value={callout3Text}
+                            onChange={(e) => setCallout3Text(e.target.value)}
+                            placeholder="e.g. The trip never happens"
+                            tooltip="Appears with the last message"
                           />
                         </div>
-                        <InputField
-                          label="Callout 3"
-                          value={callout3Text}
-                          onChange={(e) => setCallout3Text(e.target.value)}
-                          placeholder="e.g. The trip never happens"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <ImagePickerField
-                          label="Group Icon Image"
-                          value={chatGroupImage}
-                          onChange={setChatGroupImage}
-                        />
-                        <InputField
-                          label="Members Label"
-                          value={chatMembersCount}
-                          onChange={(e) => setChatMembersCount(e.target.value)}
-                          placeholder="e.g. 10 members"
-                        />
                       </div>
 
                       {/* Chat Messages List */}
                       <div className="space-y-3 pt-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-rose-900">Chat Messages</span>
+                          <div>
+                            <span className="text-xs font-bold text-rose-900 block">
+                              Chat Messages
+                            </span>
+                            <p className="text-[11px] text-gray-500">
+                              Shown one by one, top to bottom, about 1.4s apart.
+                            </p>
+                          </div>
                           <div className="flex items-center gap-2">
                             {chatMessages.length > 0 && (
                               <button
@@ -370,63 +412,102 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                           </div>
                         </div>
 
-                        {chatMessages.map((msg, idx) => (
-                          <CollapsibleItemCard
-                            key={idx}
-                            title={`Message #${idx + 1}: ${msg.sender || (msg.isSilent ? "System / Silence" : "Message")}`}
-                            subtitle={msg.text}
-                            badge={msg.time}
-                            image={msg.avatar}
-                            isOpen={openChatIndices.includes(idx)}
-                            onToggle={() => toggleChat(idx)}
-                            onDelete={() => removeChat(idx)}
-                            deleteTitle="Remove Message"
-                          >
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              <InputField
-                                label="Sender Name"
-                                value={msg.sender}
-                                onChange={(e) => updateChat(idx, "sender", e.target.value)}
-                                placeholder="e.g. Rohit"
+                        {chatMessages.map((msg, idx) => {
+                          const kind = kindOf(msg);
+                          return (
+                            <CollapsibleItemCard
+                              key={idx}
+                              title={`Message #${idx + 1}: ${
+                                kind === "silent"
+                                  ? "“No replies” note"
+                                  : msg.sender || "New message"
+                              }`}
+                              subtitle={msg.text}
+                              badge={msg.time}
+                              isOpen={openChatIndices.includes(idx)}
+                              onToggle={() => toggleChat(idx)}
+                              onDelete={() => removeChat(idx)}
+                              deleteTitle="Remove Message"
+                            >
+                              <div className="space-y-1.5">
+                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4 block">
+                                  Message Style
+                                </span>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                  {(
+                                    [
+                                      ["friend", "Friend's message", "White bubble, left side"],
+                                      ["me", "My message", "Green bubble, right side"],
+                                      [
+                                        "silent",
+                                        "“No replies” note",
+                                        "Grey italic line, no sender",
+                                      ],
+                                    ] as const
+                                  ).map(([value, label, hint]) => (
+                                    <button
+                                      key={value}
+                                      type="button"
+                                      onClick={() => setMessageKind(idx, value)}
+                                      className={`text-left px-3 py-2 rounded-xl border text-xs transition-colors cursor-pointer ${
+                                        kind === value
+                                          ? "border-rose-400 bg-rose-50 text-rose-900"
+                                          : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                                      }`}
+                                    >
+                                      <span className="font-semibold block">{label}</span>
+                                      <span className="text-[10px] text-gray-500">{hint}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                {kind !== "silent" && (
+                                  <InputField
+                                    label="Sender Name"
+                                    value={msg.sender}
+                                    onChange={(e) => updateChat(idx, "sender", e.target.value)}
+                                    placeholder="e.g. Rohit"
+                                  />
+                                )}
+                                <InputField
+                                  label="Time"
+                                  value={msg.time}
+                                  onChange={(e) => updateChat(idx, "time", e.target.value)}
+                                  placeholder="e.g. 10:42 AM"
+                                />
+                              </div>
+                              <TextAreaField
+                                label="Message Text"
+                                value={msg.text}
+                                onChange={(e) => updateChat(idx, "text", e.target.value)}
+                                placeholder={
+                                  kind === "silent"
+                                    ? "e.g. No replies..."
+                                    : "e.g. Guys, shall we do Kashmir in October? 🏔️😍"
+                                }
+                                rows={2}
                               />
-                              <InputField
-                                label="Timestamp"
-                                value={msg.time}
-                                onChange={(e) => updateChat(idx, "time", e.target.value)}
-                                placeholder="e.g. 10:42 AM"
-                              />
-                            </div>
-                            <ImagePickerField
-                              label="Sender Avatar"
-                              value={msg.avatar}
-                              onChange={(url) => updateChat(idx, "avatar", url)}
-                            />
-                            <TextAreaField
-                              label="Message Text"
-                              value={msg.text}
-                              onChange={(e) => updateChat(idx, "text", e.target.value)}
-                              placeholder="e.g. Guys! Goa this long weekend? Flight prices are low right now 🌴"
-                              rows={2}
-                            />
-                            <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer pt-1">
-                              <input
-                                type="checkbox"
-                                checked={Boolean(msg.isSilent)}
-                                onChange={(e) => updateChat(idx, "isSilent", e.target.checked)}
-                                className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
-                              />
-                              <span>Render as silent / no replies callout style</span>
-                            </label>
-                          </CollapsibleItemCard>
-                        ))}
+                              {kind === "friend" && (
+                                <InputField
+                                  label="Reactions (optional)"
+                                  value={msg.reactions ?? ""}
+                                  onChange={(e) => updateChat(idx, "reactions", e.target.value)}
+                                  placeholder="e.g. ❤️ 🔥 🙌 4"
+                                  tooltip="Emoji pill under the message. Leave empty for none."
+                                />
+                              )}
+                            </CollapsibleItemCard>
+                          );
+                        })}
                       </div>
                     </div>
                   </CollapsibleItemCard>
 
                   {/* Right Card: The Kokalachi Way (Collapsible) */}
                   <CollapsibleItemCard
-                    title="Right Card — The Kokalachi Way"
-                    subtitle={newWayTitle}
+                    title="Right Card — Photo Slideshow (the Kokalachi way)"
+                    subtitle={photos.length ? `${photos.length} photos` : undefined}
                     badge={newWayBadge || "THE KOKALACHI WAY"}
                     isOpen={isRightCardOpen}
                     onToggle={() => setIsRightCardOpen(!isRightCardOpen)}
@@ -434,30 +515,24 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                     headerClassName="bg-teal-50/70 border-teal-100"
                   >
                     <div className="space-y-4">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <InputField
-                          label="Badge Text"
-                          value={newWayBadge}
-                          onChange={(e) => setNewWayBadge(e.target.value)}
-                          placeholder="e.g. THE KOKALACHI WAY"
-                        />
-                        <InputField
-                          label="Card Title"
-                          value={newWayTitle}
-                          onChange={(e) => setNewWayTitle(e.target.value)}
-                          placeholder="e.g. Curated groups. Fixed dates. Verified travellers."
-                        />
-                      </div>
+                      <InputField
+                        label="Badge Text"
+                        value={newWayBadge}
+                        onChange={(e) => setNewWayBadge(e.target.value)}
+                        placeholder="e.g. THE KOKALACHI WAY"
+                        tooltip="Orange pill shown at the top of the right card"
+                      />
 
                       {/* Photo Collage Items inside Right Card */}
                       <div className="space-y-3 pt-2">
                         <div className="flex items-center justify-between">
                           <div>
                             <span className="text-xs font-bold text-teal-900 block">
-                              Right Card Photo Collage / Carousel
+                              Slideshow Photos
                             </span>
                             <p className="text-[11px] text-gray-500">
-                              Images displayed in the dynamic card on the right
+                              Rotate every 2s after the chat ends. Each shows a 📍 location pill
+                              (top-left) and a two-line handwritten caption (top-right).
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
@@ -507,13 +582,13 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                             />
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <InputField
-                                label="Caption Title"
+                                label="Caption Line 1"
                                 value={item.captionTitle}
                                 onChange={(e) => updatePhoto(idx, "captionTitle", e.target.value)}
                                 placeholder="e.g. Real people."
                               />
                               <InputField
-                                label="Caption Subtitle"
+                                label="Caption Line 2"
                                 value={item.captionSub}
                                 onChange={(e) => updatePhoto(idx, "captionSub", e.target.value)}
                                 placeholder="e.g. Real connections."
@@ -521,7 +596,7 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <InputField
-                                label="Badge Pill"
+                                label="Location Pill"
                                 value={item.badge}
                                 onChange={(e) => updatePhoto(idx, "badge", e.target.value)}
                                 placeholder="e.g. Kashmir Circle"
