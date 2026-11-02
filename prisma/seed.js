@@ -634,31 +634,22 @@ async function main() {
             step2Message3Text: "Can\x27t wait to meet everyone! ✨",
             steps: [
               {
-                stepNumber: 1,
                 title: "Discover a Journey",
-                tag: "Choose your vibe & destination! 🌴✨",
                 description:
                   "Browse upcoming journeys and choose the one that excites you the most.",
-                image:
-                  "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=85&w=800",
+                points: ["Small groups, fixed departure dates", "Full itinerary before you book"],
               },
               {
-                stepNumber: 2,
                 title: "Connect Before You Go",
-                tag: "Pre-trip WhatsApp Circle",
                 description:
                   "Meet your travel circle in a private group before departure. Break the ice and plan together.",
-                image:
-                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=85&w=800",
+                points: ["Say hello before departure", "Ask questions & share plans"],
               },
               {
-                stepNumber: 3,
                 title: "Pack & Experience",
-                tag: "Meet your tribe",
                 description:
                   "Show up, immerse in authentic local culture, and make memories with lifelong friends.",
-                image:
-                  "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&q=85&w=800",
+                points: ["Trip host with you throughout", "Come home with new friends"],
               },
             ],
           },

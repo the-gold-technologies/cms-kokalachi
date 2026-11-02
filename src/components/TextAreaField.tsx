@@ -6,6 +6,7 @@ interface TextAreaFieldProps extends React.TextareaHTMLAttributes<HTMLTextAreaEl
   containerClassName?: string;
   tooltip?: string;
   helperText?: string;
+  showLinkButton?: boolean; // hide when the website shows this text as plain text
 }
 
 export const TextAreaField: React.FC<TextAreaFieldProps> = ({
@@ -15,6 +16,7 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
   rows = 4,
   tooltip,
   helperText,
+  showLinkButton = true,
   ...props
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -91,15 +93,17 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
         )}
 
         {/* Sleek link button */}
-        <button
-          type="button"
-          onClick={handleOpenLinkModal}
-          className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#D8232A] hover:text-[#b51b21] transition-colors cursor-pointer"
-          title="Insert link formatting"
-        >
-          <LinkIcon className="w-3.5 h-3.5" />
-          Add Link
-        </button>
+        {showLinkButton && (
+          <button
+            type="button"
+            onClick={handleOpenLinkModal}
+            className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#D8232A] hover:text-[#b51b21] transition-colors cursor-pointer"
+            title="Insert link formatting"
+          >
+            <LinkIcon className="w-3.5 h-3.5" />
+            Add Link
+          </button>
+        )}
       </div>
 
       <textarea ref={textareaRef} rows={rows} className={textareaClass} {...props} />
