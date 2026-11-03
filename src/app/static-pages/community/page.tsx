@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
+import { SharedSectionLink } from "@/components/SharedSectionLink";
 import { CommunityHeroSection, CommunityChaptersSection, CommunityCtaSection } from "./components";
 
 export default function CommunityCMSPage() {
@@ -34,6 +35,10 @@ export default function CommunityCMSPage() {
 
       <CommunityHeroSection initialData={communityData?.CommunityHeroSection} />
       <CommunityChaptersSection initialData={communityData?.CommunityChaptersSection} />
+      <SharedSectionLink
+        page="community"
+        placement="Between the Chapters and the Share Your Story CTA"
+      />
       <CommunityCtaSection initialData={communityData?.CommunityCtaSection} />
     </section>
   );

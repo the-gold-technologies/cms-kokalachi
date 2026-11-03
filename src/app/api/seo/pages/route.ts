@@ -322,20 +322,24 @@ export async function GET() {
     }
 
     // Return the distinct pages in order (Home is managed in Global SEO, Journeys detail in Journey editor)
+    const slugOrder = [
+      "journeys",
+      "blogs",
+      "about",
+      "contact",
+      "community",
+      "faqs",
+      "terms",
+      "privacy-policy",
+      "trips",
+    ];
     const pages = await prisma.page.findMany({
       where: {
-        slug: {
-          in: [
-            "journeys",
-            "blogs",
-            "about",
-            "contact",
-            "community",
-            "faqs",
-            "terms",
-            "privacy-policy",
-          ],
-        },
+        OR: [
+          { slug: { in: slugOrder } },
+          // Trips sub-pages, including ones added in Static Pages → Trips Pages
+          { slug: { startsWith: "trips/" } },
+        ],
       },
       select: {
         id: true,
@@ -350,23 +354,22 @@ export async function GET() {
       orderBy: { order: "asc" },
     });
 
-    const slugOrder = [
-      "journeys",
-      "blogs",
-      "about",
-      "contact",
-      "community",
-      "faqs",
-      "terms",
-      "privacy-policy",
-    ];
+    // Fixed pages in this order, then the trips sub-pages in their tab order
+    const rank = (slug: string) =>
+      slugOrder.includes(slug) ? slugOrder.indexOf(slug) : slugOrder.length;
     const sorted = [...pages]
-      .sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug))
+      .sort((a, b) => rank(a.slug) - rank(b.slug) || a.order - b.order)
       .map((p, idx) => ({ ...p, order: idx + 1 }));
+
+    // The trips sub-pages sit inside the Trips row as a dropdown, like the Trips menu in Menu Links
+    const tripsId = sorted.find((p) => p.slug === "trips")?.id;
+    const grouped = sorted.map((p) =>
+      tripsId && p.slug.startsWith("trips/") ? { ...p, parent: tripsId } : p,
+    );
 
     return NextResponse.json({
       success: true,
-      data: sorted,
+      data: grouped,
     });
   } catch (error) {
     console.error("Error fetching SEO pages:", error);

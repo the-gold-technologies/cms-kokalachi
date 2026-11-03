@@ -60,10 +60,12 @@ const sidebarLinks: SidebarLink[] = [
       { title: "Home", href: "/static-pages/home" },
       { title: "About Us", href: "/static-pages/about" },
       { title: "Contact Us", href: "/static-pages/contact" },
+      { title: "Trips Pages", href: "/static-pages/trips" },
       { title: "Community", href: "/static-pages/community" },
       { title: "FAQs", href: "/static-pages/faqs" },
       { title: "Terms & Conditions", href: "/static-pages/terms" },
       { title: "Privacy Policy", href: "/static-pages/privacy-policy" },
+      { title: "Shared Sections", href: "/static-pages/shared-sections" },
     ],
   },
   {

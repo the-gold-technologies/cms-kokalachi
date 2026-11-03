@@ -96,7 +96,11 @@ export async function PUT(
       },
     });
 
-    revalidateWebsite(WebsiteTag.page(slug));
+    // The trips pages are read together on the website (tabs, navbar, footer), under the "trips" tag
+    revalidateWebsite(
+      WebsiteTag.page(slug),
+      ...(slug.startsWith("trips/") ? [WebsiteTag.page("trips")] : []),
+    );
     return NextResponse.json({ success: true, data: updatedPage });
   } catch (error) {
     console.error("Error updating page SEO data:", error);

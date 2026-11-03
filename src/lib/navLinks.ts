@@ -165,6 +165,11 @@ export const NAV_PAGE_SLUGS: Record<string, string> = {
   "nav-blogs": "blogs",
   "nav-community": "community",
   "nav-contact": "contact",
+  "nav-trips": "trips",
+  "nav-trips-upcoming": "trips/upcoming",
+  "nav-trips-past": "trips/past",
+  "nav-trips-custom": "trips/custom-group-trip",
+  "nav-trips-solo": "trips/solo-travellers",
 };
 
 /** Page names taken from the menu, by page slug ("journeys" → "Journeys"). */

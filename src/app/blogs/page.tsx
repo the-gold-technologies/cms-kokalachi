@@ -9,6 +9,7 @@ import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { SharedSectionLink } from "@/components/SharedSectionLink";
 import {
   Search,
   Plus,
@@ -417,6 +418,11 @@ export default function BlogsListPage() {
           </form>
         )}
       </div>
+
+      <SharedSectionLink
+        page="blogs"
+        placement="At the bottom of the Blogs page, below the stories and the bottom CTA"
+      />
 
       {/* Filter and Search Bar */}
       <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 justify-between items-center">

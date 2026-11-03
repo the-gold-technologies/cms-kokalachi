@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
+import { SharedSectionLink } from "@/components/SharedSectionLink";
 import {
   JourneyCardSection,
   JourneyDeparturesSection,
@@ -174,6 +175,11 @@ export default function EditJourneyPage() {
         tripId={trip.id}
         initialData={trip}
         onSaved={(updated) => setTrip((prev: any) => ({ ...prev, ...updated }))}
+      />
+
+      <SharedSectionLink
+        page="journey-detail"
+        placement="At the bottom of every journey page, leaving out the journey being viewed"
       />
     </div>
   );

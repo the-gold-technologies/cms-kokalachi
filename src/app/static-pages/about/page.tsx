@@ -7,9 +7,9 @@ import {
   WhyWeStartedSection,
   WhatWeBelieveSection,
   MeetFounderSection,
-  ExploreJourneysSection,
   JoinTribeSection,
 } from "./components";
+import { SharedSectionLink } from "@/components/SharedSectionLink";
 
 export default function AboutUsPageEditor() {
   const [aboutData, setAboutData] = useState<any>(null);
@@ -40,7 +40,10 @@ export default function AboutUsPageEditor() {
       <WhyWeStartedSection initialData={aboutData?.WhyWeStartedSection} />
       <WhatWeBelieveSection initialData={aboutData?.WhatWeBelieveSection} />
       <MeetFounderSection initialData={aboutData?.MeetFounderSection} />
-      <ExploreJourneysSection initialData={aboutData?.ExploreJourneysSection} />
+      <SharedSectionLink
+        page="about"
+        placement="Between Meet the Founder and the Join the Tribe CTA"
+      />
       <JoinTribeSection initialData={aboutData?.JoinTribeSection} />
     </section>
   );

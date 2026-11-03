@@ -26,6 +26,7 @@ import {
   Share2,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { SharedSectionLink } from "@/components/SharedSectionLink";
 
 export interface BlogSectionItem {
   id: string;
@@ -1065,6 +1066,8 @@ export function BlogForm({
           </div>
         </div>
       )}
+
+      <SharedSectionLink page="blog-post" placement="At the bottom of every blog post" />
 
       {/* Sticky Bottom Save Bar */}
       <div className="sticky bottom-6 z-40 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 shadow-xl p-4 flex items-center justify-between gap-4">

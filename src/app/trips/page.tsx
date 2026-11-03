@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
+import { SharedSectionLink } from "@/components/SharedSectionLink";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImagePickerField } from "@/components/ImagePickerField";
@@ -277,6 +278,11 @@ export default function AllJourneysCMSPage() {
       <VibeFiltersSection
         initialData={vibeData}
         onSaved={(updatedCategories) => setVibeCategories(updatedCategories)}
+      />
+
+      <SharedSectionLink
+        page="journeys"
+        placement="At the bottom of the All Journeys page, below the journey cards"
       />
 
       {/* Filter and Search Bar (NO Table Toggle - Pure Card Type Structure) */}

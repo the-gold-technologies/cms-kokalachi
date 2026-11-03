@@ -4,6 +4,8 @@ const { Pool } = require("pg");
 const { PrismaPg } = require("@prisma/adapter-pg");
 const bcrypt = require("bcryptjs");
 const path = require("path");
+const { tripsPagesData } = require("./seed-trips");
+const { sharedPagesData } = require("./seed-shared");
 
 require("dotenv").config();
 const connectionString = process.env.DATABASE_URL;
@@ -1712,6 +1714,11 @@ async function main() {
       ],
     });
   }
+
+  // Trips pages (/trips and its sub-pages): data in prisma/seed-trips.js
+  pagesData.push(...tripsPagesData);
+  // Sections shown across the site (Static Pages → Shared Sections): data in prisma/seed-shared.js
+  pagesData.push(...sharedPagesData);
 
   for (const pageData of pagesData) {
     const page = await prisma.page.upsert({
