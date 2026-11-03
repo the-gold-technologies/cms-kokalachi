@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { navPageTitles } from "@/lib/navLinks";
 
 export const dynamic = "force-dynamic";
 
@@ -274,8 +275,12 @@ const CORE_PAGES = [
 
 export async function GET() {
   try {
+    // Pages opened from the navbar take their name from CMS → Navigation → Menu Links
+    const menuTitles = await navPageTitles();
+
     // Upsert the core pages with complete metadata if missing
     for (const core of CORE_PAGES) {
+      const title = menuTitles[core.slug] || core.title;
       const existing = await prisma.page.findUnique({
         where: { slug: core.slug },
       });
@@ -284,7 +289,7 @@ export async function GET() {
         await prisma.page.create({
           data: {
             slug: core.slug,
-            title: core.title,
+            title,
             order: core.order,
             type: core.type,
             metaTitle: core.metaTitle,
@@ -301,7 +306,7 @@ export async function GET() {
         await prisma.page.update({
           where: { slug: core.slug },
           data: {
-            title: core.title,
+            title,
             order: core.order,
             type: core.type,
             metaTitle: existing.metaTitle || core.metaTitle,
