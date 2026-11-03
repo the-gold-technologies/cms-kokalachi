@@ -6,6 +6,7 @@ import { SaveButton } from "@/components/SaveButton";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
+import { SEO_HEADING_OPTIONS } from "@/lib/seoConstants";
 import { Globe, Activity, Shield, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -97,6 +98,13 @@ export default function GlobalSEOPage() {
       const json = await res.json();
       if (json.success) {
         toast.success("Global SEO settings saved successfully!", { id: tid });
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("seo-updated", {
+              detail: { favicon: payload.favicon },
+            }),
+          );
+        }
       } else {
         const errMsg =
           typeof json.error === "string" ? json.error : json.error?.message || "Save failed.";
@@ -194,12 +202,11 @@ export default function GlobalSEOPage() {
               }
               className="w-full bg-white border border-gray-200 rounded-2xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#002B5C] transition shadow-xs cursor-pointer"
             >
-              <option value="h1">H1 (Recommended standard title tag)</option>
-              <option value="h2">H2 (Secondary section tag)</option>
-              <option value="h3">H3 (Subsection tag)</option>
-              <option value="h4">H4 (Minor subsection tag)</option>
-              <option value="h5">H5 (Deep nested tag)</option>
-              <option value="h6">H6 (Smallest heading tag)</option>
+              {SEO_HEADING_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
             </select>
             <p className="text-[11px] text-slate-400">
               Select the semantic HTML heading tag used for the home landing page hero title.

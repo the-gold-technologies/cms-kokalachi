@@ -9,6 +9,7 @@ import { TextAreaField } from "@/components/TextAreaField";
 import Link from "next/link";
 import { ArrowLeft, Search, Upload, HelpCircle } from "lucide-react";
 import toast from "react-hot-toast";
+import { SEO_HEADING_OPTIONS } from "@/lib/seoConstants";
 
 export default function PageSpecificSEODetail() {
   const params = useParams();
@@ -266,7 +267,7 @@ export default function PageSpecificSEODetail() {
             />
           </div>
 
-          {/* Hero Heading Tag Configuration matching pub-club */}
+          {/* Hero Heading Tag Configuration matching Global SEO */}
           <div className="flex flex-col gap-1.5 px-0.5 mt-2">
             <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4">
               Hero Headline Tag (SEO)
@@ -281,13 +282,15 @@ export default function PageSpecificSEODetail() {
               }
               className="w-full px-6 py-4 bg-white border border-gray-200 rounded-2xl text-sm focus:ring-2 focus:outline-none focus:border-[#002B5C] focus:ring-1 focus:ring-[#002B5C] text-gray-800 cursor-pointer h-[54px]"
             >
-              <option value="h1">H1</option>
-              <option value="h2">H2</option>
-              <option value="h3">H3</option>
-              <option value="h4">H4</option>
-              <option value="h5">H5</option>
-              <option value="h6">H6</option>
+              {SEO_HEADING_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
             </select>
+            <p className="text-[11px] text-slate-400 ml-4">
+              Select the semantic HTML heading tag used for this page hero title.
+            </p>
           </div>
 
           {/* Index Visibility Toggle */}

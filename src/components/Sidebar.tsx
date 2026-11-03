@@ -92,8 +92,37 @@ const sidebarLinks: SidebarLink[] = [
   },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ favicon }: { favicon?: string | null }) {
   const pathname = usePathname();
+  const [currentFavicon, setCurrentFavicon] = useState<string | null>(favicon ?? null);
+
+  useEffect(() => {
+    if (favicon !== undefined) {
+      setCurrentFavicon(favicon);
+    }
+  }, [favicon]);
+
+  useEffect(() => {
+    const handleSeoUpdated = (e: Event) => {
+      const customEvent = e as CustomEvent<{ favicon?: string }>;
+      if (customEvent.detail?.favicon !== undefined) {
+        const nextFavicon = customEvent.detail.favicon || null;
+        setCurrentFavicon(nextFavicon);
+        const iconLinks = document.querySelectorAll("link[rel*='icon']");
+        iconLinks.forEach((el) => {
+          (el as HTMLLinkElement).href = nextFavicon || "";
+        });
+        if (iconLinks.length === 0 && nextFavicon) {
+          const newLink = document.createElement("link");
+          newLink.rel = "icon";
+          newLink.href = nextFavicon;
+          document.head.appendChild(newLink);
+        }
+      }
+    };
+    window.addEventListener("seo-updated", handleSeoUpdated);
+    return () => window.removeEventListener("seo-updated", handleSeoUpdated);
+  }, []);
 
   const [openGroups, setOpenGroups] = useState<string[]>(() => {
     return sidebarLinks
@@ -128,9 +157,15 @@ export function AdminSidebar() {
       {/* Logo Area */}
       <div className="flex h-24 items-center px-8">
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#0E5A60] font-black italic shadow-sm text-lg">
-            K
-          </div>
+          {currentFavicon ? (
+            <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-sm overflow-hidden p-1.5 shrink-0">
+              <img src={currentFavicon} alt="Favicon" className="h-full w-full object-contain" />
+            </div>
+          ) : (
+            <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#0E5A60] font-black italic shadow-sm text-lg shrink-0">
+              K
+            </div>
+          )}
           <span className="font-bold text-lg tracking-tight">
             Kokalachi <span className="text-[#D97745] font-semibold">CMS</span>
           </span>

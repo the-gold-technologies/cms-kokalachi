@@ -1,10 +1,7 @@
 // Seed data for sections shown across the website (Static Pages → Shared Sections in the CMS),
 // stored on the "shared" page. Field names match src/lib/sharedSections.ts.
 //
-// Used two ways:
-// - prisma/seed.js includes sharedPagesData in the full seed.
-// - `npm run seed:shared` seeds only the shared sections, leaving every other page alone. It only
-//   adds what's missing, so it's safe on production; `npm run seed:shared -- --reset` overwrites.
+// prisma/seed.js includes sharedPagesData in the full seed.
 
 const sharedPagesData = [
   {
@@ -40,13 +37,3 @@ const sharedPagesData = [
 ];
 
 module.exports = { sharedPagesData };
-
-// `npm run seed:shared`: seed only these pages (see prisma/seed-pages-runner.js)
-if (require.main === module) {
-  require("./seed-pages-runner")
-    .seedPages(sharedPagesData, { label: "Shared sections" })
-    .catch((e) => {
-      console.error("Seeding error:", e);
-      process.exit(1);
-    });
-}

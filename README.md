@@ -11,7 +11,7 @@ A dedicated, enterprise-grade Headless Content Management System and Administrat
 - **Complete Itinerary Management**: Multi-day schedule, inclusions, exclusions, packing lists, weather notes, and FAQs.
 - **Departures Calendar**: Schedule upcoming dates, manage spots left, pricing, discounts, and booking status (`open`, `sold_out`, `waitlist`).
 - **Pricing & Tax Structure**: Base price, original price, GST rate, and TCS calculation options.
-- **Vibe & Category Filters**: Multi-tag categorisation (e.g., _Road Trips_, _Weekend Gateways_, _Slow Travel_).
+- **Vibe & Category Filters**: Multi-tag categorisation (e.g., _Road Trips_, _Weekend Getaways_, _Slow Travel_).
 - **Google Doc Itinerary Importer**: Direct parser tool to import structured itinerary documents into database trips.
 
 ### 2. Journal & Storytelling Engine (`/blogs`)
@@ -28,7 +28,9 @@ Every CMS section maps directly to its corresponding frontend component on the l
 - **About Us**: `AboutHeroSection`, `WhyWeStartedSection`, `WhatWeBelieveSection`, `MeetFounderSection`, `ExploreJourneysSection`, `JoinTribeSection`.
 - **Contact Us**: `ContactHeroSection`, `ContactFormSection`, `ContactSidebarSection`.
 - **FAQs**: `FaqsHeroSection`, `FaqsAccordionSection`, `FaqsCtaSection`.
-- **Community**: `CommunityHeroSection`, `CommunityChaptersSection`, `CommunityCtaSection`, `CommunitySeoSection`.
+- **Community**: `CommunityHeroSection`, `CommunityChaptersSection`, `CommunityCtaSection`.
+- **Trips Pages**: Manage `/trips` (All Trips) and sub-pages (`/trips/upcoming`, `/trips/weekend`, etc.) with customizable hero images and content.
+- **Shared Sections**: Manage site-wide reusable strips like `UpcomingJourneysStripSection` across multiple pages.
 - **Legal**: Markdown/Rich-text editors for `Privacy Policy` and `Terms & Conditions`.
 
 ### 4. Automated Image Optimization & Cloudinary Pipeline
@@ -41,6 +43,8 @@ Every CMS section maps directly to its corresponding frontend component on the l
 ### 5. Enterprise SEO & Indexing Controls (`/seo`)
 
 - **Global SEO**: Site title, meta description, favicon, logo, Google Analytics (GA4), Google Tag Manager (GTM), Google Search Console verification tokens, and custom head/body injection scripts.
+- **Favicon Sync**: Uploaded website favicon automatically mirrors to the CMS browser tab and admin sidebar.
+- **Heading Tag Standards**: Unified semantic HTML heading hierarchy selection (`H1` to `H6`) maintained across both Global SEO and individual Page SEO settings.
 - **Per-Page Directives**: Custom page slugs, meta titles, descriptions, target keywords, canonical URLs, OpenGraph previews (`og:image`, `og:title`), JSON-LD schema, and `noIndex` toggles.
 - **Dynamic Robots & Sitemap**: Real-time configuration of `robots.txt` directives and automated XML sitemap feeds.
 
@@ -81,11 +85,16 @@ kokalachi-cms/
 ├── prisma/
 │   ├── schema.prisma            # Relational database schema
 │   ├── seed.js                  # Database seeder (admin, journeys, blogs, pages)
+│   ├── seed-trips.js            # Seed data for trips pages
+│   ├── seed-shared.js           # Seed data for shared sections
 │   ├── trips-seed.json          # Seed journeys and itineraries
 │   ├── blogs-seed.json          # Seed blog articles
-│   └── community-seed.json      # Seed community chapters data
+│   ├── community-seed.json      # Seed community chapters data
+│   ├── terms-seed.json          # Seed terms & conditions document
+│   └── privacy-policy-seed.json # Seed privacy policy document
 ├── public/
 │   ├── brand/                   # Official brand graphics & logos
+│   ├── templates/               # Downloadable itinerary templates
 │   └── uploads/                 # Local image upload fallback storage
 ├── src/
 │   ├── app/
@@ -95,13 +104,16 @@ kokalachi-cms/
 │   │   │   ├── blogs/           # Journal CRUD
 │   │   │   ├── bookings/        # Booking submissions
 │   │   │   ├── enquiries/       # Travel inquiries & SMTP notification
+│   │   │   ├── journeys/        # Journeys & destinations
 │   │   │   ├── trips/           # Journey & departure management
+│   │   │   ├── trips-pages/     # Trips pages & sub-page management
+│   │   │   ├── shared-sections/ # Site-wide shared section management
 │   │   │   ├── upload/          # Sharp compression + Cloudinary upload stream
 │   │   │   ├── seo/             # Global & per-page SEO management
 │   │   │   └── static-pages/    # Home, About, Contact, Community, FAQs routes
 │   │   ├── blogs/               # Journal manager & chapter editor
 │   │   ├── navigation/          # Menu links & social channels
-│   │   ├── seo/                 # Global SEO & sitemap/robots directives
+│   │   ├── seo/                 # Global SEO & page-specific directives
 │   │   ├── settings/            # Admin credentials & profile management
 │   │   ├── static-pages/        # Visual editors matching website components
 │   │   ├── submissions/         # Enquiries & booking lead tables
@@ -112,8 +124,14 @@ kokalachi-cms/
 │   ├── lib/
 │   │   ├── auth-check.ts        # Admin session verification guard
 │   │   ├── cloudinaryCleanup.ts # Obsolete asset garbage collection
+│   │   ├── departures.ts        # Departure date management utilities
 │   │   ├── journeyDocParser.ts  # Document itinerary parsing utility
+│   │   ├── navLinks.ts          # Navigation links configuration
 │   │   ├── prisma.ts            # Prisma client singleton
+│   │   ├── seoConstants.ts      # Shared SEO constants & heading options
+│   │   ├── sharedSections.ts    # Reusable shared sections registry
+│   │   ├── tripsPageContent.ts  # Trips pages schema definitions
+│   │   ├── tripsSubPages.ts     # Trips sub-page query helpers
 │   │   └── websiteMail.ts       # Nodemailer SMTP transmission utility
 │   ├── auth.ts                  # NextAuth credentials authentication provider
 │   └── middleware.ts            # Route protection guard & CORS headers

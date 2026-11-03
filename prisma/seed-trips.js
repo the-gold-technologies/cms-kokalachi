@@ -2,14 +2,9 @@
 // Field names match src/lib/tripsPageContent.ts.
 //
 // - "trips" (/trips) holds the All Trips content.
-// - Each sub-page is its own page, "trips/<slug>", with one TripsSubPageSection. These four are
-//   built into the website, so the CMS lets admins edit and reorder them but not add or
-//   delete them.
+// - Each sub-page is its own page, "trips/<slug>", with one TripsSubPageSection.
 //
-// Used two ways:
-// - prisma/seed.js includes tripsPagesData in the full seed.
-// - `npm run seed:trips` seeds only the trips pages, leaving every other page alone. It only adds
-//   what's missing, so it's safe on production; `npm run seed:trips -- --reset` overwrites.
+// prisma/seed.js includes tripsPagesData in the full seed.
 
 // The hero photo every trips page uses today; each page can have its own in the CMS
 const tripsHeroImage =
@@ -228,13 +223,3 @@ const tripsPagesData = [
 ];
 
 module.exports = { tripsPagesData };
-
-// `npm run seed:trips`: seed only these pages (see prisma/seed-pages-runner.js)
-if (require.main === module) {
-  require("./seed-pages-runner")
-    .seedPages(tripsPagesData, { label: "Trips pages" })
-    .catch((e) => {
-      console.error("Seeding error:", e);
-      process.exit(1);
-    });
-}

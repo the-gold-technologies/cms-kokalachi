@@ -3,7 +3,6 @@
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
-import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import {
   ALL_TRIPS_SECTION,
@@ -13,8 +12,6 @@ import {
 } from "@/lib/tripsPageContent";
 import { SectionFieldsEditor, type SectionValues } from "@/components/SectionFieldsEditor";
 import { SharedSectionLink } from "@/components/SharedSectionLink";
-
-const WEBSITE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL?.replace(/\/$/, "");
 
 interface SubPage {
   slug: string;
@@ -45,7 +42,6 @@ function TripsPagesEditor() {
   const searchParams = useSearchParams();
   const [sections, setSections] = useState<Record<string, SectionValues> | null>(null);
   const [pages, setPages] = useState<SubPage[]>([]);
-  const [busy, setBusy] = useState(false);
 
   // The open tab lives in the URL (?tab=page-upcoming), so a refresh or shared link keeps it
   const tabParam = searchParams.get("tab") ?? ALL_TAB;
@@ -89,24 +85,6 @@ function TripsPagesEditor() {
     return saved;
   };
 
-  const movePage = async (slug: string, dir: -1 | 1) => {
-    const i = pages.findIndex((p) => p.slug === slug);
-    const next = [...pages];
-    [next[i], next[i + dir]] = [next[i + dir], next[i]];
-    setBusy(true);
-    try {
-      setPages(
-        await request<SubPage[]>("/api/trips-pages/pages", "PATCH", {
-          slugs: next.map((p) => p.slug),
-        }),
-      );
-    } catch (err: any) {
-      toast.error(err.message);
-    } finally {
-      setBusy(false);
-    }
-  };
-
   const tabName = (page: SubPage) => (page.content.tabLabel as string) || page.slug;
 
   const tabClass = (isActive: boolean) =>
@@ -115,20 +93,6 @@ function TripsPagesEditor() {
         ? "bg-[#0E5A60] text-white shadow-md"
         : "bg-white border border-slate-200 text-slate-700 hover:border-[#0E5A60]/40 hover:text-[#0E5A60]"
     }`;
-
-  const viewLink = (path: string) =>
-    WEBSITE_URL && (
-      <a
-        href={`${WEBSITE_URL}${path}`}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-1.5 font-semibold text-[#0E5A60] hover:text-[#D96C2C] transition-colors"
-      >
-        View page <ExternalLink className="w-3.5 h-3.5" />
-      </a>
-    );
-
-  const activeIndex = activePage ? pages.indexOf(activePage) : -1;
 
   return (
     <section className="flex flex-col gap-6 pb-16 max-w-7xl mx-auto">
@@ -179,7 +143,6 @@ function TripsPagesEditor() {
                 <span>
                   Editing <span className="font-mono text-slate-700">/trips</span>
                 </span>
-                {viewLink("/trips")}
               </div>
               <SectionFieldsEditor
                 key={ALL_TAB}
@@ -201,28 +164,6 @@ function TripsPagesEditor() {
               <div className="flex flex-wrap items-center justify-between gap-3 px-1 text-xs text-slate-500">
                 <span className="flex items-center gap-2">
                   Editing <span className="font-mono text-slate-700">/trips/{activePage.slug}</span>
-                </span>
-                <span className="flex items-center gap-2">
-                  {viewLink(`/trips/${activePage.slug}`)}
-                  <span className="mx-1 h-4 w-px bg-slate-200" />
-                  <button
-                    type="button"
-                    onClick={() => movePage(activePage.slug, -1)}
-                    disabled={busy || activeIndex <= 0}
-                    className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 font-semibold text-slate-600 hover:text-[#0E5A60] transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                    title="Move this tab left"
-                  >
-                    <ChevronLeft className="w-3.5 h-3.5" /> Move left
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => movePage(activePage.slug, 1)}
-                    disabled={busy || activeIndex === pages.length - 1}
-                    className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 font-semibold text-slate-600 hover:text-[#0E5A60] transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                    title="Move this tab right"
-                  >
-                    Move right <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
                 </span>
               </div>
               <SectionFieldsEditor

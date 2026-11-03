@@ -12,7 +12,10 @@ export async function GET(request: Request) {
     const type = searchParams.get("type");
 
     if (type === "pages") {
+      // Website pages only: "Shared" holds sections used across the site (Static Pages → Shared
+      // Sections) and has no page of its own, so it mustn't reach the sitemap
       const pages = await prisma.page.findMany({
+        where: { type: { not: "Shared" } },
         orderBy: { order: "asc" },
       });
       return NextResponse.json({ success: true, data: pages });

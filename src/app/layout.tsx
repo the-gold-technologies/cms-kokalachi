@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { AdminSidebar } from "@/components/Sidebar";
 import { Toaster } from "react-hot-toast";
+import { prisma } from "@/lib/prisma";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,10 +18,33 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
-export const metadata: Metadata = {
-  title: "Kokalachi CMS",
-  description: "Manage your Kokalachi travel website content, trips, and bookings",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  let faviconUrl: string | undefined;
+  try {
+    const config = await prisma.globalConfig.findFirst({
+      select: { favicon: true },
+    });
+    if (config?.favicon?.trim()) {
+      faviconUrl = config.favicon.trim();
+    }
+  } catch {
+    // Database connection or table error fallback
+  }
+
+  return {
+    title: "Kokalachi CMS",
+    description: "Manage your Kokalachi travel website content, trips, and bookings",
+    ...(faviconUrl
+      ? {
+          icons: {
+            icon: [{ url: faviconUrl }],
+            shortcut: [{ url: faviconUrl }],
+            apple: [{ url: faviconUrl }],
+          },
+        }
+      : {}),
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -29,8 +53,27 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
+  let faviconUrl: string | null = null;
+  try {
+    const config = await prisma.globalConfig.findFirst({
+      select: { favicon: true },
+    });
+    faviconUrl = config?.favicon?.trim() || null;
+  } catch {
+    faviconUrl = null;
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {faviconUrl && (
+          <>
+            <link rel="icon" href={faviconUrl} />
+            <link rel="shortcut icon" href={faviconUrl} />
+            <link rel="apple-touch-icon" href={faviconUrl} />
+          </>
+        )}
+      </head>
       <body
         className={`${inter.variable} ${playfair.variable} antialiased bg-[#f8f9fa]`}
         suppressHydrationWarning
@@ -38,7 +81,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           {session ? (
             <div className="flex h-screen overflow-hidden font-sans p-[5px]">
-              <AdminSidebar />
+              <AdminSidebar favicon={faviconUrl} />
               <main className="flex-1 overflow-y-auto">
                 <div className="px-12 py-10">{children}</div>
               </main>
