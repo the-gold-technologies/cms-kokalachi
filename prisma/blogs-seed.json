@@ -276,6 +276,8 @@
       "text": "Browse our upcoming journeys and find the one that makes you a little excited and a little nervous. That's usually the right one."
     },
     "relatedCategory": "FirstTimers",
+    "relatedTripsKicker": "Made for first-timers",
+    "relatedTripsTitle": "Trips to say yes to",
     "ctaEyebrow": "Your first chai stop is waiting",
     "ctaPrimaryBtnText": "Explore Upcoming Trips",
     "ctaPrimaryBtnUrl": "/#upcoming-journeys",

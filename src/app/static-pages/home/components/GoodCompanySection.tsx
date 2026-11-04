@@ -32,6 +32,9 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
   const [rightMarginTag, setRightMarginTag] = useState("");
   const [ctaText, setCtaText] = useState("");
   const [ctaLink, setCtaLink] = useState("");
+  const [promiseTitle, setPromiseTitle] = useState("");
+  const [promiseHeadline, setPromiseHeadline] = useState("");
+  const [promiseAccent, setPromiseAccent] = useState("");
 
   const [cards, setCards] = useState<CompanyCard[]>([]);
   const [openCardIndices, setOpenCardIndices] = useState<number[]>([0]);
@@ -47,6 +50,9 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
       setRightMarginTag(initialData.rightMarginTag ?? "");
       setCtaText(initialData.ctaText ?? "");
       setCtaLink(initialData.ctaLink ?? "");
+      setPromiseTitle(initialData.promiseTitle ?? "");
+      setPromiseHeadline(initialData.promiseHeadline ?? "");
+      setPromiseAccent(initialData.promiseAccent ?? "");
 
       const rawCards = Array.isArray(initialData.pillars)
         ? initialData.pillars
@@ -102,6 +108,9 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
         rightMarginTag,
         ctaText,
         ctaLink,
+        promiseTitle,
+        promiseHeadline,
+        promiseAccent,
         cards,
       };
 
@@ -196,6 +205,40 @@ export function GoodCompanySection({ initialData }: { initialData?: any }) {
                   value={rightMarginTag}
                   onChange={(e) => setRightMarginTag(e.target.value)}
                   placeholder="e.g. ♡ verified solo safety"
+                />
+              </div>
+
+              {/* Our Promise Strip */}
+              <div className="p-5 bg-amber-50/70 rounded-2xl border border-amber-200/60 space-y-4">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-amber-900">
+                    Our Promise Strip
+                  </h4>
+                  <p className="text-xs text-amber-700/80 mt-0.5">
+                    Reassurance banner displayed beneath the pillar cards before the CTA button
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <InputField
+                    label="Promise Badge Title"
+                    value={promiseTitle}
+                    onChange={(e) => setPromiseTitle(e.target.value)}
+                    placeholder="e.g. Our Promise"
+                  />
+                  <div className="md:col-span-2">
+                    <InputField
+                      label="Promise Headline"
+                      value={promiseHeadline}
+                      onChange={(e) => setPromiseHeadline(e.target.value)}
+                      placeholder="e.g. We'll never compromise your safety, comfort or experience..."
+                    />
+                  </div>
+                </div>
+                <InputField
+                  label="Promise Accent Line (Cursive)"
+                  value={promiseAccent}
+                  onChange={(e) => setPromiseAccent(e.target.value)}
+                  placeholder="e.g. That's a promise we keep on every journey."
                 />
               </div>
 

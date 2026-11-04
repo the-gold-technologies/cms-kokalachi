@@ -103,6 +103,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       ctaSecondaryBtnUrl,
       shareBtnText,
       relatedCategory,
+      relatedTripsKicker,
+      relatedTripsTitle,
       sidebarBadge,
       shareTitle,
       shareNote,
@@ -191,6 +193,14 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
             : ((existingPost as any).shareBtnText ?? "Share on WhatsApp"),
         relatedCategory:
           relatedCategory !== undefined ? relatedCategory : existingPost.relatedCategory,
+        relatedTripsKicker:
+          relatedTripsKicker !== undefined
+            ? relatedTripsKicker
+            : ((existingPost as any).relatedTripsKicker ?? "Made for first-timers"),
+        relatedTripsTitle:
+          relatedTripsTitle !== undefined
+            ? relatedTripsTitle
+            : ((existingPost as any).relatedTripsTitle ?? "Trips to say yes to"),
         sidebarBadge:
           sidebarBadge !== undefined
             ? sidebarBadge

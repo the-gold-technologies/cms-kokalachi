@@ -56,6 +56,10 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
   const [conclusionTitle, setConclusionTitle] = useState("");
   const [conclusionDescription, setConclusionDescription] = useState("");
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
+  const [pillar1Title, setPillar1Title] = useState("");
+  const [pillar2Title, setPillar2Title] = useState("");
+  const [pillar3Title, setPillar3Title] = useState("");
+  const [pillar4Title, setPillar4Title] = useState("");
 
   // Card collapse state for Left & Right comparison cards
   const [isLeftCardOpen, setIsLeftCardOpen] = useState(true);
@@ -92,6 +96,10 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
       setNewWayTitle(initialData.newWayTitle ?? "");
       setConclusionTitle(initialData.conclusionTitle ?? "");
       setConclusionDescription(initialData.conclusionDescription ?? "");
+      setPillar1Title(initialData.pillar1Title ?? "");
+      setPillar2Title(initialData.pillar2Title ?? "");
+      setPillar3Title(initialData.pillar3Title ?? "");
+      setPillar4Title(initialData.pillar4Title ?? "");
       if (Array.isArray(initialData.photos)) {
         setPhotos(
           initialData.photos.map((p: any) => ({
@@ -185,6 +193,10 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
         newWayTitle,
         conclusionTitle,
         conclusionDescription,
+        pillar1Title,
+        pillar2Title,
+        pillar3Title,
+        pillar4Title,
         photos,
       };
 
@@ -610,6 +622,44 @@ export function WhyWeExistSection({ initialData }: { initialData?: any }) {
                             </div>
                           </CollapsibleItemCard>
                         ))}
+                      </div>
+
+                      {/* 4 Bottom Comparison Pillars */}
+                      <div className="space-y-3 pt-4 border-t border-teal-200/60">
+                        <div>
+                          <span className="text-xs font-bold text-teal-900 block">
+                            4 Bottom Comparison Pillars
+                          </span>
+                          <p className="text-[11px] text-gray-500">
+                            The 4 trust badges displayed in the bottom bar of the Kokalachi card
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <InputField
+                            label="Pillar 1 (Companions)"
+                            value={pillar1Title}
+                            onChange={(e) => setPillar1Title(e.target.value)}
+                            placeholder="e.g. Handpicked Travel Companions"
+                          />
+                          <InputField
+                            label="Pillar 2 (Safe)"
+                            value={pillar2Title}
+                            onChange={(e) => setPillar2Title(e.target.value)}
+                            placeholder="e.g. Trusted & Safe"
+                          />
+                          <InputField
+                            label="Pillar 3 (Planned)"
+                            value={pillar3Title}
+                            onChange={(e) => setPillar3Title(e.target.value)}
+                            placeholder="e.g. Thoughtfully Planned"
+                          />
+                          <InputField
+                            label="Pillar 4 (Connections)"
+                            value={pillar4Title}
+                            onChange={(e) => setPillar4Title(e.target.value)}
+                            placeholder="e.g. Connections That Last"
+                          />
+                        </div>
                       </div>
                     </div>
                   </CollapsibleItemCard>

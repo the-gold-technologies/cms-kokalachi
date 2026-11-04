@@ -249,6 +249,8 @@ model BlogPost {
   shareBtnText        String?  @default("Share on WhatsApp")
   relatedCategory String?  @default("FirstTimers")
   sidebarBadge    String?  @default("First-timer pick")
+  relatedTripsKicker String? @default("Made for first-timers")
+  relatedTripsTitle  String? @default("Trips to say yes to")
   shareTitle      String?  @default("psst…")
   shareNote       String?  @default("Know a nervous first-timer? Send this their way.")
   isPublished     Boolean  @default(true)

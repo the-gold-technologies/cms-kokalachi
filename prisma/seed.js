@@ -59,6 +59,14 @@ async function main() {
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
+        footerTagline:
+          "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
+        newsletterTitle: "The Secret Dispatch",
+        newsletterDescription:
+          "Get early access to secret trip launches, rare visual travelogues, and slow travel advice. Zero spam, ever.",
+        newsletterButtonText: "Join",
+        newsletterSuccessMessage: "You're on the list! Welcome to the Kokalachi circle.",
+        newsletterPrivacyNote: "We respect your privacy. Unsubscribe anytime in one click.",
       },
       robotsTxt: "User-agent: *\nAllow: /\n\nSitemap: https://kokalachi.com/sitemap.xml",
       sitemapEnabled: true,
@@ -85,6 +93,14 @@ async function main() {
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
+        footerTagline:
+          "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
+        newsletterTitle: "The Secret Dispatch",
+        newsletterDescription:
+          "Get early access to secret trip launches, rare visual travelogues, and slow travel advice. Zero spam, ever.",
+        newsletterButtonText: "Join",
+        newsletterSuccessMessage: "You're on the list! Welcome to the Kokalachi circle.",
+        newsletterPrivacyNote: "We respect your privacy. Unsubscribe anytime in one click.",
       },
       robotsTxt: "User-agent: *\nAllow: /\n\nSitemap: https://kokalachi.com/sitemap.xml",
       sitemapEnabled: true,
@@ -609,6 +625,10 @@ async function main() {
                 badge: "Vietnam Odyssey",
               },
             ],
+            pillar1Title: "Handpicked \nTravel Companions",
+            pillar2Title: "Trusted \n& Safe",
+            pillar3Title: "Thoughtfully \nPlanned",
+            pillar4Title: "Connections \nThat Last",
           },
         },
         {
@@ -756,6 +776,10 @@ async function main() {
                   "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=85&w=800",
               },
             ],
+            promiseTitle: "Our \nPromise",
+            promiseHeadline:
+              "We'll never compromise your safety, comfort or experience just to fill a trip.",
+            promiseAccent: "That's a promise we keep on every journey.",
           },
         },
         {
@@ -1219,6 +1243,9 @@ async function main() {
             instaDesc: "Follow the journeys as they happen, or DM us directly for quick questions.",
             instaHandle: "@kokalachi",
             instaLink: "https://www.instagram.com/kokalachi/",
+            officeTitle: "Registered Office",
+            officeCompanyName: "The Travel Chapter LLP",
+            officeAddress: "KCO88, B-128, First Floor,\nSector 2, Noida - 201301",
           },
         },
       ],
@@ -1854,6 +1881,8 @@ async function main() {
             shareTitle: bp.shareTitle || null,
             shareNote: bp.shareNote || null,
             relatedCategory: bp.relatedCategory || "FirstTimers",
+            relatedTripsKicker: bp.relatedTripsKicker || "Made for first-timers",
+            relatedTripsTitle: bp.relatedTripsTitle || "Trips to say yes to",
             isPublished: true,
             isFeatured: i === 0,
             order: i,
@@ -1891,6 +1920,8 @@ async function main() {
             shareTitle: bp.shareTitle || null,
             shareNote: bp.shareNote || null,
             relatedCategory: bp.relatedCategory || "FirstTimers",
+            relatedTripsKicker: bp.relatedTripsKicker || "Made for first-timers",
+            relatedTripsTitle: bp.relatedTripsTitle || "Trips to say yes to",
             isPublished: true,
             isFeatured: i === 0,
             order: i,
@@ -1907,6 +1938,23 @@ async function main() {
     }
   } catch (err) {
     console.error("Warning: Could not seed blog posts:", err.message);
+  }
+
+  // Revalidate website cache tags so new seeded data immediately displays on website
+  const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || "http://localhost:3000";
+  const sharedSecret = process.env.CMS_SHARED_SECRET;
+  if (sharedSecret) {
+    try {
+      await fetch(`${websiteUrl.replace(/\/$/, "")}/api/revalidate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-cms-secret": sharedSecret },
+        body: JSON.stringify({ tags: ["site", "page:home", "page:contact", "blogs", "trips"] }),
+        signal: AbortSignal.timeout(5000),
+      });
+      console.log("✓ Website cache revalidated.");
+    } catch {
+      // ignore if website is offline during seeding
+    }
   }
 
   console.log("\n🎉 SUCCESS: Kokalachi CMS database fully populated and ready!");

@@ -61,6 +61,8 @@ export interface BlogFormData {
   ctaSecondaryBtnUrl?: string;
   shareBtnText?: string;
   relatedCategory: string;
+  relatedTripsKicker?: string;
+  relatedTripsTitle?: string;
   sidebarBadge?: string;
   shareTitle?: string;
   shareNote?: string;
@@ -172,6 +174,10 @@ export function BlogForm({
   );
   const [shareBtnText, setShareBtnText] = useState(initialData?.shareBtnText || "");
   const [relatedCategory, setRelatedCategory] = useState(initialData?.relatedCategory || "");
+  const [relatedTripsKicker, setRelatedTripsKicker] = useState(
+    initialData?.relatedTripsKicker || "",
+  );
+  const [relatedTripsTitle, setRelatedTripsTitle] = useState(initialData?.relatedTripsTitle || "");
   const [journeyCategories, setJourneyCategories] = useState<{ id: string; label: string }[]>([]);
 
   useEffect(() => {
@@ -321,6 +327,8 @@ export function BlogForm({
       ctaSecondaryBtnUrl: ctaSecondaryBtnUrl.trim() || "/faqs",
       shareBtnText: shareBtnText.trim() || "Share on WhatsApp",
       relatedCategory: relatedCategory || "FirstTimers",
+      relatedTripsKicker: relatedTripsKicker.trim() || "Made for first-timers",
+      relatedTripsTitle: relatedTripsTitle.trim() || "Trips to say yes to",
       sidebarBadge: sidebarBadge.trim() || "First-timer pick",
       shareTitle: shareTitle.trim() || "psst…",
       shareNote: shareNote.trim() || "Know a nervous first-timer? Send this their way.",
@@ -886,6 +894,28 @@ export function BlogForm({
                 The article will automatically feature journeys matching this category at the bottom
                 and in the sticky sidebar.
               </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <InputField
+                  label="Related Trips Section Kicker"
+                  placeholder="e.g. Made for first-timers"
+                  value={relatedTripsKicker}
+                  onChange={(e) => setRelatedTripsKicker(e.target.value)}
+                  tooltip="Small kicker text displayed above the related journeys section heading"
+                />
+              </div>
+
+              <div>
+                <InputField
+                  label="Related Trips Section Heading"
+                  placeholder="e.g. Trips to say yes to"
+                  value={relatedTripsTitle}
+                  onChange={(e) => setRelatedTripsTitle(e.target.value)}
+                  tooltip="Main title heading displayed for the related journeys section"
+                />
+              </div>
             </div>
           </div>
 

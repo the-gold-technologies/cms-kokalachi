@@ -22,6 +22,9 @@ interface ContactSidebarContent {
   instaDesc: string;
   instaHandle: string;
   instaLink: string;
+  officeTitle?: string;
+  officeCompanyName?: string;
+  officeAddress?: string;
 }
 
 export function ContactSidebarSection({ initialData }: { initialData?: any }) {
@@ -45,6 +48,9 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
   const [instaDesc, setInstaDesc] = useState("");
   const [instaHandle, setInstaHandle] = useState("");
   const [instaLink, setInstaLink] = useState("");
+  const [officeTitle, setOfficeTitle] = useState("");
+  const [officeCompanyName, setOfficeCompanyName] = useState("");
+  const [officeAddress, setOfficeAddress] = useState("");
 
   useEffect(() => {
     if (initialData) {
@@ -63,6 +69,9 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
       setInstaDesc(initialData.instaDesc ?? "");
       setInstaHandle(initialData.instaHandle ?? initialData.instagram ?? "");
       setInstaLink(initialData.instaLink ?? "");
+      setOfficeTitle(initialData.officeTitle ?? "");
+      setOfficeCompanyName(initialData.officeCompanyName ?? "");
+      setOfficeAddress(initialData.officeAddress ?? "");
     }
   }, [initialData]);
 
@@ -85,6 +94,9 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
         instaDesc,
         instaHandle,
         instaLink,
+        officeTitle,
+        officeCompanyName,
+        officeAddress,
       };
 
       const res = await fetch("/api/contact", {
@@ -187,6 +199,40 @@ export function ContactSidebarSection({ initialData }: { initialData?: any }) {
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* Registered Office Card */}
+              <div className="p-5 bg-gray-50/70 rounded-2xl border border-gray-100 space-y-4">
+                <div>
+                  <h4 className="text-sm font-bold text-gray-800">Registered Office</h4>
+                  <p className="text-xs text-gray-500">
+                    Official corporate entity details and physical address displayed in the sidebar
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <InputField
+                    label="Section Title"
+                    value={officeTitle}
+                    onChange={(e) => setOfficeTitle(e.target.value)}
+                    placeholder="e.g. Registered Office"
+                  />
+                  <InputField
+                    label="Company / LLP Name"
+                    value={officeCompanyName}
+                    onChange={(e) => setOfficeCompanyName(e.target.value)}
+                    placeholder="e.g. The Travel Chapter LLP"
+                  />
+                </div>
+
+                <TextAreaField
+                  label="Registered Address"
+                  value={officeAddress}
+                  onChange={(e) => setOfficeAddress(e.target.value)}
+                  rows={2}
+                  placeholder="e.g. KCO88, B-128, First Floor,
+Sector 2, Noida - 201301"
+                />
               </div>
 
               {/* Direct Channels Card */}

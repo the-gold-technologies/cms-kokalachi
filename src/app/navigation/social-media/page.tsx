@@ -32,30 +32,30 @@ export default function SocialMediaFooterPage() {
   const [saved, setSaved] = useState(false);
 
   // Section 1: Logos
-  const [navbarDarkLogo, setNavbarDarkLogo] = useState("/logo-clean.png");
-  const [navbarLightLogo, setNavbarLightLogo] = useState("/clean_logo_lighter.png");
-  const [footerLogo, setFooterLogo] = useState("/logo-footer.png");
+  const [navbarDarkLogo, setNavbarDarkLogo] = useState("");
+  const [navbarLightLogo, setNavbarLightLogo] = useState("");
+  const [footerLogo, setFooterLogo] = useState("");
 
   // Section 2: Footer Information
-  const [footerDescription, setFooterDescription] = useState(
-    "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
-  );
-  const [footerAddress, setFooterAddress] = useState(
-    "91 Springboard, C-2, Sector 1, Noida - 201301",
-  );
-  const [footerPhone, setFooterPhone] = useState("+91 97118 45700");
-  const [footerEmail, setFooterEmail] = useState("hello@kokalachi.com");
-  const [copyrightText, setCopyrightText] = useState("© 2026 kokalachitravel.com");
+  const [footerDescription, setFooterDescription] = useState("");
+  const [footerAddress, setFooterAddress] = useState("");
+  const [footerPhone, setFooterPhone] = useState("");
+  const [footerEmail, setFooterEmail] = useState("");
+  const [copyrightText, setCopyrightText] = useState("");
+  const [footerTagline, setFooterTagline] = useState("");
+  const [newsletterTitle, setNewsletterTitle] = useState("");
+  const [newsletterDescription, setNewsletterDescription] = useState("");
+  const [newsletterButtonText, setNewsletterButtonText] = useState("");
+  const [newsletterSuccessMessage, setNewsletterSuccessMessage] = useState("");
+  const [newsletterPrivacyNote, setNewsletterPrivacyNote] = useState("");
 
   // Section 3: Centralized Social Media Links
-  const [instagram, setInstagram] = useState("https://www.instagram.com/kokalachi/");
-  const [facebook, setFacebook] = useState(
-    "https://www.facebook.com/share/1MA2Wf52Cr/?mibextid=wwXIfr",
-  );
-  const [youtube, setYoutube] = useState("https://youtube.com/@kokalachi");
+  const [instagram, setInstagram] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [youtube, setYoutube] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [twitter, setTwitter] = useState("");
-  const [whatsapp, setWhatsapp] = useState("+91 97118 45700");
+  const [whatsapp, setWhatsapp] = useState("");
 
   useEffect(() => {
     async function loadConfig() {
@@ -79,6 +79,12 @@ export default function SocialMediaFooterPage() {
           if (cfg.phone) setFooterPhone(cfg.phone);
           if (cfg.email) setFooterEmail(cfg.email);
           if (s.copyrightText) setCopyrightText(s.copyrightText);
+          if (s.footerTagline) setFooterTagline(s.footerTagline);
+          if (s.newsletterTitle) setNewsletterTitle(s.newsletterTitle);
+          if (s.newsletterDescription) setNewsletterDescription(s.newsletterDescription);
+          if (s.newsletterButtonText) setNewsletterButtonText(s.newsletterButtonText);
+          if (s.newsletterSuccessMessage) setNewsletterSuccessMessage(s.newsletterSuccessMessage);
+          if (s.newsletterPrivacyNote) setNewsletterPrivacyNote(s.newsletterPrivacyNote);
 
           // Social channels (stored in top-level fields)
           if (cfg.instagramUrl) setInstagram(cfg.instagramUrl);
@@ -120,6 +126,12 @@ export default function SocialMediaFooterPage() {
           twitter,
           whatsapp,
           copyrightText,
+          footerTagline,
+          newsletterTitle,
+          newsletterDescription,
+          newsletterButtonText,
+          newsletterSuccessMessage,
+          newsletterPrivacyNote,
         },
       };
 
@@ -302,6 +314,23 @@ export default function SocialMediaFooterPage() {
               </div>
             </div>
 
+            {/* Footer Bio / Description */}
+            <div className="pt-2">
+              <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
+                Footer Brand Bio / Description
+              </label>
+              <textarea
+                value={footerTagline}
+                onChange={(e) => setFooterTagline(e.target.value)}
+                placeholder="e.g. Kokalachi designs immersive, slow-paced journeys..."
+                rows={3}
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
+              />
+              <span className="text-[11px] text-slate-400 mt-1 block">
+                Short brand bio paragraph displayed under the footer logo and tagline.
+              </span>
+            </div>
+
             {/* Copyright Notice */}
             <div className="pt-2">
               <InputField
@@ -311,6 +340,57 @@ export default function SocialMediaFooterPage() {
                 placeholder="© 2026 kokalachitravel.com"
                 helperText="Displays in the bottom sub-bar of the website footer."
               />
+            </div>
+
+            {/* Newsletter Dispatch Box Settings */}
+            <div className="mt-4 p-5 bg-amber-50/60 rounded-2xl border border-amber-200/60 space-y-4">
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-amber-900">
+                  Newsletter Section ('The Secret Dispatch')
+                </h4>
+                <p className="text-xs text-amber-700/80 mt-0.5">
+                  Configure the newsletter dispatch block displayed in the right column of the
+                  footer.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField
+                  label="Newsletter Title"
+                  value={newsletterTitle}
+                  onChange={(e) => setNewsletterTitle(e.target.value)}
+                  placeholder="e.g. The Secret Dispatch"
+                />
+                <InputField
+                  label="Submit Button Text"
+                  value={newsletterButtonText}
+                  onChange={(e) => setNewsletterButtonText(e.target.value)}
+                  placeholder="e.g. Join"
+                />
+              </div>
+
+              <TextAreaField
+                label="Newsletter Description"
+                value={newsletterDescription}
+                onChange={(e) => setNewsletterDescription(e.target.value)}
+                rows={2}
+                placeholder="Get early access to secret trip launches..."
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField
+                  label="Success Message"
+                  value={newsletterSuccessMessage}
+                  onChange={(e) => setNewsletterSuccessMessage(e.target.value)}
+                  placeholder="e.g. You're on the list! Welcome to the Kokalachi circle."
+                />
+                <InputField
+                  label="Privacy Guarantee Note"
+                  value={newsletterPrivacyNote}
+                  onChange={(e) => setNewsletterPrivacyNote(e.target.value)}
+                  placeholder="e.g. We respect your privacy. Unsubscribe anytime in one click."
+                />
+              </div>
             </div>
           </div>
 
@@ -411,7 +491,7 @@ export default function SocialMediaFooterPage() {
               loading={saving}
               saved={saved}
               onClick={handleSave}
-              label="Save All Changes"
+              label="Save Changes"
               className="w-full py-4 text-sm font-bold shadow-md hover:shadow-lg"
             />
           </div>
