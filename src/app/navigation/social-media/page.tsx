@@ -42,7 +42,6 @@ export default function SocialMediaFooterPage() {
   const [footerPhone, setFooterPhone] = useState("");
   const [footerEmail, setFooterEmail] = useState("");
   const [copyrightText, setCopyrightText] = useState("");
-  const [footerTagline, setFooterTagline] = useState("");
   const [newsletterTitle, setNewsletterTitle] = useState("");
   const [newsletterDescription, setNewsletterDescription] = useState("");
   const [newsletterButtonText, setNewsletterButtonText] = useState("");
@@ -79,7 +78,6 @@ export default function SocialMediaFooterPage() {
           if (cfg.phone) setFooterPhone(cfg.phone);
           if (cfg.email) setFooterEmail(cfg.email);
           if (s.copyrightText) setCopyrightText(s.copyrightText);
-          if (s.footerTagline) setFooterTagline(s.footerTagline);
           if (s.newsletterTitle) setNewsletterTitle(s.newsletterTitle);
           if (s.newsletterDescription) setNewsletterDescription(s.newsletterDescription);
           if (s.newsletterButtonText) setNewsletterButtonText(s.newsletterButtonText);
@@ -126,7 +124,6 @@ export default function SocialMediaFooterPage() {
           twitter,
           whatsapp,
           copyrightText,
-          footerTagline,
           newsletterTitle,
           newsletterDescription,
           newsletterButtonText,
@@ -312,23 +309,6 @@ export default function SocialMediaFooterPage() {
                   placeholder="e.g. hello@kokalachi.com"
                 />
               </div>
-            </div>
-
-            {/* Footer Bio / Description */}
-            <div className="pt-2">
-              <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
-                Footer Brand Bio / Description
-              </label>
-              <textarea
-                value={footerTagline}
-                onChange={(e) => setFooterTagline(e.target.value)}
-                placeholder="e.g. Kokalachi designs immersive, slow-paced journeys..."
-                rows={3}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
-              />
-              <span className="text-[11px] text-slate-400 mt-1 block">
-                Short brand bio paragraph displayed under the footer logo and tagline.
-              </span>
             </div>
 
             {/* Copyright Notice */}

@@ -59,8 +59,6 @@ async function main() {
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
-        footerTagline:
-          "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
         newsletterTitle: "The Secret Dispatch",
         newsletterDescription:
           "Get early access to secret trip launches, rare visual travelogues, and slow travel advice. Zero spam, ever.",
@@ -93,8 +91,6 @@ async function main() {
         twitter: "",
         whatsapp: "+91 97118 45700",
         copyrightText: "© 2026 kokalachitravel.com",
-        footerTagline:
-          "Kokalachi designs immersive, slow-paced journeys for conscious travelers, dreamers, and storytellers. We replace tourist traps with authentic human connection.",
         newsletterTitle: "The Secret Dispatch",
         newsletterDescription:
           "Get early access to secret trip launches, rare visual travelogues, and slow travel advice. Zero spam, ever.",
