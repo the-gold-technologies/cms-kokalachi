@@ -183,6 +183,12 @@ async function main() {
   console.log("✓ Destinations seeded.");
 
   // 4. Trips from trips-seed.json
+  // Trips outside India, for the website's Domestic / International filter
+  const INTERNATIONAL_TRIP_SLUGS = new Set([
+    "bhutan-group-trip",
+    "sri-lanka-group-trip",
+    "almaty-kazakhstan-group-trip",
+  ]);
   const tripsFilePath = path.join(__dirname, "trips-seed.json");
   if (fs.existsSync(tripsFilePath)) {
     const rawTrips = JSON.parse(fs.readFileSync(tripsFilePath, "utf8"));
@@ -203,6 +209,7 @@ async function main() {
         update: {
           title: tp.title,
           subtitle: tp.subtitle || "",
+          region: INTERNATIONAL_TRIP_SLUGS.has(item.slug) ? "international" : "domestic",
           destinationSlug: item.slug.includes("manali")
             ? "manali"
             : item.slug.includes("kashmir")
@@ -287,6 +294,7 @@ async function main() {
           title: tp.title,
           slug: item.slug,
           subtitle: tp.subtitle || "",
+          region: INTERNATIONAL_TRIP_SLUGS.has(item.slug) ? "international" : "domestic",
           destinationSlug: item.slug.includes("manali")
             ? "manali"
             : item.slug.includes("kashmir")
@@ -519,14 +527,16 @@ async function main() {
             searchPlaceholder: "Search destinations",
             popularDestinationsTitle: "Popular Destinations",
             whenLabel: "When?",
-            travellersLabel: "Travellers",
-            groupSizeTitle: "Group Size",
+            travellersLabel: "Travelling",
+            groupSizeTitle: "How are you travelling?",
             searchButtonText: "SEARCH TRIPS",
+            customButtonText: "Plan My Trip",
             popularSearchesLabel: "Popular Searches:",
+            // Keys are fixed (the website acts on them); only label/desc are edited
             travellerOptions: [
-              { label: "1 Traveller", desc: "Solo explorer joining a group" },
-              { label: "2 Travellers", desc: "Travelling with a friend / partner" },
-              { label: "3+ Travellers", desc: "Small group of friends" },
+              { key: "solo", label: "Solo", desc: "Join a group trip on your own" },
+              { key: "group", label: "Group", desc: "With friends, a partner or family" },
+              { key: "custom", label: "Custom", desc: "A private trip on your own dates" },
             ],
           },
         },

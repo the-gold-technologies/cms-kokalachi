@@ -174,10 +174,12 @@ export function BlogForm({
   );
   const [shareBtnText, setShareBtnText] = useState(initialData?.shareBtnText || "");
   const [relatedCategory, setRelatedCategory] = useState(initialData?.relatedCategory || "");
-  const [relatedTripsKicker, setRelatedTripsKicker] = useState(
+  // No longer shown on the website (the related-trips section was removed); kept so saving
+  // doesn't wipe existing values
+  const [relatedTripsKicker] = useState(
     initialData?.relatedTripsKicker || "",
   );
-  const [relatedTripsTitle, setRelatedTripsTitle] = useState(initialData?.relatedTripsTitle || "");
+  const [relatedTripsTitle] = useState(initialData?.relatedTripsTitle || "");
   const [journeyCategories, setJourneyCategories] = useState<{ id: string; label: string }[]>([]);
 
   useEffect(() => {
@@ -891,32 +893,10 @@ export function BlogForm({
                 )}
               </select>
               <span className="text-[11px] text-slate-400 mt-1 block">
-                The article will automatically feature journeys matching this category at the bottom
-                and in the sticky sidebar.
+                The sticky sidebar suggests a journey from this category.
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <InputField
-                  label="Related Trips Section Kicker"
-                  placeholder="e.g. Made for first-timers"
-                  value={relatedTripsKicker}
-                  onChange={(e) => setRelatedTripsKicker(e.target.value)}
-                  tooltip="Small kicker text displayed above the related journeys section heading"
-                />
-              </div>
-
-              <div>
-                <InputField
-                  label="Related Trips Section Heading"
-                  placeholder="e.g. Trips to say yes to"
-                  value={relatedTripsTitle}
-                  onChange={(e) => setRelatedTripsTitle(e.target.value)}
-                  tooltip="Main title heading displayed for the related journeys section"
-                />
-              </div>
-            </div>
           </div>
 
           {/* Sticky Sidebar & WhatsApp Share Card Settings */}

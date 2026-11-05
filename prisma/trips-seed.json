@@ -1,7 +1,7 @@
 [
   {
     "id": 10,
-    "slug": "manali",
+    "slug": "manali-group-trip",
     "destination": "Manali",
     "locationTag": "📍 Manali",
     "duration": "3 Days / 2 Nights",
@@ -143,7 +143,7 @@
   },
   {
     "id": 1,
-    "slug": "kashmir",
+    "slug": "kashmir-group-trip",
     "destination": "Kashmir",
     "locationTag": "📍 Kashmir",
     "duration": "5 Days / 4 Nights",
@@ -321,7 +321,7 @@
   },
   {
     "id": 2,
-    "slug": "meghalaya",
+    "slug": "meghalaya-group-trip",
     "destination": "Meghalaya",
     "locationTag": "📍 Meghalaya",
     "duration": "5 Nights / 6 Days",
@@ -502,7 +502,7 @@
   },
   {
     "id": 3,
-    "slug": "kerala",
+    "slug": "kerala-group-trip",
     "destination": "Kerala",
     "locationTag": "📍 Kerala",
     "duration": "5 Nights / 6 Days",
@@ -685,7 +685,7 @@
   },
   {
     "id": 4,
-    "slug": "bhutan",
+    "slug": "bhutan-group-trip",
     "destination": "Bhutan",
     "locationTag": "📍 Bhutan",
     "duration": "5 Nights / 6 Days",
@@ -866,7 +866,7 @@
   },
   {
     "id": 5,
-    "slug": "udaipur",
+    "slug": "udaipur-group-trip",
     "destination": "Udaipur",
     "locationTag": "📍 Udaipur",
     "duration": "3 Days / 2 Nights",
@@ -1007,7 +1007,7 @@
   },
   {
     "id": 7,
-    "slug": "sri-lanka",
+    "slug": "sri-lanka-group-trip",
     "destination": "Sri Lanka",
     "locationTag": "📍 Sri Lanka",
     "duration": "5 Days / 4 Nights",
@@ -1217,7 +1217,7 @@
   },
   {
     "id": 11,
-    "slug": "almaty",
+    "slug": "almaty-kazakhstan-group-trip",
     "destination": "Almaty",
     "locationTag": "📍 Almaty, Kazakhstan",
     "duration": "5 Days / 4 Nights",

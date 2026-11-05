@@ -70,6 +70,7 @@ export default function AllJourneysCMSPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
+  const [regionFilter, setRegionFilter] = useState<"all" | "domestic" | "international">("all");
 
   // Hero Banner Section State
   const [isHeroOpen, setIsHeroOpen] = useState(false);
@@ -190,7 +191,11 @@ export default function AllJourneysCMSPage() {
     const matchesCategory =
       categoryFilter === "All" || t.category?.toLowerCase() === categoryFilter.toLowerCase();
 
-    return matchesSearch && matchesCategory;
+    // Same split as the website's Domestic / International filter on /journeys
+    const matchesRegion =
+      regionFilter === "all" || (t.region || "domestic").toLowerCase() === regionFilter;
+
+    return matchesSearch && matchesCategory && matchesRegion;
   });
 
   const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || "http://localhost:3000";
@@ -311,6 +316,17 @@ export default function AllJourneysCMSPage() {
               ))}
           </select>
 
+          <select
+            value={regionFilter}
+            onChange={(e) => setRegionFilter(e.target.value as typeof regionFilter)}
+            aria-label="Filter by region"
+            className="w-full md:w-44 px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-xs font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 cursor-pointer"
+          >
+            <option value="all">All Regions</option>
+            <option value="domestic">Domestic (India)</option>
+            <option value="international">International</option>
+          </select>
+
           <span className="text-xs font-bold text-gray-400 shrink-0 px-2 whitespace-nowrap">
             {filteredTrips.length} {filteredTrips.length === 1 ? "Journey Card" : "Journey Cards"}
           </span>
@@ -330,8 +346,8 @@ export default function AllJourneysCMSPage() {
           </div>
           <p className="text-gray-700 font-bold text-base">No journeys found</p>
           <p className="text-gray-400 text-xs mt-1">
-            {search || categoryFilter !== "All"
-              ? "Try adjusting your search query or vibe filter."
+            {search || categoryFilter !== "All" || regionFilter !== "all"
+              ? "Try adjusting your search query, vibe or region filter."
               : "Click Create New Journey to add your first curated experience."}
           </p>
         </div>

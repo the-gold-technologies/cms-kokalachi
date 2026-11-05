@@ -65,3 +65,14 @@ body {
   display: none !important;
 }
 
+/* Sticky save container so long forms keep the save button reachable without scrolling */
+div:has(> .cms-save-btn:not(.w-auto)) {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  background-color: #ffffff;
+  padding-bottom: 0.5rem;
+}
+
+
+

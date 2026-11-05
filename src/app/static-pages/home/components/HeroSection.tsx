@@ -8,11 +8,47 @@ import { StringListEditor } from "@/components/StringListEditor";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
 import { CollapsibleItemCard } from "@/components/CollapsibleItemCard";
-import { Plus } from "lucide-react";
+
+// The three "How are you travelling?" choices on the website. The keys are fixed because each
+// one does something different there: Solo and Group search the trips, Custom opens the
+// Custom Group Trip page. Only the wording is edited here.
+type TravelStyleKey = "solo" | "group" | "custom";
 
 interface TravellerOption {
+  key: TravelStyleKey;
   label: string;
   desc: string;
+}
+
+const TRAVEL_STYLES: { key: TravelStyleKey; hint: string; defaults: TravellerOption }[] = [
+  {
+    key: "solo",
+    hint: "Searches trips",
+    defaults: { key: "solo", label: "Solo", desc: "Join a group trip on your own" },
+  },
+  {
+    key: "group",
+    hint: "Searches trips",
+    defaults: { key: "group", label: "Group", desc: "With friends, a partner or family" },
+  },
+  {
+    key: "custom",
+    hint: "Opens the Custom Group Trip page",
+    defaults: { key: "custom", label: "Custom", desc: "A private trip on your own dates" },
+  },
+];
+
+// Saved options by key; anything missing (e.g. the old "1 Traveller" list) gets the defaults
+function toTravelStyles(saved: unknown): TravellerOption[] {
+  const list = Array.isArray(saved) ? saved : [];
+  return TRAVEL_STYLES.map(({ key, defaults }) => {
+    const found = list.find((o: any) => o && typeof o === "object" && o.key === key);
+    return {
+      key,
+      label: found?.label ?? defaults.label,
+      desc: found?.desc ?? defaults.desc,
+    };
+  });
 }
 
 interface HeroSectionContent {
@@ -29,6 +65,7 @@ interface HeroSectionContent {
   travellersLabel: string;
   groupSizeTitle: string;
   searchButtonText: string;
+  customButtonText: string;
   popularSearchesLabel: string;
   travellerOptions: TravellerOption[];
   popularDestinations: string[];
@@ -54,8 +91,11 @@ export function HeroSection({ initialData }: { initialData?: any }) {
   const [travellersLabel, setTravellersLabel] = useState("");
   const [groupSizeTitle, setGroupSizeTitle] = useState("");
   const [searchButtonText, setSearchButtonText] = useState("");
+  const [customButtonText, setCustomButtonText] = useState("");
   const [popularSearchesLabel, setPopularSearchesLabel] = useState("");
-  const [travellerOptions, setTravellerOptions] = useState<TravellerOption[]>([]);
+  const [travellerOptions, setTravellerOptions] = useState<TravellerOption[]>(() =>
+    toTravelStyles(null),
+  );
   const [popularDestinations, setPopularDestinations] = useState<string[]>([]);
   const [quickDatePresets, setQuickDatePresets] = useState<string[]>([]);
 
@@ -76,15 +116,9 @@ export function HeroSection({ initialData }: { initialData?: any }) {
       setTravellersLabel(initialData.travellersLabel ?? "");
       setGroupSizeTitle(initialData.groupSizeTitle ?? "");
       setSearchButtonText(initialData.searchButtonText ?? "");
+      setCustomButtonText(initialData.customButtonText ?? "");
       setPopularSearchesLabel(initialData.popularSearchesLabel ?? "");
-      if (Array.isArray(initialData.travellerOptions)) {
-        setTravellerOptions(
-          initialData.travellerOptions.map((opt: any) => ({
-            label: typeof opt === "string" ? opt : (opt?.label ?? ""),
-            desc: opt?.desc ?? "",
-          })),
-        );
-      }
+      setTravellerOptions(toTravelStyles(initialData.travellerOptions));
       setPopularDestinations(
         Array.isArray(initialData.popularDestinations) ? initialData.popularDestinations : [],
       );
@@ -100,20 +134,7 @@ export function HeroSection({ initialData }: { initialData?: any }) {
     );
   };
 
-  const addTravellerOption = () => {
-    const nextIdx = travellerOptions.length;
-    setTravellerOptions([...travellerOptions, { label: "", desc: "" }]);
-    setOpenTravellerIndices((prev) => [...prev, nextIdx]);
-  };
-
-  const removeTravellerOption = (idx: number) => {
-    setTravellerOptions(travellerOptions.filter((_, i) => i !== idx));
-    setOpenTravellerIndices((prev) =>
-      prev.filter((i) => i !== idx).map((i) => (i > idx ? i - 1 : i)),
-    );
-  };
-
-  const updateTravellerOption = (idx: number, field: keyof TravellerOption, value: string) => {
+  const updateTravellerOption = (idx: number, field: "label" | "desc", value: string) => {
     const updated = [...travellerOptions];
     updated[idx] = { ...updated[idx], [field]: value };
     setTravellerOptions(updated);
@@ -137,6 +158,7 @@ export function HeroSection({ initialData }: { initialData?: any }) {
         travellersLabel,
         groupSizeTitle,
         searchButtonText,
+        customButtonText,
         popularSearchesLabel,
         travellerOptions,
         popularDestinations,
@@ -271,25 +293,32 @@ export function HeroSection({ initialData }: { initialData?: any }) {
                     placeholder="e.g. When?"
                   />
                   <InputField
-                    label="Travellers Button Label"
+                    label="Travel Style Button Label"
                     value={travellersLabel}
                     onChange={(e) => setTravellersLabel(e.target.value)}
-                    placeholder="e.g. Travellers"
+                    placeholder="e.g. Travelling"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <InputField
-                    label="Group Size Popup Title"
+                    label="Travel Style Popup Title"
                     value={groupSizeTitle}
                     onChange={(e) => setGroupSizeTitle(e.target.value)}
-                    placeholder="e.g. Group Size"
+                    placeholder="e.g. How are you travelling?"
                   />
                   <InputField
                     label="Search CTA Button Text"
                     value={searchButtonText}
                     onChange={(e) => setSearchButtonText(e.target.value)}
                     placeholder="e.g. SEARCH TRIPS"
+                  />
+                  <InputField
+                    label="Custom Trip Button Text"
+                    value={customButtonText}
+                    onChange={(e) => setCustomButtonText(e.target.value)}
+                    placeholder="e.g. Plan My Trip"
+                    tooltip="Replaces the search button when the visitor picks the Custom travel style"
                   />
                   <InputField
                     label="Popular Searches Label"
@@ -304,63 +333,50 @@ export function HeroSection({ initialData }: { initialData?: any }) {
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-xs font-bold text-teal-800 uppercase tracking-wider block">
-                        Traveller Group Options
+                        Travel Style Options
                       </span>
                       <p className="text-xs text-gray-500">
-                        Options selectable in the Travellers dropdown
+                        The three choices in the &quot;How are you travelling?&quot; dropdown
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      {travellerOptions.length > 0 && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setOpenTravellerIndices(
-                              openTravellerIndices.length === travellerOptions.length
-                                ? []
-                                : travellerOptions.map((_, i) => i),
-                            )
-                          }
-                          className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
-                        >
-                          {openTravellerIndices.length === travellerOptions.length
-                            ? "Collapse all"
-                            : "Expand all"}
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        onClick={addTravellerOption}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E5A60] text-white text-xs font-medium hover:bg-[#0c4e53] transition-colors"
-                      >
-                        <Plus size={14} /> Add Option
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenTravellerIndices(
+                          openTravellerIndices.length === travellerOptions.length
+                            ? []
+                            : travellerOptions.map((_, i) => i),
+                        )
+                      }
+                      className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                    >
+                      {openTravellerIndices.length === travellerOptions.length
+                        ? "Collapse all"
+                        : "Expand all"}
+                    </button>
                   </div>
 
                   {travellerOptions.map((opt, idx) => (
                     <CollapsibleItemCard
-                      key={idx}
-                      title={`Option #${idx + 1}: ${opt.label || "Untitled"}`}
+                      key={opt.key}
+                      title={`${opt.label || TRAVEL_STYLES[idx].defaults.label} (${TRAVEL_STYLES[idx].hint})`}
                       subtitle={opt.desc}
                       badge={`${idx + 1}`}
                       isOpen={openTravellerIndices.includes(idx)}
                       onToggle={() => toggleTravellerOption(idx)}
-                      onDelete={() => removeTravellerOption(idx)}
-                      deleteTitle="Remove Option"
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <InputField
                           label="Option Label"
                           value={opt.label}
                           onChange={(e) => updateTravellerOption(idx, "label", e.target.value)}
-                          placeholder="e.g. 1 Traveller"
+                          placeholder={`e.g. ${TRAVEL_STYLES[idx].defaults.label}`}
                         />
                         <InputField
                           label="Option Description"
                           value={opt.desc}
                           onChange={(e) => updateTravellerOption(idx, "desc", e.target.value)}
-                          placeholder="e.g. Solo explorer joining a group"
+                          placeholder={`e.g. ${TRAVEL_STYLES[idx].defaults.desc}`}
                         />
                       </div>
                     </CollapsibleItemCard>
