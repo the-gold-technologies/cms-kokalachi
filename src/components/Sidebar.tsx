@@ -74,6 +74,7 @@ const sidebarLinks: SidebarLink[] = [
     sublinks: [
       { title: "Bookings", href: "/submissions/bookings" },
       { title: "Enquiries", href: "/submissions/enquiries" },
+      { title: "Call-backs", href: "/submissions/callbacks" },
     ],
   },
   {

@@ -386,3 +386,107 @@ export async function sendContactEnquiry(input: ContactEnquiryData) {
     html: emailWrapper(enquiryContent),
   });
 }
+
+// ─── Call-Back Request Alert ──────────────────────────────────────────────────
+
+export interface CallBackEmailData {
+  name: string;
+  phone: string;
+  bestTime: string;
+  tripId?: string;
+  tripName?: string;
+  tripUrl?: string;
+}
+
+export async function sendCallBackAlert(input: CallBackEmailData) {
+  const data = escapeAll(input);
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+  if (!adminEmail) {
+    console.warn("[mailer] ADMIN_NOTIFICATION_EMAIL not set — skipping call-back alert");
+    return;
+  }
+
+  const receivedAt = new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const tripLine = data.tripName
+    ? `<p style="margin:0;font-size:15px;color:#0E5A60;font-weight:600;font-family:Arial,sans-serif;">${data.tripName}</p>`
+    : `<p style="margin:0;font-size:14px;color:#5C5449;font-family:Arial,sans-serif;">General Trip Consultation</p>`;
+
+  const cleanPhone = String(input.phone ?? "").replace(/\D/g, "");
+  const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hi ${input.name}, this is Kokalachi Travel calling regarding your trip inquiry!`)}` : "";
+
+  const callBackContent = `
+    <tr><td style="background:#D96C2C;height:4px;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+    <tr>
+      <td style="padding:36px 48px 24px;">
+        <p style="margin:0 0 14px;font-family:Arial,sans-serif;font-size:11px;color:#D96C2C;letter-spacing:2px;text-transform:uppercase;font-weight:600;">Call Me Back Request</p>
+        <table width="100%" cellpadding="0" cellspacing="0"><tr>
+          <td style="vertical-align:top;">
+            <h1 style="margin:0;font-size:24px;color:#0B2A3D;font-weight:600;line-height:1.3;font-family:Arial,sans-serif;">${data.name}</h1>
+            <p style="margin:6px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#A89F93;">${receivedAt} IST</p>
+          </td>
+        </tr></table>
+      </td>
+    </tr>
+
+    <tr><td style="padding:0 48px;"><div style="border-top:1px solid #EDE8DF;"></div></td></tr>
+
+    <tr>
+      <td style="padding:20px 48px 0;">
+        <table width="100%" cellpadding="0" cellspacing="0"><tr>
+          <td style="width:50%;vertical-align:top;padding-right:12px;">
+            <p style="margin:0 0 3px;font-family:Arial,sans-serif;font-size:10px;color:#A89F93;letter-spacing:1px;text-transform:uppercase;">Phone Number</p>
+            <a href="tel:${data.phone}" style="color:#0E5A60;font-weight:bold;font-size:15px;font-family:Arial,sans-serif;text-decoration:none;">${data.phone}</a>
+          </td>
+          <td style="width:50%;vertical-align:top;">
+            <p style="margin:0 0 3px;font-family:Arial,sans-serif;font-size:10px;color:#A89F93;letter-spacing:1px;text-transform:uppercase;">Best Time to Call</p>
+            <p style="margin:0;font-size:14px;color:#0B2A3D;font-weight:600;font-family:Arial,sans-serif;">${data.bestTime}</p>
+          </td>
+        </tr></table>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:16px 48px 0;">
+        <p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:10px;color:#A89F93;letter-spacing:1px;text-transform:uppercase;">Trip Inquired</p>
+        ${tripLine}
+        ${data.tripUrl ? `<a href="${data.tripUrl}" style="color:#A89F93;font-size:12px;text-decoration:underline;margin-top:2px;display:inline-block;" target="_blank">View Trip on Website &rarr;</a>` : ""}
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:28px 48px 36px;">
+        <table cellpadding="0" cellspacing="0"><tr>
+          <td>
+            <a href="tel:${data.phone}"
+               style="display:inline-block;background:#0E5A60;color:#ffffff;text-decoration:none;padding:12px 24px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;border-radius:2px;margin-right:10px;">
+              Call Now &rarr;
+            </a>
+          </td>
+          ${waUrl ? `
+          <td>
+            <a href="${waUrl}" target="_blank"
+               style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;padding:12px 24px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;border-radius:2px;">
+              WhatsApp &rarr;
+            </a>
+          </td>` : ""}
+        </tr></table>
+      </td>
+    </tr>
+  `;
+
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM,
+    to: adminEmail,
+    subject: `Call-Back: ${input.name} (${input.bestTime}) — ${input.tripName || "Trip Inquiry"}`,
+    html: emailWrapper(callBackContent),
+  });
+}

@@ -52,3 +52,16 @@ body {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
+
+/* Collapsible sections wrap their content in `overflow-hidden` for the
+   open/close animation, which turns them into a scroll container and breaks
+   sticky. `overflow: clip` clips the same way but is not a scroll container. */
+.overflow-hidden:has(.cms-save-btn) {
+  overflow: clip;
+}
+
+/* When a collapsible section or card is closed, ensure it takes 0 height and leaves no blank white void */
+[class*="grid-rows-[0fr]"] {
+  display: none !important;
+}
+

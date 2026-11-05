@@ -86,6 +86,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       slug,
       subtitle,
       destinationSlug,
+      region,
       location,
       duration,
       rating,
@@ -198,6 +199,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         slug: slug !== undefined ? slug : existingTrip.slug,
         subtitle: subtitle !== undefined ? subtitle : existingTrip.subtitle,
         destinationSlug: validDestSlug,
+        region:
+          region !== undefined
+            ? region
+              ? region.trim().toLowerCase()
+              : "domestic"
+            : existingTrip.region,
         location: location !== undefined ? location : existingTrip.location,
         duration: duration !== undefined ? duration : existingTrip.duration,
         rating: typeof rating === "number" ? rating : existingTrip.rating,

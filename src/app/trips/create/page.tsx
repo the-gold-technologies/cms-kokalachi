@@ -75,6 +75,7 @@ export default function CreateFullJourneyPage() {
   const [slug, setSlug] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [destinationSlug, setDestinationSlug] = useState("");
+  const [region, setRegion] = useState("domestic");
   const [location, setLocation] = useState("");
   const [duration, setDuration] = useState("");
   const [groupSize, setGroupSize] = useState("");
@@ -341,6 +342,7 @@ export default function CreateFullJourneyPage() {
         slug: finalSlug,
         subtitle,
         destinationSlug,
+        region: region ? region.trim().toLowerCase() : "domestic",
         location,
         duration,
         groupSize,
@@ -521,13 +523,26 @@ export default function CreateFullJourneyPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <InputField
             label="Destination Tag"
             value={destinationSlug}
             onChange={(e) => setDestinationSlug(e.target.value)}
             placeholder="e.g. Kashmir"
           />
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
+              Region (Filter)
+            </label>
+            <select
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+              className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#0E5A60] transition-colors"
+            >
+              <option value="domestic">Domestic (India)</option>
+              <option value="international">International</option>
+            </select>
+          </div>
           <InputField
             label="Duration"
             value={duration}

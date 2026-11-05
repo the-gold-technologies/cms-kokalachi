@@ -368,10 +368,17 @@ export default function AllJourneysCMSPage() {
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 opacity-60" />
 
-                  {/* Destination Tag */}
-                  <div className="absolute top-3 left-3 z-10 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-[11px] font-bold text-slate-700 shadow-sm flex items-center gap-1.5">
-                    <MapPin className="w-3 h-3 text-[#D96C2C]" />
-                    <span>{trip.destinationSlug || "India"}</span>
+                  {/* Destination Tag & Region */}
+                  <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
+                    <div className="bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-[11px] font-bold text-slate-700 shadow-sm flex items-center gap-1.5">
+                      <MapPin className="w-3 h-3 text-[#D96C2C]" />
+                      <span>{trip.destinationSlug || "India"}</span>
+                    </div>
+                    {trip.region === "international" && (
+                      <span className="bg-[#D96C2C] text-white text-[9.5px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+                        Int&apos;l
+                      </span>
+                    )}
                   </div>
 
                   {/* Spots Left Pill */}
