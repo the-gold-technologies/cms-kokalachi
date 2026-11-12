@@ -176,9 +176,7 @@ export function BlogForm({
   const [relatedCategory, setRelatedCategory] = useState(initialData?.relatedCategory || "");
   // No longer shown on the website (the related-trips section was removed); kept so saving
   // doesn't wipe existing values
-  const [relatedTripsKicker] = useState(
-    initialData?.relatedTripsKicker || "",
-  );
+  const [relatedTripsKicker] = useState(initialData?.relatedTripsKicker || "");
   const [relatedTripsTitle] = useState(initialData?.relatedTripsTitle || "");
   const [journeyCategories, setJourneyCategories] = useState<{ id: string; label: string }[]>([]);
 
@@ -896,7 +894,6 @@ export function BlogForm({
                 The sticky sidebar suggests a journey from this category.
               </span>
             </div>
-
           </div>
 
           {/* Sticky Sidebar & WhatsApp Share Card Settings */}

@@ -354,13 +354,23 @@ export default function AllJourneysCMSPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTrips.map((trip) => {
-            const openDepartures = Array.isArray(trip.departures)
-              ? trip.departures.filter((d: any) => d.status === "open")
-              : [];
+            const departures = Array.isArray(trip.departures) ? trip.departures : [];
+            const openDepartures = departures.filter((d: any) => d.status === "open");
+            const hasTrackedSpots = openDepartures.some(
+              (d: any) => typeof d.spotsLeft === "number",
+            );
             const spotsLeft = openDepartures.reduce(
-              (acc: number, d: any) => acc + (d.spotsLeft || 0),
+              (acc: number, d: any) => acc + (typeof d.spotsLeft === "number" ? d.spotsLeft : 0),
               0,
             );
+            const isSoldOut =
+              departures.length > 0 &&
+              (openDepartures.length === 0 ||
+                (hasTrackedSpots &&
+                  spotsLeft <= 0 &&
+                  !openDepartures.some(
+                    (d: any) => d.spotsLeft === null || d.spotsLeft === undefined,
+                  )));
 
             return (
               <div
@@ -397,17 +407,17 @@ export default function AllJourneysCMSPage() {
                     )}
                   </div>
 
-                  {/* Spots Left Pill */}
+                  {/* Spots Left / Sold Out Pill */}
                   {spotsLeft > 0 ? (
                     <div className="absolute top-3 right-3 z-10 bg-[#0E5A60]/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-bold text-white shadow-sm flex items-center gap-1">
                       <Flame className="w-3 h-3 text-[#D96C2C] fill-[#D96C2C]" />
                       <span>{spotsLeft} Spots</span>
                     </div>
-                  ) : (
+                  ) : isSoldOut ? (
                     <div className="absolute top-3 right-3 z-10 bg-slate-800/80 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-bold text-white shadow-sm">
                       Sold Out
                     </div>
-                  )}
+                  ) : null}
 
                   {/* Category Pill */}
                   <div className="absolute bottom-3 left-3 z-10">

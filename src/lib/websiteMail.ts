@@ -420,7 +420,9 @@ export async function sendCallBackAlert(input: CallBackEmailData) {
     : `<p style="margin:0;font-size:14px;color:#5C5449;font-family:Arial,sans-serif;">General Trip Consultation</p>`;
 
   const cleanPhone = String(input.phone ?? "").replace(/\D/g, "");
-  const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hi ${input.name}, this is Kokalachi Travel calling regarding your trip inquiry!`)}` : "";
+  const waUrl = cleanPhone
+    ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hi ${input.name}, this is Kokalachi Travel calling regarding your trip inquiry!`)}`
+    : "";
 
   const callBackContent = `
     <tr><td style="background:#D96C2C;height:4px;font-size:0;line-height:0;">&nbsp;</td></tr>
@@ -471,13 +473,17 @@ export async function sendCallBackAlert(input: CallBackEmailData) {
               Call Now &rarr;
             </a>
           </td>
-          ${waUrl ? `
+          ${
+            waUrl
+              ? `
           <td>
             <a href="${waUrl}" target="_blank"
                style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;padding:12px 24px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;border-radius:2px;">
               WhatsApp &rarr;
             </a>
-          </td>` : ""}
+          </td>`
+              : ""
+          }
         </tr></table>
       </td>
     </tr>

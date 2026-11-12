@@ -42,7 +42,9 @@ export default function CallbacksCMSPage() {
   const [notesDraft, setNotesDraft] = useState("");
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [isSavingNotes, setIsSavingNotes] = useState(false);
-  const [callBackToDelete, setCallBackToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [callBackToDelete, setCallBackToDelete] = useState<{ id: string; name: string } | null>(
+    null,
+  );
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchCallBacks = async () => {
@@ -244,7 +246,9 @@ export default function CallbacksCMSPage() {
                 <td colSpan={5} className="py-20 text-center">
                   <div className="flex flex-col items-center gap-2 text-gray-400">
                     <Phone className="w-10 h-10 stroke-[1.5] text-gray-300 mb-1" />
-                    <span className="text-sm font-semibold text-gray-600">No call-back requests found</span>
+                    <span className="text-sm font-semibold text-gray-600">
+                      No call-back requests found
+                    </span>
                     <span className="text-xs text-gray-400">
                       Requests submitted on journey pages will appear here.
                     </span>
@@ -531,4 +535,3 @@ export default function CallbacksCMSPage() {
     </div>
   );
 }
-
