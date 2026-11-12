@@ -354,23 +354,34 @@ export default function AllJourneysCMSPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTrips.map((trip) => {
+            // Same rule as the website: spots come only from the next bookable future date.
+            // Sold out: future dates decide when there are any; otherwise the undated
+            // "Upcoming" batch, and failing that, any past date marked sold out
             const departures = Array.isArray(trip.departures) ? trip.departures : [];
-            const openDepartures = departures.filter((d: any) => d.status === "open");
-            const hasTrackedSpots = openDepartures.some(
-              (d: any) => typeof d.spotsLeft === "number",
+            const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(
+              new Date(),
             );
-            const spotsLeft = openDepartures.reduce(
-              (acc: number, d: any) => acc + (typeof d.spotsLeft === "number" ? d.spotsLeft : 0),
-              0,
+            const upcomingDepartures = departures.filter(
+              (d: any) => d.startDate && d.endDate && d.startDate >= today && d.status !== "closed",
+            );
+            const isDepartureSoldOut = (d: any) => d.status === "soldout" || d.spotsLeft === 0;
+            const nextDeparture = [...upcomingDepartures]
+              .sort((a: any, b: any) => a.startDate.localeCompare(b.startDate))
+              .find((d: any) => !isDepartureSoldOut(d));
+            const spotsLeft =
+              typeof nextDeparture?.spotsLeft === "number" ? nextDeparture.spotsLeft : 0;
+            const undatedBatch = departures.find(
+              (d: any) => !(d.startDate && d.endDate) && d.status !== "closed",
             );
             const isSoldOut =
-              departures.length > 0 &&
-              (openDepartures.length === 0 ||
-                (hasTrackedSpots &&
-                  spotsLeft <= 0 &&
-                  !openDepartures.some(
-                    (d: any) => d.spotsLeft === null || d.spotsLeft === undefined,
-                  )));
+              upcomingDepartures.length > 0
+                ? upcomingDepartures.every(isDepartureSoldOut)
+                : undatedBatch
+                  ? isDepartureSoldOut(undatedBatch)
+                  : departures.some(
+                      (d: any) =>
+                        d.startDate && d.endDate && d.status !== "closed" && isDepartureSoldOut(d),
+                    );
 
             return (
               <div
