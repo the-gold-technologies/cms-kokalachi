@@ -82,7 +82,17 @@ export function storyTextToBlocks(content: string = ""): BlogBlockItem[] {
         .map((p) => p.trim())
         .filter(Boolean);
       for (const p of paras) {
-        blocks.push({ type: "p", text: p });
+        const mdImg = p.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (mdImg) {
+          blocks.push({
+            type: "image",
+            src: mdImg[2].trim(),
+            alt: mdImg[1].trim(),
+            caption: mdImg[1].trim(),
+          });
+        } else {
+          blocks.push({ type: "p", text: p });
+        }
       }
     }
 
@@ -109,7 +119,7 @@ export function storyTextToBlocks(content: string = ""): BlogBlockItem[] {
       blocks.push({
         type: "image",
         src: src || "",
-        alt: alt || "Travel photograph",
+        alt: alt || "",
         caption: caption || "",
       });
     } else if (tag === "postcard") {
@@ -169,7 +179,17 @@ export function storyTextToBlocks(content: string = ""): BlogBlockItem[] {
       .map((p) => p.trim())
       .filter(Boolean);
     for (const p of paras) {
-      blocks.push({ type: "p", text: p });
+      const mdImg = p.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (mdImg) {
+        blocks.push({
+          type: "image",
+          src: mdImg[2].trim(),
+          alt: mdImg[1].trim(),
+          caption: mdImg[1].trim(),
+        });
+      } else {
+        blocks.push({ type: "p", text: p });
+      }
     }
   }
 

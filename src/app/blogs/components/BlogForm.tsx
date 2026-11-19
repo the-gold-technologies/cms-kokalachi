@@ -196,13 +196,29 @@ export function BlogForm({
 
   const [sections, setSections] = useState<SectionFormState[]>(() => {
     if (initialData?.sections && initialData.sections.length > 0) {
-      return initialData.sections.map((sec) => ({
-        id: sec.id || `chapter-${Date.now().toString(36)}`,
-        number: sec.number != null ? sec.number : null,
-        kicker: sec.kicker || "",
-        title: sec.title || "",
-        content: blocksToStoryText(sec.blocks || []),
-      }));
+      return initialData.sections.map((sec: any) => {
+        let content = "";
+        if (sec.content && typeof sec.content === "string") {
+          content = sec.content;
+        } else if (sec.blocks && Array.isArray(sec.blocks)) {
+          content = blocksToStoryText(sec.blocks);
+        }
+        if (sec.image && typeof sec.image === "string" && sec.image.trim()) {
+          const imgSrc = sec.image.trim();
+          if (!content.includes(imgSrc)) {
+            const alt = sec.imageAlt || sec.title || "";
+            const polaroid = `:::polaroid\nsrc: ${imgSrc}\nalt: ${alt}\ncaption: ${alt}\n:::`;
+            content = content ? `${content}\n\n${polaroid}` : polaroid;
+          }
+        }
+        return {
+          id: sec.id || `chapter-${Date.now().toString(36)}`,
+          number: sec.number != null ? sec.number : null,
+          kicker: sec.kicker || "",
+          title: sec.title || "",
+          content,
+        };
+      });
     }
     return [
       {
@@ -396,18 +412,24 @@ export function BlogForm({
       .filter(Boolean);
 
     // Parse each section's unified CMS story text into structured blocks
-    const parsedSections = sections.map((sec) => ({
-      id:
-        sec.id ||
-        sec.title
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)+/g, ""),
-      number: sec.number != null ? Number(sec.number) : null,
-      kicker: sec.kicker || undefined,
-      title: sec.title.trim(),
-      blocks: storyTextToBlocks(sec.content),
-    }));
+    const parsedSections = sections.map((sec) => {
+      const blocks = storyTextToBlocks(sec.content);
+      const firstImage = blocks.find((b) => b.type === "image");
+      return {
+        id:
+          sec.id ||
+          sec.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)+/g, ""),
+        number: sec.number != null ? Number(sec.number) : null,
+        kicker: sec.kicker || undefined,
+        title: sec.title.trim(),
+        image: firstImage?.src || undefined,
+        imageAlt: firstImage?.alt || undefined,
+        blocks,
+      };
+    });
 
     const payload: BlogFormData = {
       title: title.trim(),
@@ -719,14 +741,17 @@ export function BlogForm({
               <div className="space-y-6 pt-2">
                 {/* Hero Banner Mirror */}
                 <div className="relative h-[360px] sm:h-[420px] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-md">
-                  <img
-                    src={
-                      heroImage ||
-                      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80"
-                    }
-                    alt={heroAlt || title || "Hero Preview"}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
+                  {heroImage ? (
+                    <img
+                      src={heroImage}
+                      alt={heroAlt || title || "Hero Preview"}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-white/30 text-xs uppercase tracking-widest font-mono">
+                      [No hero image selected]
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B2A3D]/95 via-[#0B2A3D]/30 to-transparent" />
                   <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/25 to-transparent" />
 

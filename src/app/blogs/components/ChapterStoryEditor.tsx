@@ -383,9 +383,9 @@ export function ChapterStoryEditor({
                   if (block.type === "image") {
                     return (
                       <figure key={idx} className="my-8 flex justify-center">
-                        <div className="relative bg-white p-3 pb-12 shadow-md rotate-[1.5deg] max-w-[500px] w-full border border-slate-200">
-                          <div className="absolute -top-2 left-6 w-16 h-4 bg-[#FFF4E5] border-y border-amber-900/15 rotate-[-6deg]" />
-                          <div className="absolute -top-2 right-6 w-16 h-4 bg-[#FFF4E5] border-y border-amber-900/15 rotate-[5deg]" />
+                        <div className="relative bg-white p-3 pb-3 sm:pb-4 shadow-md rotate-[1.5deg] max-w-[500px] w-full border border-slate-200 flex flex-col">
+                          <div className="absolute -top-2 left-6 w-16 h-4 bg-[#FFF4E5] border-y border-amber-900/15 rotate-[-6deg] pointer-events-none z-10" />
+                          <div className="absolute -top-2 right-6 w-16 h-4 bg-[#FFF4E5] border-y border-amber-900/15 rotate-[5deg] pointer-events-none z-10" />
                           {block.src ? (
                             <img
                               src={block.src}
@@ -397,9 +397,13 @@ export function ChapterStoryEditor({
                               [No image selected]
                             </div>
                           )}
-                          <figcaption className="absolute bottom-3 left-0 right-0 text-center font-serif italic text-base sm:text-lg text-[#0E5A60]">
-                            {block.caption || ""}
-                          </figcaption>
+                          {block.caption ? (
+                            <figcaption className="pt-2 sm:pt-3 px-2 text-center font-serif italic text-base sm:text-lg text-[#0E5A60] leading-snug">
+                              {block.caption}
+                            </figcaption>
+                          ) : (
+                            <div className="h-6" />
+                          )}
                         </div>
                       </figure>
                     );

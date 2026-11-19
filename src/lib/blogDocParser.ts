@@ -19,6 +19,8 @@ export interface ParsedBlogDoc {
     number?: number | null;
     kicker?: string;
     title: string;
+    image?: string;
+    imageAlt?: string;
     content?: string;
     blocks?: BlogBlockItem[];
   }>;
@@ -109,6 +111,20 @@ function sanitizeParsedBlogJson(data: any): ParsedBlogDoc {
         content = blocksToStoryText(sec.blocks);
       }
 
+      // If sec.image is provided on the section object, inject it into content as a polaroid block
+      const secImage = typeof sec.image === "string" ? sec.image.trim() : "";
+      const secImageAlt =
+        typeof sec.imageAlt === "string"
+          ? sec.imageAlt.trim()
+          : sec.title
+            ? String(sec.title).trim()
+            : "";
+
+      if (secImage && !content.includes(secImage)) {
+        const polaroidBlock = `:::polaroid\nsrc: ${secImage}\nalt: ${secImageAlt}\ncaption: ${secImageAlt}\n:::`;
+        content = content ? `${content}\n\n${polaroidBlock}` : polaroidBlock;
+      }
+
       const num = sec.number != null && !isNaN(Number(sec.number)) ? Number(sec.number) : null;
 
       return {
@@ -116,6 +132,8 @@ function sanitizeParsedBlogJson(data: any): ParsedBlogDoc {
         number: num,
         kicker: typeof sec.kicker === "string" ? sec.kicker.trim() : "",
         title: typeof sec.title === "string" ? sec.title.trim() : `Chapter ${idx + 1}`,
+        image: secImage || undefined,
+        imageAlt: secImageAlt || undefined,
         content,
       };
     });
@@ -295,6 +313,24 @@ function parseBlogMarkdown(markdown: string): ParsedBlogDoc {
       sectionBody = sectionBody.replace(kickerMatch[0], "").trim();
     }
 
+    // Check for "image: ..." and "imageAlt: ..." lines in sectionBody
+    const imgMatch = sectionBody.match(/^image:\s*(.+)$/im);
+    const altMatch = sectionBody.match(/^(?:imagealt|alt):\s*(.+)$/im);
+    let secImage = "";
+    let secImageAlt = "";
+    if (imgMatch) {
+      secImage = imgMatch[1].trim();
+      sectionBody = sectionBody.replace(imgMatch[0], "").trim();
+      secImageAlt = altMatch ? altMatch[1].trim() : chapterTitle;
+      if (altMatch) {
+        sectionBody = sectionBody.replace(altMatch[0], "").trim();
+      }
+      if (!sectionBody.includes(secImage)) {
+        const polaroid = `:::polaroid\nsrc: ${secImage}\nalt: ${secImageAlt}\ncaption: ${secImageAlt}\n:::`;
+        sectionBody = sectionBody ? `${sectionBody}\n\n${polaroid}` : polaroid;
+      }
+    }
+
     parsedSections.push({
       id:
         chapterTitle
@@ -304,6 +340,8 @@ function parseBlogMarkdown(markdown: string): ParsedBlogDoc {
       number: chapterNum,
       kicker,
       title: chapterTitle,
+      image: secImage || undefined,
+      imageAlt: secImageAlt || undefined,
       content: sectionBody,
     });
   }

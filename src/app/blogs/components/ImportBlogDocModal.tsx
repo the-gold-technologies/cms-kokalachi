@@ -302,9 +302,17 @@ Travel isn't about escaping life, but discovering life isn't meant to be lived a
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   Successfully Parsed Document
                 </span>
-                <span className="text-[11px] font-bold text-[#D96C2C]">
-                  {parsed.sections?.length || 0} chapters detected
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-bold text-[#0E5A60] bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200/50">
+                    {(parsed.sections || []).filter(
+                      (s) => s.image || (s.content && s.content.includes(":::polaroid")),
+                    ).length + (parsed.heroImage ? 1 : 0)}{" "}
+                    images found
+                  </span>
+                  <span className="text-[11px] font-bold text-[#D96C2C] bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200/50">
+                    {parsed.sections?.length || 0} chapters
+                  </span>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
