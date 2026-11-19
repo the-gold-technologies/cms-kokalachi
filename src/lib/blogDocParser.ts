@@ -86,11 +86,17 @@ function sanitizeParsedBlogJson(data: any): ParsedBlogDoc {
   } else if (typeof data.intro === "string") {
     const text: string = data.intro.trim();
     doc.introText = text;
-    doc.intro = text.split(/\n\s*\n/).map((p: string) => p.trim()).filter(Boolean);
+    doc.intro = text
+      .split(/\n\s*\n/)
+      .map((p: string) => p.trim())
+      .filter(Boolean);
   } else if (typeof data.introText === "string") {
     const text: string = data.introText.trim();
     doc.introText = text;
-    doc.intro = text.split(/\n\s*\n/).map((p: string) => p.trim()).filter(Boolean);
+    doc.intro = text
+      .split(/\n\s*\n/)
+      .map((p: string) => p.trim())
+      .filter(Boolean);
   }
 
   // Chapters / Sections
@@ -103,10 +109,7 @@ function sanitizeParsedBlogJson(data: any): ParsedBlogDoc {
         content = blocksToStoryText(sec.blocks);
       }
 
-      const num =
-        sec.number != null && !isNaN(Number(sec.number))
-          ? Number(sec.number)
-          : null;
+      const num = sec.number != null && !isNaN(Number(sec.number)) ? Number(sec.number) : null;
 
       return {
         id: sec.id || `chapter-${idx + 1}`,
@@ -185,12 +188,16 @@ function parseBlogMarkdown(markdown: string): ParsedBlogDoc {
         const colonIdx = line.indexOf(":");
         if (colonIdx === -1) continue;
         const key = line.substring(0, colonIdx).trim().toLowerCase();
-        const val = line.substring(colonIdx + 1).trim().replace(/^["']|["']$/g, "");
+        const val = line
+          .substring(colonIdx + 1)
+          .trim()
+          .replace(/^["']|["']$/g, "");
 
         if (key === "title") doc.title = val;
         else if (key === "slug") doc.slug = val;
         else if (key === "herolead" || key === "hero_lead" || key === "lead") doc.heroLead = val;
-        else if (key === "heroaccent" || key === "hero_accent" || key === "accent") doc.heroAccent = val;
+        else if (key === "heroaccent" || key === "hero_accent" || key === "accent")
+          doc.heroAccent = val;
         else if (key === "excerpt" || key === "description" || key === "teaser") doc.excerpt = val;
         else if (key === "category") doc.category = val;
         else if (key === "author") doc.author = val;
@@ -234,7 +241,10 @@ function parseBlogMarkdown(markdown: string): ParsedBlogDoc {
   if (chapterIndices.length === 0) {
     // Whole body is the intro if no ## chapters
     doc.introText = body.trim();
-    doc.intro = doc.introText.split(/\n\s*\n/).map((p: string) => p.trim()).filter(Boolean);
+    doc.intro = doc.introText
+      .split(/\n\s*\n/)
+      .map((p: string) => p.trim())
+      .filter(Boolean);
     return doc;
   }
 
@@ -242,7 +252,10 @@ function parseBlogMarkdown(markdown: string): ParsedBlogDoc {
   const introPart = body.substring(0, chapterIndices[0].index).trim();
   if (introPart) {
     doc.introText = introPart;
-    doc.intro = introPart.split(/\n\s*\n/).map((p: string) => p.trim()).filter(Boolean);
+    doc.intro = introPart
+      .split(/\n\s*\n/)
+      .map((p: string) => p.trim())
+      .filter(Boolean);
   }
 
   // Parse each chapter section
@@ -283,7 +296,11 @@ function parseBlogMarkdown(markdown: string): ParsedBlogDoc {
     }
 
     parsedSections.push({
-      id: chapterTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "") || `chapter-${i + 1}`,
+      id:
+        chapterTitle
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)+/g, "") || `chapter-${i + 1}`,
       number: chapterNum,
       kicker,
       title: chapterTitle,

@@ -79,34 +79,38 @@ export function ImportBlogDocModal({ isOpen, onClose, onApply }: ImportBlogDocMo
     slug: "first-time-on-a-group-trip",
     heroLead: "First Time on a Group Trip?",
     heroAccent: "Here's what it actually feels like.",
-    excerpt: "A candid reflection on showing up solo, sharing chai with strangers, and leaving with lifelong friends.",
+    excerpt:
+      "A candid reflection on showing up solo, sharing chai with strangers, and leaving with lifelong friends.",
     category: "First-Timer Guide",
     author: "Team Kokalachi",
     publishedAt: new Date().toISOString().split("T")[0],
-    heroImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80",
     heroAlt: "Group of travellers sharing laughter around a scenic mountain viewpoint",
     marginNote: "nervous? same. that's the point ♡",
     intro: [
       "The first morning always starts the same way. You're holding a lukewarm paper cup of chai, trying to remember six new names.",
-      "By day three, those same strangers are sharing their blister plasters and debating the merits of local street food."
+      "By day three, those same strangers are sharing their blister plasters and debating the merits of local street food.",
     ],
     sections: [
       {
         number: 1,
         kicker: "Before you go",
         title: "The first hello shouldn't happen at the airport",
-        content: "We create a warm WhatsApp circle a week before departure so everyone breaks the ice.\n\n:::tip\nDon't overpack on shoes. Two reliable pairs will carry you anywhere.\n:::"
+        content:
+          "We create a warm WhatsApp circle a week before departure so everyone breaks the ice.\n\n:::tip\nDon't overpack on shoes. Two reliable pairs will carry you anywhere.\n:::",
       },
       {
         number: 2,
         kicker: "On the road",
         title: "Evenings belong to honest bonfire conversations",
-        content: "There is something about twilight in the hills that makes people drop their guards.\n\n:::quote\nTravel isn't about escaping life, but discovering life isn't meant to be lived alone.\n:::"
-      }
+        content:
+          "There is something about twilight in the hills that makes people drop their guards.\n\n:::quote\nTravel isn't about escaping life, but discovering life isn't meant to be lived alone.\n:::",
+      },
     ],
     ctaTitle: "Ready to take the first step?",
     ctaText: "Explore our upcoming journeys and find your tribe.",
-    shareNote: "Know a nervous first-timer? Send this their way."
+    shareNote: "Know a nervous first-timer? Send this their way.",
   };
 
   const sampleMarkdown = `---
@@ -143,7 +147,9 @@ Travel isn't about escaping life, but discovering life isn't meant to be lived a
 
   const handleDownloadSample = (type: "json" | "md") => {
     const content = type === "json" ? JSON.stringify(sampleJson, null, 2) : sampleMarkdown;
-    const blob = new Blob([content], { type: type === "json" ? "application/json" : "text/markdown" });
+    const blob = new Blob([content], {
+      type: type === "json" ? "application/json" : "text/markdown",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -166,7 +172,8 @@ Travel isn't about escaping life, but discovering life isn't meant to be lived a
                 Import Story from Document
               </h3>
               <p className="text-xs text-gray-500">
-                Upload or paste a Markdown (.md) or JSON file to auto-fill story title, intro, chapters & CTA.
+                Upload or paste a Markdown (.md) or JSON file to auto-fill story title, intro,
+                chapters & CTA.
               </p>
             </div>
           </div>
