@@ -11,6 +11,7 @@ import { ChapterStoryEditor } from "./ChapterStoryEditor";
 import { blocksToStoryText, storyTextToBlocks, BlogBlockItem } from "@/lib/blogContentParser";
 import {
   ArrowLeft,
+  ArrowRight,
   Plus,
   Trash2,
   BookOpen,
@@ -20,13 +21,57 @@ import {
   ChevronUp,
   Layers,
   Eye,
+  Edit3,
   Globe,
   Compass,
   Sparkles,
   Share2,
+  Feather,
+  Calendar,
+  Clock,
+  Lightbulb,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { SharedSectionLink } from "@/components/SharedSectionLink";
+
+function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.529 1.834.814 2.801.814 3.18 0 5.766-2.587 5.768-5.766.001-3.181-2.585-5.768-5.769-5.768zm3.376 8.219c-.144.405-.837.774-1.17.824-.312.045-.698.077-2.146-.516-1.503-.618-2.455-2.138-2.529-2.236-.073-.099-.607-.808-.607-1.543s.385-1.096.522-1.246c.137-.149.3-.186.4-.186l.288.006c.099.004.23.018.334.269.113.272.385.94.419 1.009.034.069.057.149.011.239-.046.091-.069.148-.137.227-.069.079-.145.176-.207.237-.069.068-.14.141-.06.279.08.138.356.587.764.95.524.466.966.611 1.104.679.137.069.218.057.299-.034.08-.092.345-.401.437-.539.092-.137.184-.114.31-.068.127.046.804.379.942.448.138.069.23.103.264.161.034.057.034.333-.11.738z" />
+    </svg>
+  );
+}
+
+function renderRichTextWithLinks(text: string) {
+  if (!text) return null;
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, i) => {
+    const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!match) return <React.Fragment key={i}>{part}</React.Fragment>;
+    return (
+      <span
+        key={i}
+        className="font-semibold text-[#C85A24] underline decoration-[#D96C2C]/50 underline-offset-4 cursor-pointer hover:text-[#0E5A60] transition-colors"
+        title={`Links to: ${match[2]}`}
+      >
+        {match[1]}
+      </span>
+    );
+  });
+}
+
+function formatBlogDate(dateStr?: string): string {
+  if (!dateStr) return "Today";
+  try {
+    return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
 
 export interface BlogSectionItem {
   id: string;
@@ -104,9 +149,15 @@ export function BlogForm({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [currentId, setCurrentId] = useState<string | undefined>(initialData?.id);
   const [activeTab, setActiveTab] = useState<"header" | "intro" | "chapters" | "cta" | "seo">(
     "header",
   );
+
+  // Per-section visual preview mode toggles (exact same as ChapterStoryEditor)
+  const [heroView, setHeroView] = useState<"edit" | "preview">("edit");
+  const [introView, setIntroView] = useState<"edit" | "preview">("edit");
+  const [ctaView, setCtaView] = useState<"edit" | "preview">("edit");
 
   // Core Header
   const [title, setTitle] = useState(initialData?.title || "");
@@ -344,8 +395,9 @@ export function BlogForm({
     };
 
     try {
-      const url = isEdit && initialData?.id ? `/api/blogs/${initialData.id}` : "/api/blogs";
-      const method = isEdit ? "PUT" : "POST";
+      const targetId = currentId || (isEdit ? initialData?.id : undefined);
+      const url = targetId ? `/api/blogs/${targetId}` : "/api/blogs";
+      const method = targetId ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
@@ -356,11 +408,16 @@ export function BlogForm({
       const json = await res.json();
       if (json.success) {
         setSaved(true);
-        toast.success(isEdit ? "Story updated successfully!" : "Story published successfully!");
+        if (json.data?.id) {
+          setCurrentId(json.data.id);
+          window.history.replaceState(null, "", `/blogs/edit/${json.data.id}`);
+        }
+        toast.success(
+          isEdit || targetId ? "Story updated successfully!" : "Story saved successfully!",
+        );
         setTimeout(() => {
-          router.push("/blogs");
-          router.refresh();
-        }, 800);
+          setSaved(false);
+        }, 2500);
       } else {
         toast.error(json.error || "Failed to save story");
       }
@@ -444,150 +501,290 @@ export function BlogForm({
       {activeTab === "header" && (
         <div className="flex flex-col gap-6">
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6">
-            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#D96C2C]" />
-              Story Title & Header Accents
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="md:col-span-2">
-                <InputField
-                  label="Story Headline / Title"
-                  placeholder="e.g. First Time on a Group Trip? Here's What It Actually Feels Like."
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-              </div>
-
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
               <div>
-                <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
-                  URL Slug
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
-                    placeholder="first-time-on-a-group-trip"
-                    className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleAutoSlug}
-                    className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-colors cursor-pointer"
-                  >
-                    Auto
-                  </button>
-                </div>
-                <span className="text-[11px] text-slate-400 mt-1 block">
-                  Canonical URL: /blogs/{slug || "slug-here"}
-                </span>
+                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#D96C2C]" />
+                  Story Title & Header Accents
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Configure story headline, author, publication date, hero photo, and teaser.
+                </p>
               </div>
 
-              <div>
-                <InputField
-                  label="Hero Lead (Large Serifs in Header)"
-                  placeholder="e.g. First Time on a Group Trip?"
-                  value={heroLead}
-                  onChange={(e) => setHeroLead(e.target.value)}
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <InputField
-                  label="Hero Cursive Accent (Italic Handwritten Subline)"
-                  placeholder="e.g. Here's what it actually feels like."
-                  value={heroAccent}
-                  onChange={(e) => setHeroAccent(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
-                  Category Tag
-                </label>
-                <input
-                  list="category-presets"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  placeholder="First-Timer Guide"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
-                />
-                <datalist id="category-presets">
-                  {CATEGORY_PRESETS.map((cat) => (
-                    <option key={cat} value={cat} />
-                  ))}
-                </datalist>
-              </div>
-
-              <div>
-                <InputField
-                  label="Author Name"
-                  placeholder="e.g. Team Kokalachi"
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <InputField
-                  label="Publish Date (YYYY-MM-DD)"
-                  type="date"
-                  value={publishedAt}
-                  onChange={(e) => setPublishedAt(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <InputField
-                  label="Handwritten Margin Note (Beside Intro)"
-                  placeholder="e.g. nervous? same. that's the point ♡"
-                  value={marginNote}
-                  onChange={(e) => setMarginNote(e.target.value)}
-                  tooltip="Small cursive note with a hand-drawn doodle arrow beside the intro"
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <TextAreaField
-                  label="Story Excerpt / Teaser"
-                  placeholder="Brief 2-3 sentence summary that draws travellers in on cards & Google results..."
-                  value={excerpt}
-                  onChange={(e) => setExcerpt(e.target.value)}
-                  rows={3}
-                />
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => setHeroView("edit")}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    heroView === "edit"
+                      ? "bg-[#0E5A60] text-white shadow-2xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <Edit3 className="w-3.5 h-3.5" />
+                  Edit Details
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHeroView("preview")}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    heroView === "preview"
+                      ? "bg-[#0E5A60] text-white shadow-2xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  Visual Preview
+                </button>
               </div>
             </div>
+
+            {heroView === "edit" ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="md:col-span-2">
+                  <InputField
+                    label="Story Headline / Title"
+                    placeholder="e.g. First Time on a Group Trip? Here's What It Actually Feels Like."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
+                    URL Slug
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={slug}
+                      onChange={(e) => setSlug(e.target.value)}
+                      placeholder="first-time-on-a-group-trip"
+                      className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAutoSlug}
+                      className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+                    >
+                      Auto
+                    </button>
+                  </div>
+                  <span className="text-[11px] text-slate-400 mt-1 block">
+                    Canonical URL: /blogs/{slug || "slug-here"}
+                  </span>
+                </div>
+
+                <div>
+                  <InputField
+                    label="Hero Lead (Large Serifs in Header)"
+                    placeholder="e.g. First Time on a Group Trip?"
+                    value={heroLead}
+                    onChange={(e) => setHeroLead(e.target.value)}
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <InputField
+                    label="Hero Cursive Accent (Italic Handwritten Subline)"
+                    placeholder="e.g. Here's what it actually feels like."
+                    value={heroAccent}
+                    onChange={(e) => setHeroAccent(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
+                    Category Tag
+                  </label>
+                  <input
+                    list="category-presets"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    placeholder="First-Timer Guide"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
+                  />
+                  <datalist id="category-presets">
+                    {CATEGORY_PRESETS.map((cat) => (
+                      <option key={cat} value={cat} />
+                    ))}
+                  </datalist>
+                </div>
+
+                <div>
+                  <InputField
+                    label="Author Name"
+                    placeholder="e.g. Team Kokalachi"
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <InputField
+                    label="Publish Date (YYYY-MM-DD)"
+                    type="date"
+                    value={publishedAt}
+                    onChange={(e) => setPublishedAt(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <InputField
+                    label="Handwritten Margin Note (Beside Intro)"
+                    placeholder="e.g. nervous? same. that's the point ♡"
+                    value={marginNote}
+                    onChange={(e) => setMarginNote(e.target.value)}
+                    tooltip="Small cursive note with a hand-drawn doodle arrow beside the intro"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <TextAreaField
+                    label="Story Excerpt / Teaser"
+                    placeholder="Brief 2-3 sentence summary that draws travellers in on cards & Google results..."
+                    value={excerpt}
+                    onChange={(e) => setExcerpt(e.target.value)}
+                    rows={3}
+                  />
+                </div>
+              </div>
+            ) : (
+              /* Visual Preview for Hero & Details */
+              <div className="space-y-6 pt-2">
+                {/* Hero Banner Mirror */}
+                <div className="relative h-[360px] sm:h-[420px] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-md">
+                  <img
+                    src={
+                      heroImage ||
+                      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80"
+                    }
+                    alt={heroAlt || title || "Hero Preview"}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B2A3D]/95 via-[#0B2A3D]/30 to-transparent" />
+                  <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/25 to-transparent" />
+
+                  <div className="absolute inset-0 flex items-end p-6 sm:p-10">
+                    <div className="max-w-2xl">
+                      <div className="inline-flex items-center gap-1.5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-3">
+                        <ArrowLeft className="w-3.5 h-3.5" /> The Kokalachi Journal
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                        <span className="bg-[#D96C2C] text-white text-[11px] font-semibold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                          {category || "First-Timer Guide"}
+                        </span>
+                        {isFeatured && (
+                          <span className="bg-amber-400 text-slate-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                            Featured
+                          </span>
+                        )}
+                      </div>
+                      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-white leading-tight mb-3">
+                        {heroLead || title || "Your Story Headline"}{" "}
+                        {heroAccent && (
+                          <span className="relative inline-block font-script font-normal text-[1.15em] text-[#FFD9BF] whitespace-nowrap">
+                            {heroAccent}
+                            <svg
+                              className="absolute -bottom-2 left-0 w-full h-3 text-[#C85A24] pointer-events-none"
+                              viewBox="0 0 100 20"
+                              fill="none"
+                              preserveAspectRatio="none"
+                            >
+                              <path
+                                d="M5 15 Q 50 5 95 15"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                                strokeLinecap="round"
+                              />
+                            </svg>
+                          </span>
+                        )}
+                      </h1>
+                      <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-white/85 text-xs sm:text-sm">
+                        <span className="flex items-center gap-1.5">
+                          <Feather className="w-3.5 h-3.5 text-[#FFB98A]" />
+                          {author || "Team Kokalachi"}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-[#FFB98A]" />
+                          {formatBlogDate(publishedAt)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Excerpt and Margin Note Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {excerpt && (
+                    <div className="bg-[#FAF5EE] p-5 rounded-2xl border border-amber-900/10">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#C85A24] block mb-1">
+                        Story Teaser / Excerpt
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
+                        &ldquo;{excerpt}&rdquo;
+                      </p>
+                    </div>
+                  )}
+
+                  {marginNote && (
+                    <div className="bg-[#FAF5EE] p-5 rounded-2xl border border-amber-900/10 flex items-center">
+                      <p className="font-script text-2xl text-[#C85A24] -rotate-2 flex items-center gap-2">
+                        {marginNote}
+                        <svg
+                          className="w-8 h-5 text-[#C85A24]/70 rotate-12 shrink-0"
+                          viewBox="0 0 50 30"
+                          fill="none"
+                          aria-hidden
+                        >
+                          <path
+                            d="M 5 5 C 20 25 35 15 45 20 M 38 14 L 45 20 L 40 28"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Hero Backdrop Image */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-5">
-            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <ImageIcon className="w-4 h-4 text-[#D96C2C]" />
-              Hero Photography Backdrop
-            </h2>
-            <ImagePickerField
-              label="Hero Backdrop Image"
-              value={heroImage}
-              onChange={setHeroImage}
-              folder="kokalachi/blogs"
-              tooltip="Full-width atmospheric photography for the story header"
-            />
-            <InputField
-              label="Image Alt Text (for accessibility & SEO)"
-              placeholder="e.g. Five friends with arms around each other watching a golden sunset over the sea"
-              value={heroAlt}
-              onChange={(e) => setHeroAlt(e.target.value)}
-            />
-          </div>
+          {/* Hero Backdrop Image field is only visible when editing */}
+          {heroView === "edit" && (
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-5">
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <ImageIcon className="w-4 h-4 text-[#D96C2C]" />
+                Hero Photography Backdrop
+              </h2>
+              <ImagePickerField
+                label="Hero Backdrop Image"
+                value={heroImage}
+                onChange={setHeroImage}
+                folder="kokalachi/blogs"
+                tooltip="Full-width atmospheric photography for the story header"
+              />
+              <InputField
+                label="Image Alt Text (for accessibility & SEO)"
+                placeholder="e.g. Five friends with arms around each other watching a golden sunset over the sea"
+                value={heroAlt}
+                onChange={(e) => setHeroAlt(e.target.value)}
+              />
+            </div>
+          )}
         </div>
       )}
 
       {/* TAB 2: STORY INTRO PARAGRAPHS (Clean Single Textarea) */}
       {activeTab === "intro" && (
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
             <div>
               <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#D96C2C]" />
@@ -599,21 +796,96 @@ export function BlogForm({
               </p>
             </div>
 
-            <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#FAF5EE] text-[#0E5A60] border border-[#0E5A60]/20">
-              {detectedIntroParagraphs.length}{" "}
-              {detectedIntroParagraphs.length === 1 ? "paragraph" : "paragraphs"} detected
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#FAF5EE] text-[#0E5A60] border border-[#0E5A60]/20">
+                {detectedIntroParagraphs.length}{" "}
+                {detectedIntroParagraphs.length === 1 ? "paragraph" : "paragraphs"} detected
+              </span>
+
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => setIntroView("edit")}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    introView === "edit"
+                      ? "bg-[#0E5A60] text-white shadow-2xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <Edit3 className="w-3.5 h-3.5" />
+                  Write Intro
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIntroView("preview")}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    introView === "preview"
+                      ? "bg-[#0E5A60] text-white shadow-2xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  Visual Preview
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <textarea
-              value={introText}
-              onChange={(e) => setIntroText(e.target.value)}
-              placeholder="Write your story introduction here... Press Enter twice to separate paragraphs."
-              rows={12}
-              className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-2xl text-xs sm:text-sm text-slate-900 font-sans leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
-            />
-          </div>
+          {introView === "edit" ? (
+            <div>
+              <textarea
+                value={introText}
+                onChange={(e) => setIntroText(e.target.value)}
+                placeholder="Write your story introduction here... Press Enter twice to separate paragraphs."
+                rows={12}
+                className="w-full p-4 bg-slate-50/50 border border-slate-200 rounded-2xl text-xs sm:text-sm text-slate-900 font-sans leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
+              />
+            </div>
+          ) : (
+            /* Visual Scrapbook Preview for Story Intro */
+            <div className="bg-[#FAF5EE] rounded-2xl p-6 sm:p-10 border border-amber-900/10 space-y-6">
+              <div className="max-w-[680px] mx-auto bg-white/95 p-6 sm:p-10 rounded-2xl border border-amber-900/10 shadow-xs">
+                {detectedIntroParagraphs.length === 0 ? (
+                  <p className="text-slate-400 italic text-sm text-center py-6">
+                    No intro paragraphs written yet. Switch back to Write Intro to start writing!
+                  </p>
+                ) : (
+                  detectedIntroParagraphs.map((para, i) => (
+                    <p
+                      key={i}
+                      className={
+                        i === 0
+                          ? "text-[18px] sm:text-[21px] font-serif text-[#0E5A60] leading-[1.65] mb-6 first-letter:float-left first-letter:font-serif first-letter:text-[60px] first-letter:leading-[0.85] first-letter:font-bold first-letter:text-[#D96C2C] first-letter:mr-3 first-letter:mt-1"
+                          : "text-[15px] sm:text-[17px] text-slate-600 leading-[1.85] mb-6"
+                      }
+                    >
+                      {renderRichTextWithLinks(para)}
+                    </p>
+                  ))
+                )}
+
+                {marginNote && (
+                  <p className="font-script text-2xl sm:text-[26px] text-[#C85A24] -rotate-2 flex items-center gap-2 pl-2 my-6">
+                    {marginNote}
+                    <svg
+                      className="w-8 h-5 text-[#C85A24]/70 rotate-12 shrink-0"
+                      viewBox="0 0 50 30"
+                      fill="none"
+                      aria-hidden
+                    >
+                      <path
+                        d="M 5 5 C 20 25 35 15 45 20 M 38 14 L 45 20 L 40 28"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -793,159 +1065,246 @@ export function BlogForm({
       {/* TAB 4: CTA & RECOMMENDATION */}
       {activeTab === "cta" && (
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6">
-          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Compass className="w-4 h-4 text-[#D96C2C]" />
-            Story Bottom Call-To-Action & Journey Links
-          </h2>
-
-          <div className="space-y-5">
-            <InputField
-              label="CTA Eyebrow Tagline"
-              placeholder="e.g. Your first chai stop is waiting"
-              value={ctaEyebrow}
-              onChange={(e) => setCtaEyebrow(e.target.value)}
-              tooltip="Small bold orange label displayed above the main CTA headline"
-            />
-
-            <InputField
-              label="CTA Headline"
-              placeholder="e.g. Ready to take the first step?"
-              value={ctaTitle}
-              onChange={(e) => setCtaTitle(e.target.value)}
-            />
-
-            <TextAreaField
-              label="CTA Body Text"
-              placeholder="e.g. Browse our upcoming journeys and find the one that makes you a little excited..."
-              value={ctaText}
-              onChange={(e) => setCtaText(e.target.value)}
-              rows={3}
-            />
-
-            {/* CTA Buttons Configuration */}
-            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 block">
-                CTA Action Buttons
-              </span>
-
-              {/* Primary Button */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <InputField
-                    label="Primary Button Label (Orange Pill)"
-                    placeholder="e.g. Explore Upcoming Trips"
-                    value={ctaPrimaryBtnText}
-                    onChange={(e) => setCtaPrimaryBtnText(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <InputField
-                    label="Primary Button Link URL"
-                    placeholder="e.g. /#upcoming-journeys"
-                    value={ctaPrimaryBtnUrl}
-                    onChange={(e) => setCtaPrimaryBtnUrl(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Secondary Button */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/60">
-                <div>
-                  <InputField
-                    label="Secondary Button Label (Subtle Link)"
-                    placeholder="e.g. Read our FAQs"
-                    value={ctaSecondaryBtnText}
-                    onChange={(e) => setCtaSecondaryBtnText(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <InputField
-                    label="Secondary Button Link URL"
-                    placeholder="e.g. /faqs"
-                    value={ctaSecondaryBtnUrl}
-                    onChange={(e) => setCtaSecondaryBtnUrl(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
             <div>
-              <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
-                Related Journey Recommendation Category
-              </label>
-              <select
-                value={relatedCategory}
-                onChange={(e) => setRelatedCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <Compass className="w-4 h-4 text-[#D96C2C]" />
+                Story Bottom Call-To-Action & Journey Links
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Customize the bottom invitation card, button destinations, and WhatsApp share card.
+              </p>
+            </div>
+
+            {/* View Mode Toggle */}
+            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-2xs">
+              <button
+                type="button"
+                onClick={() => setCtaView("edit")}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  ctaView === "edit"
+                    ? "bg-[#0E5A60] text-white shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
               >
-                {journeyCategories.length > 0 ? (
-                  journeyCategories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.label} ({cat.id})
-                    </option>
-                  ))
-                ) : (
-                  <option value={relatedCategory || "FirstTimers"}>
-                    {relatedCategory || "FirstTimers"}
-                  </option>
-                )}
-              </select>
-              <span className="text-[11px] text-slate-400 mt-1 block">
-                The sticky sidebar suggests a journey from this category.
-              </span>
+                <Edit3 className="w-3.5 h-3.5" />
+                Edit CTA
+              </button>
+              <button
+                type="button"
+                onClick={() => setCtaView("preview")}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  ctaView === "preview"
+                    ? "bg-[#0E5A60] text-white shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                <Eye className="w-3.5 h-3.5" />
+                Visual Preview
+              </button>
             </div>
           </div>
 
-          {/* Sticky Sidebar & WhatsApp Share Card Settings */}
-          <div className="pt-6 border-t border-slate-100 space-y-4">
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Share2 className="w-4 h-4 text-[#D96C2C]" />
-              Sticky Sidebar & WhatsApp Share Card
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
+          {ctaView === "edit" ? (
+            <>
+              <div className="space-y-5">
                 <InputField
-                  label="Sidebar Trip Badge Pill"
-                  placeholder="e.g. First-timer pick"
-                  value={sidebarBadge}
-                  onChange={(e) => setSidebarBadge(e.target.value)}
-                  tooltip="Small orange pill displayed on the recommended trip card in the sidebar"
+                  label="CTA Eyebrow Tagline"
+                  placeholder="e.g. Your first chai stop is waiting"
+                  value={ctaEyebrow}
+                  onChange={(e) => setCtaEyebrow(e.target.value)}
+                  tooltip="Small bold orange label displayed above the main CTA headline"
                 />
-              </div>
 
-              <div>
                 <InputField
-                  label="WhatsApp Card Handwritten Accent"
-                  placeholder="e.g. psst…"
-                  value={shareTitle}
-                  onChange={(e) => setShareTitle(e.target.value)}
-                  tooltip="Cursive accent text above the share message"
+                  label="CTA Headline"
+                  placeholder="e.g. Ready to take the first step?"
+                  value={ctaTitle}
+                  onChange={(e) => setCtaTitle(e.target.value)}
                 />
-              </div>
 
-              <div className="sm:col-span-2">
                 <TextAreaField
-                  label="WhatsApp Card Share Message"
-                  placeholder="e.g. Know a nervous first-timer? Send this their way."
-                  value={shareNote}
-                  onChange={(e) => setShareNote(e.target.value)}
-                  rows={2}
-                  tooltip="Message displayed on the yellow sticky share card above the WhatsApp button"
+                  label="CTA Body Text"
+                  placeholder="e.g. Browse our upcoming journeys and find the one that makes you a little excited..."
+                  value={ctaText}
+                  onChange={(e) => setCtaText(e.target.value)}
+                  rows={3}
                 />
+
+                {/* CTA Buttons Configuration */}
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700 block">
+                    CTA Action Buttons
+                  </span>
+
+                  {/* Primary Button */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <InputField
+                        label="Primary Button Label (Orange Pill)"
+                        placeholder="e.g. Explore Upcoming Trips"
+                        value={ctaPrimaryBtnText}
+                        onChange={(e) => setCtaPrimaryBtnText(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <InputField
+                        label="Primary Button Link URL"
+                        placeholder="e.g. /#upcoming-journeys"
+                        value={ctaPrimaryBtnUrl}
+                        onChange={(e) => setCtaPrimaryBtnUrl(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Secondary Button */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/60">
+                    <div>
+                      <InputField
+                        label="Secondary Button Label (Subtle Link)"
+                        placeholder="e.g. Read our FAQs"
+                        value={ctaSecondaryBtnText}
+                        onChange={(e) => setCtaSecondaryBtnText(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <InputField
+                        label="Secondary Button Link URL"
+                        placeholder="e.g. /faqs"
+                        value={ctaSecondaryBtnUrl}
+                        onChange={(e) => setCtaSecondaryBtnUrl(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-800 tracking-wide block mb-1.5">
+                    Related Journey Recommendation Category
+                  </label>
+                  <select
+                    value={relatedCategory}
+                    onChange={(e) => setRelatedCategory(e.target.value)}
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]"
+                  >
+                    {journeyCategories.length > 0 ? (
+                      journeyCategories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.label} ({cat.id})
+                        </option>
+                      ))
+                    ) : (
+                      <option value={relatedCategory || "FirstTimers"}>
+                        {relatedCategory || "FirstTimers"}
+                      </option>
+                    )}
+                  </select>
+                  <span className="text-[11px] text-slate-400 mt-1 block">
+                    The sticky sidebar suggests a journey from this category.
+                  </span>
+                </div>
               </div>
 
-              <div className="sm:col-span-2">
-                <InputField
-                  label="WhatsApp Button Text (Green Pill)"
-                  placeholder="e.g. Share on WhatsApp"
-                  value={shareBtnText}
-                  onChange={(e) => setShareBtnText(e.target.value)}
-                  tooltip="Label inside the green WhatsApp share button"
-                />
+              {/* Sticky Sidebar & WhatsApp Share Card Settings */}
+              <div className="pt-6 border-t border-slate-100 space-y-4">
+                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <Share2 className="w-4 h-4 text-[#D96C2C]" />
+                  Sticky Sidebar & WhatsApp Share Card
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <InputField
+                      label="Sidebar Trip Badge Pill"
+                      placeholder="e.g. First-timer pick"
+                      value={sidebarBadge}
+                      onChange={(e) => setSidebarBadge(e.target.value)}
+                      tooltip="Small orange pill displayed on the recommended trip card in the sidebar"
+                    />
+                  </div>
+
+                  <div>
+                    <InputField
+                      label="WhatsApp Card Handwritten Accent"
+                      placeholder="e.g. psst…"
+                      value={shareTitle}
+                      onChange={(e) => setShareTitle(e.target.value)}
+                      tooltip="Cursive accent text above the share message"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <TextAreaField
+                      label="WhatsApp Card Share Message"
+                      placeholder="e.g. Know a nervous first-timer? Send this their way."
+                      value={shareNote}
+                      onChange={(e) => setShareNote(e.target.value)}
+                      rows={2}
+                      tooltip="Message displayed on the yellow sticky share card above the WhatsApp button"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <InputField
+                      label="WhatsApp Button Text (Green Pill)"
+                      placeholder="e.g. Share on WhatsApp"
+                      value={shareBtnText}
+                      onChange={(e) => setShareBtnText(e.target.value)}
+                      tooltip="Label inside the green WhatsApp share button"
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            /* Visual Preview for CTA & Recommendation */
+            <div className="bg-[#FAF5EE] rounded-2xl p-6 sm:p-8 border border-amber-900/10 space-y-8">
+              {/* WhatsApp Share Card */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-dashed border-[#0E5A60]/30 bg-white px-6 py-5 shadow-2xs">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#C85A24] block mb-1">
+                    {shareTitle || "psst…"}
+                  </span>
+                  <p className="font-script text-xl sm:text-2xl text-[#0E5A60]">
+                    {shareNote || "Know a nervous first-timer? Send this their way."}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] text-white px-5 py-2.5 text-xs font-bold shadow-xs shrink-0"
+                >
+                  <WhatsAppIcon className="w-4 h-4" />
+                  {shareBtnText || "Share on WhatsApp"}
+                </button>
+              </div>
+
+              {/* Bottom CTA Card */}
+              <div className="rounded-3xl bg-[#0B2A3D] text-white p-6 sm:p-10 relative overflow-hidden shadow-md">
+                <div className="relative z-10 max-w-xl">
+                  {ctaEyebrow && (
+                    <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] text-[#FFB98A] block mb-2">
+                      {ctaEyebrow}
+                    </span>
+                  )}
+                  <h3 className="text-2xl sm:text-3xl font-serif font-bold mb-3 text-white">
+                    {ctaTitle || "Find your first travel story"}
+                  </h3>
+                  <p className="text-white/80 text-xs sm:text-sm leading-relaxed mb-6">
+                    {ctaText ||
+                      "Small-group journeys crafted for first-timers, solo wanderers, and people who value honest conversations around evening bonfires."}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="px-5 py-2.5 rounded-full bg-[#D96C2C] text-white font-bold text-xs shadow-xs">
+                      {ctaPrimaryBtnText || "Explore Upcoming Trips"}
+                    </span>
+                    <span className="px-5 py-2.5 rounded-full bg-white/10 text-white font-bold text-xs border border-white/20">
+                      {ctaSecondaryBtnText || "Read our FAQs"}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
