@@ -30,9 +30,12 @@ import {
   Calendar,
   Clock,
   Lightbulb,
+  UploadCloud,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { SharedSectionLink } from "@/components/SharedSectionLink";
+import { ImportBlogDocModal } from "./ImportBlogDocModal";
+import { ParsedBlogDoc } from "@/lib/blogDocParser";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -150,6 +153,7 @@ export function BlogForm({
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
   const [currentId, setCurrentId] = useState<string | undefined>(initialData?.id);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"header" | "intro" | "chapters" | "cta" | "seo">(
     "header",
   );
@@ -310,6 +314,56 @@ export function BlogForm({
     setSections(sections.filter((_, i) => i !== secIdx));
   };
 
+  const handleApplyImportDoc = (doc: ParsedBlogDoc) => {
+    if (doc.title) setTitle(doc.title);
+    if (doc.slug) setSlug(doc.slug);
+    if (doc.heroLead) setHeroLead(doc.heroLead);
+    if (doc.heroAccent) setHeroAccent(doc.heroAccent);
+    if (doc.excerpt) setExcerpt(doc.excerpt);
+    if (doc.category) setCategory(doc.category);
+    if (doc.publishedAt) setPublishedAt(doc.publishedAt);
+    if (doc.author) setAuthor(doc.author);
+    if (doc.heroImage) setHeroImage(doc.heroImage);
+    if (doc.heroAlt) setHeroAlt(doc.heroAlt);
+    if (doc.marginNote) setMarginNote(doc.marginNote);
+
+    if (doc.introText) {
+      setIntroText(doc.introText);
+    } else if (doc.intro && doc.intro.length > 0) {
+      setIntroText(doc.intro.join("\n\n"));
+    }
+
+    if (doc.sections && doc.sections.length > 0) {
+      const newSections: SectionFormState[] = doc.sections.map((s, idx) => ({
+        id: s.id || `chapter-${idx + 1}`,
+        number: s.number != null ? s.number : null,
+        kicker: s.kicker || "",
+        title: s.title || `Chapter ${idx + 1}`,
+        content: s.content || "",
+      }));
+      setSections(newSections);
+    }
+
+    if (doc.ctaEyebrow) setCtaEyebrow(doc.ctaEyebrow);
+    if (doc.ctaTitle) setCtaTitle(doc.ctaTitle);
+    if (doc.ctaText) setCtaText(doc.ctaText);
+    if (doc.ctaPrimaryBtnText) setCtaPrimaryBtnText(doc.ctaPrimaryBtnText);
+    if (doc.ctaPrimaryBtnUrl) setCtaPrimaryBtnUrl(doc.ctaPrimaryBtnUrl);
+    if (doc.ctaSecondaryBtnText) setCtaSecondaryBtnText(doc.ctaSecondaryBtnText);
+    if (doc.ctaSecondaryBtnUrl) setCtaSecondaryBtnUrl(doc.ctaSecondaryBtnUrl);
+    if (doc.shareTitle) setShareTitle(doc.shareTitle);
+    if (doc.shareNote) setShareNote(doc.shareNote);
+    if (doc.shareBtnText) setShareBtnText(doc.shareBtnText);
+    if (doc.relatedCategory) setRelatedCategory(doc.relatedCategory);
+    if (doc.sidebarBadge) setSidebarBadge(doc.sidebarBadge);
+    if (typeof doc.isPublished === "boolean") setIsPublished(doc.isPublished);
+    if (typeof doc.isFeatured === "boolean") setIsFeatured(doc.isFeatured);
+    if (doc.metaTitle) setMetaTitle(doc.metaTitle);
+    if (doc.metaDescription) setMetaDescription(doc.metaDescription);
+    if (doc.targetKeywords) setTargetKeywords(doc.targetKeywords);
+    if (doc.canonicalUrl) setCanonicalUrl(doc.canonicalUrl);
+  };
+
   // Submit Handler
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -460,7 +514,15 @@ export function BlogForm({
         </div>
 
         <div className="flex items-center gap-3 self-end sm:self-auto">
-          <SaveButton onClick={handleSubmit} loading={loading} saved={saved} />
+          <button
+            type="button"
+            onClick={() => setIsImportModalOpen(true)}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-[#0E5A60] hover:bg-[#0E5A60]/90 text-white text-xs font-bold transition-all shadow-md shadow-[#0E5A60]/20 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap shrink-0"
+            title="Import story by uploading a Markdown (.md) or JSON file"
+          >
+            <UploadCloud className="w-4 h-4 text-[#D96C2C]" />
+            Import from Document
+          </button>
         </div>
       </div>
 
@@ -1458,6 +1520,13 @@ export function BlogForm({
           <SaveButton onClick={handleSubmit} loading={loading} saved={saved} />
         </div>
       </div>
+
+      {/* Import Story Document Modal */}
+      <ImportBlogDocModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onApply={handleApplyImportDoc}
+      />
     </div>
   );
 }
