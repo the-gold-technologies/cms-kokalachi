@@ -1,0 +1,84 @@
+{
+  "slug": "udaipur",
+  "destination": "Udaipur",
+  "country": "India",
+  "tripType": "Group Journey",
+  "travelledOn": "October 2026",
+  "tagline": "came as strangers, left as family ♡",
+  "journeySlug": "udaipur",
+  "coverImage": "https://images.unsplash.com/photo-1695956353120-54ce5e91632b?auto=format&fit=crop&q=85&w=1200",
+  "media": [
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1695956353120-54ce5e91632b?auto=format&fit=crop&q=85&w=1200",
+      "alt": "City Palace lit up at dusk across Lake Pichola",
+      "caption": "Golden hour at Lake Pichola"
+    },
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&q=85&w=1200",
+      "alt": "Boat on Lake Pichola in front of the City Palace",
+      "caption": "The boat ride everyone still talks about"
+    },
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1589901164570-f9de6556e1c1?auto=format&fit=crop&q=85&w=1200",
+      "alt": "City Palace of Udaipur seen from the water",
+      "caption": "City Palace, ice-cream queue & all"
+    }
+  ],
+  "stories": [
+    {
+      "id": "girotra",
+      "title": "We went as strangers, but returned as an extended family",
+      "pullQuote": "Sometimes, it is these little gestures that stay in our hearts the longest.",
+      "travelledAs": "Couple",
+      "summary": "We went with a group of strangers, but returned with wonderful memories and a feeling that we had gained an extended family in the form of our co-passengers.",
+      "highlights": [
+        {
+          "icon": "guide",
+          "label": "Captain Abhay Negi",
+          "detail": "Travel, stay & meals made smooth"
+        },
+        {
+          "icon": "welcome",
+          "label": "Aditi’s warm welcome",
+          "detail": "Thoughtful touches for the ladies"
+        },
+        {
+          "icon": "hotel",
+          "label": "Chronicles Hotel",
+          "detail": "Rajasthani charm & great food"
+        },
+        {
+          "icon": "bus",
+          "label": "Urbania Tempo Traveller",
+          "detail": "Comfortable all the way"
+        }
+      ],
+      "paragraphs": [
+        "Our Udaipur trip with Kokalachi Travellers Group was truly a beautiful experience. We went with a group of strangers, but returned with wonderful memories and a feeling that we had gained ==an extended family== in the form of our co-passengers.",
+        "A special word of appreciation for Captain Abhay Negi, who made the entire journey — from travel and stay to meals and little arrangements — ==smooth, comfortable and memorable==. He was always ready to help, adjust and make things easier for everyone.",
+        "One small incident touched me deeply. While standing alone in a long queue for ice cream at City Palace, I suddenly noticed Abhay standing a little distance away, quietly waiting until the purchase was completed. It was such a simple gesture, yet it made me realise that ==someone was genuinely looking out for us==. Sometimes, it is these little gestures that stay in our hearts the longest.",
+        "A special mention also for Aditi, Abhay’s lovely wife, who made every effort to create ==a warm and welcoming atmosphere==, especially for the ladies in the group. Her thoughtful gestures added a beautiful personal touch to the journey.",
+        "Our stay at Chronicles Hotel was another highlight. The lovely Rajasthani artefacts and traditional touches gave the place ==a unique charm==. The food, hospitality and overall experience were equally appreciable.",
+        "The Urbania Tempo Traveller was comfortable and made our travel enjoyable throughout.",
+        "Our heartfelt thanks to the entire Kokalachi Travellers Group for giving us not just a memorable Udaipur trip, but also the opportunity to meet wonderful people and create bonds that we will cherish.",
+        "We went as strangers, but returned as an extended family — with hearts full of sweet memories. ❤️",
+        "Wishing Kokalachi continued success and sending our heartfelt blessings and best wishes to Abhay and Aditi. May you both continue to spread the same warmth, kindness and happiness wherever life takes you.",
+        "Thank you, Kokalachi, for a journey that will remain close to our hearts. ❤️"
+      ],
+      "signoff": "Much Love & Blessings",
+      "authors": [
+        {
+          "name": "Yogita Girotra",
+          "role": "Lecturer Physics, Directorate of Education, GNCT of Delhi"
+        },
+        {
+          "name": "Sanjay Kumar Girotra",
+          "role": "Author & Advocate, Delhi High Court"
+        }
+      ]
+    }
+  ]
+}

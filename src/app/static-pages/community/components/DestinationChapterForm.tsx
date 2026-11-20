@@ -25,79 +25,17 @@ import { InputField } from "@/components/InputField";
 import { ImagePickerField } from "@/components/ImagePickerField";
 import { SaveButton } from "@/components/SaveButton";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
-
-export type HighlightIcon =
-  | "guide"
-  | "welcome"
-  | "hotel"
-  | "bus"
-  | "visa"
-  | "transfer"
-  | "tours"
-  | "support"
-  | "plan"
-  | "place"
-  | "friends";
-
-export const HIGHLIGHT_ICON_OPTIONS: { id: HighlightIcon; label: string; emoji: string }[] = [
-  { id: "guide", label: "Trip Leader / Guide", emoji: "👤" },
-  { id: "welcome", label: "Warm Welcome / Host", emoji: "🤝" },
-  { id: "hotel", label: "Hotel / Boutique Stay", emoji: "🏨" },
-  { id: "bus", label: "Transport / Tempo", emoji: "🚐" },
-  { id: "visa", label: "Visa / Documentation", emoji: "🛂" },
-  { id: "transfer", label: "Transfers & Logistics", emoji: "🚗" },
-  { id: "tours", label: "Tours & Excursions", emoji: "🎟️" },
-  { id: "support", label: "Team Support / Reachable", emoji: "🎧" },
-  { id: "plan", label: "Flawless Planning", emoji: "✨" },
-  { id: "place", label: "Scenic Place / Views", emoji: "🏔️" },
-  { id: "friends", label: "Friendship & Tribe", emoji: "🎉" },
-];
+import { ImportCommunityDocModal } from "./ImportCommunityDocModal";
+import type { ParsedCommunityDoc } from "@/lib/communityDocParser";
+import {
+  HIGHLIGHT_ICON_OPTIONS,
+  type CommunityMediaItem,
+  type CommunityTripChapter,
+  type HighlightIcon,
+  type TravellerStoryItem,
+} from "@/lib/communityChapter";
 
 const WALL_TILE_LIMIT = 8;
-
-export interface CommunityMediaItem {
-  type: "image" | "video";
-  src: string;
-  alt: string;
-  caption?: string;
-  poster?: string;
-}
-
-export interface StoryHighlightItem {
-  icon: HighlightIcon;
-  label: string;
-  detail: string;
-}
-
-export interface StoryAuthorItem {
-  name: string;
-  role?: string;
-}
-
-export interface TravellerStoryItem {
-  id: string;
-  title: string;
-  pullQuote: string;
-  travelledAs: string;
-  summary: string;
-  highlights: StoryHighlightItem[];
-  paragraphs: string[];
-  signoff?: string;
-  authors: StoryAuthorItem[];
-}
-
-export interface CommunityTripChapter {
-  slug: string;
-  destination: string;
-  country: string;
-  tripType: string;
-  travelledOn: string;
-  tagline: string;
-  journeySlug?: string;
-  coverImage: string;
-  media: CommunityMediaItem[];
-  stories: TravellerStoryItem[];
-}
 
 const inputFocusClass =
   "focus:outline-none focus:ring-2 focus:ring-[#0E5A60]/20 focus:border-[#0E5A60]";
@@ -131,6 +69,7 @@ export function DestinationChapterForm({
   const [saved, setSaved] = useState(false);
 
   const [activeTab, setActiveTab] = useState<"details" | "stories" | "media">("details");
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   // Chapter state
   const [slug, setSlug] = useState("");
@@ -213,6 +152,24 @@ export function DestinationChapterForm({
 
     fetchCommunity();
   }, [initialSlug, isNew, router]);
+
+  // Fills the form from an imported document; fields the document leaves out keep their values
+  const handleApplyDoc = (data: ParsedCommunityDoc) => {
+    if (data.destination) setDestination(data.destination);
+    if (data.country) setCountry(data.country);
+    if (data.tripType) setTripType(data.tripType);
+    if (data.travelledOn) setTravelledOn(data.travelledOn);
+    if (data.tagline) setTagline(data.tagline);
+    if (data.journeySlug) setJourneySlug(data.journeySlug);
+    if (data.coverImage) setCoverImage(data.coverImage);
+    // On edit the slug is the chapter's address, so only a new chapter takes it from the document
+    if (isNew && (data.slug || data.destination)) {
+      setSlug(data.slug || (data.destination ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-"));
+    }
+    if (data.stories.length > 0) setStories(data.stories);
+    if (data.media.length > 0) setMedia(data.media);
+    setActiveTab("details");
+  };
 
   const handleSave = async () => {
     if (!destination.trim()) {
@@ -310,19 +267,13 @@ export function DestinationChapterForm({
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <Link
-            href="/static-pages/community"
-            className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
-          >
-            Cancel
-          </Link>
           <button
             type="button"
-            onClick={handleSave}
-            disabled={saving}
-            className="px-6 py-2.5 rounded-xl bg-[#0E5A60] hover:bg-[#093e42] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+            onClick={() => setIsImportModalOpen(true)}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0E5A60] hover:bg-[#0E5A60]/90 text-white text-xs font-bold transition-all shadow-md shadow-[#0E5A60]/20 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap"
           >
-            {saving ? "Saving..." : saved ? "Saved!" : "Save Changes"}
+            <Sparkles className="w-4 h-4 text-[#D96C2C]" />
+            Import from Document
           </button>
         </div>
       </div>
@@ -469,6 +420,12 @@ export function DestinationChapterForm({
           className="w-full py-4 text-sm font-bold shadow-sm hover:shadow-md cursor-pointer"
         />
       </div>
+
+      <ImportCommunityDocModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onApply={handleApplyDoc}
+      />
     </div>
   );
 }
