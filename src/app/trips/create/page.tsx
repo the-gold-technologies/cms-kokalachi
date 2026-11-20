@@ -409,7 +409,7 @@ export default function CreateFullJourneyPage() {
           href="/trips"
           className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#0E5A60] transition-colors bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm mb-4 cursor-pointer"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Journeys
+          <ArrowLeft className="w-3.5 h-3.5" /> Back to Tour Details
         </Link>
 
         <PageHeader

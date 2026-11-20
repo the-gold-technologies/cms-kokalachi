@@ -41,9 +41,9 @@ const sidebarLinks: SidebarLink[] = [
     ],
   },
   {
-    title: "Journeys",
+    title: "Tour Details",
     icon: Compass,
-    sublinks: [{ title: "All Journeys", href: "/trips" }],
+    sublinks: [{ title: "All Tour Details", href: "/trips" }],
   },
   {
     title: "Blog Journal",

@@ -68,7 +68,7 @@ export default function EditJourneyPage() {
           href="/trips"
           className="px-5 py-2.5 rounded-xl bg-[#0E5A60] text-white text-xs font-bold hover:bg-[#061C29] transition-colors"
         >
-          Return to All Journeys
+          Return to All Tour Details
         </Link>
       </div>
     );
@@ -84,7 +84,7 @@ export default function EditJourneyPage() {
           href="/trips"
           className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#0E5A60] transition-colors bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Journeys
+          <ArrowLeft className="w-3.5 h-3.5" /> Back to Tour Details
         </Link>
 
         <div className="flex items-center gap-3">

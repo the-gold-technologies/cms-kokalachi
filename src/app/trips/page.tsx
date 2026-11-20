@@ -147,7 +147,7 @@ export default function AllJourneysCMSPage() {
       const json = await res.json();
       if (json.success) {
         setHeroSaved(true);
-        toast.success("Journeys page banner updated successfully!");
+        toast.success("Tour Details page banner updated successfully!");
         setTimeout(() => setHeroSaved(false), 3000);
       } else {
         toast.error(json.error ?? "Failed to save banner");
@@ -205,7 +205,7 @@ export default function AllJourneysCMSPage() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <PageHeader
-          title="All Journeys & Tours"
+          title="All Tour Details"
           description="Manage your curated group travel experiences. Configure card visuals, live booking batches, pricing, vibe categories, and internal detail itineraries in one central place."
         />
 
@@ -287,7 +287,7 @@ export default function AllJourneysCMSPage() {
 
       <SharedSectionLink
         page="journeys"
-        placement="At the bottom of the All Journeys page, below the journey cards"
+        placement="At the bottom of the Tour Details page, below the tour cards"
       />
 
       {/* Filter and Search Bar (NO Table Toggle - Pure Card Type Structure) */}

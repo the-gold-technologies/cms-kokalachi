@@ -31,7 +31,7 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
     icon: FileText,
   },
   { title: "Blog Journal", category: "Pages", url: "/blogs", icon: FileText },
-  { title: "All Trips & Journeys", category: "Trips", url: "/trips", icon: Package },
+  { title: "All Tour Details", category: "Trips", url: "/trips", icon: Package },
   { title: "Destinations", category: "Trips", url: "/destinations", icon: Compass },
   { title: "Bookings", category: "Submissions", url: "/submissions/bookings", icon: Inbox },
   {
