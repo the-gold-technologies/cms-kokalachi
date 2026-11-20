@@ -498,7 +498,7 @@ export default function CreateFullJourneyPage() {
                 value={slug}
                 onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
                 placeholder="custom-or-auto-slug"
-                className="w-full pl-24 pr-5 py-3.5 bg-white border border-gray-200 rounded-2xl text-xs sm:text-sm font-mono text-gray-800 focus:outline-none focus:border-[#0E5A60] focus:ring-2 focus:ring-[#0E5A60]/15 transition-all"
+                className="w-full pl-32 pr-5 py-3.5 bg-white border border-gray-200 rounded-2xl text-xs sm:text-sm font-mono text-gray-800 focus:outline-none focus:border-[#0E5A60] focus:ring-2 focus:ring-[#0E5A60]/15 transition-all"
                 required
               />
             </div>
