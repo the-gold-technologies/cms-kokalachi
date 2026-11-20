@@ -77,7 +77,7 @@ export default function BlogsListPage() {
     "Packing lists, route guides and traveller memoirs are on their way. Until then, the best stories are the ones you go and make.",
   );
   const [ctaBtnText, setCtaBtnText] = useState("Find your journey");
-  const [ctaBtnUrl, setCtaBtnUrl] = useState("/journeys");
+  const [ctaBtnUrl, setCtaBtnUrl] = useState("/tour-details");
 
   // Single unified fetch: gets blogs cards, hero banner, CTA, and SEO from /api/blogs
   const fetchBlogsData = async () => {
@@ -401,7 +401,7 @@ export default function BlogsListPage() {
               label="CTA Button Target URL"
               value={ctaBtnUrl}
               onChange={(e) => setCtaBtnUrl(e.target.value)}
-              placeholder="e.g. /journeys"
+              placeholder="e.g. /tour-details"
             />
 
             <TextAreaField

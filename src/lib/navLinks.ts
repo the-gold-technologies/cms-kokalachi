@@ -21,8 +21,8 @@ export const KOKALACHI_NAV: NavLinkDefault[] = [
 
   {
     id: "nav-journeys",
-    label: "Journeys",
-    url: "/journeys",
+    label: "Tour Details",
+    url: "/tour-details",
     type: "Dropdown",
     parent: "-",
     order: 2,
@@ -30,7 +30,7 @@ export const KOKALACHI_NAV: NavLinkDefault[] = [
   {
     id: "nav-journeys-all",
     label: "All Journeys",
-    url: "/journeys",
+    url: "/tour-details",
     type: "Dropdown Item",
     parent: "nav-journeys",
     order: 1,
@@ -38,7 +38,7 @@ export const KOKALACHI_NAV: NavLinkDefault[] = [
   {
     id: "nav-journeys-adventure",
     label: "Mountains & Treks",
-    url: "/journeys?category=Adventure",
+    url: "/tour-details?category=Adventure",
     type: "Dropdown Item",
     parent: "nav-journeys",
     order: 2,
@@ -46,7 +46,7 @@ export const KOKALACHI_NAV: NavLinkDefault[] = [
   {
     id: "nav-journeys-slow",
     label: "Slow Travel",
-    url: "/journeys?category=SlowTravel",
+    url: "/tour-details?category=SlowTravel",
     type: "Dropdown Item",
     parent: "nav-journeys",
     order: 3,
@@ -54,7 +54,7 @@ export const KOKALACHI_NAV: NavLinkDefault[] = [
   {
     id: "nav-journeys-beach",
     label: "Beaches & Islands",
-    url: "/journeys?category=BeachEscape",
+    url: "/tour-details?category=BeachEscape",
     type: "Dropdown Item",
     parent: "nav-journeys",
     order: 4,
@@ -62,7 +62,7 @@ export const KOKALACHI_NAV: NavLinkDefault[] = [
   {
     id: "nav-journeys-first",
     label: "First-Timer Friendly",
-    url: "/journeys?category=FirstTimers",
+    url: "/tour-details?category=FirstTimers",
     type: "Dropdown Item",
     parent: "nav-journeys",
     order: 5,
@@ -70,7 +70,7 @@ export const KOKALACHI_NAV: NavLinkDefault[] = [
   {
     id: "nav-journeys-women",
     label: "Women Only",
-    url: "/journeys?category=WomenOnly",
+    url: "/tour-details?category=WomenOnly",
     type: "Dropdown Item",
     parent: "nav-journeys",
     order: 6,

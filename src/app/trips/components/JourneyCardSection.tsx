@@ -225,7 +225,7 @@ export function JourneyCardSection({
               </div>
               <div className="relative w-full">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-mono select-none pointer-events-none">
-                  /journeys/
+                  /tour-details/
                 </div>
                 <input
                   type="text"

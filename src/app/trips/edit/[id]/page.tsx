@@ -89,7 +89,7 @@ export default function EditJourneyPage() {
 
         <div className="flex items-center gap-3">
           <a
-            href={`${websiteUrl}/journeys/${trip.slug}`}
+            href={`${websiteUrl}/tour-details/${trip.slug}`}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0E5A60] hover:text-[#061C29] bg-[#0E5A60]/10 hover:bg-[#0E5A60]/20 px-4 py-2 rounded-xl transition-colors"

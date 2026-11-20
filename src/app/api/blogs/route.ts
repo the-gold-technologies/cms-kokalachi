@@ -46,7 +46,7 @@ export async function GET(request: Request) {
       brewingDescription:
         "Packing lists, route guides and traveller memoirs are on their way. Until then, the best stories are the ones you go and make.",
       ctaBtnText: "Find your journey",
-      ctaBtnUrl: "/journeys",
+      ctaBtnUrl: "/tour-details",
     };
 
     const sections = {

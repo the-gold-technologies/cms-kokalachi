@@ -433,7 +433,7 @@ export function DestinationChapterForm({
               placeholder="e.g. udaipur"
               value={journeySlug}
               onChange={(e) => setJourneySlug(e.target.value)}
-              helperText="Links to /journeys/[slug] if travellers can book this trip. Leave empty to hide button."
+              helperText="Links to /tour-details/[slug] if travellers can book this trip. Leave empty to hide button."
             />
           </div>
 

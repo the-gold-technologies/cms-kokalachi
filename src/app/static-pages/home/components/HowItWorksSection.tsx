@@ -394,7 +394,7 @@ export function HowItWorksSection({ initialData }: { initialData?: any }) {
                     label="Main button link"
                     value={ctaPrimaryUrl}
                     onChange={(e) => setCtaPrimaryUrl(e.target.value)}
-                    placeholder="e.g. /journeys"
+                    placeholder="e.g. /tour-details"
                   />
                   <InputField
                     label="Text link"

@@ -136,7 +136,7 @@ export function UpcomingJourneysSection({ initialData }: { initialData?: any }) 
                   label="Bottom CTA Destination Link"
                   value={ctaLink}
                   onChange={(e) => setCtaLink(e.target.value)}
-                  placeholder="e.g. /journeys"
+                  placeholder="e.g. /tour-details"
                 />
               </div>
 

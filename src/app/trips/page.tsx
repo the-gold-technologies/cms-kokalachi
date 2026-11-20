@@ -191,7 +191,7 @@ export default function AllJourneysCMSPage() {
     const matchesCategory =
       categoryFilter === "All" || t.category?.toLowerCase() === categoryFilter.toLowerCase();
 
-    // Same split as the website's Domestic / International filter on /journeys
+    // Same split as the website's Domestic / International filter on /tour-details
     const matchesRegion =
       regionFilter === "all" || (t.region || "domestic").toLowerCase() === regionFilter;
 
@@ -221,7 +221,7 @@ export default function AllJourneysCMSPage() {
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm transition-all duration-300">
         <SectionHeader
           title="Public Page Header Banner"
-          description="Controls the visual banner headline, description, and hero photo on the public /journeys page."
+          description="Controls the visual banner headline, description, and hero photo on the public /tour-details page."
           isOpen={isHeroOpen}
           onToggle={() => setIsHeroOpen(!isHeroOpen)}
         />
@@ -520,7 +520,7 @@ export default function AllJourneysCMSPage() {
 
                     <div className="flex items-center gap-2">
                       <a
-                        href={`${websiteUrl}/journeys/${trip.slug}`}
+                        href={`${websiteUrl}/tour-details/${trip.slug}`}
                         target="_blank"
                         rel="noreferrer"
                         className="p-2 text-gray-400 hover:text-[#0E5A60] hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"

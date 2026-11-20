@@ -163,7 +163,7 @@ export function CommunityCtaSection({ initialData }: { initialData?: any }) {
             />
             <InputField
               label="Tertiary Explore Link URL"
-              placeholder="e.g. /journeys"
+              placeholder="e.g. /tour-details"
               value={tertiaryLinkUrl}
               onChange={(e) => setTertiaryLinkUrl(e.target.value)}
             />

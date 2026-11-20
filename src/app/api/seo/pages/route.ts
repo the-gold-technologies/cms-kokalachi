@@ -15,14 +15,14 @@ const CORE_PAGES = [
       "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
     targetKeywords:
       "all journeys, group trips, slow travel destinations, mountain treks, beach trips, kokalachi itineraries",
-    canonicalUrl: "https://kokalachi.com/journeys",
+    canonicalUrl: "https://kokalachi.com/tour-details",
     headingOptions: "h1",
     schema: JSON.stringify(
       {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
         name: "All Journeys | Kokalachi",
-        url: "https://kokalachi.com/journeys",
+        url: "https://kokalachi.com/tour-details",
         description:
           "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
         publisher: {
