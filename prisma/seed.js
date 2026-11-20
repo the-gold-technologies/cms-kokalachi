@@ -640,7 +640,7 @@ async function main() {
             description:
               "Joining Kokalachi is simple. We take care of the planning, so you can focus on the experience.",
             ctaPrimaryText: "Explore upcoming journeys",
-            ctaPrimaryUrl: "/journeys",
+            ctaPrimaryUrl: "/tour-details",
             ctaSecondaryText: "Have questions? Read the FAQs",
             ctaSecondaryUrl: "/faqs",
             step1UpcomingTitle: "Upcoming journeys",
@@ -941,7 +941,7 @@ async function main() {
               "International",
             ],
             ctaText: "Explore All Journeys",
-            ctaLink: "/journeys",
+            ctaLink: "/tour-details",
           },
         },
         {
@@ -1259,14 +1259,14 @@ async function main() {
         "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
       targetKeywords:
         "all journeys, group trips, slow travel destinations, mountain treks, beach trips, kokalachi itineraries",
-      canonicalUrl: "https://kokalachi.com/journeys",
+      canonicalUrl: "https://kokalachi.com/tour-details",
       headingOptions: "h1",
       schema: JSON.stringify(
         {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: "All Journeys | Kokalachi",
-          url: "https://kokalachi.com/journeys",
+          url: "https://kokalachi.com/tour-details",
           description:
             "Explore our complete collection of handcrafted slow-travel group trips across mountains, tea estates, coastal escapes, and remote valleys.",
           publisher: {
@@ -1638,7 +1638,7 @@ async function main() {
             brewingDescription:
               "Packing lists, route guides and traveller memoirs are on their way. Until then, the best stories are the ones you go and make.",
             ctaBtnText: "Find your journey",
-            ctaBtnUrl: "/journeys",
+            ctaBtnUrl: "/tour-details",
           },
         },
       ],
