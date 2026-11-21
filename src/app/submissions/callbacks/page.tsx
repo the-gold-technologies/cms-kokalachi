@@ -19,6 +19,7 @@ import {
 import { InputField } from "@/components/InputField";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import toast from "react-hot-toast";
+import { formatDateTime } from "@/lib/utils";
 
 interface CallBack {
   id: string;
@@ -214,17 +215,20 @@ export default function CallbacksCMSPage() {
         <table className="w-full text-left border-collapse table-auto">
           <thead>
             <tr className="bg-gray-50/70 border-b border-gray-100">
-              <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest pl-8 w-[32%]">
+              <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest pl-8 w-[26%]">
                 Caller &amp; Phone
               </th>
-              <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest w-[26%]">
+              <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest w-[22%]">
                 Journey Inquired
               </th>
               <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest w-[16%]">
                 Best Time to Call
               </th>
-              <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest w-[14%]">
+              <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest w-[12%]">
                 Status
+              </th>
+              <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest w-[12%]">
+                Received
               </th>
               <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-right pr-8 w-[12%]">
                 Actions
@@ -234,7 +238,7 @@ export default function CallbacksCMSPage() {
           <tbody className="divide-y divide-gray-100">
             {isLoading ? (
               <tr>
-                <td colSpan={5} className="py-20 text-center">
+                <td colSpan={6} className="py-20 text-center">
                   <div className="flex flex-col items-center gap-3 text-gray-400">
                     <Loader2 className="w-8 h-8 animate-spin text-[#0E5A60]" />
                     <span className="text-sm font-semibold">Loading call-back requests...</span>
@@ -243,7 +247,7 @@ export default function CallbacksCMSPage() {
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={5} className="py-20 text-center">
+                <td colSpan={6} className="py-20 text-center">
                   <div className="flex flex-col items-center gap-2 text-gray-400">
                     <Phone className="w-10 h-10 stroke-[1.5] text-gray-300 mb-1" />
                     <span className="text-sm font-semibold text-gray-600">
@@ -329,6 +333,10 @@ export default function CallbacksCMSPage() {
                     >
                       {cb.status}
                     </span>
+                  </td>
+
+                  <td className="px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
+                    {formatDateTime(cb.createdAt)}
                   </td>
 
                   <td className="px-6 py-4 text-right pr-8" onClick={(e) => e.stopPropagation()}>
@@ -463,11 +471,7 @@ export default function CallbacksCMSPage() {
                   </span>
                   <span className="text-gray-600 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                    {new Date(activeCallBack.createdAt).toLocaleString("en-IN", {
-                      timeZone: "Asia/Kolkata",
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
+                    {formatDateTime(activeCallBack.createdAt)}
                   </span>
                 </div>
               </div>

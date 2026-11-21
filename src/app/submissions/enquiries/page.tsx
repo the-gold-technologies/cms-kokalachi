@@ -19,6 +19,7 @@ import {
 import { InputField } from "@/components/InputField";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import toast from "react-hot-toast";
+import { formatDateTime } from "@/lib/utils";
 
 interface Enquiry {
   id: string;
@@ -278,11 +279,7 @@ export default function EnquiriesCMSPage() {
 
                   {/* Received Date Column */}
                   <td className="px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
-                    {new Date(e.createdAt).toLocaleDateString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
+                    {formatDateTime(e.createdAt)}
                   </td>
 
                   {/* Actions Column */}
@@ -329,11 +326,7 @@ export default function EnquiriesCMSPage() {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">{activeEnquiry.name}</h3>
                   <p className="text-xs text-gray-400 mt-0.5">
-                    Received on{" "}
-                    {new Date(activeEnquiry.createdAt).toLocaleString("en-IN", {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
+                    Received on {formatDateTime(activeEnquiry.createdAt)}
                   </p>
                 </div>
               </div>

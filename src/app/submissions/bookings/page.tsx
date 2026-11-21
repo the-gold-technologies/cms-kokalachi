@@ -17,6 +17,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { formatDateTime } from "@/lib/utils";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 
 interface Booking {
@@ -33,6 +34,55 @@ interface Booking {
   specialRequests?: string | null;
   status: string;
   createdAt: string;
+}
+
+function renderDepartureDate(dateStr?: string | null) {
+  if (!dateStr) {
+    return (
+      <span className="text-gray-400 text-xs italic whitespace-nowrap">Flexible / Unassigned</span>
+    );
+  }
+  const trimmed = dateStr.trim();
+  const yearMatch = trimmed.match(/^(.*?)(?:,\s*|\s+)(\d{4})$/);
+  if (yearMatch) {
+    return (
+      <div className="flex flex-col text-xs leading-snug">
+        <span className="font-semibold text-gray-800 whitespace-nowrap">{yearMatch[1]}</span>
+        <span className="text-gray-400 text-[11px] font-medium whitespace-nowrap">
+          {yearMatch[2]}
+        </span>
+      </div>
+    );
+  }
+  const dashMatch = trimmed.match(/^(.*?)\s*[–—\-]\s*(.*)$/);
+  if (dashMatch) {
+    return (
+      <div className="flex flex-col text-xs leading-snug">
+        <span className="font-semibold text-gray-800 whitespace-nowrap">{dashMatch[1]}</span>
+        <span className="text-gray-400 text-[11px] font-medium whitespace-nowrap">
+          – {dashMatch[2]}
+        </span>
+      </div>
+    );
+  }
+  return <span className="text-gray-700 font-medium text-xs whitespace-nowrap">{trimmed}</span>;
+}
+
+function renderReceivedDateTime(dateStr?: string) {
+  if (!dateStr) return <span className="text-gray-400 text-xs">-</span>;
+  const formatted = formatDateTime(dateStr);
+  const parts = formatted.split(", ");
+  if (parts.length >= 2) {
+    return (
+      <div className="flex flex-col text-xs leading-snug">
+        <span className="text-gray-700 font-medium whitespace-nowrap">{parts[0]}</span>
+        <span className="text-gray-400 text-[11px] whitespace-nowrap">
+          {parts.slice(1).join(", ")}
+        </span>
+      </div>
+    );
+  }
+  return <span className="text-xs text-gray-500 whitespace-nowrap">{formatted}</span>;
 }
 
 export default function BookingsCMSPage() {
@@ -168,6 +218,7 @@ export default function BookingsCMSPage() {
                   <th className="py-3.5 px-6 whitespace-nowrap">Departure Date</th>
                   <th className="py-3.5 px-6 whitespace-nowrap">Guests</th>
                   <th className="py-3.5 px-6 whitespace-nowrap">Status</th>
+                  <th className="py-3.5 px-6 whitespace-nowrap">Received</th>
                   <th className="py-3.5 px-6 text-right whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
@@ -175,17 +226,24 @@ export default function BookingsCMSPage() {
                 {bookings.map((b) => (
                   <tr key={b.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="py-4 px-6">
-                      <div className="font-bold text-gray-900">{b.name}</div>
-                      <div className="text-xs text-gray-400 flex items-center gap-2 mt-0.5 whitespace-nowrap">
-                        <span>{b.email}</span> &bull; <span>{b.phone}</span>
-                      </div>
+                      <div className="font-bold text-gray-900 leading-snug">{b.name}</div>
+                      {b.email && (
+                        <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1 whitespace-nowrap">
+                          <Mail className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                          <span>{b.email}</span>
+                        </div>
+                      )}
+                      {b.phone && (
+                        <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
+                          <Phone className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                          <span>{b.phone}</span>
+                        </div>
+                      )}
                     </td>
                     <td className="py-4 px-6">
                       <div className="font-semibold text-[#0E5A60]">{b.tripName}</div>
                     </td>
-                    <td className="py-4 px-6 text-gray-600 font-medium text-xs whitespace-nowrap">
-                      {b.departureDate ?? "Flexible / Unassigned"}
-                    </td>
+                    <td className="py-4 px-6">{renderDepartureDate(b.departureDate)}</td>
                     <td className="py-4 px-6 font-bold text-gray-700 whitespace-nowrap">
                       {b.guests} traveller{b.guests > 1 ? "s" : ""}
                     </td>
@@ -201,6 +259,9 @@ export default function BookingsCMSPage() {
                       >
                         {b.status}
                       </span>
+                    </td>
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      {renderReceivedDateTime(b.createdAt)}
                     </td>
                     <td className="py-4 px-6 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-1.5">
@@ -274,6 +335,13 @@ export default function BookingsCMSPage() {
                 <span className="text-gray-500">Departure:</span>
                 <span className="font-bold text-gray-800">
                   {activeBooking.departureDate ?? "Not specified"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-500">Received On:</span>
+                <span className="font-bold text-gray-800 flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                  {formatDateTime(activeBooking.createdAt)}
                 </span>
               </div>
               {activeBooking.specialRequests && (
